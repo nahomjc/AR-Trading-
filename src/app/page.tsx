@@ -191,145 +191,35 @@ const HeroSection = () => {
           <motion.div
             initial={{ x: "-10vw", y: "35vh", rotate: -8, opacity: 0 }}
             animate={{ x: "110vw", y: "5vh", rotate: 10, opacity: 1 }}
-            transition={{ duration: 7, ease: "easeInOut" }}
+            transition={{ duration: 12, ease: "easeInOut" }}
             onAnimationComplete={() => setShowShip(false)}
-            className="absolute left-0 top-0 w-48 h-40 z-20"
+            className="absolute left-0 top-0 flex flex-col items-center w-56 h-56 z-20"
             style={{ pointerEvents: "none" }}
           >
-            {/* Modern Futuristic Spaceship SVG */}
-            <svg
-              viewBox="0 0 160 100"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+            {/* Glowing Rocket Emoji with Animated Fire */}
+            <span
+              className="text-[8rem] drop-shadow-[0_0_32px_rgba(56,189,248,0.8)] animate-pulse"
+              style={{ filter: "drop-shadow(0 0 48px #38bdf8)" }}
+              role="img"
+              aria-label="rocket"
             >
-              {/* Glow under ship */}
-              <ellipse cx="80" cy="96" rx="36" ry="8" fill="#0ff6" />
-              {/* Main body */}
-              <g filter="url(#glow)">
-                {/* Sleek body */}
-                <rect
-                  x="60"
-                  y="20"
-                  width="40"
-                  height="48"
-                  rx="20"
-                  fill="url(#bodyGradient)"
-                  stroke="#fff"
-                  strokeWidth="2"
-                />
-                {/* Cockpit */}
-                <ellipse
-                  cx="80"
-                  cy="36"
-                  rx="12"
-                  ry="10"
-                  fill="url(#cockpitGradient)"
-                  stroke="#60a5fa"
-                  strokeWidth="2"
-                />
-                {/* Side boosters */}
-                <rect
-                  x="48"
-                  y="44"
-                  width="16"
-                  height="24"
-                  rx="8"
-                  fill="#818cf8"
-                  stroke="#fff"
-                  strokeWidth="2"
-                  transform="rotate(-18 56 56)"
-                />
-                <rect
-                  x="96"
-                  y="44"
-                  width="16"
-                  height="24"
-                  rx="8"
-                  fill="#38bdf8"
-                  stroke="#fff"
-                  strokeWidth="2"
-                  transform="rotate(18 104 56)"
-                />
-                {/* Nose tip */}
-                <ellipse
-                  cx="80"
-                  cy="20"
-                  rx="8"
-                  ry="6"
-                  fill="#fff"
-                  fillOpacity="0.8"
-                />
-                {/* Flame */}
-                <motion.ellipse
-                  cx="80"
-                  cy="72"
-                  rx="12"
-                  ry="7"
-                  fill="url(#flame)"
-                  animate={{
-                    scaleX: [1, 1.2, 1],
-                    scaleY: [1, 1.3, 1],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 0.5,
-                    ease: "easeInOut",
-                  }}
-                />
-              </g>
-              <defs>
-                <linearGradient
-                  id="bodyGradient"
-                  x1="60"
-                  y1="20"
-                  x2="100"
-                  y2="68"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#38bdf8" />
-                  <stop offset="1" stopColor="#a78bfa" />
-                </linearGradient>
-                <linearGradient
-                  id="cockpitGradient"
-                  x1="68"
-                  y1="36"
-                  x2="92"
-                  y2="36"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#bae6fd" />
-                  <stop offset="1" stopColor="#60a5fa" />
-                </linearGradient>
-                <radialGradient
-                  id="flame"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientTransform="translate(80 72) scale(12 7)"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#fbbf24" />
-                  <stop offset="0.7" stopColor="#f59e42" />
-                  <stop offset="1" stopColor="#f87171" stopOpacity="0.7" />
-                </radialGradient>
-                <filter
-                  id="glow"
-                  x="0"
-                  y="0"
-                  width="160"
-                  height="100"
-                  filterUnits="userSpaceOnUse"
-                  colorInterpolationFilters="sRGB"
-                >
-                  <feGaussianBlur stdDeviation="8" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-            </svg>
+              🚀
+            </span>
+            <motion.span
+              className="text-[4rem] -mt-10 animate-bounce"
+              role="img"
+              aria-label="fire"
+              initial={{ scaleY: 1 }}
+              animate={{ scaleY: [1, 1.3, 1], opacity: [0.8, 1, 0.8] }}
+              transition={{
+                repeat: Infinity,
+                duration: 0.5,
+                ease: "easeInOut",
+              }}
+              style={{ filter: "drop-shadow(0 0 24px #fbbf24)" }}
+            >
+              🔥
+            </motion.span>
           </motion.div>
         )}
         {/* Existing Particles */}
