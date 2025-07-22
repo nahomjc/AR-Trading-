@@ -176,6 +176,8 @@ const HeroSection = () => {
   useEffect(() => {
     setShine(true);
   }, []);
+  // Spaceship animation state
+  const [showShip, setShowShip] = useState(true);
 
   return (
     <section
@@ -184,6 +186,152 @@ const HeroSection = () => {
     >
       {/* Galaxy/Nebula Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Spaceship Animation */}
+        {showShip && (
+          <motion.div
+            initial={{ x: "-10vw", y: "35vh", rotate: -8, opacity: 0 }}
+            animate={{ x: "110vw", y: "5vh", rotate: 10, opacity: 1 }}
+            transition={{ duration: 7, ease: "easeInOut" }}
+            onAnimationComplete={() => setShowShip(false)}
+            className="absolute left-0 top-0 w-48 h-40 z-20"
+            style={{ pointerEvents: "none" }}
+          >
+            {/* Modern Futuristic Spaceship SVG */}
+            <svg
+              viewBox="0 0 160 100"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              {/* Glow under ship */}
+              <ellipse cx="80" cy="96" rx="36" ry="8" fill="#0ff6" />
+              {/* Main body */}
+              <g filter="url(#glow)">
+                {/* Sleek body */}
+                <rect
+                  x="60"
+                  y="20"
+                  width="40"
+                  height="48"
+                  rx="20"
+                  fill="url(#bodyGradient)"
+                  stroke="#fff"
+                  strokeWidth="2"
+                />
+                {/* Cockpit */}
+                <ellipse
+                  cx="80"
+                  cy="36"
+                  rx="12"
+                  ry="10"
+                  fill="url(#cockpitGradient)"
+                  stroke="#60a5fa"
+                  strokeWidth="2"
+                />
+                {/* Side boosters */}
+                <rect
+                  x="48"
+                  y="44"
+                  width="16"
+                  height="24"
+                  rx="8"
+                  fill="#818cf8"
+                  stroke="#fff"
+                  strokeWidth="2"
+                  transform="rotate(-18 56 56)"
+                />
+                <rect
+                  x="96"
+                  y="44"
+                  width="16"
+                  height="24"
+                  rx="8"
+                  fill="#38bdf8"
+                  stroke="#fff"
+                  strokeWidth="2"
+                  transform="rotate(18 104 56)"
+                />
+                {/* Nose tip */}
+                <ellipse
+                  cx="80"
+                  cy="20"
+                  rx="8"
+                  ry="6"
+                  fill="#fff"
+                  fillOpacity="0.8"
+                />
+                {/* Flame */}
+                <motion.ellipse
+                  cx="80"
+                  cy="72"
+                  rx="12"
+                  ry="7"
+                  fill="url(#flame)"
+                  animate={{
+                    scaleX: [1, 1.2, 1],
+                    scaleY: [1, 1.3, 1],
+                    opacity: [0.7, 1, 0.7],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 0.5,
+                    ease: "easeInOut",
+                  }}
+                />
+              </g>
+              <defs>
+                <linearGradient
+                  id="bodyGradient"
+                  x1="60"
+                  y1="20"
+                  x2="100"
+                  y2="68"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#38bdf8" />
+                  <stop offset="1" stopColor="#a78bfa" />
+                </linearGradient>
+                <linearGradient
+                  id="cockpitGradient"
+                  x1="68"
+                  y1="36"
+                  x2="92"
+                  y2="36"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#bae6fd" />
+                  <stop offset="1" stopColor="#60a5fa" />
+                </linearGradient>
+                <radialGradient
+                  id="flame"
+                  cx="0"
+                  cy="0"
+                  r="1"
+                  gradientTransform="translate(80 72) scale(12 7)"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#fbbf24" />
+                  <stop offset="0.7" stopColor="#f59e42" />
+                  <stop offset="1" stopColor="#f87171" stopOpacity="0.7" />
+                </radialGradient>
+                <filter
+                  id="glow"
+                  x="0"
+                  y="0"
+                  width="160"
+                  height="100"
+                  filterUnits="userSpaceOnUse"
+                  colorInterpolationFilters="sRGB"
+                >
+                  <feGaussianBlur stdDeviation="8" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+            </svg>
+          </motion.div>
+        )}
         {/* Existing Particles */}
         <HeroParticles />
         {/* Animated Galaxies/Nebulae */}
@@ -1190,6 +1338,12 @@ const tabNames = ["Web Development", "Digital Marketing", "Branding"] as const;
 
 type TabName = (typeof tabNames)[number];
 
+const tabIcons: Record<TabName, string> = {
+  "Web Development": "💻",
+  "Digital Marketing": "📈",
+  Branding: "🎨",
+};
+
 const latestWorks: Record<TabName, WorkItem[]> = {
   "Web Development": [
     {
@@ -1291,9 +1445,9 @@ const LatestWorksSection = () => {
         </motion.div>
         {/* Tabs */}
         <div className="flex justify-center mb-6">
-          <div className="relative w-full">
+          <div className="relative max-w-full">
             <div
-              className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl w-full overflow-x-auto scrollbar-hide gap-2 px-1 snap-x snap-mandatory"
+              className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl max-w-full overflow-x-auto scrollbar-hide gap-2 px-1 snap-x snap-mandatory"
               style={{ WebkitOverflowScrolling: "touch" }}
               role="tablist"
             >
@@ -1301,7 +1455,7 @@ const LatestWorksSection = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative flex-shrink-0 px-2 py-1 sm:px-4 sm:py-2 rounded-full font-semibold text-xs sm:text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap
+                  className={`relative flex-shrink-0 px-2 py-1 sm:px-4 sm:py-2 rounded-full font-semibold text-xl sm:text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap
                     ${
                       activeTab === tab
                         ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
@@ -1311,21 +1465,24 @@ const LatestWorksSection = () => {
                   aria-selected={activeTab === tab}
                   aria-controls={`tab-panel-${tab}`}
                   tabIndex={activeTab === tab ? 0 : -1}
-                  style={{ minWidth: "60px", scrollSnapAlign: "center" }}
+                  style={{ minWidth: "44px", scrollSnapAlign: "center" }}
                 >
                   {activeTab === tab && (
                     <motion.div
                       layoutId="tab-underline"
-                      className="absolute left-4 right-4 bottom-1 h-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
+                      className="absolute left-2 right-2 bottom-1 h-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
                       style={{ zIndex: 1 }}
                     />
                   )}
-                  <span className="relative z-10">{tab}</span>
+                  <span className="sm:hidden" title={tab}>
+                    {tabIcons[tab]}
+                  </span>
+                  <span className="hidden sm:inline">{tab}</span>
                 </button>
               ))}
             </div>
             {/* Right-edge fade indicator for scrollable tabs on mobile/tablet */}
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-blue-900/80 via-blue-900/40 to-transparent rounded-r-full block" />
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-blue-900/80 via-blue-900/40 to-transparent rounded-r-full block" />
           </div>
         </div>
         {/* Tab Panels - render only the active tab's panel, no absolute positioning */}
