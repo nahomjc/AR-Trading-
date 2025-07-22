@@ -189,37 +189,235 @@ const HeroSection = () => {
         {/* Spaceship Animation */}
         {showShip && (
           <motion.div
-            initial={{ x: "-10vw", y: "35vh", rotate: -8, opacity: 0 }}
-            animate={{ x: "110vw", y: "5vh", rotate: 10, opacity: 1 }}
+            initial={{ x: "-20vw", y: "20vh", rotate: -15, opacity: 0 }}
+            animate={{ x: "120vw", y: "-5vh", rotate: 10, opacity: 1 }}
             transition={{ duration: 12, ease: "easeInOut" }}
             onAnimationComplete={() => setShowShip(false)}
-            className="absolute left-0 top-0 flex flex-col items-center w-56 h-56 z-20"
+            className="absolute left-0 top-0 flex flex-col items-center w-[28rem] h-[28rem] z-20"
             style={{ pointerEvents: "none" }}
           >
-            {/* Glowing Rocket Emoji with Animated Fire */}
-            <span
-              className="text-[8rem] drop-shadow-[0_0_32px_rgba(56,189,248,0.8)] animate-pulse"
-              style={{ filter: "drop-shadow(0 0 48px #38bdf8)" }}
-              role="img"
-              aria-label="rocket"
+            {/* Highly Realistic SVG Rocket with Animated Flame */}
+            <svg
+              viewBox="0 0 200 360"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-full h-full"
             >
-              🚀
-            </span>
-            <motion.span
-              className="text-[4rem] -mt-10 animate-bounce"
-              role="img"
-              aria-label="fire"
-              initial={{ scaleY: 1 }}
-              animate={{ scaleY: [1, 1.3, 1], opacity: [0.8, 1, 0.8] }}
-              transition={{
-                repeat: Infinity,
-                duration: 0.5,
-                ease: "easeInOut",
-              }}
-              style={{ filter: "drop-shadow(0 0 24px #fbbf24)" }}
-            >
-              🔥
-            </motion.span>
+              {/* Glow under ship */}
+              <ellipse
+                cx="100"
+                cy="350"
+                rx="60"
+                ry="16"
+                fill="#0ff6"
+                opacity="0.4"
+              />
+              {/* Rocket body */}
+              <g filter="url(#glow)">
+                {/* Main body with metallic gradient and panel lines */}
+                <rect
+                  x="75"
+                  y="70"
+                  width="50"
+                  height="160"
+                  rx="25"
+                  fill="url(#metallicBody)"
+                  stroke="#e0e7ef"
+                  strokeWidth="3"
+                />
+                {/* Panel lines */}
+                <rect
+                  x="97"
+                  y="90"
+                  width="6"
+                  height="120"
+                  rx="3"
+                  fill="#e0e7ef"
+                  fillOpacity="0.18"
+                />
+                <rect
+                  x="75"
+                  y="150"
+                  width="50"
+                  height="4"
+                  rx="2"
+                  fill="#e0e7ef"
+                  fillOpacity="0.18"
+                />
+                {/* Nose cone with metallic shine */}
+                <polygon
+                  points="100,30 75,70 125,70"
+                  fill="url(#noseconeMetal)"
+                  stroke="#e0e7ef"
+                  strokeWidth="3"
+                />
+                {/* Windows */}
+                <ellipse
+                  cx="100"
+                  cy="110"
+                  rx="13"
+                  ry="13"
+                  fill="url(#windowGlass)"
+                  stroke="#fff"
+                  strokeWidth="3"
+                />
+                <ellipse
+                  cx="100"
+                  cy="110"
+                  rx="6"
+                  ry="6"
+                  fill="#fff"
+                  fillOpacity="0.7"
+                />
+                <ellipse
+                  cx="100"
+                  cy="140"
+                  rx="7"
+                  ry="7"
+                  fill="url(#windowGlass)"
+                  stroke="#fff"
+                  strokeWidth="2"
+                />
+                {/* Left fin */}
+                <polygon
+                  points="75,170 35,240 90,200"
+                  fill="#38bdf8"
+                  stroke="#e0e7ef"
+                  strokeWidth="3"
+                />
+                {/* Right fin */}
+                <polygon
+                  points="125,170 165,240 110,200"
+                  fill="#a78bfa"
+                  stroke="#e0e7ef"
+                  strokeWidth="3"
+                />
+                {/* Center fin */}
+                <polygon
+                  points="100,220 90,300 110,300"
+                  fill="#fbbf24"
+                  stroke="#e0e7ef"
+                  strokeWidth="3"
+                />
+                {/* Animated Complex Flame */}
+                <motion.ellipse
+                  cx="100"
+                  cy="320"
+                  rx="28"
+                  ry="18"
+                  fill="url(#flameOuter)"
+                  style={{
+                    filter:
+                      "drop-shadow(0 0 48px #fbbf24) drop-shadow(0 0 64px #f59e42) drop-shadow(0 0 80px #f87171)",
+                  }}
+                  animate={{
+                    scaleX: [1, 1.15, 1],
+                    scaleY: [1, 1.2, 1],
+                    opacity: [0.7, 1, 0.7],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 0.5,
+                    ease: "easeInOut",
+                  }}
+                />
+                <motion.ellipse
+                  cx="100"
+                  cy="330"
+                  rx="14"
+                  ry="8"
+                  fill="url(#flameInner)"
+                  style={{ filter: "drop-shadow(0 0 32px #fff8)" }}
+                  animate={{
+                    scaleX: [1, 1.2, 1],
+                    scaleY: [1, 1.3, 1],
+                    opacity: [0.8, 1, 0.8],
+                  }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 0.5,
+                    ease: "easeInOut",
+                  }}
+                />
+              </g>
+              <defs>
+                <linearGradient
+                  id="metallicBody"
+                  x1="75"
+                  y1="70"
+                  x2="125"
+                  y2="230"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#e0e7ef" />
+                  <stop offset="0.2" stopColor="#bfc9d1" />
+                  <stop offset="0.5" stopColor="#38bdf8" />
+                  <stop offset="0.8" stopColor="#6366f1" />
+                  <stop offset="1" stopColor="#bfc9d1" />
+                </linearGradient>
+                <linearGradient
+                  id="noseconeMetal"
+                  x1="100"
+                  y1="30"
+                  x2="100"
+                  y2="70"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#fff" stopOpacity="0.98" />
+                  <stop offset="1" stopColor="#bae6fd" stopOpacity="0.7" />
+                </linearGradient>
+                <radialGradient
+                  id="windowGlass"
+                  cx="0"
+                  cy="0"
+                  r="1"
+                  gradientTransform="translate(100 110) scale(13 13)"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#bae6fd" />
+                  <stop offset="1" stopColor="#60a5fa" />
+                </radialGradient>
+                <radialGradient
+                  id="flameOuter"
+                  cx="0"
+                  cy="0"
+                  r="1"
+                  gradientTransform="translate(100 320) scale(28 18)"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#fbbf24" />
+                  <stop offset="0.7" stopColor="#f59e42" />
+                  <stop offset="1" stopColor="#f87171" stopOpacity="0.7" />
+                </radialGradient>
+                <radialGradient
+                  id="flameInner"
+                  cx="0"
+                  cy="0"
+                  r="1"
+                  gradientTransform="translate(100 330) scale(14 8)"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop stopColor="#fffbe8" />
+                  <stop offset="0.5" stopColor="#fbbf24" />
+                  <stop offset="1" stopColor="#f59e42" stopOpacity="0.7" />
+                </radialGradient>
+                <filter
+                  id="glow"
+                  x="0"
+                  y="0"
+                  width="200"
+                  height="360"
+                  filterUnits="userSpaceOnUse"
+                  colorInterpolationFilters="sRGB"
+                >
+                  <feGaussianBlur stdDeviation="16" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
+            </svg>
           </motion.div>
         )}
         {/* Existing Particles */}
