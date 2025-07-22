@@ -145,45 +145,88 @@ export default function PoweredBySection() {
                 {/* Glowing background around CPU */}
                 <circle cx="150" cy="150" r="60" fill="url(#cpuGlow)" />
 
-                {/* Circuit lines (straight and curved) */}
-                {Array.from({ length: 16 }).map((_, i) => {
-                  const angle = (Math.PI * 2 * i) / 16;
-                  const r1 = 80; // start radius from center
-                  const r2 = 210; // EXTENDED end radius from center
-                  const cx = 150 + Math.cos(angle) * r1;
-                  const cy = 150 + Math.sin(angle) * r1;
-                  const ex = 150 + Math.cos(angle) * r2;
-                  const ey = 150 + Math.sin(angle) * r2;
-                  const isCurved = i % 4 === 0;
-                  const curve = isCurved
-                    ? `M150 150 C${150 + Math.cos(angle - 0.2) * (r1 + 30)} ${
-                        150 + Math.sin(angle - 0.2) * (r1 + 30)
-                      }, ${150 + Math.cos(angle + 0.2) * (r2 - 30)} ${
-                        150 + Math.sin(angle + 0.2) * (r2 - 30)
-                      }, ${ex} ${ey}`
-                    : `M150 150 L${ex} ${ey}`;
-                  return (
-                    <motion.path
-                      key={i}
-                      d={curve}
-                      stroke={
-                        isCurved
-                          ? "url(#circuitPulse)"
-                          : "url(#circuitGradient)"
-                      }
-                      strokeWidth="2.5"
-                      fill="none"
-                      initial={{ pathLength: 0, opacity: 0 }}
-                      animate={{ pathLength: 1, opacity: 1 }}
-                      transition={{
-                        duration: 2,
-                        delay: i * 0.09,
-                        ease: "easeInOut",
-                      }}
-                      style={{ filter: "drop-shadow(0 0 8px #a5f3fc)" }}
-                    />
-                  );
-                })}
+                {/* Circuit lines (many, radiating to edge, glowing, animated) */}
+                {(() => {
+                  const numCircuits = 20;
+                  const maxRadius = 140; // SVG edge
+                  const types: Array<"straight" | "elbow" | "curve"> = [
+                    "straight",
+                    "elbow",
+                    "curve",
+                  ];
+                  return Array.from({ length: numCircuits }).map((_, i) => {
+                    const angle = (2 * Math.PI * i) / numCircuits;
+                    const type = types[i % types.length];
+                    const r1 = 80;
+                    const r2 = maxRadius + (i % 2 === 0 ? 8 : -8); // slight variation
+                    const cx = 150 + Math.cos(angle) * r1;
+                    const cy = 150 + Math.sin(angle) * r1;
+                    const ex = 150 + Math.cos(angle) * r2;
+                    const ey = 150 + Math.sin(angle) * r2;
+                    let d = "";
+                    if (type === "straight") {
+                      d = `M150 150 L${ex} ${ey}`;
+                    } else if (type === "elbow") {
+                      const mx = 150 + Math.cos(angle) * (r1 + (r2 - r1) * 0.5);
+                      const my = 150 + Math.sin(angle) * (r1 + (r2 - r1) * 0.5);
+                      const elbowAngle =
+                        angle + (Math.PI / 2) * (i % 2 === 0 ? 1 : -1);
+                      const ex2 = mx + Math.cos(elbowAngle) * ((r2 - r1) * 0.3);
+                      const ey2 = my + Math.sin(elbowAngle) * ((r2 - r1) * 0.3);
+                      d = `M150 150 L${mx} ${my} L${ex2} ${ey2}`;
+                    } else {
+                      const c1x =
+                        150 + Math.cos(angle - 0.18) * (r1 + (r2 - r1) * 0.4);
+                      const c1y =
+                        150 + Math.sin(angle - 0.18) * (r1 + (r2 - r1) * 0.4);
+                      d = `M150 150 Q${c1x} ${c1y}, ${ex} ${ey}`;
+                    }
+                    return (
+                      <g key={i}>
+                        <motion.path
+                          d={d}
+                          stroke="url(#circuitPulse)"
+                          strokeWidth="2.2"
+                          fill="none"
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          animate={{ pathLength: 1, opacity: 1 }}
+                          transition={{
+                            duration: 1.2,
+                            delay: i * 0.06,
+                            ease: "easeInOut",
+                          }}
+                          style={{
+                            filter:
+                              "drop-shadow(0 0 8px #a5f3fc) drop-shadow(0 0 16px #a78bfa)",
+                          }}
+                        />
+                        {/* Glowing endpoint */}
+                        <motion.circle
+                          cx={ex}
+                          cy={ey}
+                          r={5}
+                          fill="url(#circuitPulse)"
+                          style={{ filter: "blur(2px) opacity(0.7)" }}
+                          initial={{ scale: 0, opacity: 0 }}
+                          animate={{ scale: [0, 1.2, 1], opacity: [0, 1, 0.7] }}
+                          transition={{
+                            duration: 1.1,
+                            delay: 0.5 + i * 0.06,
+                            repeat: Infinity,
+                            repeatType: "reverse",
+                          }}
+                        />
+                        <circle
+                          cx={ex}
+                          cy={ey}
+                          r={2.1}
+                          fill="#fff"
+                          opacity={0.85}
+                        />
+                      </g>
+                    );
+                  });
+                })()}
 
                 {/* CPU Chip in the center */}
                 <motion.g
