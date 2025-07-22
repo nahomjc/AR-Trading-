@@ -182,7 +182,39 @@ const HeroSection = () => {
       id="home"
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern"
     >
-      <HeroParticles />
+      {/* Galaxy/Nebula Background */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Existing Particles */}
+        <HeroParticles />
+        {/* Animated Galaxies/Nebulae */}
+        <motion.div
+          className="absolute left-1/4 top-0 w-[420px] h-[320px] bg-cyan-400/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.08, 1],
+            x: [0, 20, 0],
+            y: [0, 10, 0],
+          }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute right-1/4 top-1/3 w-[380px] h-[300px] bg-purple-500/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.1, 1],
+            x: [0, -18, 0],
+            y: [0, 16, 0],
+          }}
+          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute left-1/3 bottom-0 w-[500px] h-[340px] bg-gradient-to-br from-blue-500/20 via-purple-400/20 to-cyan-400/20 rounded-full blur-3xl"
+          animate={{
+            scale: [1, 1.07, 1],
+            x: [0, 12, 0],
+            y: [0, -10, 0],
+          }}
+          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20"></div>
 
       {/* CPU Animation Background */}
