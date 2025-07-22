@@ -1139,12 +1139,16 @@ const LatestWorksSection = () => {
         </motion.div>
         {/* Tabs */}
         <div className="flex justify-center mb-12">
-          <div className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl">
+          <div
+            className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl w-full max-w-2xl overflow-x-auto scrollbar-hide gap-2 sm:gap-0 sm:w-auto sm:max-w-none sm:overflow-visible"
+            style={{ WebkitOverflowScrolling: "touch" }}
+            role="tablist"
+          >
             {tabNames.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`relative px-8 py-2 rounded-full font-semibold text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500
+                className={`relative flex-shrink-0 px-6 py-3 sm:px-8 sm:py-2 rounded-full font-semibold text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500
                   ${
                     activeTab === tab
                       ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
@@ -1154,6 +1158,7 @@ const LatestWorksSection = () => {
                 aria-selected={activeTab === tab}
                 aria-controls={`tab-panel-${tab}`}
                 tabIndex={activeTab === tab ? 0 : -1}
+                style={{ minWidth: "120px", scrollSnapAlign: "center" }}
               >
                 {activeTab === tab && (
                   <motion.div
