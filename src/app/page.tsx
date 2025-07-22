@@ -180,7 +180,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-32 sm:pt-40 pb-24 sm:pb-32"
     >
       {/* Galaxy/Nebula Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -226,17 +226,6 @@ const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
-        <motion.div
-          className="mb-8"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-8">
-            🚀 Leading Digital Marketing Solutions
-          </span>
-        </motion.div>
-
         {/* Animated Gradient Shine Headline */}
         <motion.h1
           className="text-5xl sm:text-7xl md:text-8xl font-bold font-poppins mb-8 leading-tight relative overflow-hidden"
@@ -284,6 +273,17 @@ const HeroSection = () => {
             to Digital Excellence
           </motion.span>
         </motion.h1>
+        {/* Badge moved below headline for clarity and spacing */}
+        <motion.div
+          className="mt-6 mb-10"
+          initial={{ scale: 0, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium">
+            🚀 Leading Digital Marketing Solutions
+          </span>
+        </motion.div>
 
         <motion.p
           className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
@@ -1268,7 +1268,7 @@ const LatestWorksSection = () => {
   return (
     <section
       id="latest-works"
-      className="py-24 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-950/70 via-purple-950/60 to-cyan-950/60"
+      className="py-24 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-950/70 via-purple-950/60 to-cyan-950/60 pb-20 md:pb-28"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -1290,98 +1290,92 @@ const LatestWorksSection = () => {
           </p>
         </motion.div>
         {/* Tabs */}
-        <div className="flex justify-center mb-12">
-          <div
-            className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl w-full max-w-2xl overflow-x-auto scrollbar-hide gap-2 sm:gap-0 sm:w-auto sm:max-w-none sm:overflow-visible"
-            style={{ WebkitOverflowScrolling: "touch" }}
-            role="tablist"
-          >
-            {tabNames.map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`relative flex-shrink-0 px-6 py-3 sm:px-8 sm:py-2 rounded-full font-semibold text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500
-                  ${
-                    activeTab === tab
-                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
-                      : "text-blue-200 hover:bg-blue-800/30"
-                  }
-                `}
-                aria-selected={activeTab === tab}
-                aria-controls={`tab-panel-${tab}`}
-                tabIndex={activeTab === tab ? 0 : -1}
-                style={{ minWidth: "120px", scrollSnapAlign: "center" }}
-              >
-                {activeTab === tab && (
-                  <motion.div
-                    layoutId="tab-underline"
-                    className="absolute left-4 right-4 bottom-1 h-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
-                    style={{ zIndex: 1 }}
-                  />
-                )}
-                <span className="relative z-10">{tab}</span>
-              </button>
-            ))}
+        <div className="flex justify-center mb-6">
+          <div className="relative w-full">
+            <div
+              className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl w-full overflow-x-auto scrollbar-hide gap-2 px-1 snap-x snap-mandatory"
+              style={{ WebkitOverflowScrolling: "touch" }}
+              role="tablist"
+            >
+              {tabNames.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`relative flex-shrink-0 px-6 py-3 sm:px-8 sm:py-2 rounded-full font-semibold text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500
+                    ${
+                      activeTab === tab
+                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                        : "text-blue-200 hover:bg-blue-800/30"
+                    }
+                  `}
+                  aria-selected={activeTab === tab}
+                  aria-controls={`tab-panel-${tab}`}
+                  tabIndex={activeTab === tab ? 0 : -1}
+                  style={{ minWidth: "120px", scrollSnapAlign: "center" }}
+                >
+                  {activeTab === tab && (
+                    <motion.div
+                      layoutId="tab-underline"
+                      className="absolute left-4 right-4 bottom-1 h-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
+                      style={{ zIndex: 1 }}
+                    />
+                  )}
+                  <span className="relative z-10">{tab}</span>
+                </button>
+              ))}
+            </div>
+            {/* Right-edge fade indicator for scrollable tabs on mobile/tablet */}
+            <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-blue-900/80 via-blue-900/40 to-transparent rounded-r-full block" />
           </div>
         </div>
-        {/* Tab Panels */}
-        <div className="relative min-h-[340px]">
-          {tabNames.map((tab) => (
-            <motion.div
-              key={tab}
-              id={`tab-panel-${tab}`}
-              role="tabpanel"
-              aria-labelledby={tab}
-              initial={false}
-              animate={
-                activeTab === tab
-                  ? { opacity: 1, y: 0, scale: 1 }
-                  : { opacity: 0, y: 20, scale: 0.98 }
-              }
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              style={{
-                display: activeTab === tab ? "block" : "none",
-                position: "absolute",
-                width: "100%",
-              }}
-              className="w-full"
-            >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-                {latestWorks[tab].map((work: WorkItem, idx: number) => (
-                  <motion.div
-                    key={work.title}
-                    className="group relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-900/60 to-purple-900/60 border border-white/10 hover:shadow-2xl transition-all duration-300"
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: idx * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ scale: 1.03, y: -5 }}
-                  >
-                    <div className="relative h-56 w-full overflow-hidden">
-                      <img
-                        src={work.image}
-                        alt={work.title}
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+        {/* Tab Panels - render only the active tab's panel, no absolute positioning */}
+        <div className="relative w-full">
+          <motion.div
+            key={activeTab}
+            id={`tab-panel-${activeTab}`}
+            role="tabpanel"
+            aria-labelledby={activeTab}
+            initial={{ opacity: 0, y: 20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.98 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="w-full"
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              {latestWorks[activeTab].map((work: WorkItem, idx: number) => (
+                <motion.div
+                  key={work.title}
+                  className="group relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-900/60 to-purple-900/60 border border-white/10 hover:shadow-2xl transition-all duration-300 w-full max-w-xs mx-auto sm:max-w-full p-4 sm:p-0"
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ scale: 1.03, y: -5 }}
+                >
+                  <div className="relative h-56 w-full overflow-hidden">
+                    <img
+                      src={work.image}
+                      alt={work.title}
+                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+                  </div>
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold font-poppins mb-1 text-white group-hover:text-blue-300 transition-colors">
+                      {work.title}
+                    </h3>
+                    <div className="text-blue-400 font-medium mb-1 text-sm">
+                      {work.client}
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-lg font-bold font-poppins mb-1 text-white group-hover:text-blue-300 transition-colors">
-                        {work.title}
-                      </h3>
-                      <div className="text-blue-400 font-medium mb-1 text-sm">
-                        {work.client}
-                      </div>
-                      <p className="text-gray-300 text-sm leading-relaxed mb-0">
-                        {work.desc}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                    <p className="text-gray-300 text-sm leading-relaxed mb-0">
+                      {work.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
       <div className="absolute left-0 right-0 bottom-0 h-24 bg-gradient-to-t from-blue-950/80 to-transparent pointer-events-none" />
