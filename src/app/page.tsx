@@ -5,10 +5,13 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import ScrollStars from "./components/ScrollStars";
 import CPUAnimation from "./components/CPUAnimation";
 import PoweredBySection from "./components/PoweredBySection";
+import ChatBot from "./components/ChatBot";
+import IntroLoader from "./components/IntroLoader";
 
 // Navigation Component
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +20,18 @@ const Navigation = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close menu on navigation
+  const handleNavClick = () => setMenuOpen(false);
+
+  const navLinks = [
+    "Home",
+    "Services",
+    "About",
+    "Team",
+    "Testimonials",
+    "Contact",
+  ];
 
   return (
     <motion.nav
@@ -38,16 +53,10 @@ const Navigation = () => {
               AR Trading PLC
             </h1>
           </motion.div>
+          {/* Desktop Nav */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-4">
-              {[
-                "Home",
-                "Services",
-                "About",
-                "Team",
-                "Testimonials",
-                "Contact",
-              ].map((item, index) => (
+              {navLinks.map((item, index) => (
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
@@ -62,9 +71,99 @@ const Navigation = () => {
               ))}
             </div>
           </div>
+          {/* Mobile Hamburger */}
+          <div className="md:hidden flex items-center">
+            <button
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+              onClick={() => setMenuOpen((open) => !open)}
+              className="p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <span className="sr-only">Open main menu</span>
+              <motion.div
+                initial={false}
+                animate={menuOpen ? { rotate: 90 } : { rotate: 0 }}
+                className="w-7 h-7 flex flex-col justify-center items-center"
+              >
+                <span
+                  className={`block h-0.5 w-6 bg-white mb-1 transition-all duration-300 ${
+                    menuOpen ? "rotate-45 translate-y-2" : ""
+                  }`}
+                ></span>
+                <span
+                  className={`block h-0.5 w-6 bg-white mb-1 transition-all duration-300 ${
+                    menuOpen ? "opacity-0" : ""
+                  }`}
+                ></span>
+                <span
+                  className={`block h-0.5 w-6 bg-white transition-all duration-300 ${
+                    menuOpen ? "-rotate-45 -translate-y-2" : ""
+                  }`}
+                ></span>
+              </motion.div>
+            </button>
+          </div>
         </div>
       </div>
+      {/* Mobile Dropdown */}
+      <motion.div
+        initial={false}
+        animate={
+          menuOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }
+        }
+        transition={{ duration: 0.3 }}
+        className="md:hidden overflow-hidden bg-gradient-to-br from-blue-900/80 via-purple-900/80 to-cyan-900/80 backdrop-blur-md shadow-lg"
+        style={{ pointerEvents: menuOpen ? "auto" : "none" }}
+      >
+        <div className="px-4 pt-2 pb-4 flex flex-col space-y-2">
+          {navLinks.map((item, index) => (
+            <motion.a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              className="block text-gray-200 hover:text-white px-3 py-2 rounded-md text-base font-medium transition-colors"
+              onClick={handleNavClick}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : -20 }}
+              transition={{ delay: index * 0.05 + 0.1, duration: 0.3 }}
+              whileHover={{ scale: 1.05 }}
+            >
+              {item}
+            </motion.a>
+          ))}
+        </div>
+      </motion.div>
     </motion.nav>
+  );
+};
+
+// Animated Particle Background for Hero
+const HeroParticles = () => {
+  const particles = Array.from({ length: 18 });
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none">
+      {particles.map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-cyan-400/20 shadow-lg"
+          style={{
+            width: `${Math.random() * 3 + 2}px`,
+            height: `${Math.random() * 3 + 2}px`,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            filter: "blur(1px)",
+          }}
+          animate={{
+            opacity: [0.5, 1, 0.5],
+            y: [0, Math.random() * 16 - 8, 0],
+          }}
+          transition={{
+            repeat: Infinity,
+            duration: Math.random() * 2 + 2,
+            delay: Math.random() * 2,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
   );
 };
 
@@ -73,18 +172,20 @@ const HeroSection = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const [shine, setShine] = useState(false);
+  useEffect(() => {
+    setShine(true);
+  }, []);
 
   return (
     <section
       id="home"
       className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern"
     >
+      <HeroParticles />
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20"></div>
 
       {/* CPU Animation Background */}
-      <div className="absolute inset-0 opacity-30 z-0">
-        <CPUAnimation />
-      </div>
 
       <motion.div
         className="max-w-7xl mx-auto text-center relative z-10"
@@ -104,22 +205,59 @@ const HeroSection = () => {
           </span>
         </motion.div>
 
+        {/* Animated Gradient Shine Headline */}
         <motion.h1
-          className="text-5xl sm:text-7xl md:text-8xl font-bold font-poppins mb-8 leading-tight"
+          className="text-5xl sm:text-7xl md:text-8xl font-bold font-poppins mb-8 leading-tight relative overflow-hidden"
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          <span className="gradient-text">Elevate Your Business</span>
+          <span className="gradient-text relative inline-block">
+            Elevate Your Business
+            {/* Shine effect */}
+            <motion.span
+              className="absolute left-0 top-0 h-full w-full pointer-events-none"
+              animate={shine ? { x: ["-100%", "120%"] } : {}}
+              transition={{
+                duration: 1.2,
+                ease: "easeInOut",
+                repeat: Infinity,
+                repeatDelay: 2,
+              }}
+              style={{
+                background:
+                  "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
+                maskImage:
+                  "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
+                position: "absolute",
+                left: 0,
+                top: 0,
+                width: "100%",
+                height: "100%",
+                zIndex: 2,
+                mixBlendMode: "lighten",
+              }}
+            />
+          </span>
           <br />
-          <span className="text-white">to Digital Excellence</span>
+          <motion.span
+            className="text-white inline-block"
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.7 }}
+            style={{ willChange: "transform" }}
+          >
+            to Digital Excellence
+          </motion.span>
         </motion.h1>
 
         <motion.p
           className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.9 }}
         >
           AR Trading PLC delivers cutting-edge digital marketing solutions that
           drive exponential growth, enhance brand visibility, and create lasting
@@ -130,12 +268,12 @@ const HeroSection = () => {
           className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.8, delay: 1.1 }}
         >
           <motion.a
             href="#services"
             className="btn-primary hover-lift group"
-            whileHover={{ scale: 1.05, y: -5 }}
+            whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #06b6d4" }}
             whileTap={{ scale: 0.95 }}
           >
             <span className="relative z-10">Explore Our Services</span>
@@ -143,7 +281,7 @@ const HeroSection = () => {
           <motion.a
             href="#contact"
             className="btn-secondary hover-lift"
-            whileHover={{ scale: 1.05, y: -5 }}
+            whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #a78bfa" }}
             whileTap={{ scale: 0.95 }}
           >
             Get Started Today
@@ -155,7 +293,7 @@ const HeroSection = () => {
           className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1 }}
+          transition={{ duration: 1, delay: 1.3 }}
         >
           {[
             { number: "500+", label: "Projects Completed" },
@@ -750,25 +888,43 @@ const ContactSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="h-96 rounded-xl overflow-hidden bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-6xl mb-4">🗺️</div>
-              <h4 className="text-2xl font-bold text-white mb-2">
+          <div className="relative h-96 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 flex items-center justify-center shadow-2xl">
+            {/* Embedded Google Map */}
+            <iframe
+              title="AR Trading PLC Location"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.669393698736!2d38.7725403!3d9.0122241!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b851aa37d610d%3A0x53b55e8e74640bdf!2sBetopia%20site!5e0!3m2!1sen!2set!4v1715612345678!5m2!1sen!2set"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen={true}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="absolute inset-0 w-full h-full border-none"
+            ></iframe>
+            {/* Overlay with address and button */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-blue-950/80 via-blue-900/60 to-transparent p-6 flex flex-col items-center z-10">
+              <h4 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">
                 Our Location
               </h4>
-              <p className="text-gray-300">
+              <p className="text-cyan-100 text-base font-medium mb-3 drop-shadow">
                 3rd floor, Bass Addis Bldg. Bole, Addis Ababa, Ethiopia
               </p>
               <motion.a
-                href="https://maps.google.com/?q=Bass+Addis+Building+Bole+Addis+Ababa+Ethiopia"
+                href="https://www.google.com/maps/place/Betopia+site/@9.0122241,38.7725403,119m/data=!3m1!1e3!4m6!3m5!1s0x164b851aa37d610d:0x53b55e8e74640bdf!8m2!3d9.0122241!4d38.7731438!16s%2Fg%2F11sckb3__w?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-medium hover:from-blue-700 hover:to-purple-700 transition-all"
+                className="inline-block mt-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-medium shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all backdrop-blur-md"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
                 View on Google Maps
               </motion.a>
+            </div>
+            {/* Decorative Map Pin */}
+            <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
+              <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 shadow-xl border-4 border-white/30 text-white text-2xl animate-bounce">
+                📍
+              </span>
             </div>
           </div>
         </motion.div>
@@ -868,10 +1024,219 @@ const GalaxyBackground = () => {
   );
 };
 
+// Latest Works Section with Tabs
+import { Fragment } from "react";
+
+type WorkItem = {
+  title: string;
+  desc: string;
+  image: string;
+  client: string;
+};
+
+const tabNames = ["Web Development", "Digital Marketing", "Branding"] as const;
+
+type TabName = (typeof tabNames)[number];
+
+const latestWorks: Record<TabName, WorkItem[]> = {
+  "Web Development": [
+    {
+      title: "Ethiopian Airlines Portal",
+      desc: "A robust booking and management platform for Africa's largest airline.",
+      image:
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80",
+      client: "Ethiopian Airlines",
+    },
+    {
+      title: "Startup Launchpad",
+      desc: "Modern landing page and dashboard for a fintech startup.",
+      image:
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
+      client: "Fintech Startup",
+    },
+    {
+      title: "Government e-Services",
+      desc: "Secure web portal for public service delivery.",
+      image:
+        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
+      client: "Gov. Agency",
+    },
+  ],
+  "Digital Marketing": [
+    {
+      title: "Viral Social Campaign",
+      desc: "Multi-platform campaign that increased engagement by 300%.",
+      image:
+        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80",
+      client: "Retail Brand",
+    },
+    {
+      title: "SEO Overhaul",
+      desc: "Boosted organic traffic for a logistics company.",
+      image:
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+      client: "Logistics Co.",
+    },
+    {
+      title: "Influencer Partnership",
+      desc: "Brand awareness campaign with top influencers.",
+      image:
+        "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
+      client: "Consumer Goods",
+    },
+  ],
+  Branding: [
+    {
+      title: "Rebranding for Haile Hospitality Group",
+      desc: "Complete brand refresh for a leading hospitality group.",
+      image:
+        "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80",
+      client: "Haile Hospitality Group",
+    },
+    {
+      title: "Logo & Identity Suite",
+      desc: "Distinctive visual identity for a tech startup.",
+      image:
+        "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=600&q=80",
+      client: "Tech Startup",
+    },
+    {
+      title: "Government Brand Guidelines",
+      desc: "Comprehensive branding for a government initiative.",
+      image:
+        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
+      client: "Gov. Initiative",
+    },
+  ],
+};
+
+const LatestWorksSection = () => {
+  const [activeTab, setActiveTab] = useState<TabName>(tabNames[0]);
+
+  return (
+    <section
+      id="latest-works"
+      className="py-24 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-950/70 via-purple-950/60 to-cyan-950/60"
+    >
+      <div className="max-w-7xl mx-auto">
+        <motion.div
+          className="text-center mb-14"
+          initial={{ opacity: 0, y: 100 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/30 to-purple-600/30 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
+            Latest Works
+          </span>
+          <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-4 gradient-text">
+            Our Latest Works
+          </h2>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+            Our customer base ranges from small startups to big governmental
+            firms.
+          </p>
+        </motion.div>
+        {/* Tabs */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl">
+            {tabNames.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`relative px-8 py-2 rounded-full font-semibold text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500
+                  ${
+                    activeTab === tab
+                      ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
+                      : "text-blue-200 hover:bg-blue-800/30"
+                  }
+                `}
+                aria-selected={activeTab === tab}
+                aria-controls={`tab-panel-${tab}`}
+                tabIndex={activeTab === tab ? 0 : -1}
+              >
+                {activeTab === tab && (
+                  <motion.div
+                    layoutId="tab-underline"
+                    className="absolute left-4 right-4 bottom-1 h-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
+                    style={{ zIndex: 1 }}
+                  />
+                )}
+                <span className="relative z-10">{tab}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        {/* Tab Panels */}
+        <div className="relative min-h-[340px]">
+          {tabNames.map((tab) => (
+            <motion.div
+              key={tab}
+              id={`tab-panel-${tab}`}
+              role="tabpanel"
+              aria-labelledby={tab}
+              initial={false}
+              animate={
+                activeTab === tab
+                  ? { opacity: 1, y: 0, scale: 1 }
+                  : { opacity: 0, y: 20, scale: 0.98 }
+              }
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              style={{
+                display: activeTab === tab ? "block" : "none",
+                position: "absolute",
+                width: "100%",
+              }}
+              className="w-full"
+            >
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                {latestWorks[tab].map((work: WorkItem, idx: number) => (
+                  <motion.div
+                    key={work.title}
+                    className="group relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-900/60 to-purple-900/60 border border-white/10 hover:shadow-2xl transition-all duration-300"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: idx * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.03, y: -5 }}
+                  >
+                    <div className="relative h-56 w-full overflow-hidden">
+                      <img
+                        src={work.image}
+                        alt={work.title}
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold font-poppins mb-1 text-white group-hover:text-blue-300 transition-colors">
+                        {work.title}
+                      </h3>
+                      <div className="text-blue-400 font-medium mb-1 text-sm">
+                        {work.client}
+                      </div>
+                      <p className="text-gray-300 text-sm leading-relaxed mb-0">
+                        {work.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+      <div className="absolute left-0 right-0 bottom-0 h-24 bg-gradient-to-t from-blue-950/80 to-transparent pointer-events-none" />
+    </section>
+  );
+};
+
 // Main Page Component
 export default function Home() {
   return (
     <div className="relative min-h-screen">
+      <IntroLoader />
       <GalaxyBackground />
       <Navigation />
       <main className="relative z-10">
@@ -879,11 +1244,13 @@ export default function Home() {
         <ServicesSection />
         <WhoWeAreSection />
         <TeamSection />
+        <LatestWorksSection />
         <TestimonialsSection />
         <PoweredBySection />
         <ContactSection />
       </main>
       <Footer />
+      <ChatBot />
     </div>
   );
 }

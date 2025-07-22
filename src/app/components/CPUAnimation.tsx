@@ -27,18 +27,6 @@ const CPUAnimation = () => {
   return (
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
       <div className="relative">
-        {/* "Powering" Text */}
-        <motion.div
-          className="absolute -top-20 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
-        >
-          <h2 className="text-4xl font-bold gradient-text font-poppins tracking-wider">
-            POWERING
-          </h2>
-        </motion.div>
-
         {/* SVG Container for Lines and CPU */}
         <svg
           width="300"
