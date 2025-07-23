@@ -133,18 +133,21 @@ const Navigation = () => {
       >
         <div className="px-4 pt-2 pb-4 flex flex-col space-y-2">
           {navLinks.map((item, index) => (
-            <motion.a
+            <motion.div
               key={item}
-              href={`#${item.toLowerCase()}`}
-              className="block text-gray-200 hover:text-white px-3 py-2 rounded-md text-base font-medium transition-colors"
-              onClick={handleNavClick}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : -20 }}
               transition={{ delay: index * 0.05 + 0.1, duration: 0.3 }}
               whileHover={{ scale: 1.05 }}
             >
-              {item}
-            </motion.a>
+              <a
+                href={`#${item.toLowerCase()}`}
+                className="block text-gray-200 hover:text-white px-3 py-2 rounded-md text-base font-medium transition-colors"
+                onClick={() => setTimeout(() => handleNavClick(), 120)}
+              >
+                {item}
+              </a>
+            </motion.div>
           ))}
         </div>
       </motion.div>
