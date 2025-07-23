@@ -42,7 +42,7 @@ export default function PoweredBySection() {
     <section className="py-24 px-6 relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900">
       {/* Animated Stars Background */}
       <div className="absolute inset-0">
-        {[...Array(100)].map((_, i) => (
+        {[...Array(20)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-0.5 h-0.5 bg-white rounded-full"

@@ -35,36 +35,34 @@ const ScrollStars = () => {
         "#ccffff", // Cyan
       ];
 
-      // Generate 300 stars for an even richer galaxy effect
-      for (let i = 0; i < 300; i++) {
+      // Generate 60 stars for a lighter galaxy effect
+      for (let i = 0; i < 60; i++) {
         const size = Math.random() * 4 + 0.5;
-        const layer = Math.floor(Math.random() * 5) + 1; // 5 different depth layers
-
+        const layer = Math.floor(Math.random() * 5) + 1;
         newStars.push({
           id: i,
           x: Math.random() * (window.innerWidth + 400) - 200,
-          y: Math.random() * (window.innerHeight * 6), // Even more extended height
+          y: Math.random() * (window.innerHeight * 6),
           size: size,
           opacity: Math.random() * 0.8 + 0.2,
-          speed: (Math.random() * 0.8 + 0.1) * layer, // Speed varies by layer
+          speed: (Math.random() * 0.8 + 0.1) * layer,
           color: starColors[Math.floor(Math.random() * starColors.length)],
           twinkleSpeed: Math.random() * 2 + 1,
           layer: layer,
         });
       }
-
-      // Add some larger "nebula" stars
-      for (let i = 300; i < 350; i++) {
+      // Add some larger "nebula" stars (reduce to 5)
+      for (let i = 60; i < 65; i++) {
         newStars.push({
           id: i,
           x: Math.random() * (window.innerWidth + 600) - 300,
           y: Math.random() * (window.innerHeight * 6),
-          size: Math.random() * 12 + 3, // Much larger
-          opacity: Math.random() * 0.3 + 0.05, // Very subtle
-          speed: Math.random() * 0.2 + 0.02, // Very slow
+          size: Math.random() * 12 + 3,
+          opacity: Math.random() * 0.3 + 0.05,
+          speed: Math.random() * 0.2 + 0.02,
           color: "#b3d9ff",
           twinkleSpeed: Math.random() * 0.5 + 0.2,
-          layer: 1, // Background layer
+          layer: 1,
         });
       }
 
@@ -176,15 +174,15 @@ const ScrollStars = () => {
 
       {/* Enhanced Shooting Stars */}
       <div className="absolute inset-0">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(2)].map((_, i) => (
           <motion.div
             key={`shooting-${i}`}
             className="absolute w-2 h-2 bg-white rounded-full"
             style={{
-              left: `${10 + i * 20}%`,
-              top: `${5 + i * 15}%`,
+              left: `${10 + i * 40}%`,
+              top: `${5 + i * 40}%`,
               background: `linear-gradient(45deg, white, ${
-                ["#b3d9ff", "#ffd9b3", "#ffb3b3", "#e6b3ff", "#b3ffb3"][i]
+                ["#b3d9ff", "#ffd9b3"][i]
               })`,
             }}
             animate={{
@@ -208,7 +206,7 @@ const ScrollStars = () => {
         className="absolute inset-0 opacity-30"
         style={{ y: useTransform(scrollY, [0, 1000], [0, -150]) }}
       >
-        {[...Array(50)].map((_, i) => (
+        {[...Array(10)].map((_, i) => (
           <motion.div
             key={`dust-${i}`}
             className="absolute w-1 h-1 bg-blue-200 rounded-full opacity-20"

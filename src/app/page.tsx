@@ -7,6 +7,7 @@ import CPUAnimation from "./components/CPUAnimation";
 import PoweredBySection from "./components/PoweredBySection";
 import ChatBot from "./components/ChatBot";
 import IntroLoader from "./components/IntroLoader";
+import Image from "next/image";
 
 // Navigation Component
 const Navigation = () => {
@@ -137,7 +138,7 @@ const Navigation = () => {
 
 // Animated Particle Background for Hero
 const HeroParticles = () => {
-  const particles = Array.from({ length: 18 });
+  const particles = Array.from({ length: 8 });
   return (
     <div className="absolute inset-0 z-0 pointer-events-none">
       {particles.map((_, i) => (
@@ -149,7 +150,7 @@ const HeroParticles = () => {
             height: `${Math.random() * 3 + 2}px`,
             top: `${Math.random() * 100}%`,
             left: `${Math.random() * 100}%`,
-            filter: "blur(1px)",
+            filter: "blur(0.5px)",
           }}
           animate={{
             opacity: [0.5, 1, 0.5],
@@ -424,31 +425,13 @@ const HeroSection = () => {
         <HeroParticles />
         {/* Animated Galaxies/Nebulae */}
         <motion.div
-          className="absolute left-1/4 top-0 w-[420px] h-[320px] bg-cyan-400/20 rounded-full blur-3xl"
+          className="absolute left-1/4 top-0 w-[320px] h-[220px] bg-cyan-400/20 rounded-full blur-xl"
           animate={{
             scale: [1, 1.08, 1],
             x: [0, 20, 0],
             y: [0, 10, 0],
           }}
           transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute right-1/4 top-1/3 w-[380px] h-[300px] bg-purple-500/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.1, 1],
-            x: [0, -18, 0],
-            y: [0, 16, 0],
-          }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute left-1/3 bottom-0 w-[500px] h-[340px] bg-gradient-to-br from-blue-500/20 via-purple-400/20 to-cyan-400/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.07, 1],
-            x: [0, 12, 0],
-            y: [0, -10, 0],
-          }}
-          transition={{ duration: 16, repeat: Infinity, ease: "easeInOut" }}
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20"></div>
@@ -643,7 +626,10 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+    <section
+      id="services"
+      className="py-10 sm:py-20 px-2 sm:px-4 lg:px-8 relative"
+    >
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-16"
@@ -655,7 +641,7 @@ const ServicesSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
             Our Services
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-poppins mb-6 gradient-text">
             Comprehensive Digital Solutions
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -976,7 +962,7 @@ const TeamSection = () => {
                 {/* Hanging rope (lanyard) */}
                 <div className="w-2 h-14 bg-gradient-to-b from-blue-400 via-purple-400 to-blue-400 rounded-full mb-[-18px] z-20" />
                 {/* Badge with all info */}
-                <div className="relative mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl rounded-2xl w-64 h-64 flex flex-col items-center justify-start pt-6 pb-4 px-4">
+                <div className="relative mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-64 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4">
                   {/* Metallic ring/hole */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 flex flex-col items-center z-10">
                     <div
@@ -989,7 +975,7 @@ const TeamSection = () => {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-20 h-20 rounded-full object-cover border-4 border-white shadow-lg mb-2 mt-2 z-10"
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white shadow-lg mb-2 mt-2 z-10"
                     style={{ marginTop: 8 }}
                   />
                   <div className="w-full h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-40 mb-3" />
@@ -1523,7 +1509,7 @@ const LatestWorksSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/30 to-purple-600/30 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
             Latest Works
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-4 gradient-text">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-poppins mb-4 gradient-text">
             Our Latest Works
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
@@ -1590,7 +1576,7 @@ const LatestWorksSection = () => {
               {latestWorks[activeTab].map((work: WorkItem, idx: number) => (
                 <motion.div
                   key={work.title}
-                  className="group relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-900/60 to-purple-900/60 border border-white/10 hover:shadow-2xl transition-all duration-300 w-full max-w-xs mx-auto sm:max-w-full p-4 sm:p-0"
+                  className="group relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-900/60 to-purple-900/60 border border-white/10 hover:shadow-2xl transition-all duration-300 w-full max-w-full sm:max-w-xs mx-auto p-2 sm:p-4"
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
@@ -1598,11 +1584,13 @@ const LatestWorksSection = () => {
                   whileHover={{ scale: 1.03, y: -5 }}
                 >
                   <div className="relative h-56 w-full overflow-hidden">
-                    <img
+                    <Image
                       src={work.image}
                       alt={work.title}
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
                   </div>
@@ -1631,7 +1619,7 @@ const LatestWorksSection = () => {
 // Main Page Component
 export default function Home() {
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-x-hidden">
       <IntroLoader />
       <GalaxyBackground />
       <Navigation />
