@@ -294,7 +294,7 @@ html {
 
 section {
   scroll-margin-top: 8rem !important;
-  border-top: 2px solid red;
+ 
 }
 
 @layer utilities {
