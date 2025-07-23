@@ -64,9 +64,11 @@ const Navigation = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <h1 className="text-2xl font-bold font-poppins gradient-text">
-              AR Trading PLC
-            </h1>
+            <a href="#home" className="focus:outline-none">
+              <h1 className="text-2xl font-bold font-poppins gradient-text">
+                AR Trading PLC
+              </h1>
+            </a>
           </motion.div>
           {/* Desktop Nav */}
           <div className="hidden md:block">

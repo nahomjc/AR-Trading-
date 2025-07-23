@@ -37,35 +37,49 @@ const marketingChannels = [
   },
 ];
 
+// Utility to detect mobile devices
+const isMobile = () =>
+  typeof window !== "undefined" &&
+  /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+
 export default function PoweredBySection() {
+  const mobile = typeof window !== "undefined" && isMobile();
   return (
     <section className="py-24 px-6 relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900">
       {/* Animated Stars Background */}
       <div className="absolute inset-0">
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-0.5 h-0.5 bg-white rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              opacity: [0.2, 1, 0.2],
-              scale: [0.5, 1.2, 0.5],
-            }}
-            transition={{
-              duration: 2 + Math.random() * 3,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-            }}
-          />
-        ))}
+        {mobile
+          ? null
+          : [...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-0.5 h-0.5 bg-white rounded-full"
+                style={{
+                  left: `${Math.random() * 100}%`,
+                  top: `${Math.random() * 100}%`,
+                }}
+                animate={{
+                  opacity: [0.2, 1, 0.2],
+                  scale: [0.5, 1.2, 0.5],
+                }}
+                transition={{
+                  duration: 2 + Math.random() * 3,
+                  repeat: Infinity,
+                  delay: Math.random() * 3,
+                }}
+              />
+            ))}
       </div>
 
       {/* Nebula Effects */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+      {!mobile && (
+        <>
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        </>
+      )}
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Section Header */}
@@ -143,12 +157,14 @@ export default function PoweredBySection() {
                 </defs>
 
                 {/* Glowing background around CPU */}
-                <circle cx="150" cy="150" r="60" fill="url(#cpuGlow)" />
+                {!mobile && (
+                  <circle cx="150" cy="150" r="60" fill="url(#cpuGlow)" />
+                )}
 
-                {/* Circuit lines (many, radiating to edge, glowing, animated) */}
+                {/* Circuit lines (radiating to edge, glowing, animated) */}
                 {(() => {
-                  const numCircuits = 20;
-                  const maxRadius = 140; // SVG edge
+                  const numCircuits = mobile ? 0 : 16;
+                  const maxRadius = 140;
                   const types: Array<"straight" | "elbow" | "curve"> = [
                     "straight",
                     "elbow",
@@ -158,7 +174,7 @@ export default function PoweredBySection() {
                     const angle = (2 * Math.PI * i) / numCircuits;
                     const type = types[i % types.length];
                     const r1 = 80;
-                    const r2 = maxRadius + (i % 2 === 0 ? 8 : -8); // slight variation
+                    const r2 = maxRadius + (i % 2 === 0 ? 8 : -8);
                     const cx = 150 + Math.cos(angle) * r1;
                     const cy = 150 + Math.sin(angle) * r1;
                     const ex = 150 + Math.cos(angle) * r2;
@@ -320,59 +336,61 @@ export default function PoweredBySection() {
                 </motion.g>
 
                 {/* Pulsing rings around CPU */}
-                {[1, 2, 3].map((ring) => (
-                  <motion.circle
-                    key={ring}
-                    cx="150"
-                    cy="150"
-                    r={40 + ring * 15}
-                    fill="none"
-                    stroke="#a5f3fc44"
-                    strokeWidth="1.5"
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{
-                      scale: [0, 1.2, 1],
-                      opacity: [0, 0.6, 0],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      delay: ring * 0.5 + 2,
-                      ease: "easeOut",
-                    }}
-                  />
-                ))}
+                {!mobile &&
+                  [1, 2, 3].map((ring) => (
+                    <motion.circle
+                      key={ring}
+                      cx="150"
+                      cy="150"
+                      r={40 + ring * 15}
+                      fill="none"
+                      stroke="#a5f3fc44"
+                      strokeWidth="1.5"
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{
+                        scale: [0, 1.2, 1],
+                        opacity: [0, 0.6, 0],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        delay: ring * 0.5 + 2,
+                        ease: "easeOut",
+                      }}
+                    />
+                  ))}
               </svg>
 
               {/* Data Flow Particles (glowing) */}
-              {Array.from({ length: 16 }).map((_, i) => {
-                const angle = (Math.PI * 2 * i) / 16;
-                const r2 = 210;
-                const ex = 150 + Math.cos(angle) * r2;
-                const ey = 150 + Math.sin(angle) * r2;
-                return (
-                  <motion.div
-                    key={`particle-${i}`}
-                    className="absolute w-2 h-2 rounded-full bg-cyan-400 shadow-lg"
-                    style={{
-                      left: 150,
-                      top: 150,
-                      boxShadow: "0 0 12px #a5f3fc, 0 0 24px #a78bfa",
-                    }}
-                    animate={{
-                      x: ex - 150,
-                      y: ey - 150,
-                      opacity: [0, 1, 0],
-                    }}
-                    transition={{
-                      duration: 2.5,
-                      repeat: Infinity,
-                      delay: i * 0.13 + 2.5,
-                      ease: "easeInOut",
-                    }}
-                  />
-                );
-              })}
+              {!mobile &&
+                Array.from({ length: 4 }).map((_, i) => {
+                  const angle = (Math.PI * 2 * i) / 4;
+                  const r2 = 210;
+                  const ex = 150 + Math.cos(angle) * r2;
+                  const ey = 150 + Math.sin(angle) * r2;
+                  return (
+                    <motion.div
+                      key={`particle-${i}`}
+                      className="absolute w-2 h-2 rounded-full bg-cyan-400 shadow-lg"
+                      style={{
+                        left: 150,
+                        top: 150,
+                        boxShadow: "0 0 12px #a5f3fc, 0 0 24px #a78bfa",
+                      }}
+                      animate={{
+                        x: ex - 150,
+                        y: ey - 150,
+                        opacity: [0, 1, 0],
+                      }}
+                      transition={{
+                        duration: 2.5,
+                        repeat: Infinity,
+                        delay: i * 0.13 + 2.5,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  );
+                })}
             </div>
           </div>
 
@@ -383,24 +401,26 @@ export default function PoweredBySection() {
                 key={channel.name}
                 initial={{ opacity: 0, scale: 0.8, y: 30 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
                 className="relative"
               >
                 {/* Connection node at card */}
-                <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-green-400 to-cyan-400 rounded-full border-2 border-white shadow-lg z-10">
-                  <motion.div
-                    className="absolute inset-1 bg-white rounded-full"
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.8, 1, 0.8],
-                    }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      delay: index * 0.3,
-                    }}
-                  />
-                </div>
+                {!mobile && (
+                  <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-green-400 to-cyan-400 rounded-full border-2 border-white shadow-lg z-10">
+                    <motion.div
+                      className="absolute inset-1 bg-white rounded-full"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.8, 1, 0.8],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: index * 0.3,
+                      }}
+                    />
+                  </div>
+                )}
 
                 <div
                   className={`${channel.bgColor} ${channel.borderColor} backdrop-blur-sm border-2 rounded-2xl p-6 text-center min-w-[180px] hover:scale-105 transition-all duration-300 group shadow-2xl relative z-20`}
@@ -414,18 +434,20 @@ export default function PoweredBySection() {
                   ></div>
 
                   {/* Data flow indicator */}
-                  <motion.div
-                    className={`absolute -right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-gradient-to-r ${channel.color} rounded-full`}
-                    animate={{
-                      scale: [0.5, 1, 0.5],
-                      opacity: [0.3, 1, 0.3],
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      delay: index * 0.4,
-                    }}
-                  />
+                  {!mobile && (
+                    <motion.div
+                      className={`absolute -right-2 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-gradient-to-r ${channel.color} rounded-full`}
+                      animate={{
+                        scale: [0.5, 1, 0.5],
+                        opacity: [0.3, 1, 0.3],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        delay: index * 0.4,
+                      }}
+                    />
+                  )}
                 </div>
               </motion.div>
             ))}
@@ -456,7 +478,7 @@ export default function PoweredBySection() {
                 key={metric.label}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 3 + index * 0.1 }}
+                transition={{ duration: 0.6, delay: 3 + index * 0.2 }}
                 className="text-center"
               >
                 <div className={`text-4xl font-bold ${metric.color} mb-2`}>
