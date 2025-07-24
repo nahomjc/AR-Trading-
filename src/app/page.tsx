@@ -192,7 +192,7 @@ const HeroParticles = () => {
 const HeroSection = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const opacity = useTransform(scrollY, [0, 890], [1, 0]);
   const [shine, setShine] = useState(false);
   useEffect(() => {
     setShine(true);
@@ -475,7 +475,7 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <span className="gradient-text relative inline-block">
-            Elevate Your Business
+            Let’s Build Something Great Together
             {/* Shine effect */}
             <motion.span
               className="absolute left-0 top-0 h-full w-full pointer-events-none"
@@ -504,14 +504,36 @@ const HeroSection = () => {
             />
           </span>
           <br />
+          <motion.div
+            className="flex flex-col sm:flex-row justify-center items-center gap-2 mt-4 mb-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.7 }}
+          >
+            <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
+              Tailored Solutions
+            </span>
+            <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
+              •
+            </span>
+            <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
+              Trusted Expertise
+            </span>
+            <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
+              •
+            </span>
+            <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
+              Creative Excellence
+            </span>
+          </motion.div>
           <motion.span
-            className="text-white inline-block"
+            className="text-cyan-200 text-xl sm:text-2xl font-bold inline-block mt-2"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.7 }}
+            transition={{ duration: 0.8, delay: 0.9 }}
             style={{ willChange: "transform" }}
           >
-            to Digital Excellence
+            👉Start Your Journey With Us Today
           </motion.span>
         </motion.h1>
         {/* Badge moved below headline for clarity and spacing */}
@@ -596,54 +618,44 @@ const HeroSection = () => {
 const ServicesSection = () => {
   const services = [
     {
-      title: "Digital Strategy & Consulting",
+      title: "Advertising & Printing",
       description:
-        "Comprehensive digital transformation strategies tailored to your business goals, market dynamics, and competitive landscape.",
-      icon: "🎯",
-      features: ["Market Analysis", "Strategic Planning", "Growth Roadmap"],
+        "Banners, stickers, office & vehicle branding, merchandise (via printing partners).",
+      icon: "🖨️",
     },
     {
-      title: "Brand Development & Identity",
+      title: "Digital Marketing",
       description:
-        "Build powerful brand identities that resonate with your audience and differentiate your business in the marketplace.",
-      icon: "🚀",
-      features: ["Logo Design", "Brand Guidelines", "Visual Identity"],
+        "Social media management, paid ads, SEO, strategy, influencer marketing.",
+      icon: "💻",
     },
     {
-      title: "SEO & Digital Analytics",
-      description:
-        "Data-driven SEO strategies and advanced analytics to maximize your online visibility and measure ROI effectively.",
-      icon: "📊",
-      features: ["Keyword Research", "Technical SEO", "Performance Tracking"],
+      title: "Branding & Design",
+      description: "Logo, brand identity, strategy, visual content.",
+      icon: "🎨",
     },
     {
-      title: "Social Media Marketing",
+      title: "Media Production",
       description:
-        "Engaging social media campaigns that build communities, drive meaningful interactions, and increase brand awareness.",
-      icon: "📱",
-      features: [
-        "Content Strategy",
-        "Community Management",
-        "Paid Advertising",
-      ],
+        "Videography, photography, promotional content (camera rental by schedule).",
+      icon: "🎥",
     },
     {
-      title: "Content Creation & Marketing",
+      title: "Web Development",
       description:
-        "Compelling content strategies that tell your story, engage your audience, and drive conversions across all channels.",
-      icon: "✨",
-      features: ["Content Strategy", "Creative Production", "Distribution"],
+        "Website design, development, maintenance, SEO optimization.",
+      icon: "🌐",
     },
     {
-      title: "E-commerce Solutions",
+      title: "Event Planning",
+      description: "Corporate events, launches, conferences, exhibitions.",
+      icon: "🎉",
+    },
+    {
+      title: "Training",
       description:
-        "End-to-end e-commerce platforms designed for optimal user experience, conversion optimization, and scalability.",
-      icon: "🛍️",
-      features: [
-        "Platform Development",
-        "UX/UI Design",
-        "Conversion Optimization",
-      ],
+        "Corporate, personal development, and media trainings (conducted in meeting rooms or offsite).",
+      icon: "📚",
     },
   ];
 
@@ -661,15 +673,14 @@ const ServicesSection = () => {
           viewport={{ once: true }}
         >
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
-            Our Services
+            Services & Offerings
           </span>
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-poppins mb-6 gradient-text">
-            Comprehensive Digital Solutions
+            What We Offer
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            From strategy to execution, we provide end-to-end digital marketing
-            solutions designed to elevate your business and drive sustainable
-            growth.
+            Explore our comprehensive range of services designed to elevate your
+            brand and drive results.
           </p>
         </motion.div>
 
@@ -698,20 +709,9 @@ const ServicesSection = () => {
               <h3 className="text-2xl font-semibold font-poppins mb-4 text-white">
                 {service.title}
               </h3>
-              <p className="text-gray-300 leading-relaxed mb-6">
+              <p className="text-gray-300 leading-relaxed mb-2">
                 {service.description}
               </p>
-              <div className="space-y-2">
-                {service.features.map((feature, idx) => (
-                  <div
-                    key={idx}
-                    className="flex items-center text-sm text-gray-400"
-                  >
-                    <div className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mr-3"></div>
-                    {feature}
-                  </div>
-                ))}
-              </div>
             </motion.div>
           ))}
         </div>
@@ -751,22 +751,34 @@ const WhoWeAreSection = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-3xl font-bold font-poppins mb-6 text-white">
-              Building Digital Excellence Since 2019
+              Who We Are
             </h3>
+            <h4 className="text-xl font-semibold text-blue-200 mb-4">
+              Bold Vision. Smart Execution. Real Impact.
+            </h4>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              At AR Trading PLC, we believe in the transformative power of
-              digital innovation. Since our inception, we&apos;ve been at the
-              forefront of digital marketing evolution, helping businesses
-              navigate the complex digital landscape with confidence and
-              clarity.
+              AR Trading PLC is a multi-service creative and commercial agency
+              committed to delivering advertising, branding, printing, media
+              production, and business solutions — all under one roof.
             </p>
-            <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-              Our team combines creative vision with analytical precision to
-              deliver solutions that not only meet current needs but anticipate
-              future opportunities. We&apos;re not just service providers;
-              we&apos;re strategic partners committed to your long-term success.
+            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+              We combine innovative ideas with practical execution, helping our
+              clients grow, connect, and stand out in today’s competitive world.
             </p>
-
+            <div className="mb-8">
+              <span className="inline-block text-2xl mr-2 align-middle">
+                💡
+              </span>
+              <span className="font-bold text-white text-lg align-middle">
+                Our Purpose
+              </span>
+              <p className="text-lg text-gray-300 mt-2 leading-relaxed">
+                We exist to elevate brands, simplify solutions, and deliver
+                quality with heart. Whether you’re a startup or an established
+                business, we offer tailored services that align with your goals
+                and exceed expectations.
+              </p>
+            </div>
             <div className="grid grid-cols-2 gap-6">
               <motion.div
                 className="text-center p-4 glass-dark rounded-xl"
@@ -923,9 +935,9 @@ const ContactSection = () => {
                 {
                   icon: "📧",
                   title: "Email",
-                  info: "contact@artradingplc.com",
+                  info: "artradingplc@gmail.com",
                 },
-                { icon: "📞", title: "Phone", info: "+251 911 227 098" },
+                { icon: "📞", title: "Phone", info: "0988175550" },
                 {
                   icon: "📍",
                   title: "Address",
@@ -1216,7 +1228,7 @@ const LatestWorksSection = () => {
   return (
     <section
       id="latest-works"
-      className="py-24 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-blue-950/70 via-purple-950/60 to-cyan-950/60 pb-20 md:pb-28"
+      className="py-10 sm:py-20 px-2 sm:px-4 lg:px-8 relative"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
@@ -1299,7 +1311,7 @@ const LatestWorksSection = () => {
               ).map((work: WorkItem, idx: number) => (
                 <motion.div
                   key={work.title}
-                  className="group relative rounded-2xl overflow-hidden shadow-xl bg-gradient-to-br from-blue-900/60 to-purple-900/60 border border-white/10 hover:shadow-2xl transition-all duration-300 w-full max-w-full sm:max-w-xs mx-auto p-2 sm:p-4"
+                  className="group relative rounded-2xl overflow-hidden mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl hover:shadow-2xl transition-all duration-300 w-full max-w-full sm:max-w-xs mx-auto p-2 sm:p-4"
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}

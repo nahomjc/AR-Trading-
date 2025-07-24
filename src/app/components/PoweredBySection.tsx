@@ -1,8 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
-const marketingChannels = [
+const marketingChannelsData = [
   {
     name: "Social Media",
     icon: "📱",
@@ -46,31 +47,30 @@ const isMobile = () =>
 
 export default function PoweredBySection() {
   const mobile = typeof window !== "undefined" && isMobile();
+  // Memoize marketing channels
+  const marketingChannels = useMemo(() => marketingChannelsData, []);
+  // Memoize random star positions
+  const starPositions = useMemo(
+    () =>
+      Array.from({ length: mobile ? 0 : 4 }).map(() => ({
+        left: `${Math.random() * 100}%`,
+        top: `${Math.random() * 100}%`,
+      })),
+    [mobile]
+  );
   return (
-    <section className="py-24 px-6 relative overflow-hidden bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900">
+    <section className="py-10 sm:py-20 px-2 sm:px-4 lg:px-8 relative overflow-hidden">
       {/* Animated Stars Background */}
       <div className="absolute inset-0">
-        {mobile
-          ? null
-          : [...Array(8)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-0.5 h-0.5 bg-white rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  opacity: [0.2, 1, 0.2],
-                  scale: [0.5, 1.2, 0.5],
-                }}
-                transition={{
-                  duration: 2 + Math.random() * 3,
-                  repeat: Infinity,
-                  delay: Math.random() * 3,
-                }}
-              />
-            ))}
+        {starPositions.map((pos, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-0.5 h-0.5 bg-white rounded-full"
+            style={{ left: pos.left, top: pos.top }}
+            animate={{ opacity: [0.2, 1, 0.2], scale: [0.5, 1.2, 0.5] }}
+            transition={{ duration: 3, repeat: Infinity, delay: i * 0.7 }}
+          />
+        ))}
       </div>
 
       {/* Nebula Effects */}
@@ -163,7 +163,7 @@ export default function PoweredBySection() {
 
                 {/* Circuit lines (radiating to edge, glowing, animated) */}
                 {(() => {
-                  const numCircuits = mobile ? 0 : 16;
+                  const numCircuits = mobile ? 0 : 8;
                   const maxRadius = 140;
                   const types: Array<"straight" | "elbow" | "curve"> = [
                     "straight",
