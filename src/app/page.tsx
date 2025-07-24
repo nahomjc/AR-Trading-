@@ -192,7 +192,7 @@ const HeroParticles = () => {
 const HeroSection = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 890], [1, 0]);
+  const opacity = useTransform(scrollY, [0, 970], [1, 0]);
   const [shine, setShine] = useState(false);
   useEffect(() => {
     setShine(true);
@@ -203,7 +203,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-32 sm:pt-40 pb-24 sm:pb-32"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-32 sm:pt-40 pb-40 sm:pb-56"
     >
       {/* Galaxy/Nebula Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -462,7 +462,7 @@ const HeroSection = () => {
 
       <motion.div
         className="max-w-7xl mx-auto text-center relative z-10"
-        style={{ y, opacity }}
+        style={{ y }}
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
@@ -662,7 +662,7 @@ const ServicesSection = () => {
   return (
     <section
       id="services"
-      className="py-10 sm:py-20 px-2 sm:px-4 lg:px-8 relative"
+      className="py-20 sm:py-32 px-2 sm:px-4 lg:px-8 relative"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
