@@ -231,7 +231,7 @@ export default function ChatBot() {
             className={
               (fullScreen
                 ? "w-full h-full max-w-none max-h-none rounded-none flex flex-col"
-                : "w-[420px] max-w-[98vw] h-[520px] flex flex-col rounded-3xl") +
+                : "w-full max-w-xs sm:w-[420px] sm:max-w-[98vw] h-[80vh] sm:h-[520px] flex flex-col rounded-3xl") +
               " bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-cyan-400/30 shadow-2xl backdrop-blur-xl overflow-hidden"
             }
             style={{

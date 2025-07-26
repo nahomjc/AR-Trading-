@@ -1717,6 +1717,13 @@ const CustomCursor = () => {
 
 // Main Page Component
 export default function Home() {
+  // Only show custom cursor on desktop
+  const isDesktop =
+    typeof window !== "undefined" &&
+    window.innerWidth >= 1024 &&
+    !/Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
   return (
     <div
       className="relative min-h-screen overflow-x-hidden"
@@ -1737,7 +1744,7 @@ export default function Home() {
       </main>
       <Footer />
       <ChatBot />
-      <CustomCursor />
+      {isDesktop && <CustomCursor />}
     </div>
   );
 }
