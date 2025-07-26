@@ -160,7 +160,7 @@ const Navigation = () => {
 // Animated Particle Background for Hero
 const HeroParticles = () => {
   if (typeof window !== "undefined" && isMobile()) return null;
-  const particles = Array.from({ length: 8 });
+  const particles = Array.from({ length: 4 });
   return (
     <div className="absolute inset-0 z-0 pointer-events-none">
       {particles.map((_, i) => (
