@@ -346,7 +346,7 @@ const TeamSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Our Team
           </span>
           <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
@@ -389,9 +389,9 @@ const TeamSection = () => {
                 }}
               >
                 {/* Hanging rope (lanyard) */}
-                <div className="w-2 h-14 bg-gradient-to-b from-blue-400 via-purple-400 to-blue-400 rounded-full mb-[-18px] z-20" />
+                <div className="w-2 h-14 bg-gradient-to-b from-[#C69c6c] via-[#d4a574] to-[#C69c6c] rounded-full mb-[-18px] z-20" />
                 {/* Badge with all info */}
-                <div className="relative mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-80 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4 hover:scale-105 hover:shadow-2xl hover:border-blue-300/50 hover:shadow-blue-500/20 transition-all duration-300 group">
+                <div className="relative mirror-card bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-80 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4 hover:scale-105 hover:shadow-2xl hover:border-[#C69c6c]/50 hover:shadow-[#C69c6c]/20 transition-all duration-300 group">
                   {/* Metallic ring/hole */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 flex flex-col items-center z-10">
                     <div
@@ -407,18 +407,18 @@ const TeamSection = () => {
                     className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white shadow-lg mb-2 mt-2 z-10"
                     style={{ marginTop: 8 }}
                   />
-                  <div className="w-full h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-40 mb-3" />
+                  <div className="w-full h-1 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] rounded-full opacity-40 mb-3" />
                   <h3 className="text-lg font-bold font-poppins text-white mb-1 text-center w-full px-2">
                     {member.name}
                   </h3>
                   {/* Click indicator */}
                   <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-blue-500/80 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
+                    <div className="bg-[#C69c6c]/80 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
                       <span>👆</span>
                       <span>Click</span>
                     </div>
                   </div>
-                  <div className="text-blue-200 font-medium mb-2 text-center w-full px-2">
+                  <div className="text-[#C69c6c] font-medium mb-2 text-center w-full px-2">
                     {member.role}
                   </div>
                   <p className="text-gray-200 text-sm leading-relaxed text-center w-full mt-1 mb-2">

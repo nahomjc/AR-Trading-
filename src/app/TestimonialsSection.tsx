@@ -34,7 +34,7 @@ const TestimonialsSection = () => (
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
       >
-        <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
+        <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
           Testimonials
         </span>
         <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
@@ -49,7 +49,7 @@ const TestimonialsSection = () => (
         {testimonials.map((testimonial, index) => (
           <motion.div
             key={index}
-            className="testimonial-card p-8 hover-lift"
+            className="testimonial-card p-8 hover-lift bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30"
             initial={{ opacity: 0, y: 100 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: index * 0.2 }}
@@ -70,7 +70,7 @@ const TestimonialsSection = () => (
               <h4 className="font-semibold text-white mb-1">
                 {testimonial.name}
               </h4>
-              <p className="text-blue-400 text-sm">{testimonial.role}</p>
+              <p className="text-[#C69c6c] text-sm">{testimonial.role}</p>
             </div>
           </motion.div>
         ))}

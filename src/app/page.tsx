@@ -757,8 +757,8 @@ const HeroSection = () => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium">
-              🚀 Leading Digital Marketing Solutions
+            <span className="inline-block px-6 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium">
+              🚀 Leading Digital Marketing Solutions 🇪🇹
             </span>
           </motion.div>
 
@@ -782,8 +782,8 @@ const HeroSection = () => {
           >
             <motion.a
               href="#services"
-              className="btn-primary hover-lift group"
-              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #06b6d4" }}
+              className="btn-secondary hover-lift group"
+              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #C69c6c" }}
               whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10">Explore Our Services</span>
@@ -791,7 +791,7 @@ const HeroSection = () => {
             <motion.a
               href="#contact"
               className="btn-secondary hover-lift"
-              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #a78bfa" }}
+              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #C69c6c" }}
               whileTap={{ scale: 0.95 }}
             >
               Get Started Today
@@ -885,7 +885,7 @@ const ServicesSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Services & Offerings
           </span>
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-poppins mb-6 gradient-text">
@@ -901,7 +901,7 @@ const ServicesSection = () => {
           {services.map((service, index) => (
             <motion.div
               key={index}
-              className="mirror-card p-8 hover-lift group"
+              className="mirror-card p-8 hover-lift group bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30"
               initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -947,7 +947,7 @@ const WhoWeAreSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Who We Are
           </span>
           <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
@@ -957,7 +957,7 @@ const WhoWeAreSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
-            className="mirror-card p-8 lg:p-12"
+            className="mirror-card p-8 lg:p-12 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30"
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -1023,7 +1023,7 @@ const WhoWeAreSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="mirror-card p-8 h-96 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 flex items-center justify-center">
+            <div className="mirror-card p-8 h-96 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 flex items-center justify-center">
               <div className="text-center">
                 <div className="text-8xl mb-4">👥</div>
                 <h4 className="text-2xl font-bold text-white mb-2">
@@ -1053,7 +1053,7 @@ const ContactSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Contact Us
           </span>
           <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
@@ -1124,8 +1124,12 @@ const ContactSection = () => {
               </div>
               <motion.button
                 type="submit"
-                className="w-full btn-primary"
-                whileHover={{ scale: 1.02, y: -2 }}
+                className="w-full btn-secondary"
+                whileHover={{
+                  scale: 1.02,
+                  y: -2,
+                  boxShadow: "0 0 16px #C69c6c",
+                }}
                 whileTap={{ scale: 0.98 }}
               >
                 Send Message
@@ -1166,7 +1170,7 @@ const ContactSection = () => {
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.05, x: 10 }}
                 >
-                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+                  <div className="flex-shrink-0 w-12 h-12 btn-secondary rounded-full flex items-center justify-center">
                     {contact.icon}
                   </div>
                   <div>
@@ -1186,7 +1190,7 @@ const ContactSection = () => {
                     <motion.a
                       key={index}
                       href="#"
-                      className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center"
+                      className="w-10 h-10 btn-secondary rounded-full flex items-center justify-center"
                       whileHover={{ scale: 1.2, rotate: 360 }}
                       transition={{ duration: 0.3 }}
                     >
@@ -1232,8 +1236,8 @@ const ContactSection = () => {
                 href="https://www.google.com/maps/place/Betopia+site/@9.0122241,38.7725403,119m/data=!3m1!1e3!4m6!3m5!1s0x164b851aa37d610d:0x53b55e8e74640bdf!8m2!3d9.0122241!4d38.7731438!16s%2Fg%2F11sckb3__w?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block mt-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg text-white font-medium shadow-lg hover:from-blue-700 hover:to-purple-700 transition-all backdrop-blur-md"
-                whileHover={{ scale: 1.05 }}
+                className="inline-block mt-2 px-6 py-2 btn-secondary"
+                whileHover={{ scale: 1.05, boxShadow: "0 0 16px #C69c6c" }}
                 whileTap={{ scale: 0.95 }}
               >
                 View on Google Maps
@@ -1451,7 +1455,7 @@ const LatestWorksSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-blue-600/30 to-purple-600/30 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium mb-6">
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/30 to-[#d4a574]/30 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Latest Works
           </span>
           <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-poppins mb-4 gradient-text">
@@ -1474,11 +1478,11 @@ const LatestWorksSection = () => {
                 <button
                   key={tab}
                   onClick={() => setActiveTab(tab)}
-                  className={`relative flex-shrink-0 px-2 py-1 sm:px-4 sm:py-2 rounded-full font-semibold text-xl sm:text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 whitespace-nowrap
+                  className={`relative flex-shrink-0 px-2 py-1 sm:px-4 sm:py-2 rounded-full font-semibold text-xl sm:text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#C69c6c] whitespace-nowrap
                     ${
                       activeTab === tab
-                        ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg"
-                        : "text-blue-200 hover:bg-blue-800/30"
+                        ? "btn-secondary text-white shadow-lg"
+                        : "btn-secondary text-[#C69c6c] hover:bg-[#C69c6c]/20"
                     }
                   `}
                   aria-selected={activeTab === tab}
@@ -1489,7 +1493,7 @@ const LatestWorksSection = () => {
                   {activeTab === tab && (
                     <motion.div
                       layoutId="tab-underline"
-                      className="absolute left-2 right-2 bottom-1 h-1 rounded-full bg-gradient-to-r from-blue-400 to-purple-400"
+                      className="absolute left-2 right-2 bottom-1 h-1 rounded-full bg-gradient-to-r from-[#C69c6c] to-[#d4a574]"
                       style={{ zIndex: 1 }}
                     />
                   )}
@@ -1524,7 +1528,7 @@ const LatestWorksSection = () => {
               ).map((work: WorkItem, idx: number) => (
                 <motion.div
                   key={work.title}
-                  className="group relative rounded-2xl overflow-hidden mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl hover:shadow-2xl transition-all duration-300 w-full max-w-full sm:max-w-xs mx-auto p-2 sm:p-4"
+                  className="group relative rounded-2xl overflow-hidden mirror-card bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 shadow-2xl hover:shadow-2xl transition-all duration-300 w-full max-w-full sm:max-w-xs mx-auto p-2 sm:p-4"
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}

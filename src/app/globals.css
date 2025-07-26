@@ -196,8 +196,8 @@ html {
   /* Enhanced Button Styles */
   .btn-primary {
     @apply inline-block px-8 py-4 font-semibold text-white rounded-xl;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    background: linear-gradient(135deg, #C69c6c, #d4a574);
+    box-shadow: 0 4px 15px rgba(198, 156, 108, 0.3);
     transition: all 0.3s ease;
     text-decoration: none;
     border: none;
@@ -223,24 +223,24 @@ html {
 
   .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 15px 35px rgba(198, 156, 108, 0.4);
   }
 
   .btn-secondary {
     @apply inline-block px-8 py-4 font-semibold text-white rounded-xl;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(198, 156, 108, 0.1);
     backdrop-filter: blur(10px);
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(198, 156, 108, 0.3);
     transition: all 0.3s ease;
     text-decoration: none;
     cursor: pointer;
   }
 
   .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(198, 156, 108, 0.2);
+    border-color: rgba(198, 156, 108, 0.5);
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 35px rgba(198, 156, 108, 0.2);
   }
 
   /* Professional Stats Counter */
