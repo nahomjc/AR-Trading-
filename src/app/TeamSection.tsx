@@ -1,6 +1,20 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import React from "react";
+import Image from "next/image";
+
+// Team member interface
+interface TeamMember {
+  name: string;
+  role: string;
+  image: string;
+  description: string;
+  socials: {
+    linkedin: string;
+    twitter: string;
+    facebook: string;
+  };
+}
 
 // Typewriter effect component
 const TypewriterText = ({
@@ -34,12 +48,10 @@ const TeamModal = ({
   member,
   isOpen,
   onClose,
-  setHoveredMember,
 }: {
-  member: any;
+  member: TeamMember | null;
   isOpen: boolean;
   onClose: () => void;
-  setHoveredMember: (member: any) => void;
 }) => {
   const socialIcons = {
     linkedin: (
@@ -89,7 +101,7 @@ const TeamModal = ({
 
   return (
     <AnimatePresence>
-      {isOpen && (
+      {isOpen && member && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -121,9 +133,11 @@ const TeamModal = ({
             <div className="relative p-8 pb-0">
               <div className="flex items-center space-x-6">
                 <div className="relative">
-                  <img
+                  <Image
                     src={member.image}
                     alt={member.name}
+                    width={96}
+                    height={96}
                     className="w-24 h-24 rounded-full object-cover border-4 border-white/20 shadow-xl"
                   />
                   <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
@@ -144,7 +158,7 @@ const TeamModal = ({
                     {Object.entries(member.socials).map(([key, url]) => (
                       <a
                         key={key}
-                        href={url as string}
+                        href={url}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
@@ -237,9 +251,9 @@ const getExpertiseByRole = (role: string) => {
 };
 
 const TeamSection = () => {
-  const [hoveredMember, setHoveredMember] = useState<any>(null);
+  const [hoveredMember, setHoveredMember] = useState<TeamMember | null>(null);
 
-  const team = [
+  const team: TeamMember[] = [
     {
       name: "Abenezer Samuel",
       role: "General Manager",
@@ -436,7 +450,6 @@ const TeamSection = () => {
           member={hoveredMember}
           isOpen={!!hoveredMember}
           onClose={() => setHoveredMember(null)}
-          setHoveredMember={setHoveredMember}
         />
       </div>
     </section>
