@@ -208,13 +208,13 @@ const HeroSection = () => {
       {/* Galaxy/Nebula Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         {/* Spaceship Animation */}
-        {!isMobile() && showShip && (
+        {showShip && (
           <motion.div
             initial={{ x: "-20vw", y: "20vh", rotate: -15, opacity: 0 }}
             animate={{ x: "120vw", y: "-5vh", rotate: 10, opacity: 1 }}
             transition={{ duration: 12, ease: "easeInOut" }}
             onAnimationComplete={() => setShowShip(false)}
-            className="absolute left-0 top-0 flex flex-col items-center w-[28rem] h-[28rem] z-20"
+            className="absolute left-0 top-0 flex flex-col items-center w-[16rem] h-[16rem] sm:w-[20rem] sm:h-[20rem] md:w-[24rem] md:h-[24rem] lg:w-[28rem] lg:h-[28rem] z-20"
             style={{ pointerEvents: "none" }}
           >
             {/* Highly Realistic SVG Rocket with Animated Flame */}
