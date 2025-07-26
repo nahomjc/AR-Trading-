@@ -3,69 +3,39 @@ import { motion } from "framer-motion";
 const TeamSection = () => {
   const team = [
     {
-      name: "Sarah Johnson",
-      role: "CEO & Founder",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
-      description: "Strategic visionary with 10+ years in digital marketing",
+      name: "Abenezer Samuel",
+      role: "General Manager",
+      image: "/img/image1.jpg",
+      description:
+        "Experienced leader overseeing operations and strategic direction",
       socials: {
-        linkedin: "https://linkedin.com/in/sarahjohnson",
-        twitter: "https://twitter.com/sarahjohnson",
-        facebook: "https://facebook.com/sarahjohnson",
+        linkedin: "https://linkedin.com/in/abenezersamuel",
+        twitter: "https://twitter.com/abenezersamuel",
+        facebook: "https://facebook.com/abenezersamuel",
       },
     },
     {
-      name: "Michael Chen",
-      role: "Creative Director",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
-      description: "Award-winning designer specializing in brand identity",
+      name: "Keneni Melkamu",
+      role: "Digital Marketer",
+      image: "/img/image2.jpg",
+      description:
+        "Expert in digital campaigns, SEO, and social media marketing",
       socials: {
-        linkedin: "https://linkedin.com/in/michaelchen",
-        twitter: "https://twitter.com/michaelchen",
-        facebook: "https://facebook.com/michaelchen",
+        linkedin: "https://linkedin.com/in/kenenimelkamu",
+        twitter: "https://twitter.com/kenenimelkamu",
+        facebook: "https://facebook.com/kenenimelkamu",
       },
     },
     {
-      name: "Emily Rodriguez",
-      role: "Head of Strategy",
-      image: "https://randomuser.me/api/portraits/women/68.jpg",
-      description: "Data-driven strategist focused on measurable results",
+      name: "Nahom Tesfaye",
+      role: "Senior Software Engineer",
+      image: "/img/image3.jpg",
+      description:
+        "Full-stack developer specializing in modern web technologies",
       socials: {
-        linkedin: "https://linkedin.com/in/emilyrodriguez",
-        twitter: "https://twitter.com/emilyrodriguez",
-        facebook: "https://facebook.com/emilyrodriguez",
-      },
-    },
-    {
-      name: "David Kim",
-      role: "Technical Lead",
-      image: "https://randomuser.me/api/portraits/men/65.jpg",
-      description: "Full-stack developer with expertise in modern frameworks",
-      socials: {
-        linkedin: "https://linkedin.com/in/davidkim",
-        twitter: "https://twitter.com/davidkim",
-        facebook: "https://facebook.com/davidkim",
-      },
-    },
-    {
-      name: "Lisa Thompson",
-      role: "Content Manager",
-      image: "https://randomuser.me/api/portraits/women/12.jpg",
-      description: "Storyteller who crafts compelling brand narratives",
-      socials: {
-        linkedin: "https://linkedin.com/in/lisathompson",
-        twitter: "https://twitter.com/lisathompson",
-        facebook: "https://facebook.com/lisathompson",
-      },
-    },
-    {
-      name: "James Wilson",
-      role: "SEO Specialist",
-      image: "https://randomuser.me/api/portraits/men/23.jpg",
-      description: "Analytics expert optimizing for search excellence",
-      socials: {
-        linkedin: "https://linkedin.com/in/jameswilson",
-        twitter: "https://twitter.com/jameswilson",
-        facebook: "https://facebook.com/jameswilson",
+        linkedin: "https://linkedin.com/in/nahomtesfaye",
+        twitter: "https://twitter.com/nahomtesfaye",
+        facebook: "https://facebook.com/nahomtesfaye",
       },
     },
   ];
@@ -167,7 +137,7 @@ const TeamSection = () => {
                 {/* Hanging rope (lanyard) */}
                 <div className="w-2 h-14 bg-gradient-to-b from-blue-400 via-purple-400 to-blue-400 rounded-full mb-[-18px] z-20" />
                 {/* Badge with all info */}
-                <div className="relative mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-64 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4">
+                <div className="relative mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-72 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4">
                   {/* Metallic ring/hole */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 flex flex-col items-center z-10">
                     <div
@@ -184,10 +154,10 @@ const TeamSection = () => {
                     style={{ marginTop: 8 }}
                   />
                   <div className="w-full h-1 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full opacity-40 mb-3" />
-                  <h3 className="text-lg font-bold font-poppins text-white mb-1 text-center w-full truncate">
+                  <h3 className="text-lg font-bold font-poppins text-white mb-1 text-center w-full px-2">
                     {member.name}
                   </h3>
-                  <div className="text-blue-200 font-medium mb-2 text-center w-full truncate">
+                  <div className="text-blue-200 font-medium mb-2 text-center w-full px-2">
                     {member.role}
                   </div>
                   <p className="text-gray-200 text-sm leading-relaxed text-center w-full mt-1 mb-2">
