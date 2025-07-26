@@ -190,6 +190,60 @@ const HeroParticles = () => {
   );
 };
 
+// --- Optimized Floating 3D Object ---
+const Floating3DTriangle = () => {
+  if (typeof window !== "undefined" && isMobile()) return null;
+  return (
+    <motion.div
+      className="absolute left-1/2 top-1/4 -translate-x-1/2 z-0 pointer-events-none"
+      initial={{ rotate: 0, scale: 0.8, opacity: 0 }}
+      animate={{ rotate: 360, scale: 1, opacity: 0.7 }}
+      transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
+      style={{ filter: "drop-shadow(0 0 32px #38bdf8)" }}
+    >
+      <svg
+        width="120"
+        height="120"
+        viewBox="0 0 120 120"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g filter="url(#glow3d)">
+          <polygon points="60,10 110,110 10,110" fill="url(#grad3d)" />
+        </g>
+        <defs>
+          <linearGradient
+            id="grad3d"
+            x1="10"
+            y1="110"
+            x2="110"
+            y2="10"
+            gradientUnits="userSpaceOnUse"
+          >
+            <stop stopColor="#38bdf8" />
+            <stop offset="0.5" stopColor="#a78bfa" />
+            <stop offset="1" stopColor="#fbbf24" />
+          </linearGradient>
+          <filter
+            id="glow3d"
+            x="-20"
+            y="-20"
+            width="160"
+            height="160"
+            filterUnits="userSpaceOnUse"
+          >
+            <feGaussianBlur stdDeviation="12" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+      </svg>
+    </motion.div>
+  );
+};
+
 // Enhanced Hero Section
 // --- 3D Tilt Component ---
 const Hero3DTilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -285,6 +339,61 @@ const Hero3DTilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </defs>
         </svg>
       </motion.div>
+      {/* Second floating 3D shape */}
+      <motion.div
+        className="absolute -bottom-12 -left-12 sm:-bottom-16 sm:-left-16 z-10"
+        initial={{ rotate: 0, scale: 0.8 }}
+        animate={{
+          rotate: -360,
+          scale: [0.8, 1.2, 0.8],
+          y: [0, -20, 0],
+        }}
+        transition={{
+          rotate: { repeat: Infinity, duration: 25, ease: "linear" },
+          scale: { repeat: Infinity, duration: 4, ease: "easeInOut" },
+          y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
+        }}
+        style={{ filter: "drop-shadow(0 0 24px #a78bfa)" }}
+      >
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 80 80"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g filter="url(#glow3d2)">
+            <circle cx="40" cy="40" r="35" fill="url(#grad3d2)" />
+          </g>
+          <defs>
+            <radialGradient
+              id="grad3d2"
+              cx="0.3"
+              cy="0.3"
+              r="0.7"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#a78bfa" />
+              <stop offset="0.5" stopColor="#fbbf24" />
+              <stop offset="1" stopColor="#38bdf8" />
+            </radialGradient>
+            <filter
+              id="glow3d2"
+              x="-10"
+              y="-10"
+              width="100"
+              height="100"
+              filterUnits="userSpaceOnUse"
+            >
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
+      </motion.div>
     </motion.div>
   );
 };
@@ -308,6 +417,8 @@ const HeroSection = () => {
     >
       {/* Galaxy/Nebula Background */}
       <div className="absolute inset-0 z-0 pointer-events-none">
+        {/* Optimized 3D Element */}
+        <Floating3DTriangle />
         {/* Spaceship Animation */}
         {showShip && (
           <motion.div
