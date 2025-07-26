@@ -310,9 +310,9 @@ export default function ChatBot() {
             <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 bg-transparent scrollbar-thin scrollbar-thumb-cyan-700/40 scrollbar-track-transparent">
               {/* Friendly intro */}
               {messages.length === 1 && (
-                <div className="flex items-center gap-2 text-cyan-200 text-sm mb-2">
-                  {BOT_AVATAR}
-                  <span>
+                <div className="flex gap-2 text-cyan-200 text-sm mb-2 items-start">
+                  <div className="pt-1">{BOT_AVATAR}</div>
+                  <span className="leading-5 pt-0.5">
                     I can answer questions about our services, team, contact
                     info, and more. Try the quick questions below or ask
                     anything!
