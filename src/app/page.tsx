@@ -1151,25 +1151,25 @@ const tabIcons: Record<TabName, string> = {
 const latestWorks: Record<TabName, WorkItem[]> = {
   "Web Development": [
     {
-      title: "Ethiopian Airlines Portal",
-      desc: "A robust booking and management platform for Africa's largest airline.",
+      title: "Enterprise Resource Planning (ERP)",
+      desc: "Comprehensive business management system for resource planning and operations.",
       image:
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Airlines",
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+      client: "Corporate Clients",
     },
     {
-      title: "Startup Launchpad",
-      desc: "Modern landing page and dashboard for a fintech startup.",
+      title: "Learning Management System (LMS)",
+      desc: "Advanced educational platform for online learning and course management.",
       image:
-        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
-      client: "Fintech Startup",
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+      client: "Educational Institutions",
     },
     {
-      title: "Government e-Services",
-      desc: "Secure web portal for public service delivery.",
+      title: "Customer Relationship Management (CRM)",
+      desc: "Integrated system for managing customer interactions and business relationships.",
       image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80",
-      client: "Gov. Agency",
+        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
+      client: "Business Organizations",
     },
   ],
   "Digital Marketing": [
