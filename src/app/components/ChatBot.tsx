@@ -147,19 +147,18 @@ export default function ChatBot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 80, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="w-80 max-w-[95vw] h-[440px] flex flex-col bg-gradient-to-br from-blue-950/90 via-cyan-900/90 to-purple-950/90 rounded-3xl shadow-2xl border border-cyan-400/20 backdrop-blur-xl overflow-hidden glassy-chatbot"
+            className="w-80 max-w-[95vw] h-[440px] flex flex-col bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-cyan-400/30 rounded-3xl shadow-2xl backdrop-blur-xl overflow-hidden"
             style={{
               boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-              border: "1.5px solid rgba(0,255,255,0.12)",
             }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-800/80 via-cyan-800/80 to-purple-800/80 border-b border-cyan-400/10 backdrop-blur-md">
+            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-br from-blue-800/20 via-purple-800/20 to-cyan-800/20 border-b border-cyan-400/30 backdrop-blur-md">
               <div className="flex items-center gap-2">
                 <span className="text-lg font-bold text-cyan-200 tracking-wide drop-shadow">
                   AR ChatBot
                 </span>
-                <span className="ml-2 text-xs text-cyan-200 bg-cyan-800/30 px-2 py-0.5 rounded-full animate-pulse">
+                <span className="ml-2 text-xs text-cyan-200 bg-cyan-800/20 px-2 py-0.5 rounded-full animate-pulse">
                   ● Online
                 </span>
               </div>
@@ -185,10 +184,10 @@ export default function ChatBot() {
                 >
                   {msg.from === "bot" && BOT_AVATAR}
                   <div
-                    className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow-lg backdrop-blur-md border border-cyan-400/10 ${
+                    className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow-lg backdrop-blur-md border border-cyan-400/20 ${
                       msg.from === "bot"
-                        ? "bg-gradient-to-br from-blue-900/80 via-cyan-900/80 to-purple-900/80 text-cyan-100 ml-2"
-                        : "bg-gradient-to-br from-cyan-600/90 to-blue-700/90 text-white mr-2"
+                        ? "bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 text-white ml-2"
+                        : "bg-gradient-to-br from-cyan-600/60 to-blue-700/60 text-white mr-2"
                     }`}
                   >
                     {msg.text}
@@ -205,10 +204,10 @@ export default function ChatBot() {
               <div ref={messagesEndRef} />
             </div>
             {/* Input */}
-            <div className="px-3 py-3 bg-gradient-to-r from-blue-900/80 via-cyan-900/80 to-purple-900/80 border-t border-cyan-400/10 flex items-center gap-2 backdrop-blur-md overflow-x-hidden">
+            <div className="px-3 py-3 bg-gradient-to-br from-blue-800/20 via-purple-800/20 to-cyan-800/20 border-t border-cyan-400/30 flex items-center gap-2 backdrop-blur-md">
               <input
                 type="text"
-                className="flex-1 min-w-0 px-3 py-2 rounded-xl bg-blue-950/60 text-cyan-100 placeholder-cyan-400 border-none outline-none focus:ring-2 focus:ring-cyan-400/60 text-sm shadow-inner backdrop-blur-md"
+                className="flex-1 min-w-0 px-3 py-2 rounded-xl bg-blue-900/10 text-white placeholder-cyan-400 border border-cyan-400/30 outline-none focus:ring-2 focus:ring-cyan-400/60 text-sm shadow-inner backdrop-blur-md"
                 placeholder="Type your message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -218,7 +217,7 @@ export default function ChatBot() {
                 autoComplete="off"
               />
               <motion.button
-                className="shrink-0 bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-xl px-4 py-2 font-semibold shadow-lg hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-cyan-400/60 border border-cyan-400/20"
+                className="shrink-0 bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-xl px-4 py-2 font-semibold shadow-lg hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-cyan-400/60 border border-cyan-400/30"
                 onClick={handleSend}
                 disabled={!input.trim() || botTyping}
                 aria-label="Send message"
