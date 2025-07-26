@@ -26,8 +26,50 @@ function TypingIndicator() {
   );
 }
 
+// Website info context
+const websiteInfo = {
+  about: `AR Trading PLC is a multi-service creative and commercial agency committed to delivering advertising, branding, printing, media production, and business solutions — all under one roof. We combine innovative ideas with practical execution, helping our clients grow, connect, and stand out in today’s competitive world.`,
+  services: [
+    "Advertising & Printing: Banners, stickers, office & vehicle branding, merchandise",
+    "Digital Marketing: Social media management, paid ads, SEO, strategy, influencer marketing",
+    "Branding & Design: Logo, brand identity, strategy, visual content",
+    "Media Production: Videography, photography, promotional content",
+    "Web Development: Website design, development, maintenance, SEO optimization",
+    "Event Planning: Corporate events, launches, conferences, exhibitions",
+    "Training: Corporate, personal development, and media trainings (meeting rooms or offsite)",
+  ],
+  stats: [
+    "500+ Projects Completed",
+    "98% Client Satisfaction",
+    "150+ Happy Clients",
+    "5+ Years Experience",
+  ],
+  contact: {
+    email: "artradingplc@gmail.com",
+    phone: "0988175550",
+    address: "3rd floor, Bass Addis Bldg. Bole, Addis Ababa, Ethiopia",
+  },
+  clients:
+    "Our customer base ranges from small startups to big governmental firms.",
+  mission:
+    "We exist to elevate brands, simplify solutions, and deliver quality with heart.",
+  team: "Our team includes experts in strategy, design, development, and marketing, dedicated to delivering digital excellence.",
+  testimonials:
+    "Our clients praise us for our professionalism, creativity, and results. Check the Testimonials section on our website for more!",
+};
+
+const FAQS = [
+  { q: "What services do you offer?" },
+  { q: "Where are you located?" },
+  { q: "How can I contact you?" },
+  { q: "Tell me about AR Trading PLC." },
+  { q: "Who are your clients?" },
+  { q: "What is your mission?" },
+];
+
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false);
   const [messages, setMessages] = useState([
     { from: "bot", text: "Hello! How can I help you today?" },
   ]);
@@ -36,10 +78,10 @@ export default function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (open && messagesEndRef.current) {
+    if ((open || fullScreen) && messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages, open, botTyping]);
+  }, [messages, open, botTyping, fullScreen]);
 
   const handleSend = () => {
     if (!input.trim() || botTyping) return;
@@ -64,69 +106,108 @@ export default function ChatBot() {
   };
 
   function getBotResponse(userInput: string) {
-    // Expanded demo logic for AR Trading PLC
     const lower = userInput.toLowerCase();
-    if (lower.includes("hello") || lower.includes("hi"))
-      return "Hi there! 👋 How can I assist you today?";
-    if (lower.includes("service"))
-      return "We offer web development, digital marketing, and branding services to help your business grow.";
-    if (lower.includes("about") || lower.includes("what is ar trading"))
-      return "AR Trading PLC is a leading digital marketing and technology solutions provider, serving clients from startups to large government firms.";
+    // About/company
+    if (
+      lower.includes("about") ||
+      lower.includes("what is ar trading") ||
+      lower.includes("company")
+    )
+      return websiteInfo.about;
+    // Services
+    if (
+      lower.includes("service") ||
+      lower.includes("offer") ||
+      lower.includes("do you do") ||
+      lower.includes("provide")
+    )
+      return `We offer the following services:\n- ${websiteInfo.services.join(
+        "\n- "
+      )}`;
+    // Location
     if (
       lower.includes("location") ||
       lower.includes("where are you") ||
       lower.includes("address")
     )
-      return "We are located at 3rd floor, Bass Addis Bldg. Bole, Addis Ababa, Ethiopia.";
+      return `Our address is: ${websiteInfo.contact.address}`;
+    // Contact
     if (
       lower.includes("contact") ||
       lower.includes("email") ||
-      lower.includes("phone")
+      lower.includes("phone") ||
+      lower.includes("call")
     )
-      return "You can contact us at contact@artradingplc.com or call +251 911 227 098.";
+      return `You can contact us at ${websiteInfo.contact.email} or call ${websiteInfo.contact.phone}.`;
+    // Mission/vision
     if (
       lower.includes("mission") ||
       lower.includes("vision") ||
       lower.includes("goal")
     )
-      return "Our mission is to transform businesses through innovative digital marketing and technology solutions.";
+      return websiteInfo.mission;
+    // Clients
     if (
       lower.includes("client") ||
       lower.includes("customer base") ||
-      lower.includes("who do you work with")
+      lower.includes("who do you work with") ||
+      lower.includes("who are your clients")
     )
-      return "Our customer base ranges from small startups to big governmental firms, including Ethiopian Airlines, Haile Hospitality Group, and more.";
+      return websiteInfo.clients;
+    // Team
     if (
       lower.includes("team") ||
       lower.includes("who works") ||
       lower.includes("staff")
     )
-      return "Our team includes experts in strategy, design, development, and marketing, dedicated to delivering digital excellence.";
+      return websiteInfo.team;
+    // Testimonials
     if (
       lower.includes("testimonial") ||
       lower.includes("review") ||
       lower.includes("feedback")
     )
-      return "Our clients praise us for our professionalism, creativity, and results. Check the Testimonials section on our website for more!";
+      return websiteInfo.testimonials;
+    // Stats
+    if (
+      lower.includes("stat") ||
+      lower.includes("project") ||
+      lower.includes("satisfaction") ||
+      lower.includes("experience") ||
+      lower.includes("happy client")
+    )
+      return `Here are some of our stats:\n- ${websiteInfo.stats.join("\n- ")}`;
+    // Greetings
+    if (lower.includes("hello") || lower.includes("hi"))
+      return "Hi there! 👋 How can I assist you today?";
+    // Goodbye
     if (lower.includes("bye") || lower.includes("goodbye"))
       return "Goodbye! Have a great day!";
+    // Fallback
     return "Thank you for your message! If you have questions about AR Trading PLC, our services, or how we can help your business, just ask! (This is a demo bot.)";
   }
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div
+      className={
+        fullScreen
+          ? "fixed inset-0 z-[100] flex items-center justify-center bg-black/40"
+          : "fixed bottom-6 right-6 z-50"
+      }
+    >
       {/* Floating Button */}
       <AnimatePresence>
-        {!open && (
+        {!open && !fullScreen && (
           <motion.button
             key="chatbot-btn"
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className="bg-gradient-to-br from-cyan-400 via-blue-600 to-purple-600 text-white rounded-full shadow-2xl w-16 h-16 flex items-center justify-center text-3xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-cyan-400/40 border-2 border-cyan-400/30 animate-pulse"
+            className="bg-gradient-to-br from-cyan-400 via-blue-600 to-purple-600 text-white rounded-full shadow-2xl w-16 h-16 flex items-center justify-center text-3xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-cyan-400/40 border-2 border-cyan-400/30 animate-pulse cursor-pointer"
             aria-label="Open chat bot"
             onClick={() => setOpen(true)}
+            style={{ cursor: "pointer" }}
           >
             <motion.span
               initial={{ rotate: 0 }}
@@ -140,16 +221,23 @@ export default function ChatBot() {
       </AnimatePresence>
       {/* Chat Window */}
       <AnimatePresence>
-        {open && (
+        {(open || fullScreen) && (
           <motion.div
             key="chatbot-window"
             initial={{ opacity: 0, y: 80, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 80, scale: 0.95 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="w-80 max-w-[95vw] h-[440px] flex flex-col bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-cyan-400/30 rounded-3xl shadow-2xl backdrop-blur-xl overflow-hidden"
+            className={
+              (fullScreen
+                ? "w-full h-full max-w-none max-h-none rounded-none flex flex-col"
+                : "w-[420px] max-w-[98vw] h-[520px] flex flex-col rounded-3xl") +
+              " bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-cyan-400/30 shadow-2xl backdrop-blur-xl overflow-hidden"
+            }
             style={{
-              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+              boxShadow: fullScreen
+                ? "0 0 0 9999px rgba(31,38,135,0.15)"
+                : "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
             }}
           >
             {/* Header */}
@@ -162,16 +250,75 @@ export default function ChatBot() {
                   ● Online
                 </span>
               </div>
-              <button
-                className="text-cyan-300 hover:text-white text-2xl focus:outline-none transition-colors"
-                aria-label="Close chat bot"
-                onClick={() => setOpen(false)}
-              >
-                ×
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  className="text-cyan-300 hover:text-white text-xl focus:outline-none transition-colors cursor-pointer"
+                  aria-label={
+                    fullScreen ? "Minimize chat bot" : "Full screen chat bot"
+                  }
+                  onClick={() => setFullScreen((v) => !v)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {fullScreen ? (
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M15 3h6v6" />
+                      <path d="M9 21H3v-6" />
+                      <path d="M21 3l-7.5 7.5" />
+                      <path d="M3 21l7.5-7.5" />
+                    </svg>
+                  ) : (
+                    <svg
+                      width="22"
+                      height="22"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M8 3H3v5" />
+                      <path d="M16 21h5v-5" />
+                      <path d="M3 3l7.5 7.5" />
+                      <path d="M21 21l-7.5-7.5" />
+                    </svg>
+                  )}
+                </button>
+                <button
+                  className="text-cyan-300 hover:text-white text-2xl focus:outline-none transition-colors cursor-pointer"
+                  aria-label="Close chat bot"
+                  onClick={() => {
+                    setOpen(false);
+                    setFullScreen(false);
+                  }}
+                  style={{ cursor: "pointer" }}
+                >
+                  ×
+                </button>
+              </div>
             </div>
             {/* Messages */}
             <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 bg-transparent scrollbar-thin scrollbar-thumb-cyan-700/40 scrollbar-track-transparent">
+              {/* Friendly intro */}
+              {messages.length === 1 && (
+                <div className="flex items-center gap-2 text-cyan-200 text-sm mb-2">
+                  {BOT_AVATAR}
+                  <span>
+                    I can answer questions about our services, team, contact
+                    info, and more. Try the quick questions below or ask
+                    anything!
+                  </span>
+                </div>
+              )}
               {messages.map((msg, idx) => (
                 <motion.div
                   key={idx}
@@ -189,6 +336,7 @@ export default function ChatBot() {
                         ? "bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 text-white ml-2"
                         : "bg-gradient-to-br from-cyan-600/60 to-blue-700/60 text-white mr-2"
                     }`}
+                    style={{ cursor: "default" }}
                   >
                     {msg.text}
                   </div>
@@ -203,6 +351,23 @@ export default function ChatBot() {
               )}
               <div ref={messagesEndRef} />
             </div>
+            {/* FAQ Quick Buttons above Input */}
+            <div className="flex flex-wrap gap-2 px-4 py-3 bg-transparent border-t border-cyan-400/10">
+              {FAQS.map((faq, i) => (
+                <button
+                  key={i}
+                  className="bg-gradient-to-br from-cyan-700/20 to-blue-700/20 text-cyan-200 text-xs px-3 py-1 rounded-full border border-cyan-400/20 hover:bg-cyan-700/30 transition-colors cursor-pointer"
+                  onClick={() => {
+                    setInput(faq.q);
+                    setTimeout(handleSend, 100);
+                  }}
+                  disabled={botTyping}
+                  style={{ cursor: botTyping ? "not-allowed" : "pointer" }}
+                >
+                  {faq.q}
+                </button>
+              ))}
+            </div>
             {/* Input */}
             <div className="px-3 py-3 bg-gradient-to-br from-blue-800/20 via-purple-800/20 to-cyan-800/20 border-t border-cyan-400/30 flex items-center gap-2 backdrop-blur-md">
               <input
@@ -215,14 +380,19 @@ export default function ChatBot() {
                 aria-label="Type your message"
                 disabled={botTyping}
                 autoComplete="off"
+                style={{ cursor: botTyping ? "not-allowed" : "text" }}
               />
               <motion.button
-                className="shrink-0 bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-xl px-4 py-2 font-semibold shadow-lg hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-cyan-400/60 border border-cyan-400/30"
+                className="shrink-0 bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-xl px-4 py-2 font-semibold shadow-lg hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-cyan-400/60 border border-cyan-400/30 cursor-pointer"
                 onClick={handleSend}
                 disabled={!input.trim() || botTyping}
                 aria-label="Send message"
                 whileTap={{ scale: 0.95 }}
                 whileHover={{ scale: !input.trim() || botTyping ? 1 : 1.1 }}
+                style={{
+                  cursor:
+                    !input.trim() || botTyping ? "not-allowed" : "pointer",
+                }}
               >
                 <span className="flex items-center gap-1">
                   <svg
