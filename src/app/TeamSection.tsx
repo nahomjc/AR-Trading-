@@ -7,7 +7,7 @@ const TeamSection = () => {
       role: "General Manager",
       image: "/img/image1.jpg",
       description:
-        "Experienced leader overseeing operations and strategic direction",
+        "Strategic leader managing operations and business direction",
       socials: {
         linkedin: "https://linkedin.com/in/abenezersamuel",
         twitter: "https://twitter.com/abenezersamuel",
@@ -18,8 +18,7 @@ const TeamSection = () => {
       name: "Keneni Melkamu",
       role: "Digital Marketer",
       image: "/img/image2.jpg",
-      description:
-        "Expert in digital campaigns, SEO, and social media marketing",
+      description: "Digital marketing expert specializing in campaigns and SEO",
       socials: {
         linkedin: "https://linkedin.com/in/kenenimelkamu",
         twitter: "https://twitter.com/kenenimelkamu",
@@ -30,8 +29,7 @@ const TeamSection = () => {
       name: "Nahom Tesfaye",
       role: "Senior Software Engineer",
       image: "/img/image3.jpg",
-      description:
-        "Full-stack developer specializing in modern web technologies",
+      description: "Full-stack developer with modern web technology expertise",
       socials: {
         linkedin: "https://linkedin.com/in/nahomtesfaye",
         twitter: "https://twitter.com/nahomtesfaye",
@@ -137,7 +135,7 @@ const TeamSection = () => {
                 {/* Hanging rope (lanyard) */}
                 <div className="w-2 h-14 bg-gradient-to-b from-blue-400 via-purple-400 to-blue-400 rounded-full mb-[-18px] z-20" />
                 {/* Badge with all info */}
-                <div className="relative mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-72 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4">
+                <div className="relative mirror-card bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border border-blue-400/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-80 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4">
                   {/* Metallic ring/hole */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 flex flex-col items-center z-10">
                     <div
@@ -164,7 +162,7 @@ const TeamSection = () => {
                     {member.description}
                   </p>
                   {/* Social icons */}
-                  <div className="flex justify-center gap-4 mt-auto pt-2">
+                  <div className="flex justify-center gap-4 mt-auto pt-2 pb-2">
                     {Object.entries(member.socials).map(([key, url]) => (
                       <a
                         key={key}
