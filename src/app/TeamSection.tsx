@@ -118,7 +118,7 @@ const TeamModal = ({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.8, opacity: 0, y: 50 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative bg-gradient-to-br from-blue-900/95 via-purple-900/95 to-cyan-900/95 backdrop-blur-xl border border-blue-400/30 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+            className="relative bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 backdrop-blur-xl border border-[#C69c6c]/30 rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
@@ -415,7 +415,7 @@ const TeamSection = () => {
                     className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white shadow-lg mb-2 mt-2 z-10"
                     style={{ marginTop: 8 }}
                   />
-                  <div className="w-full h-1 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] rounded-full opacity-40 mb-3" />
+                  <div className="w-full h-1 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] rounded-full opacity-60 mb-3 z-10 relative" />
                   <h3 className="text-lg font-bold font-poppins text-white mb-1 text-center w-full px-2">
                     {member.name}
                   </h3>
