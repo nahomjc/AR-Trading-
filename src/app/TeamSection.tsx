@@ -391,7 +391,15 @@ const TeamSection = () => {
                 {/* Hanging rope (lanyard) */}
                 <div className="w-2 h-14 bg-gradient-to-b from-[#C69c6c] via-[#d4a574] to-[#C69c6c] rounded-full mb-[-18px] z-20" />
                 {/* Badge with all info */}
-                <div className="relative mirror-card bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-80 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4 hover:scale-105 hover:shadow-2xl hover:border-[#C69c6c]/50 hover:shadow-[#C69c6c]/20 transition-all duration-300 group">
+                <div
+                  className={`relative mirror-card bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-80 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4 hover:scale-105 hover:shadow-2xl hover:border-[#C69c6c]/50 hover:shadow-[#C69c6c]/20 transition-all duration-300 group ${
+                    member.name === "Nahom Tesfaye" ||
+                    member.name === "Abenezer Samuel" ||
+                    member.name === "Keneni Melkamu"
+                      ? "border-t-4 border-t-[#C69c6c]"
+                      : ""
+                  }`}
+                >
                   {/* Metallic ring/hole */}
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 flex flex-col items-center z-10">
                     <div
