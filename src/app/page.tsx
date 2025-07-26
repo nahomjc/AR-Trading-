@@ -9,6 +9,8 @@ import ChatBot from "./components/ChatBot";
 import IntroLoader from "./components/IntroLoader";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { useRef } from "react";
+import { useMotionValue, useSpring } from "framer-motion";
 
 // Utility to detect mobile devices
 const isMobile = () =>
@@ -189,6 +191,105 @@ const HeroParticles = () => {
 };
 
 // Enhanced Hero Section
+// --- 3D Tilt Component ---
+const Hero3DTilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const rotateX = useSpring(y, { stiffness: 200, damping: 20 });
+  const rotateY = useSpring(x, { stiffness: 200, damping: 20 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    const px = e.clientX - rect.left;
+    const py = e.clientY - rect.top;
+    const dx = px - rect.width / 2;
+    const dy = py - rect.height / 2;
+    // Max tilt: 18deg
+    x.set((dx / (rect.width / 2)) * 18);
+    y.set((-dy / (rect.height / 2)) * 18);
+  };
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+  return (
+    <motion.div
+      ref={ref}
+      style={{
+        perspective: 1200,
+        transformStyle: "preserve-3d",
+        willChange: "transform",
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative z-20"
+    >
+      <motion.div
+        style={{
+          rotateX,
+          rotateY,
+          boxShadow: "0 8px 40px 0 #06b6d4a0, 0 1.5px 8px #0002",
+          transformStyle: "preserve-3d",
+        }}
+        className="rounded-3xl bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 p-2 sm:p-6 shadow-2xl"
+      >
+        {children}
+      </motion.div>
+      {/* Floating 3D SVG shape */}
+      <motion.div
+        className="absolute -top-16 -right-16 sm:-top-24 sm:-right-24 z-10"
+        initial={{ rotate: 0 }}
+        animate={{ rotate: 360 }}
+        transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
+        style={{ filter: "drop-shadow(0 0 32px #38bdf8)" }}
+      >
+        <svg
+          width="120"
+          height="120"
+          viewBox="0 0 120 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g filter="url(#glow3d)">
+            <polygon points="60,10 110,110 10,110" fill="url(#grad3d)" />
+          </g>
+          <defs>
+            <linearGradient
+              id="grad3d"
+              x1="10"
+              y1="110"
+              x2="110"
+              y2="10"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop stopColor="#38bdf8" />
+              <stop offset="0.5" stopColor="#a78bfa" />
+              <stop offset="1" stopColor="#fbbf24" />
+            </linearGradient>
+            <filter
+              id="glow3d"
+              x="-20"
+              y="-20"
+              width="160"
+              height="160"
+              filterUnits="userSpaceOnUse"
+            >
+              <feGaussianBlur stdDeviation="12" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+        </svg>
+      </motion.div>
+    </motion.div>
+  );
+};
+// --- End 3D Tilt Component ---
+
 const HeroSection = () => {
   const { scrollY } = useScroll();
   const y = useTransform(scrollY, [0, 500], [0, 150]);
@@ -467,125 +568,128 @@ const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
-        {/* Animated Gradient Shine Headline */}
-        <motion.h1
-          className="text-5xl sm:text-7xl md:text-8xl font-bold font-poppins mb-8 leading-tight relative overflow-hidden"
-          initial={{ scale: 0.5, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <span className="gradient-text relative inline-block">
-            Let’s Build Something Great Together
-            {/* Shine effect */}
-            <motion.span
-              className="absolute left-0 top-0 h-full w-full pointer-events-none"
-              animate={shine ? { x: ["-100%", "120%"] } : {}}
-              transition={{
-                duration: 1.2,
-                ease: "easeInOut",
-                repeat: Infinity,
-                repeatDelay: 2,
-              }}
-              style={{
-                background:
-                  "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
-                WebkitMaskImage:
-                  "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
-                maskImage:
-                  "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
-                position: "absolute",
-                left: 0,
-                top: 0,
-                width: "100%",
-                height: "100%",
-                zIndex: 2,
-                mixBlendMode: "lighten",
-              }}
-            />
-          </span>
-          <br />
-          <motion.div
-            className="flex flex-col sm:flex-row justify-center items-center gap-2 mt-4 mb-2"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.7 }}
+        {/* 3D Tilted Headline & CTA */}
+        <Hero3DTilt>
+          {/* Animated Gradient Shine Headline */}
+          <motion.h1
+            className="text-5xl sm:text-7xl md:text-8xl font-bold font-poppins mb-8 leading-tight relative overflow-hidden"
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           >
-            <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
-              Tailored Solutions
+            <span className="gradient-text relative inline-block">
+              Let’s Build Something Great Together
+              {/* Shine effect */}
+              <motion.span
+                className="absolute left-0 top-0 h-full w-full pointer-events-none"
+                animate={shine ? { x: ["-100%", "120%"] } : {}}
+                transition={{
+                  duration: 1.2,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                  repeatDelay: 2,
+                }}
+                style={{
+                  background:
+                    "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
+                  WebkitMaskImage:
+                    "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
+                  maskImage:
+                    "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
+                  position: "absolute",
+                  left: 0,
+                  top: 0,
+                  width: "100%",
+                  height: "100%",
+                  zIndex: 2,
+                  mixBlendMode: "lighten",
+                }}
+              />
             </span>
-            <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
-              •
-            </span>
-            <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
-              Trusted Expertise
-            </span>
-            <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
-              •
-            </span>
-            <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
-              Creative Excellence
+            <br />
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center items-center gap-2 mt-4 mb-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.7 }}
+            >
+              <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
+                Tailored Solutions
+              </span>
+              <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
+                •
+              </span>
+              <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
+                Trusted Expertise
+              </span>
+              <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
+                •
+              </span>
+              <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
+                Creative Excellence
+              </span>
+            </motion.div>
+            <motion.span
+              className="text-cyan-200 text-xl sm:text-2xl font-bold inline-block mt-2"
+              initial={{ y: 30, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.9 }}
+              style={{ willChange: "transform" }}
+            >
+              👉Start Your Journey With Us Today
+            </motion.span>
+          </motion.h1>
+          {/* Badge moved below headline for clarity and spacing */}
+          <motion.div
+            className="mt-6 mb-10"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium">
+              🚀 Leading Digital Marketing Solutions
             </span>
           </motion.div>
-          <motion.span
-            className="text-cyan-200 text-xl sm:text-2xl font-bold inline-block mt-2"
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+
+          <motion.p
+            className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.9 }}
-            style={{ willChange: "transform" }}
           >
-            👉Start Your Journey With Us Today
-          </motion.span>
-        </motion.h1>
-        {/* Badge moved below headline for clarity and spacing */}
-        <motion.div
-          className="mt-6 mb-10"
-          initial={{ scale: 0, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <span className="inline-block px-6 py-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-full text-blue-200 text-sm font-medium">
-            🚀 Leading Digital Marketing Solutions
-          </span>
-        </motion.div>
+            AR Trading PLC delivers cutting-edge digital marketing solutions
+            that drive exponential growth, enhance brand visibility, and create
+            lasting customer relationships in today&apos;s competitive digital
+            landscape.
+          </motion.p>
 
-        <motion.p
-          className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-        >
-          AR Trading PLC delivers cutting-edge digital marketing solutions that
-          drive exponential growth, enhance brand visibility, and create lasting
-          customer relationships in today&apos;s competitive digital landscape.
-        </motion.p>
-
-        <motion.div
-          className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.1 }}
-        >
-          <motion.a
-            href="#services"
-            className="btn-primary hover-lift group"
-            whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #06b6d4" }}
-            whileTap={{ scale: 0.95 }}
+          <motion.div
+            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.1 }}
           >
-            <span className="relative z-10">Explore Our Services</span>
-          </motion.a>
-          <motion.a
-            href="#contact"
-            className="btn-secondary hover-lift"
-            whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #a78bfa" }}
-            whileTap={{ scale: 0.95 }}
-          >
-            Get Started Today
-          </motion.a>
-        </motion.div>
-
+            <motion.a
+              href="#services"
+              className="btn-primary hover-lift group"
+              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #06b6d4" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10">Explore Our Services</span>
+            </motion.a>
+            <motion.a
+              href="#contact"
+              className="btn-secondary hover-lift"
+              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #a78bfa" }}
+              whileTap={{ scale: 0.95 }}
+            >
+              Get Started Today
+            </motion.a>
+          </motion.div>
+        </Hero3DTilt>
         {/* Stats Section */}
         <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-20 sm:mt-24 lg:mt-28"
           initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.3 }}
