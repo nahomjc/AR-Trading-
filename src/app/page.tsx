@@ -619,8 +619,7 @@ const ServicesSection = () => {
   const services = [
     {
       title: "Advertising & Printing",
-      description:
-        "Banners, stickers, office & vehicle branding, merchandise (via printing partners).",
+      description: "Banners, stickers, office & vehicle branding, merchandise ",
       icon: "🖨️",
     },
     {
@@ -636,8 +635,7 @@ const ServicesSection = () => {
     },
     {
       title: "Media Production",
-      description:
-        "Videography, photography, promotional content (camera rental by schedule).",
+      description: "Videography, photography, promotional content .",
       icon: "🎥",
     },
     {
