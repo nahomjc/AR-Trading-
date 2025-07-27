@@ -422,9 +422,9 @@ const HeroSection = () => {
         {/* Spaceship Animation */}
         {showShip && (
           <motion.div
-            initial={{ x: "-20vw", y: "20vh", rotate: -15, opacity: 0 }}
-            animate={{ x: "120vw", y: "-5vh", rotate: 10, opacity: 1 }}
-            transition={{ duration: 12, ease: "easeInOut" }}
+            initial={{ x: "-20vw", y: "300px", rotate: -55, opacity: 0 }}
+            animate={{ x: "120vw", y: "300px", rotate: 100, opacity: 1 }}
+            transition={{ duration: 15, ease: "easeInOut" }}
             onAnimationComplete={() => setShowShip(false)}
             className="absolute left-0 top-0 flex flex-col items-center w-[16rem] h-[16rem] sm:w-[20rem] sm:h-[20rem] md:w-[24rem] md:h-[24rem] lg:w-[28rem] lg:h-[28rem] z-20"
             style={{ pointerEvents: "none" }}
