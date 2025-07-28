@@ -245,52 +245,18 @@ const Floating3DTriangle = () => {
 };
 
 // Enhanced Hero Section
-// --- 3D Tilt Component ---
-const Hero3DTilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const rotateX = useSpring(y, { stiffness: 200, damping: 20 });
-  const rotateY = useSpring(x, { stiffness: 200, damping: 20 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = ref.current?.getBoundingClientRect();
-    if (!rect) return;
-    const px = e.clientX - rect.left;
-    const py = e.clientY - rect.top;
-    const dx = px - rect.width / 2;
-    const dy = py - rect.height / 2;
-    // Max tilt: 18deg
-    x.set((dx / (rect.width / 2)) * 18);
-    y.set((-dy / (rect.height / 2)) * 18);
-  };
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+// --- Static Hero Card Component ---
+const HeroCard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <motion.div
-      ref={ref}
-      style={{
-        perspective: 1200,
-        transformStyle: "preserve-3d",
-        willChange: "transform",
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      className="relative z-20"
-    >
-      <motion.div
+    <div className="relative z-20">
+      <div
         style={{
-          rotateX,
-          rotateY,
           boxShadow: "0 8px 40px 0 #06b6d4a0, 0 1.5px 8px #0002",
-          transformStyle: "preserve-3d",
         }}
         className="rounded-3xl bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 p-2 sm:p-6 shadow-2xl"
       >
         {children}
-      </motion.div>
+      </div>
       {/* Floating 3D SVG shape */}
       <motion.div
         className="absolute -top-16 -right-16 sm:-top-24 sm:-right-24 z-10"
@@ -394,10 +360,10 @@ const Hero3DTilt: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </defs>
         </svg>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
-// --- End 3D Tilt Component ---
+// --- End Static Hero Card Component ---
 
 const HeroSection = () => {
   const { scrollY } = useScroll();
@@ -679,8 +645,8 @@ const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
-        {/* 3D Tilted Headline & CTA */}
-        <Hero3DTilt>
+        {/* Static Headline & CTA */}
+        <HeroCard>
           {/* Animated Gradient Shine Headline */}
           <motion.h1
             className="text-5xl sm:text-7xl md:text-8xl font-bold font-poppins mb-8 leading-tight relative overflow-hidden"
@@ -797,7 +763,7 @@ const HeroSection = () => {
               Get Started Today
             </motion.a>
           </motion.div>
-        </Hero3DTilt>
+        </HeroCard>
         {/* Stats Section */}
         <motion.div
           className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-20 sm:mt-24 lg:mt-28"
