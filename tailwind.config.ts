@@ -18,6 +18,7 @@ export default {
         primary: "var(--primary)",
         secondary: "var(--secondary)",
         accent: "var(--accent)",
+        "custom-blue": "var(--custom-blue)",
       },
       animation: {
         "galaxy-float": "galaxyFloat 20s ease-in-out infinite",
