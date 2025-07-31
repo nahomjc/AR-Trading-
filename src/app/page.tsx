@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import ScrollStars from "./components/ScrollStars";
 import CPUAnimation from "./components/CPUAnimation";
@@ -11,6 +11,43 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRef } from "react";
 import { useMotionValue, useSpring } from "framer-motion";
+import {
+  IconRocket,
+  IconTarget,
+  IconCheck,
+  IconCode,
+  IconChartLine,
+  IconPalette,
+  IconPrinter,
+  IconDeviceMobile,
+  IconVideo,
+  IconWorld,
+  IconCalendarEvent,
+  IconBook,
+  IconUsers,
+  IconMail,
+  IconPhone,
+  IconMapPin,
+  IconBrandFacebook,
+  IconBrandTwitter,
+  IconBrandLinkedin,
+  IconTrendingUp,
+  IconBulb,
+  IconAward,
+  IconGraph,
+  IconPresentation,
+  IconBriefcase,
+  IconGlobe,
+  IconDeviceLaptop,
+  IconBrandInstagram,
+  IconBrandYoutube,
+  IconSearch,
+  IconBuilding,
+  IconCurrencyDollar,
+  IconShieldCheck,
+  IconClock,
+  IconStar,
+} from "@tabler/icons-react";
 
 // Utility to detect mobile devices
 const isMobile = () =>
@@ -245,598 +282,619 @@ const Floating3DTriangle = () => {
 };
 
 // Enhanced Hero Section
-// --- Static Hero Card Component ---
-const HeroCard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  return (
-    <div className="relative z-20">
-      <div
-        style={{
-          boxShadow: "0 8px 40px 0 #06b6d4a0, 0 1.5px 8px #0002",
-        }}
-        className="rounded-3xl bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 p-2 sm:p-6 shadow-2xl"
-      >
-        {children}
-      </div>
-      {/* Floating 3D SVG shape */}
-      <motion.div
-        className="absolute -top-16 -right-16 sm:-top-24 sm:-right-24 z-10"
-        initial={{ rotate: 0 }}
-        animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, duration: 18, ease: "linear" }}
-        style={{ filter: "drop-shadow(0 0 32px #38bdf8)" }}
-      >
-        <svg
-          width="120"
-          height="120"
-          viewBox="0 0 120 120"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g filter="url(#glow3d)">
-            <polygon points="60,10 110,110 10,110" fill="url(#grad3d)" />
-          </g>
-          <defs>
-            <linearGradient
-              id="grad3d"
-              x1="10"
-              y1="110"
-              x2="110"
-              y2="10"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#38bdf8" />
-              <stop offset="0.5" stopColor="#a78bfa" />
-              <stop offset="1" stopColor="#fbbf24" />
-            </linearGradient>
-            <filter
-              id="glow3d"
-              x="-20"
-              y="-20"
-              width="160"
-              height="160"
-              filterUnits="userSpaceOnUse"
-            >
-              <feGaussianBlur stdDeviation="12" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-        </svg>
-      </motion.div>
-      {/* Second floating 3D shape */}
-      <motion.div
-        className="absolute -bottom-12 -left-12 sm:-bottom-16 sm:-left-16 z-10"
-        initial={{ rotate: 0, scale: 0.8 }}
-        animate={{
-          rotate: -360,
-          scale: [0.8, 1.2, 0.8],
-          y: [0, -20, 0],
-        }}
-        transition={{
-          rotate: { repeat: Infinity, duration: 25, ease: "linear" },
-          scale: { repeat: Infinity, duration: 4, ease: "easeInOut" },
-          y: { repeat: Infinity, duration: 3, ease: "easeInOut" },
-        }}
-        style={{ filter: "drop-shadow(0 0 24px #a78bfa)" }}
-      >
-        <svg
-          width="80"
-          height="80"
-          viewBox="0 0 80 80"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g filter="url(#glow3d2)">
-            <circle cx="40" cy="40" r="35" fill="url(#grad3d2)" />
-          </g>
-          <defs>
-            <radialGradient
-              id="grad3d2"
-              cx="0.3"
-              cy="0.3"
-              r="0.7"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#a78bfa" />
-              <stop offset="0.5" stopColor="#fbbf24" />
-              <stop offset="1" stopColor="#38bdf8" />
-            </radialGradient>
-            <filter
-              id="glow3d2"
-              x="-10"
-              y="-10"
-              width="100"
-              height="100"
-              filterUnits="userSpaceOnUse"
-            >
-              <feGaussianBlur stdDeviation="8" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-          </defs>
-        </svg>
-      </motion.div>
-    </div>
-  );
-};
-// --- End Static Hero Card Component ---
 
 const HeroSection = () => {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 970], [1, 0]);
-  const [shine, setShine] = useState(false);
-  useEffect(() => {
-    setShine(true);
-  }, []);
-  // Spaceship animation state
-  const [showShip, setShowShip] = useState(true);
-
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-32 sm:pt-40 pb-40 sm:pb-56"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-32 sm:pt-40"
     >
-      {/* Galaxy/Nebula Background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Optimized 3D Element */}
-        <Floating3DTriangle />
-        {/* Spaceship Animation */}
-        {showShip && (
-          <motion.div
-            initial={{ x: "-20vw", y: "300px", rotate: -55, opacity: 0 }}
-            animate={{ x: "120vw", y: "300px", rotate: 100, opacity: 1 }}
-            transition={{ duration: 15, ease: "easeInOut" }}
-            onAnimationComplete={() => setShowShip(false)}
-            className="absolute left-0 top-0 flex flex-col items-center w-[16rem] h-[16rem] sm:w-[20rem] sm:h-[20rem] md:w-[24rem] md:h-[24rem] lg:w-[28rem] lg:h-[28rem] z-20"
-            style={{ pointerEvents: "none" }}
-          >
-            {/* Highly Realistic SVG Rocket with Animated Flame */}
-            <svg
-              viewBox="0 0 200 360"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full"
-            >
-              {/* Glow under ship */}
-              <ellipse
-                cx="100"
-                cy="350"
-                rx="60"
-                ry="16"
-                fill="#0ff6"
-                opacity="0.4"
-              />
-              {/* Rocket body */}
-              <g filter="url(#glow)">
-                {/* Main body with metallic gradient and panel lines */}
-                <rect
-                  x="75"
-                  y="70"
-                  width="50"
-                  height="160"
-                  rx="25"
-                  fill="url(#metallicBody)"
-                  stroke="#e0e7ef"
-                  strokeWidth="3"
-                />
-                {/* Panel lines */}
-                <rect
-                  x="97"
-                  y="90"
-                  width="6"
-                  height="120"
-                  rx="3"
-                  fill="#e0e7ef"
-                  fillOpacity="0.18"
-                />
-                <rect
-                  x="75"
-                  y="150"
-                  width="50"
-                  height="4"
-                  rx="2"
-                  fill="#e0e7ef"
-                  fillOpacity="0.18"
-                />
-                {/* Nose cone with metallic shine */}
-                <polygon
-                  points="100,30 75,70 125,70"
-                  fill="url(#noseconeMetal)"
-                  stroke="#e0e7ef"
-                  strokeWidth="3"
-                />
-                {/* Windows */}
-                <ellipse
-                  cx="100"
-                  cy="110"
-                  rx="13"
-                  ry="13"
-                  fill="url(#windowGlass)"
-                  stroke="#fff"
-                  strokeWidth="3"
-                />
-                <ellipse
-                  cx="100"
-                  cy="110"
-                  rx="6"
-                  ry="6"
-                  fill="#fff"
-                  fillOpacity="0.7"
-                />
-                <ellipse
-                  cx="100"
-                  cy="140"
-                  rx="7"
-                  ry="7"
-                  fill="url(#windowGlass)"
-                  stroke="#fff"
-                  strokeWidth="2"
-                />
-                {/* Left fin */}
-                <polygon
-                  points="75,170 35,240 90,200"
-                  fill="#38bdf8"
-                  stroke="#e0e7ef"
-                  strokeWidth="3"
-                />
-                {/* Right fin */}
-                <polygon
-                  points="125,170 165,240 110,200"
-                  fill="#a78bfa"
-                  stroke="#e0e7ef"
-                  strokeWidth="3"
-                />
-                {/* Center fin */}
-                <polygon
-                  points="100,220 90,300 110,300"
-                  fill="#fbbf24"
-                  stroke="#e0e7ef"
-                  strokeWidth="3"
-                />
-                {/* Animated Complex Flame */}
-                <motion.ellipse
-                  cx="100"
-                  cy="320"
-                  rx="28"
-                  ry="18"
-                  fill="url(#flameOuter)"
-                  style={{
-                    filter:
-                      "drop-shadow(0 0 48px #fbbf24) drop-shadow(0 0 64px #f59e42) drop-shadow(0 0 80px #f87171)",
-                  }}
-                  animate={{
-                    scaleX: [1, 1.15, 1],
-                    scaleY: [1, 1.2, 1],
-                    opacity: [0.7, 1, 0.7],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 0.5,
-                    ease: "easeInOut",
-                  }}
-                />
-                <motion.ellipse
-                  cx="100"
-                  cy="330"
-                  rx="14"
-                  ry="8"
-                  fill="url(#flameInner)"
-                  style={{ filter: "drop-shadow(0 0 32px #fff8)" }}
-                  animate={{
-                    scaleX: [1, 1.2, 1],
-                    scaleY: [1, 1.3, 1],
-                    opacity: [0.8, 1, 0.8],
-                  }}
-                  transition={{
-                    repeat: Infinity,
-                    duration: 0.5,
-                    ease: "easeInOut",
-                  }}
-                />
-              </g>
-              <defs>
-                <linearGradient
-                  id="metallicBody"
-                  x1="75"
-                  y1="70"
-                  x2="125"
-                  y2="230"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#e0e7ef" />
-                  <stop offset="0.2" stopColor="#bfc9d1" />
-                  <stop offset="0.5" stopColor="#38bdf8" />
-                  <stop offset="0.8" stopColor="#6366f1" />
-                  <stop offset="1" stopColor="#bfc9d1" />
-                </linearGradient>
-                <linearGradient
-                  id="noseconeMetal"
-                  x1="100"
-                  y1="30"
-                  x2="100"
-                  y2="70"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#fff" stopOpacity="0.98" />
-                  <stop offset="1" stopColor="#bae6fd" stopOpacity="0.7" />
-                </linearGradient>
-                <radialGradient
-                  id="windowGlass"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientTransform="translate(100 110) scale(13 13)"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#bae6fd" />
-                  <stop offset="1" stopColor="#60a5fa" />
-                </radialGradient>
-                <radialGradient
-                  id="flameOuter"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientTransform="translate(100 320) scale(28 18)"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#fbbf24" />
-                  <stop offset="0.7" stopColor="#f59e42" />
-                  <stop offset="1" stopColor="#f87171" stopOpacity="0.7" />
-                </radialGradient>
-                <radialGradient
-                  id="flameInner"
-                  cx="0"
-                  cy="0"
-                  r="1"
-                  gradientTransform="translate(100 330) scale(14 8)"
-                  gradientUnits="userSpaceOnUse"
-                >
-                  <stop stopColor="#fffbe8" />
-                  <stop offset="0.5" stopColor="#fbbf24" />
-                  <stop offset="1" stopColor="#f59e42" stopOpacity="0.7" />
-                </radialGradient>
-                <filter
-                  id="glow"
-                  x="0"
-                  y="0"
-                  width="200"
-                  height="360"
-                  filterUnits="userSpaceOnUse"
-                  colorInterpolationFilters="sRGB"
-                >
-                  <feGaussianBlur stdDeviation="16" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-            </svg>
-          </motion.div>
-        )}
-        {/* Existing Particles */}
-        <HeroParticles />
-        {/* Animated Galaxies/Nebulae */}
-        {!isMobile() && (
-          <motion.div
-            className="absolute left-1/4 top-0 w-[320px] h-[220px] bg-cyan-400/20 rounded-full blur-xl"
-            animate={{
-              scale: [1, 1.08, 1],
-              x: [0, 20, 0],
-              y: [0, 10, 0],
-            }}
-            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-          />
-        )}
-      </div>
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20"></div>
 
-      {/* CPU Animation Background */}
+      <div className="max-w-7xl mx-auto w-full relative z-10">
+        {/* Floating Business Icons - Spread Across Entire Hero */}
+        <motion.div
+          className="absolute top-1/4 left-1/8 w-7 h-7 text-[#C69c6c]/60"
+          animate={{
+            y: [0, -25, 0],
+            rotate: [0, 360],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0,
+          }}
+        >
+          <IconTrendingUp className="w-full h-full" />
+        </motion.div>
 
-      <motion.div
-        className="max-w-7xl mx-auto text-center relative z-10"
-        style={{ y }}
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
-      >
-        {/* Static Headline & CTA */}
-        <HeroCard>
-          {/* Animated Gradient Shine Headline */}
-          <motion.h1
-            className="text-5xl sm:text-7xl md:text-8xl font-bold font-poppins mb-8 leading-tight relative overflow-hidden"
-            initial={{ scale: 0.5, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+        <motion.div
+          className="absolute top-1/6 right-1/6 w-6 h-6 text-blue-400/60"
+          animate={{
+            y: [0, 20, 0],
+            rotate: [0, -360],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1,
+          }}
+        >
+          <IconBulb className="w-full h-full" />
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-1/4 left-1/6 w-6 h-6 text-purple-400/60"
+          animate={{
+            y: [0, -18, 0],
+            rotate: [0, 360],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2,
+          }}
+        >
+          <IconAward className="w-full h-full" />
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-1/3 right-1/8 w-5 h-5 text-[#C69c6c]/70"
+          animate={{
+            y: [0, 15, 0],
+            rotate: [0, -360],
+            scale: [1, 1.4, 1],
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 3,
+          }}
+        >
+          <IconGraph className="w-full h-full" />
+        </motion.div>
+
+        <motion.div
+          className="absolute top-1/2 left-1/4 w-6 h-6 text-cyan-400/60"
+          animate={{
+            y: [0, -12, 0],
+            rotate: [0, 360],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 9,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1.5,
+          }}
+        >
+          <IconPresentation className="w-full h-full" />
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-1/6 right-1/4 w-6 h-6 text-[#C69c6c]/50"
+          animate={{
+            y: [0, 22, 0],
+            rotate: [0, -360],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 6.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2.5,
+          }}
+        >
+          <IconBriefcase className="w-full h-full" />
+        </motion.div>
+
+        <motion.div
+          className="absolute top-3/4 left-1/8 w-5 h-5 text-green-400/60"
+          animate={{
+            y: [0, -16, 0],
+            rotate: [0, 360],
+            scale: [1, 1.1, 1],
+          }}
+          transition={{
+            duration: 7.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 0.8,
+          }}
+        >
+          <IconGlobe className="w-full h-full" />
+        </motion.div>
+
+        <motion.div
+          className="absolute bottom-1/8 left-1/4 w-6 h-6 text-pink-400/60"
+          animate={{
+            y: [0, 18, 0],
+            rotate: [0, -360],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 8.5,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 3.2,
+          }}
+        >
+          <IconDeviceLaptop className="w-full h-full" />
+        </motion.div>
+
+        {/* Split Screen Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left Column - Text & CTA */}
+          <motion.div
+            className="text-left"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <span className="gradient-text relative inline-block">
-              Let’s Build Something Great Together
-              {/* Shine effect */}
-              <motion.span
-                className="absolute left-0 top-0 h-full w-full pointer-events-none"
-                animate={shine ? { x: ["-100%", "120%"] } : {}}
-                transition={{
-                  duration: 1.2,
-                  ease: "easeInOut",
-                  repeat: Infinity,
-                  repeatDelay: 2,
-                }}
-                style={{
-                  background:
-                    "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.7) 50%, transparent 100%)",
-                  WebkitMaskImage:
-                    "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
-                  maskImage:
-                    "linear-gradient(120deg, transparent 0%, white 50%, transparent 100%)",
-                  position: "absolute",
-                  left: 0,
-                  top: 0,
-                  width: "100%",
-                  height: "100%",
-                  zIndex: 2,
-                  mixBlendMode: "lighten",
-                }}
-              />
-            </span>
-            <br />
+            {/* Badge */}
             <motion.div
-              className="flex flex-col sm:flex-row justify-center items-center gap-2 mt-4 mb-2"
+              className="mb-6"
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              <div className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full">
+                <IconRocket className="w-4 h-4 mr-2 text-[#C69c6c]" />
+                <span className="text-[#C69c6c] text-sm font-medium">
+                  Leading Digital Marketing Solutions
+                </span>
+                <span className="ml-2 text-[#C69c6c] text-sm">🇪🇹</span>
+              </div>
+            </motion.div>
+
+            {/* Professional Headline with Floating Animation */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+            >
+              <motion.h1
+                className="text-5xl sm:text-6xl lg:text-7xl font-bold font-poppins leading-tight mb-6"
+                animate={{
+                  y: [0, -5, 0],
+                }}
+                transition={{
+                  duration: 8,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                <span className="gradient-text">Let's Build Something</span>
+                <br />
+                <span className="text-white">Great Together</span>
+              </motion.h1>
+              <motion.p
+                className="text-xl sm:text-2xl text-gray-300 leading-relaxed"
+                animate={{
+                  y: [0, 3, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
+              >
+                We deliver cutting-edge digital marketing solutions that drive
+                exponential growth, enhance brand visibility, and create lasting
+                customer relationships.
+              </motion.p>
+            </motion.div>
+
+            {/* Professional Features with Floating Animation */}
+            <motion.div
+              className="space-y-4 mb-8"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.7 }}
+              transition={{ duration: 0.7, delay: 0.6 }}
             >
-              <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
-                Tailored Solutions
-              </span>
-              <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
-                •
-              </span>
-              <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
-                Trusted Expertise
-              </span>
-              <span className="hidden sm:inline text-gray-400 mx-2 text-xl">
-                •
-              </span>
-              <span className="text-base sm:text-lg md:text-xl font-semibold text-gray-200">
-                Creative Excellence
-              </span>
+              <motion.div
+                className="flex items-center space-x-3"
+                animate={{
+                  x: [0, 5, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0,
+                }}
+              >
+                <motion.div
+                  animate={{ rotate: [0, 360] }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  <IconTarget className="w-5 h-5 text-[#C69c6c]" />
+                </motion.div>
+                <span className="text-lg text-gray-200 font-medium">
+                  Tailored Solutions
+                </span>
+              </motion.div>
+              <motion.div
+                className="flex items-center space-x-3"
+                animate={{
+                  x: [0, -3, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
+              >
+                <motion.div
+                  animate={{ rotate: [0, -360] }}
+                  transition={{
+                    duration: 12,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                >
+                  <IconCheck className="w-5 h-5 text-[#C69c6c]" />
+                </motion.div>
+                <span className="text-lg text-gray-200 font-medium">
+                  Trusted Expertise
+                </span>
+              </motion.div>
+              <motion.div
+                className="flex items-center space-x-3"
+                animate={{
+                  x: [0, 4, 0],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2,
+                }}
+              >
+                <motion.div
+                  animate={{ rotate: [0, 360] }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                >
+                  <IconPalette className="w-5 h-5 text-[#C69c6c]" />
+                </motion.div>
+                <span className="text-lg text-gray-200 font-medium">
+                  Creative Excellence
+                </span>
+              </motion.div>
             </motion.div>
-            <motion.span
-              className="text-cyan-200 text-xl sm:text-2xl font-bold inline-block mt-2"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.9 }}
-              style={{ willChange: "transform" }}
-            >
-              👉Start Your Journey With Us Today
-            </motion.span>
-          </motion.h1>
-          {/* Badge moved below headline for clarity and spacing */}
-          <motion.div
-            className="mt-6 mb-10"
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
-            <span className="inline-block px-6 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium">
-              🚀 Leading Digital Marketing Solutions 🇪🇹
-            </span>
-          </motion.div>
 
-          <motion.p
-            className="text-xl sm:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.9 }}
-          >
-            AR Trading PLC delivers cutting-edge digital marketing solutions
-            that drive exponential growth, enhance brand visibility, and create
-            lasting customer relationships in today&apos;s competitive digital
-            landscape.
-          </motion.p>
-
-          <motion.div
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1.1 }}
-          >
-            <motion.a
-              href="#services"
-              className="btn-secondary hover-lift group"
-              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #C69c6c" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <span className="relative z-10">Explore Our Services</span>
-            </motion.a>
-            <motion.a
-              href="#contact"
-              className="btn-secondary hover-lift"
-              whileHover={{ scale: 1.08, y: -5, boxShadow: "0 0 24px #C69c6c" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Get Started Today
-            </motion.a>
-          </motion.div>
-        </HeroCard>
-        {/* Stats Section */}
-        <motion.div
-          className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto mt-20 sm:mt-24 lg:mt-28"
-          initial={{ opacity: 0, y: 100 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.3 }}
-        >
-          {[
-            { number: "500+", label: "Projects Completed" },
-            { number: "98%", label: "Client Satisfaction" },
-            { number: "150+", label: "Happy Clients" },
-            { number: "5+", label: "Years Experience" },
-          ].map((stat, index) => (
+            {/* Professional CTA Buttons */}
             <motion.div
-              key={index}
-              className="stats-card p-6 text-center hover-lift"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              className="flex flex-col sm:flex-row gap-4 mb-8"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.0 }}
             >
-              <div className="text-3xl font-bold gradient-text mb-2">
-                {stat.number}
-              </div>
-              <div className="text-gray-300 text-sm">{stat.label}</div>
+              <motion.a
+                href="#services"
+                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <span>Explore Our Services</span>
+                <svg
+                  className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </motion.a>
+              <motion.a
+                href="#contact"
+                className="inline-flex items-center justify-center px-8 py-4 border-2 border-[#C69c6c] text-[#C69c6c] font-semibold rounded-lg hover:bg-[#C69c6c] hover:text-white transition-all duration-300"
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                Get Started Today
+              </motion.a>
             </motion.div>
-          ))}
-        </motion.div>
-      </motion.div>
+
+            {/* Professional Stats */}
+            <motion.div
+              className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.2 }}
+            >
+              {[
+                { number: "500+", label: "Projects Completed" },
+                { number: "98%", label: "Client Satisfaction" },
+                { number: "150+", label: "Happy Clients" },
+                { number: "5+", label: "Years Experience" },
+              ].map((stat, index) => (
+                <motion.div
+                  key={index}
+                  className="text-center p-4 rounded-lg bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10"
+                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <div className="text-2xl font-bold gradient-text mb-1">
+                    {stat.number}
+                  </div>
+                  <div className="text-gray-300 text-sm font-medium">
+                    {stat.label}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right Column - Animated Professional Image */}
+          <motion.div
+            className="flex items-center justify-center mb-12 lg:mb-0"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+          >
+            <div className="relative w-full max-w-2xl">
+              {/* Main Floating Container */}
+              <motion.div
+                className="relative"
+                animate={{
+                  y: [0, -15, 0],
+                  rotateY: [0, 2, 0],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              >
+                {/* Professional Hero Illustration Container */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 p-4">
+                  <Image
+                    src="/img/image-2.png"
+                    alt="Digital Marketing and Web Development Hero Illustration"
+                    width={1200}
+                    height={1200}
+                    className="w-full h-auto object-contain"
+                    priority
+                  />
+                  {/* Animated Gradient Overlay */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
+                    animate={{
+                      background: [
+                        "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%, transparent 100%)",
+                        "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)",
+                        "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%, transparent 100%)",
+                      ],
+                    }}
+                    transition={{
+                      duration: 4,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  />
+                </div>
+
+                {/* Enhanced Floating Decorative Elements */}
+                <motion.div
+                  className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-[#C69c6c]/30 to-[#d4a574]/30 rounded-full blur-2xl"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+                <motion.div
+                  className="absolute -bottom-8 -left-8 w-28 h-28 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-2xl"
+                  animate={{
+                    scale: [1.2, 1, 1.2],
+                    opacity: [0.6, 0.3, 0.6],
+                  }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1,
+                  }}
+                />
+
+                {/* Additional Floating Particles */}
+                <motion.div
+                  className="absolute top-1/4 right-1/4 w-4 h-4 bg-[#C69c6c]/40 rounded-full"
+                  animate={{
+                    y: [0, -20, 0],
+                    opacity: [0.4, 1, 0.4],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.5,
+                  }}
+                />
+                <motion.div
+                  className="absolute bottom-1/3 left-1/4 w-3 h-3 bg-blue-400/40 rounded-full"
+                  animate={{
+                    y: [0, 15, 0],
+                    opacity: [0.4, 1, 0.4],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1.5,
+                  }}
+                />
+                <motion.div
+                  className="absolute top-1/2 left-1/3 w-2 h-2 bg-purple-400/40 rounded-full"
+                  animate={{
+                    y: [0, -12, 0],
+                    opacity: [0.4, 1, 0.4],
+                  }}
+                  transition={{
+                    duration: 3.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 2,
+                  }}
+                />
+              </motion.div>
+
+              {/* Outer Glow Effect */}
+              <motion.div
+                className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#C69c6c]/10 via-transparent to-blue-500/10 blur-3xl -z-10"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
 };
 
 // Services Section
 const ServicesSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
   const services = [
     {
       title: "Advertising & Printing",
       description: "Banners, stickers, office & vehicle branding, merchandise ",
-      icon: "🖨️",
+      icon: IconPrinter,
+      color: "from-orange-500/20 to-red-500/20",
+      iconColor: "text-orange-400",
+      features: [
+        "Banner Design",
+        "Vehicle Branding",
+        "Office Branding",
+        "Merchandise",
+      ],
     },
     {
       title: "Digital Marketing",
       description:
         "Social media management, paid ads, SEO, strategy, influencer marketing.",
-      icon: "💻",
+      icon: IconChartLine,
+      color: "from-blue-500/20 to-purple-500/20",
+      iconColor: "text-blue-400",
+      features: [
+        "Social Media",
+        "Paid Advertising",
+        "SEO Strategy",
+        "Influencer Marketing",
+      ],
     },
     {
       title: "Branding & Design",
       description: "Logo, brand identity, strategy, visual content.",
-      icon: "🎨",
+      icon: IconPalette,
+      color: "from-pink-500/20 to-purple-500/20",
+      iconColor: "text-pink-400",
+      features: [
+        "Logo Design",
+        "Brand Identity",
+        "Visual Strategy",
+        "Creative Content",
+      ],
     },
     {
       title: "Media Production",
       description: "Videography, photography, promotional content .",
-      icon: "🎥",
+      icon: IconVideo,
+      color: "from-green-500/20 to-teal-500/20",
+      iconColor: "text-green-400",
+      features: [
+        "Videography",
+        "Photography",
+        "Promotional Content",
+        "Video Editing",
+      ],
     },
     {
       title: "Web Development",
       description:
         "Website design, development, maintenance, SEO optimization.",
-      icon: "🌐",
+      icon: IconWorld,
+      color: "from-cyan-500/20 to-blue-500/20",
+      iconColor: "text-cyan-400",
+      features: [
+        "Website Design",
+        "Development",
+        "Maintenance",
+        "SEO Optimization",
+      ],
     },
     {
       title: "Event Planning",
       description: "Corporate events, launches, conferences, exhibitions.",
-      icon: "🎉",
+      icon: IconCalendarEvent,
+      color: "from-yellow-500/20 to-orange-500/20",
+      iconColor: "text-yellow-400",
+      features: [
+        "Corporate Events",
+        "Product Launches",
+        "Conferences",
+        "Exhibitions",
+      ],
     },
     {
       title: "Training",
       description:
         "Corporate, personal development, and media trainings (conducted in meeting rooms or offsite).",
-      icon: "📚",
+      icon: IconBook,
+      color: "from-indigo-500/20 to-purple-500/20",
+      iconColor: "text-indigo-400",
+      features: [
+        "Corporate Training",
+        "Personal Development",
+        "Media Training",
+        "Workshops",
+      ],
     },
   ];
+
+  // Auto-play functionality
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % services.length);
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, services.length]);
 
   return (
     <section
@@ -863,36 +921,185 @@ const ServicesSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              className="mirror-card p-8 hover-lift group bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30"
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              whileHover={{
-                scale: 1.02,
-                y: -10,
-                transition: { type: "spring", stiffness: 300 },
-              }}
-            >
+        {/* Enhanced Services Display with Slideshow */}
+        <div className="relative">
+          {/* Main Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {services.map((service, index) => (
               <motion.div
-                className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300"
-                whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }}
-                transition={{ duration: 0.5 }}
+                key={index}
+                className={`relative overflow-hidden rounded-2xl p-8 group cursor-pointer transition-all duration-500 ${
+                  index === activeIndex
+                    ? "bg-gradient-to-br from-[#C69c6c]/20 via-[#d4a574]/20 to-[#C69c6c]/20 border-2 border-[#C69c6c]/50 shadow-2xl shadow-[#C69c6c]/20"
+                    : "bg-gradient-to-br from-white/5 via-white/10 to-white/5 border border-white/20 hover:border-[#C69c6c]/30"
+                }`}
+                initial={{ opacity: 0, y: 100 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -15,
+                  transition: { type: "spring", stiffness: 300 },
+                }}
+                onClick={() => {
+                  setActiveIndex(index);
+                  setIsAutoPlaying(false);
+                  setTimeout(() => setIsAutoPlaying(true), 10000);
+                }}
               >
-                {service.icon}
+                {/* Animated Background */}
+                <motion.div
+                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  animate={{
+                    scale: index === activeIndex ? [1, 1.1, 1] : 1,
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: index === activeIndex ? Infinity : 0,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                {/* Icon Container */}
+                <motion.div
+                  className="relative mb-6 group-hover:scale-110 transition-transform duration-300"
+                  whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div
+                    className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center backdrop-blur-sm border border-white/20`}
+                  >
+                    {(() => {
+                      const IconComponent = service.icon;
+                      return (
+                        <IconComponent
+                          className={`w-8 h-8 ${service.iconColor}`}
+                        />
+                      );
+                    })()}
+                  </div>
+                </motion.div>
+
+                {/* Content */}
+                <div className="relative">
+                  <h3 className="text-2xl font-bold font-poppins mb-4 text-white group-hover:text-[#C69c6c] transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-300 leading-relaxed mb-4">
+                    {service.description}
+                  </p>
+
+                  {/* Features List */}
+                  <div className="space-y-2">
+                    {service.features.map((feature, featureIndex) => (
+                      <motion.div
+                        key={featureIndex}
+                        className="flex items-center space-x-2"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: featureIndex * 0.1 }}
+                      >
+                        <div className="w-2 h-2 bg-[#C69c6c] rounded-full"></div>
+                        <span className="text-sm text-gray-300 font-medium">
+                          {feature}
+                        </span>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Hover Effect Overlay */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-t from-[#C69c6c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  initial={false}
+                />
               </motion.div>
-              <h3 className="text-2xl font-semibold font-poppins mb-4 text-white">
-                {service.title}
-              </h3>
-              <p className="text-gray-300 leading-relaxed mb-2">
-                {service.description}
-              </p>
-            </motion.div>
-          ))}
+            ))}
+          </div>
+
+          {/* Slideshow Controls */}
+          <div className="flex justify-center items-center space-x-4 mb-8">
+            <button
+              onClick={() => {
+                setActiveIndex(
+                  (prev) => (prev - 1 + services.length) % services.length
+                );
+                setIsAutoPlaying(false);
+                setTimeout(() => setIsAutoPlaying(true), 10000);
+              }}
+              className="w-12 h-12 rounded-full bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/30 flex items-center justify-center text-[#C69c6c] hover:bg-gradient-to-r hover:from-[#C69c6c]/30 hover:to-[#d4a574]/30 transition-all duration-300"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            <div className="flex space-x-2">
+              {services.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setActiveIndex(index);
+                    setIsAutoPlaying(false);
+                    setTimeout(() => setIsAutoPlaying(true), 10000);
+                  }}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === activeIndex
+                      ? "bg-[#C69c6c] scale-125"
+                      : "bg-gray-400 hover:bg-[#C69c6c]/60"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                setActiveIndex((prev) => (prev + 1) % services.length);
+                setIsAutoPlaying(false);
+                setTimeout(() => setIsAutoPlaying(true), 10000);
+              }}
+              className="w-12 h-12 rounded-full bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/30 flex items-center justify-center text-[#C69c6c] hover:bg-gradient-to-r hover:from-[#C69c6c]/30 hover:to-[#d4a574]/30 transition-all duration-300"
+            >
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Auto-play Toggle */}
+          <div className="text-center">
+            <button
+              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                isAutoPlaying
+                  ? "bg-[#C69c6c]/20 text-[#C69c6c] border border-[#C69c6c]/30"
+                  : "bg-gray-600/20 text-gray-400 border border-gray-600/30"
+              }`}
+            >
+              {isAutoPlaying ? "⏸️ Pause Slideshow" : "▶️ Play Slideshow"}
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -914,11 +1121,16 @@ const WhoWeAreSection = () => {
           viewport={{ once: true }}
         >
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
-            Who We Are
+            About Our Company
           </span>
           <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
-            Innovators. Strategists. Partners.
+            Excellence. Innovation. Results.
           </h2>
+          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            We are a premier digital marketing and creative agency dedicated to
+            transforming businesses through strategic innovation and exceptional
+            execution.
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -930,15 +1142,16 @@ const WhoWeAreSection = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-3xl font-bold font-poppins mb-6 text-white">
-              Who We Are
+              Our Mission & Vision
             </h3>
-            <h4 className="text-xl font-semibold text-blue-200 mb-4">
-              Bold Vision. Smart Execution. Real Impact.
+            <h4 className="text-xl font-semibold text-[#C69c6c] mb-4">
+              Strategic Excellence. Creative Innovation. Measurable Results.
             </h4>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              AR Trading PLC is a multi-service creative and commercial agency
-              committed to delivering advertising, branding, printing, media
-              production, and business solutions — all under one roof.
+              AR Trading PLC stands as a leading multi-service creative and
+              commercial agency, delivering comprehensive advertising, branding,
+              printing, media production, and business solutions with unwavering
+              commitment to excellence.
             </p>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
               We combine innovative ideas with practical execution, helping our
@@ -991,7 +1204,7 @@ const WhoWeAreSection = () => {
           >
             <div className="mirror-card p-8 h-96 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 flex items-center justify-center">
               <div className="text-center">
-                <div className="text-8xl mb-4">👥</div>
+                <IconUsers className="w-20 h-20 text-[#C69c6c] mb-4" />
                 <h4 className="text-2xl font-bold text-white mb-2">
                   Our Team at Work
                 </h4>
@@ -1116,13 +1329,13 @@ const ContactSection = () => {
             <div className="space-y-6">
               {[
                 {
-                  icon: "📧",
+                  icon: IconMail,
                   title: "Email",
                   info: "artradingplc@gmail.com",
                 },
-                { icon: "📞", title: "Phone", info: "0988175550" },
+                { icon: IconPhone, title: "Phone", info: "0988175550" },
                 {
-                  icon: "📍",
+                  icon: IconMapPin,
                   title: "Address",
                   info: "3rd floor, Bass Addis Bldg. Bole\nAddis Ababa, Ethiopia",
                 },
@@ -1136,8 +1349,8 @@ const ContactSection = () => {
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.05, x: 10 }}
                 >
-                  <div className="flex-shrink-0 w-12 h-12 btn-secondary rounded-full flex items-center justify-center">
-                    {contact.icon}
+                  <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/40 rounded-full flex items-center justify-center text-[#C69c6c] hover:bg-gradient-to-br hover:from-[#C69c6c]/30 hover:to-[#d4a574]/30 transition-all duration-300">
+                    <contact.icon className="w-6 h-6" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-white">
@@ -1152,15 +1365,19 @@ const ContactSection = () => {
               <div className="pt-6">
                 <h4 className="font-semibold text-white mb-4">Follow Us</h4>
                 <div className="flex space-x-4">
-                  {["📘", "🐦", "💼"].map((social, index) => (
+                  {[
+                    { icon: IconBrandFacebook, href: "#" },
+                    { icon: IconBrandTwitter, href: "#" },
+                    { icon: IconBrandLinkedin, href: "#" },
+                  ].map((social, index) => (
                     <motion.a
                       key={index}
-                      href="#"
-                      className="w-10 h-10 btn-secondary rounded-full flex items-center justify-center"
+                      href={social.href}
+                      className="w-10 h-10 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/40 rounded-full flex items-center justify-center text-[#C69c6c] hover:bg-gradient-to-br hover:from-[#C69c6c]/30 hover:to-[#d4a574]/30 transition-all duration-300"
                       whileHover={{ scale: 1.2, rotate: 360 }}
                       transition={{ duration: 0.3 }}
                     >
-                      {social}
+                      <social.icon className="w-5 h-5" />
                     </motion.a>
                   ))}
                 </div>
@@ -1211,9 +1428,9 @@ const ContactSection = () => {
             </div>
             {/* Decorative Map Pin */}
             <div className="absolute top-6 left-1/2 -translate-x-1/2 z-20">
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 shadow-xl border-4 border-white/30 text-white text-2xl animate-bounce">
-                📍
-              </span>
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 to-purple-600 shadow-xl border-4 border-white/30 text-white animate-bounce">
+                <IconMapPin className="w-6 h-6" />
+              </div>
             </div>
           </div>
         </motion.div>
@@ -1327,10 +1544,10 @@ const tabNames = ["Web Development", "Digital Marketing", "Branding"] as const;
 
 type TabName = (typeof tabNames)[number];
 
-const tabIcons: Record<TabName, string> = {
-  "Web Development": "💻",
-  "Digital Marketing": "📈",
-  Branding: "🎨",
+const tabIcons: Record<TabName, any> = {
+  "Web Development": IconCode,
+  "Digital Marketing": IconChartLine,
+  Branding: IconPalette,
 };
 
 const latestWorks: Record<TabName, WorkItem[]> = {
@@ -1464,7 +1681,10 @@ const LatestWorksSection = () => {
                     />
                   )}
                   <span className="sm:hidden" title={tab}>
-                    {tabIcons[tab]}
+                    {(() => {
+                      const IconComponent = tabIcons[tab];
+                      return <IconComponent className="w-5 h-5" />;
+                    })()}
                   </span>
                   <span className="hidden sm:inline">{tab}</span>
                 </button>
