@@ -47,6 +47,7 @@ import {
   IconShieldCheck,
   IconClock,
   IconStar,
+  IconArrowRight,
 } from "@tabler/icons-react";
 
 // Utility to detect mobile devices
@@ -282,361 +283,225 @@ const Floating3DTriangle = () => {
 };
 
 // Enhanced Hero Section
-
 const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-32 sm:pt-40"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-20 sm:pt-24"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-cyan-900/30"></div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
-        {/* Floating Business Icons - Spread Across Entire Hero */}
-        <motion.div
-          className="absolute top-1/4 left-1/8 w-7 h-7 text-[#C69c6c]/60"
-          animate={{
-            y: [0, -25, 0],
-            rotate: [0, 360],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 8,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 0,
-          }}
-        >
-          <IconTrendingUp className="w-full h-full" />
-        </motion.div>
+        {/* Professional Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Subtle Grid Pattern */}
+          <div className="absolute inset-0 opacity-10">
+            <div
+              className="absolute inset-0"
+              style={{
+                backgroundImage: `radial-gradient(circle at 1px 1px, rgba(198, 156, 108, 0.3) 1px, transparent 0)`,
+                backgroundSize: "40px 40px",
+              }}
+            ></div>
+          </div>
 
-        <motion.div
-          className="absolute top-1/6 right-1/6 w-6 h-6 text-blue-400/60"
-          animate={{
-            y: [0, 20, 0],
-            rotate: [0, -360],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 6,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1,
-          }}
-        >
-          <IconBulb className="w-full h-full" />
-        </motion.div>
+          {/* Professional Floating Elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            <motion.div
+              className="absolute top-1/4 left-1/8 w-16 h-16 floating-element rounded-full"
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0.3, 0.6, 0.3],
+              }}
+              transition={{
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            />
+            <motion.div
+              className="absolute bottom-1/4 right-1/6 w-12 h-12 floating-element rounded-full"
+              animate={{
+                y: [0, 15, 0],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{
+                duration: 6,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2,
+              }}
+            />
 
-        <motion.div
-          className="absolute bottom-1/4 left-1/6 w-6 h-6 text-purple-400/60"
-          animate={{
-            y: [0, -18, 0],
-            rotate: [0, 360],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
-        >
-          <IconAward className="w-full h-full" />
-        </motion.div>
+            {/* Additional Floating Icons */}
+            <motion.div
+              className="absolute top-1/6 right-1/4 w-10 h-10 floating-element rounded-full flex items-center justify-center"
+              animate={{
+                y: [0, -15, 0],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 7,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
+            >
+              <IconAward className="w-5 h-5 text-[#C69c6c]" />
+            </motion.div>
 
-        <motion.div
-          className="absolute bottom-1/3 right-1/8 w-5 h-5 text-[#C69c6c]/70"
-          animate={{
-            y: [0, 15, 0],
-            rotate: [0, -360],
-            scale: [1, 1.4, 1],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 3,
-          }}
-        >
-          <IconGraph className="w-full h-full" />
-        </motion.div>
+            <motion.div
+              className="absolute bottom-1/6 left-1/3 w-8 h-8 floating-element rounded-full flex items-center justify-center"
+              animate={{
+                y: [0, 12, 0],
+                rotate: [0, -360],
+              }}
+              transition={{
+                duration: 5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 3,
+              }}
+            >
+              <IconGraph className="w-4 h-4 text-blue-400" />
+            </motion.div>
 
-        <motion.div
-          className="absolute top-1/2 left-1/4 w-6 h-6 text-cyan-400/60"
-          animate={{
-            y: [0, -12, 0],
-            rotate: [0, 360],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 9,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1.5,
-          }}
-        >
-          <IconPresentation className="w-full h-full" />
-        </motion.div>
+            <motion.div
+              className="absolute top-1/2 right-1/8 w-9 h-9 floating-element rounded-full flex items-center justify-center"
+              animate={{
+                y: [0, -18, 0],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 9,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.5,
+              }}
+            >
+              <IconPresentation className="w-4 h-4 text-purple-400" />
+            </motion.div>
 
-        <motion.div
-          className="absolute bottom-1/6 right-1/4 w-6 h-6 text-[#C69c6c]/50"
-          animate={{
-            y: [0, 22, 0],
-            rotate: [0, -360],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 6.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2.5,
-          }}
-        >
-          <IconBriefcase className="w-full h-full" />
-        </motion.div>
+            <motion.div
+              className="absolute bottom-1/3 right-1/3 w-7 h-7 floating-element rounded-full flex items-center justify-center"
+              animate={{
+                y: [0, 10, 0],
+                rotate: [0, -360],
+              }}
+              transition={{
+                duration: 6.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 2.5,
+              }}
+            >
+              <IconBriefcase className="w-3 h-3 text-[#C69c6c]" />
+            </motion.div>
 
-        <motion.div
-          className="absolute top-3/4 left-1/8 w-5 h-5 text-green-400/60"
-          animate={{
-            y: [0, -16, 0],
-            rotate: [0, 360],
-            scale: [1, 1.1, 1],
-          }}
-          transition={{
-            duration: 7.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 0.8,
-          }}
-        >
-          <IconGlobe className="w-full h-full" />
-        </motion.div>
+            <motion.div
+              className="absolute top-3/4 left-1/6 w-6 h-6 floating-element rounded-full flex items-center justify-center"
+              animate={{
+                y: [0, -14, 0],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: 7.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1.8,
+              }}
+            >
+              <IconGlobe className="w-3 h-3 text-green-400" />
+            </motion.div>
 
-        <motion.div
-          className="absolute bottom-1/8 left-1/4 w-6 h-6 text-pink-400/60"
-          animate={{
-            y: [0, 18, 0],
-            rotate: [0, -360],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 8.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 3.2,
-          }}
-        >
-          <IconDeviceLaptop className="w-full h-full" />
-        </motion.div>
+            <motion.div
+              className="absolute bottom-1/8 left-1/5 w-8 h-8 floating-element rounded-full flex items-center justify-center"
+              animate={{
+                y: [0, 16, 0],
+                rotate: [0, -360],
+              }}
+              transition={{
+                duration: 8.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 3.2,
+              }}
+            >
+              <IconDeviceLaptop className="w-4 h-4 text-pink-400" />
+            </motion.div>
+          </div>
+        </div>
 
-        {/* Split Screen Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column - Text & CTA */}
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+          {/* Left Column - Professional Content */}
           <motion.div
-            className="text-left"
+            className="text-left space-y-6"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Badge */}
+            {/* Professional Badge */}
             <motion.div
-              className="mb-6"
               initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <div className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full">
-                <IconRocket className="w-4 h-4 mr-2 text-[#C69c6c]" />
-                <span className="text-[#C69c6c] text-sm font-medium">
-                  Leading Digital Marketing Solutions
+              <div className="inline-flex items-center px-6 py-3 professional-badge rounded-full">
+                <div className="w-2 h-2 bg-[#C69c6c] rounded-full mr-3 animate-pulse"></div>
+                <span className="text-[#C69c6c] text-sm font-semibold tracking-wide">
+                  LEADING DIGITAL MARKETING AGENCY
                 </span>
-                <span className="ml-2 text-[#C69c6c] text-sm">🇪🇹</span>
+                <span className="ml-3 text-[#C69c6c] text-sm">🇪🇹</span>
               </div>
             </motion.div>
 
-            {/* Professional Headline with Floating Animation */}
+            {/* Professional Headline */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
+              className="space-y-4"
             >
-              <motion.h1
-                className="text-5xl sm:text-6xl lg:text-7xl font-bold font-poppins leading-tight mb-6"
-                animate={{
-                  y: [0, -5, 0],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              >
-                <span className="gradient-text">Let's Build Something</span>
-                <br />
-                <span className="text-white">Great Together</span>
-              </motion.h1>
-              <motion.p
-                className="text-xl sm:text-2xl text-gray-300 leading-relaxed"
-                animate={{
-                  y: [0, 3, 0],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-              >
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-poppins leading-tight hero-headline">
+                <span className="block gradient-text mb-4">
+                  Let&apos;s Build Something Great Together
+                </span>
+                <span className="block text-white text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium">
+                  With Strategic Excellence
+                </span>
+              </h1>
+
+              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl hero-subtitle">
                 We deliver cutting-edge digital marketing solutions that drive
                 exponential growth, enhance brand visibility, and create lasting
                 customer relationships.
-              </motion.p>
+              </p>
             </motion.div>
 
-            {/* Professional Features with Floating Animation */}
+            {/* Professional Stats - Compact */}
             <motion.div
-              className="space-y-4 mb-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.6 }}
-            >
-              <motion.div
-                className="flex items-center space-x-3"
-                animate={{
-                  x: [0, 5, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 0,
-                }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{
-                    duration: 10,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  <IconTarget className="w-5 h-5 text-[#C69c6c]" />
-                </motion.div>
-                <span className="text-lg text-gray-200 font-medium">
-                  Tailored Solutions
-                </span>
-              </motion.div>
-              <motion.div
-                className="flex items-center space-x-3"
-                animate={{
-                  x: [0, -3, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, -360] }}
-                  transition={{
-                    duration: 12,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                >
-                  <IconCheck className="w-5 h-5 text-[#C69c6c]" />
-                </motion.div>
-                <span className="text-lg text-gray-200 font-medium">
-                  Trusted Expertise
-                </span>
-              </motion.div>
-              <motion.div
-                className="flex items-center space-x-3"
-                animate={{
-                  x: [0, 4, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2,
-                }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, 360] }}
-                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-                >
-                  <IconPalette className="w-5 h-5 text-[#C69c6c]" />
-                </motion.div>
-                <span className="text-lg text-gray-200 font-medium">
-                  Creative Excellence
-                </span>
-              </motion.div>
-            </motion.div>
-
-            {/* Professional CTA Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row gap-4 mb-8"
+              className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.0 }}
             >
-              <motion.a
-                href="#services"
-                className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <span>Explore Our Services</span>
-                <svg
-                  className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </motion.a>
-              <motion.a
-                href="#contact"
-                className="inline-flex items-center justify-center px-8 py-4 border-2 border-[#C69c6c] text-[#C69c6c] font-semibold rounded-lg hover:bg-[#C69c6c] hover:text-white transition-all duration-300"
-                whileHover={{ scale: 1.02, y: -2 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                Get Started Today
-              </motion.a>
-            </motion.div>
-
-            {/* Professional Stats */}
-            <motion.div
-              className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.2 }}
-            >
               {[
-                { number: "500+", label: "Projects Completed" },
-                { number: "98%", label: "Client Satisfaction" },
-                { number: "150+", label: "Happy Clients" },
-                { number: "5+", label: "Years Experience" },
-              ].map((stat, index) => (
+                { number: "500+", label: "Projects" },
+                { number: "98%", label: "Satisfaction" },
+                { number: "150+", label: "Clients" },
+                { number: "5+", label: "Years" },
+              ].map((stat) => (
                 <motion.div
-                  key={index}
-                  className="text-center p-4 rounded-lg bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10"
+                  key={stat.label}
+                  className="text-center p-3 rounded-xl stats-card-professional"
                   whileHover={{ scale: 1.05, y: -5 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="text-2xl font-bold gradient-text mb-1">
+                  <div className="text-xl font-bold gradient-text mb-1">
                     {stat.number}
                   </div>
-                  <div className="text-gray-300 text-sm font-medium">
+                  <div className="text-gray-300 text-xs font-medium">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -644,20 +509,19 @@ const HeroSection = () => {
             </motion.div>
           </motion.div>
 
-          {/* Right Column - Animated Professional Image */}
+          {/* Right Column - Professional Visual */}
           <motion.div
-            className="flex items-center justify-center mb-12 lg:mb-0"
+            className="flex flex-col items-start justify-center mb-8 lg:mb-0 pt-8 lg:pt-0"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
           >
-            <div className="relative w-full max-w-2xl">
-              {/* Main Floating Container */}
+            <div className="relative w-full max-w-3xl">
+              {/* Main Professional Container */}
               <motion.div
                 className="relative"
                 animate={{
-                  y: [0, -15, 0],
-                  rotateY: [0, 2, 0],
+                  y: [0, -10, 0],
                 }}
                 transition={{
                   duration: 6,
@@ -665,104 +529,164 @@ const HeroSection = () => {
                   ease: "easeInOut",
                 }}
               >
-                {/* Professional Hero Illustration Container */}
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 p-4">
+                {/* Professional Image Container */}
+                <div className="relative rounded-3xl overflow-hidden shadow-2xl professional-image-container p-8">
                   <Image
                     src="/img/image-2.png"
-                    alt="Digital Marketing and Web Development Hero Illustration"
+                    alt="Professional Digital Marketing and Web Development Services"
                     width={1200}
                     height={1200}
                     className="w-full h-auto object-contain"
                     priority
                   />
-                  {/* Animated Gradient Overlay */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"
-                    animate={{
-                      background: [
-                        "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%, transparent 100%)",
-                        "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)",
-                        "linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%, transparent 100%)",
-                      ],
-                    }}
-                    transition={{
-                      duration: 4,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  />
+
+                  {/* Professional Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 </div>
 
-                {/* Enhanced Floating Decorative Elements */}
+                {/* Professional Decorative Elements */}
                 <motion.div
-                  className="absolute -top-8 -right-8 w-32 h-32 bg-gradient-to-br from-[#C69c6c]/30 to-[#d4a574]/30 rounded-full blur-2xl"
+                  className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 rounded-full blur-xl"
                   animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.3, 0.6, 0.3],
                   }}
                   transition={{
-                    duration: 5,
+                    duration: 4,
                     repeat: Infinity,
                     ease: "easeInOut",
                   }}
                 />
+
                 <motion.div
-                  className="absolute -bottom-8 -left-8 w-28 h-28 bg-gradient-to-br from-blue-500/30 to-purple-500/30 rounded-full blur-2xl"
+                  className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-xl"
                   animate={{
                     scale: [1.2, 1, 1.2],
                     opacity: [0.6, 0.3, 0.6],
                   }}
                   transition={{
-                    duration: 4,
+                    duration: 5,
                     repeat: Infinity,
                     ease: "easeInOut",
                     delay: 1,
                   }}
                 />
 
-                {/* Additional Floating Particles */}
+                {/* Professional Floating Icons */}
                 <motion.div
-                  className="absolute top-1/4 right-1/4 w-4 h-4 bg-[#C69c6c]/40 rounded-full"
+                  className="absolute top-1/4 right-1/4 w-12 h-12 floating-element rounded-full flex items-center justify-center"
                   animate={{
-                    y: [0, -20, 0],
-                    opacity: [0.4, 1, 0.4],
+                    y: [0, -15, 0],
+                    rotate: [0, 360],
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 4,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: 0.5,
                   }}
-                />
+                >
+                  <IconTrendingUp className="w-6 h-6 text-[#C69c6c]" />
+                </motion.div>
+
                 <motion.div
-                  className="absolute bottom-1/3 left-1/4 w-3 h-3 bg-blue-400/40 rounded-full"
+                  className="absolute bottom-1/3 left-1/4 w-10 h-10 floating-element rounded-full flex items-center justify-center"
                   animate={{
-                    y: [0, 15, 0],
-                    opacity: [0.4, 1, 0.4],
-                  }}
-                  transition={{
-                    duration: 2.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.5,
-                  }}
-                />
-                <motion.div
-                  className="absolute top-1/2 left-1/3 w-2 h-2 bg-purple-400/40 rounded-full"
-                  animate={{
-                    y: [0, -12, 0],
-                    opacity: [0.4, 1, 0.4],
+                    y: [0, 12, 0],
+                    rotate: [0, -360],
                   }}
                   transition={{
                     duration: 3.5,
                     repeat: Infinity,
                     ease: "easeInOut",
-                    delay: 2,
+                    delay: 1.5,
                   }}
-                />
+                >
+                  <IconBulb className="w-5 h-5 text-blue-400" />
+                </motion.div>
+
+                {/* Additional Image Floating Icons */}
+                <motion.div
+                  className="absolute top-1/6 left-1/6 w-8 h-8 floating-element rounded-full flex items-center justify-center"
+                  animate={{
+                    y: [0, -12, 0],
+                    rotate: [0, 360],
+                  }}
+                  transition={{
+                    duration: 5.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.8,
+                  }}
+                >
+                  <IconCode className="w-4 h-4 text-cyan-400" />
+                </motion.div>
+
+                <motion.div
+                  className="absolute bottom-1/6 right-1/6 w-9 h-9 floating-element rounded-full flex items-center justify-center"
+                  animate={{
+                    y: [0, 14, 0],
+                    rotate: [0, -360],
+                  }}
+                  transition={{
+                    duration: 6.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 2.2,
+                  }}
+                >
+                  <IconChartLine className="w-4 h-4 text-[#C69c6c]" />
+                </motion.div>
+
+                <motion.div
+                  className="absolute top-1/2 left-1/8 w-7 h-7 floating-element rounded-full flex items-center justify-center"
+                  animate={{
+                    y: [0, -10, 0],
+                    rotate: [0, 360],
+                  }}
+                  transition={{
+                    duration: 4.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 1.2,
+                  }}
+                >
+                  <IconPalette className="w-3 h-3 text-purple-400" />
+                </motion.div>
+
+                <motion.div
+                  className="absolute bottom-1/4 right-1/8 w-6 h-6 floating-element rounded-full flex items-center justify-center"
+                  animate={{
+                    y: [0, 8, 0],
+                    rotate: [0, -360],
+                  }}
+                  transition={{
+                    duration: 7.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 3.5,
+                  }}
+                >
+                  <IconVideo className="w-3 h-3 text-green-400" />
+                </motion.div>
+
+                <motion.div
+                  className="absolute top-1/3 right-1/3 w-8 h-8 floating-element rounded-full flex items-center justify-center"
+                  animate={{
+                    y: [0, -16, 0],
+                    rotate: [0, 360],
+                  }}
+                  transition={{
+                    duration: 8.5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.3,
+                  }}
+                >
+                  <IconWorld className="w-4 h-4 text-blue-400" />
+                </motion.div>
               </motion.div>
 
-              {/* Outer Glow Effect */}
+              {/* Professional Glow Effect */}
               <motion.div
                 className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#C69c6c]/10 via-transparent to-blue-500/10 blur-3xl -z-10"
                 animate={{
@@ -1155,7 +1079,8 @@ const WhoWeAreSection = () => {
             </p>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
               We combine innovative ideas with practical execution, helping our
-              clients grow, connect, and stand out in today’s competitive world.
+              clients grow, connect, and stand out in today&apos;s competitive
+              world.
             </p>
             <div className="mb-8">
               <span className="inline-block text-2xl mr-2 align-middle">
@@ -1166,9 +1091,9 @@ const WhoWeAreSection = () => {
               </span>
               <p className="text-lg text-gray-300 mt-2 leading-relaxed">
                 We exist to elevate brands, simplify solutions, and deliver
-                quality with heart. Whether you’re a startup or an established
-                business, we offer tailored services that align with your goals
-                and exceed expectations.
+                quality with heart. Whether you&apos;re a startup or an
+                established business, we offer tailored services that align with
+                your goals and exceed expectations.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
@@ -1544,7 +1469,7 @@ const tabNames = ["Web Development", "Digital Marketing", "Branding"] as const;
 
 type TabName = (typeof tabNames)[number];
 
-const tabIcons: Record<TabName, any> = {
+const tabIcons: Record<TabName, React.ComponentType<{ className?: string }>> = {
   "Web Development": IconCode,
   "Digital Marketing": IconChartLine,
   Branding: IconPalette,
@@ -1668,7 +1593,6 @@ const LatestWorksSection = () => {
                         : "btn-secondary text-[#C69c6c] hover:bg-[#C69c6c]/20"
                     }
                   `}
-                  aria-selected={activeTab === tab}
                   aria-controls={`tab-panel-${tab}`}
                   tabIndex={activeTab === tab ? 0 : -1}
                   style={{ minWidth: "44px", scrollSnapAlign: "center" }}

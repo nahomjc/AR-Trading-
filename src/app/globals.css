@@ -360,3 +360,222 @@ section {
     50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
   }
 }
+
+/* Professional Hero Enhancements */
+.hero-pattern {
+  background: 
+    radial-gradient(ellipse 800px 400px at 20% 30%, rgba(198, 156, 108, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse 600px 300px at 80% 70%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+    radial-gradient(ellipse 400px 200px at 40% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+    linear-gradient(135deg, rgba(8, 36, 58, 0.95) 0%, rgba(15, 23, 42, 0.98) 100%);
+  position: relative;
+}
+
+.hero-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    linear-gradient(90deg, transparent 0%, rgba(198, 156, 108, 0.03) 50%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, rgba(59, 130, 246, 0.02) 50%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Professional Badge Animation */
+.professional-badge {
+  background: linear-gradient(135deg, 
+    rgba(198, 156, 108, 0.15) 0%, 
+    rgba(212, 165, 116, 0.15) 50%, 
+    rgba(198, 156, 108, 0.15) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(198, 156, 108, 0.4);
+  box-shadow: 
+    0 8px 32px rgba(198, 156, 108, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Professional Feature Cards */
+.feature-card {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.05) 0%, 
+    rgba(255, 255, 255, 0.02) 50%, 
+    rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  background: linear-gradient(135deg, 
+    rgba(198, 156, 108, 0.1) 0%, 
+    rgba(212, 165, 116, 0.1) 50%, 
+    rgba(198, 156, 108, 0.1) 100%);
+  border-color: rgba(198, 156, 108, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px rgba(198, 156, 108, 0.15),
+    0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Professional Stats Cards */
+.stats-card-professional {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.05) 0%, 
+    rgba(255, 255, 255, 0.02) 50%, 
+    rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.stats-card-professional:hover {
+  background: linear-gradient(135deg, 
+    rgba(198, 156, 108, 0.08) 0%, 
+    rgba(212, 165, 116, 0.08) 50%, 
+    rgba(198, 156, 108, 0.08) 100%);
+  border-color: rgba(198, 156, 108, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 
+    0 10px 30px rgba(198, 156, 108, 0.1),
+    0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Professional Button Enhancements */
+.btn-professional-primary {
+  background: linear-gradient(135deg, #C69c6c 0%, #d4a574 50%, #C69c6c 100%);
+  box-shadow: 
+    0 8px 25px rgba(198, 156, 108, 0.3),
+    0 4px 10px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(198, 156, 108, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-professional-primary:hover {
+  background: linear-gradient(135deg, #d4a574 0%, #C69c6c 50%, #d4a574 100%);
+  box-shadow: 
+    0 12px 35px rgba(198, 156, 108, 0.4),
+    0 6px 15px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.btn-professional-secondary {
+  background: transparent;
+  border: 2px solid #C69c6c;
+  backdrop-filter: blur(10px);
+  box-shadow: 
+    0 4px 15px rgba(198, 156, 108, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.btn-professional-secondary:hover {
+  background: linear-gradient(135deg, #C69c6c 0%, #d4a574 100%);
+  box-shadow: 
+    0 8px 25px rgba(198, 156, 108, 0.3),
+    0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Professional Image Container */
+.professional-image-container {
+  background: linear-gradient(135deg, 
+    rgba(8, 36, 58, 0.2) 0%, 
+    rgba(255, 255, 255, 0.05) 50%, 
+    rgba(8, 36, 58, 0.2) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 10px 30px rgba(198, 156, 108, 0.1);
+}
+
+/* Professional Floating Elements */
+.floating-element {
+  background: linear-gradient(135deg, 
+    rgba(198, 156, 108, 0.1) 0%, 
+    rgba(212, 165, 116, 0.1) 50%, 
+    rgba(198, 156, 108, 0.1) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(198, 156, 108, 0.2);
+  box-shadow: 
+    0 8px 25px rgba(198, 156, 108, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Professional Grid Pattern */
+.professional-grid {
+  background-image: 
+    linear-gradient(rgba(198, 156, 108, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(198, 156, 108, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.1;
+}
+
+/* Professional Typography Enhancements */
+.hero-headline {
+  text-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Professional Animation Keyframes */
+@keyframes professional-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes professional-pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes professional-glow {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(198, 156, 108, 0.2),
+      0 0 40px rgba(198, 156, 108, 0.1);
+  }
+  50% {
+    box-shadow: 
+      0 0 30px rgba(198, 156, 108, 0.3),
+      0 0 60px rgba(198, 156, 108, 0.2);
+  }
+}
+
+/* Professional Scrollbar */
+.scrollbar-professional::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-professional::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.scrollbar-professional::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #C69c6c, #d4a574);
+  border-radius: 4px;
+}
+
+.scrollbar-professional::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #d4a574, #C69c6c);
+}
