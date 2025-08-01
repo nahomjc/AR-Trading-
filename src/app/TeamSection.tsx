@@ -219,6 +219,13 @@ const TeamModal = ({
 // Helper function to get expertise based on role
 const getExpertiseByRole = (role: string) => {
   switch (role) {
+    case "General Manager and Co-founder":
+      return [
+        "Strategic Planning",
+        "Operations Management",
+        "Team Leadership",
+        "Business Development",
+      ];
     case "General Manager":
       return [
         "Strategic Planning",
@@ -255,8 +262,19 @@ const TeamSection = () => {
 
   const team: TeamMember[] = [
     {
+      name: "Robson Habtamu",
+      role: "General Manager and Co-founder",
+      image: "/img/image4.jpg",
+      description: "General manager and co-founder of AR Trading PLC",
+      socials: {
+        linkedin: "https://linkedin.com/in/robsonhabtamu",
+        twitter: "https://twitter.com/robsonhabtamu",
+        facebook: "https://facebook.com/robsonhabtamu",
+      },
+    },
+    {
       name: "Abenezer Samuel",
-      role: "General Manager",
+      role: "CEO and co - founder",
       image: "/img/image1.jpg",
       description:
         "Strategic leader managing operations and business direction",
@@ -373,16 +391,6 @@ const TeamSection = () => {
               {/* Hanging badge effect: real image and social icons */}
               <motion.div
                 className="flex flex-col items-center relative cursor-pointer"
-                style={{ perspective: 400 }}
-                animate={{
-                  rotateZ: [0, 4, -4, 0],
-                }}
-                transition={{
-                  duration: 3.2 + index * 0.1,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  ease: "easeInOut",
-                }}
                 onClick={() => {
                   console.log("Clicked:", member.name);
                   setHoveredMember(member);
@@ -395,6 +403,7 @@ const TeamSection = () => {
                   className={`relative mirror-card bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-80 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4 hover:scale-105 hover:shadow-2xl hover:border-[#C69c6c]/50 hover:shadow-[#C69c6c]/20 transition-all duration-300 group ${
                     member.name === "Nahom Tesfaye" ||
                     member.name === "Abenezer Samuel" ||
+                    member.name === "Robson Habtamu" ||
                     member.name === "Keneni Melkamu"
                       ? "border-t-4 border-t-[#C69c6c]"
                       : ""
@@ -412,7 +421,7 @@ const TeamSection = () => {
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white shadow-lg mb-2 mt-2 z-10"
+                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white shadow-lg mb-3 mt-3 z-10"
                     style={{ marginTop: 8 }}
                   />
                   <div className="w-full h-1 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] rounded-full opacity-60 mb-3 z-10 relative" />
