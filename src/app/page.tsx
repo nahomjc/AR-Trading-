@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import ScrollStars from "./components/ScrollStars";
 import CPUAnimation from "./components/CPUAnimation";
-import PoweredBySection from "./components/PoweredBySection";
+
 import ChatBot from "./components/ChatBot";
 import IntroLoader from "./components/IntroLoader";
 import Image from "next/image";
@@ -1849,7 +1849,6 @@ export default function Home() {
         <LatestWorksSection />
         <TeamSection />
         <TestimonialsSection />
-        <PoweredBySection />
         <ContactSection />
       </main>
       <Footer />
