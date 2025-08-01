@@ -532,7 +532,7 @@ const HeroSection = () => {
                 {/* Professional Image Container */}
                 <div className="relative rounded-3xl overflow-hidden shadow-2xl professional-image-container p-8">
                   <Image
-                    src="/img/image-2.png"
+                    src="/img/aa.png"
                     alt="Professional Digital Marketing and Web Development Services"
                     width={1200}
                     height={1200}
