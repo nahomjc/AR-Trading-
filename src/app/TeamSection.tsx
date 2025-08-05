@@ -9,11 +9,6 @@ interface TeamMember {
   role: string;
   image: string;
   description: string;
-  socials: {
-    linkedin: string;
-    twitter: string;
-    facebook: string;
-  };
 }
 
 // Typewriter effect component
@@ -154,19 +149,6 @@ const TeamModal = ({
                   <div className="text-blue-300 font-semibold text-lg mb-2">
                     {member.role}
                   </div>
-                  <div className="flex space-x-3">
-                    {Object.entries(member.socials).map(([key, url]) => (
-                      <a
-                        key={key}
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-colors"
-                      >
-                        {socialIcons[key as keyof typeof socialIcons]}
-                      </a>
-                    ))}
-                  </div>
                 </div>
               </div>
             </div>
@@ -266,11 +248,6 @@ const TeamSection = () => {
       role: "General Manager and Co-founder",
       image: "/img/image4.jpg",
       description: "General manager and co-founder of AR Trading PLC",
-      socials: {
-        linkedin: "https://linkedin.com/in/robsonhabtamu",
-        twitter: "https://twitter.com/robsonhabtamu",
-        facebook: "https://facebook.com/robsonhabtamu",
-      },
     },
     {
       name: "Abenezer Samuel",
@@ -278,81 +255,20 @@ const TeamSection = () => {
       image: "/img/image1.jpg",
       description:
         "Strategic leader managing operations and business direction",
-      socials: {
-        linkedin: "https://linkedin.com/in/abenezersamuel",
-        twitter: "https://twitter.com/abenezersamuel",
-        facebook: "https://facebook.com/abenezersamuel",
-      },
     },
     {
       name: "Keneni Melkamu",
       role: "Digital Marketer",
       image: "/img/image2.jpg",
       description: "Digital marketing expert specializing in campaigns and SEO",
-      socials: {
-        linkedin: "https://linkedin.com/in/kenenimelkamu",
-        twitter: "https://twitter.com/kenenimelkamu",
-        facebook: "https://facebook.com/kenenimelkamu",
-      },
     },
     {
       name: "Nahom Tesfaye",
       role: "Senior Software Engineer",
       image: "/img/image3.jpg",
       description: "Full-stack developer with modern web technology expertise",
-      socials: {
-        linkedin: "https://linkedin.com/in/nahomtesfaye",
-        twitter: "https://twitter.com/nahomtesfaye",
-        facebook: "https://facebook.com/nahomtesfaye",
-      },
     },
   ];
-
-  const socialIcons = {
-    linkedin: (
-      <svg
-        width="22"
-        height="22"
-        fill="none"
-        viewBox="0 0 24 24"
-        className="text-blue-400 group-hover:text-blue-500 transition-colors"
-      >
-        <path
-          d="M16 8a6 6 0 0 1 6 6v5.25a.75.75 0 0 1-.75.75h-3.5a.75.75 0 0 1-.75-.75V14a2 2 0 0 0-4 0v5.25a.75.75 0 0 1-.75.75h-3.5A.75.75 0 0 1 8 19.25V9a.75.75 0 0 1 .75-.75h3.5A.75.75 0 0 1 13 9v.75A6 6 0 0 1 16 8Z"
-          fill="currentColor"
-        />
-        <rect x="2" y="9" width="4" height="10" rx="1" fill="currentColor" />
-      </svg>
-    ),
-    twitter: (
-      <svg
-        width="22"
-        height="22"
-        fill="none"
-        viewBox="0 0 24 24"
-        className="text-blue-300 group-hover:text-blue-400 transition-colors"
-      >
-        <path
-          d="M22 5.924c-.793.352-1.645.59-2.54.698a4.48 4.48 0 0 0 1.965-2.475 8.94 8.94 0 0 1-2.828 1.082A4.48 4.48 0 0 0 11.5 9.5c0 .352.04.695.116 1.022C7.728 10.37 4.1 8.6 1.67 5.905a4.48 4.48 0 0 0-.607 2.257c0 1.557.793 2.933 2.002 3.74a4.48 4.48 0 0 1-2.03-.56v.057a4.48 4.48 0 0 0 3.6 4.393c-.193.053-.397.08-.607.08-.148 0-.292-.014-.432-.04a4.48 4.48 0 0 0 4.18 3.11A8.98 8.98 0 0 1 2 19.07a12.68 12.68 0 0 0 6.88 2.017c8.26 0 12.78-6.84 12.78-12.78 0-.195-.004-.39-.013-.583A9.14 9.14 0 0 0 24 4.59a8.98 8.98 0 0 1-2.6.713Z"
-          fill="currentColor"
-        />
-      </svg>
-    ),
-    facebook: (
-      <svg
-        width="22"
-        height="22"
-        fill="none"
-        viewBox="0 0 24 24"
-        className="text-blue-500 group-hover:text-blue-600 transition-colors"
-      >
-        <path
-          d="M22.675 0h-21.35C.595 0 0 .592 0 1.326v21.348C0 23.408.595 24 1.326 24h11.495v-9.294H9.692v-3.622h3.129V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.92.001c-1.504 0-1.797.715-1.797 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116C23.406 24 24 23.408 24 22.674V1.326C24 .592 23.406 0 22.675 0"
-          fill="currentColor"
-        />
-      </svg>
-    ),
-  };
 
   return (
     <section id="team" className="py-20 px-4 sm:px-6 lg:px-8 relative">
@@ -367,7 +283,7 @@ const TeamSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Our Team
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
+          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 gradient-text">
             Meet the Team Under the Hood
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -425,7 +341,7 @@ const TeamSection = () => {
                     style={{ marginTop: 8 }}
                   />
                   <div className="w-full h-1 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] rounded-full opacity-60 mb-3 z-10 relative" />
-                  <h3 className="text-lg font-bold font-poppins text-white mb-1 text-center w-full px-2">
+                  <h3 className="text-lg font-bold font-outfit text-white mb-1 text-center w-full px-2">
                     {member.name}
                   </h3>
                   {/* Click indicator */}
@@ -441,21 +357,6 @@ const TeamSection = () => {
                   <p className="text-gray-200 text-sm leading-relaxed text-center w-full mt-1 mb-2">
                     {member.description}
                   </p>
-                  {/* Social icons */}
-                  <div className="flex justify-center gap-4 mt-auto pt-2 pb-2">
-                    {Object.entries(member.socials).map(([key, url]) => (
-                      <a
-                        key={key}
-                        href={url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group hover:scale-110 transition-transform"
-                        aria-label={key}
-                      >
-                        {socialIcons[key as keyof typeof socialIcons]}
-                      </a>
-                    ))}
-                  </div>
                 </div>
               </motion.div>
             </motion.div>

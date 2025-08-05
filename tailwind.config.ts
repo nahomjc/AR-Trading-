@@ -10,7 +10,7 @@ export default {
     extend: {
       fontFamily: {
         inter: ["var(--font-inter)", "sans-serif"],
-        poppins: ["var(--font-poppins)", "sans-serif"],
+        outfit: ["var(--font-outfit)", "sans-serif"],
       },
       colors: {
         background: "var(--background)",

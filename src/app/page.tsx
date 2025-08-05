@@ -105,7 +105,7 @@ const Navigation = () => {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <a href="#home" className="focus:outline-none">
-              <h1 className="text-2xl font-bold font-poppins gradient-text">
+              <h1 className="text-2xl font-bold font-outfit gradient-text">
                 AR Trading PLC
               </h1>
             </a>
@@ -441,21 +441,6 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Professional Badge */}
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <div className="inline-flex items-center px-6 py-3 professional-badge rounded-full">
-                <div className="w-2 h-2 bg-[#C69c6c] rounded-full mr-3 animate-pulse"></div>
-                <span className="text-[#C69c6c] text-sm font-semibold tracking-wide">
-                  LEADING DIGITAL MARKETING AGENCY
-                </span>
-                <span className="ml-3 text-[#C69c6c] text-sm">🇪🇹</span>
-              </div>
-            </motion.div>
-
             {/* Professional Headline */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -463,7 +448,7 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 0.4 }}
               className="space-y-4"
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-poppins leading-tight hero-headline">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-outfit leading-tight hero-headline">
                 <span className="block gradient-text mb-4">
                   Let&apos;s Build Something Great Together
                 </span>
@@ -530,7 +515,7 @@ const HeroSection = () => {
                 }}
               >
                 {/* Professional Image Container */}
-                <div className="relative rounded-3xl overflow-hidden shadow-2xl professional-image-container p-8">
+                <div className="relative">
                   <Image
                     src="/img/aa.png"
                     alt="Professional Digital Marketing and Web Development Services"
@@ -539,9 +524,6 @@ const HeroSection = () => {
                     className="w-full h-auto object-contain"
                     priority
                   />
-
-                  {/* Professional Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                 </div>
 
                 {/* Professional Decorative Elements */}
@@ -710,7 +692,6 @@ const HeroSection = () => {
 // Services Section
 const ServicesSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
   const services = [
     {
@@ -811,14 +792,12 @@ const ServicesSection = () => {
 
   // Auto-play functionality
   useEffect(() => {
-    if (!isAutoPlaying) return;
-
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % services.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, services.length]);
+  }, [services.length]);
 
   return (
     <section
@@ -836,7 +815,7 @@ const ServicesSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Services & Offerings
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-poppins mb-6 gradient-text">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-6 gradient-text">
             What We Offer
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -868,8 +847,6 @@ const ServicesSection = () => {
                 }}
                 onClick={() => {
                   setActiveIndex(index);
-                  setIsAutoPlaying(false);
-                  setTimeout(() => setIsAutoPlaying(true), 10000);
                 }}
               >
                 {/* Animated Background */}
@@ -907,7 +884,7 @@ const ServicesSection = () => {
 
                 {/* Content */}
                 <div className="relative">
-                  <h3 className="text-2xl font-bold font-poppins mb-4 text-white group-hover:text-[#C69c6c] transition-colors duration-300">
+                  <h3 className="text-2xl font-bold font-outfit mb-4 text-white group-hover:text-[#C69c6c] transition-colors duration-300">
                     {service.title}
                   </h3>
                   <p className="text-gray-300 leading-relaxed mb-4">
@@ -941,89 +918,6 @@ const ServicesSection = () => {
               </motion.div>
             ))}
           </div>
-
-          {/* Slideshow Controls */}
-          <div className="flex justify-center items-center space-x-4 mb-8">
-            <button
-              onClick={() => {
-                setActiveIndex(
-                  (prev) => (prev - 1 + services.length) % services.length
-                );
-                setIsAutoPlaying(false);
-                setTimeout(() => setIsAutoPlaying(true), 10000);
-              }}
-              className="w-12 h-12 rounded-full bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/30 flex items-center justify-center text-[#C69c6c] hover:bg-gradient-to-r hover:from-[#C69c6c]/30 hover:to-[#d4a574]/30 transition-all duration-300"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
-            </button>
-
-            <div className="flex space-x-2">
-              {services.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setActiveIndex(index);
-                    setIsAutoPlaying(false);
-                    setTimeout(() => setIsAutoPlaying(true), 10000);
-                  }}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === activeIndex
-                      ? "bg-[#C69c6c] scale-125"
-                      : "bg-gray-400 hover:bg-[#C69c6c]/60"
-                  }`}
-                />
-              ))}
-            </div>
-
-            <button
-              onClick={() => {
-                setActiveIndex((prev) => (prev + 1) % services.length);
-                setIsAutoPlaying(false);
-                setTimeout(() => setIsAutoPlaying(true), 10000);
-              }}
-              className="w-12 h-12 rounded-full bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/30 flex items-center justify-center text-[#C69c6c] hover:bg-gradient-to-r hover:from-[#C69c6c]/30 hover:to-[#d4a574]/30 transition-all duration-300"
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
-            </button>
-          </div>
-
-          {/* Auto-play Toggle */}
-          <div className="text-center">
-            <button
-              onClick={() => setIsAutoPlaying(!isAutoPlaying)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                isAutoPlaying
-                  ? "bg-[#C69c6c]/20 text-[#C69c6c] border border-[#C69c6c]/30"
-                  : "bg-gray-600/20 text-gray-400 border border-gray-600/30"
-              }`}
-            >
-              {isAutoPlaying ? "⏸️ Pause Slideshow" : "▶️ Play Slideshow"}
-            </button>
-          </div>
         </div>
       </div>
     </section>
@@ -1047,7 +941,7 @@ const WhoWeAreSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             About Our Company
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
+          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 gradient-text">
             Excellence. Innovation. Results.
           </h2>
           <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
@@ -1065,7 +959,7 @@ const WhoWeAreSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold font-poppins mb-6 text-white">
+            <h3 className="text-3xl font-bold font-outfit mb-6 text-white">
               Our Mission & Vision
             </h3>
             <h4 className="text-xl font-semibold text-[#C69c6c] mb-4">
@@ -1160,7 +1054,7 @@ const ContactSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Contact Us
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-poppins mb-6 gradient-text">
+          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 gradient-text">
             Let&apos;s Start Your Digital Journey
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -1177,7 +1071,7 @@ const ContactSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-semibold font-poppins mb-6 text-white">
+            <h3 className="text-2xl font-semibold font-outfit mb-6 text-white">
               Get In Touch
             </h3>
             <form className="space-y-6">
@@ -1248,7 +1142,7 @@ const ContactSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-semibold font-poppins mb-6 text-white">
+            <h3 className="text-2xl font-semibold font-outfit mb-6 text-white">
               Contact Information
             </h3>
             <div className="space-y-6">
@@ -1378,7 +1272,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-2">
             <motion.h3
-              className="text-2xl font-bold font-poppins gradient-text mb-4"
+              className="text-2xl font-bold font-outfit gradient-text mb-4"
               whileHover={{ scale: 1.05 }}
             >
               AR Trading PLC
@@ -1566,7 +1460,7 @@ const LatestWorksSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/30 to-[#d4a574]/30 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Latest Works
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-poppins mb-4 gradient-text">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-4 gradient-text">
             Our Latest Works
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
@@ -1659,7 +1553,7 @@ const LatestWorksSection = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
                   </div>
                   <div className="p-6">
-                    <h3 className="text-lg font-bold font-poppins mb-1 text-white group-hover:text-blue-300 transition-colors">
+                    <h3 className="text-lg font-bold font-outfit mb-1 text-white group-hover:text-blue-300 transition-colors">
                       {work.title}
                     </h3>
                     <div className="text-blue-400 font-medium mb-1 text-sm">

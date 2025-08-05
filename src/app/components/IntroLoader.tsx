@@ -63,7 +63,7 @@ export default function IntroLoader() {
               transition={{ delay: 0.3, duration: 0.7 }}
               className="text-center"
             >
-              <h1 className="text-3xl sm:text-4xl font-extrabold font-poppins bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg mb-2">
+              <h1 className="text-3xl sm:text-4xl font-extrabold font-outfit bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent drop-shadow-lg mb-2">
                 AR Trading PLC
               </h1>
               <p className="text-cyan-100 text-lg sm:text-xl font-medium tracking-wide animate-pulse">

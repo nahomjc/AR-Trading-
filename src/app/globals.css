@@ -29,7 +29,7 @@ html {
       radial-gradient(ellipse at bottom right, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
       linear-gradient(135deg, #08243A 0%, #1e293b 50%, #0f172a 100%);
     color: var(--foreground);
-    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
