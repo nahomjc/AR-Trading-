@@ -283,7 +283,7 @@ const TeamSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Our Team
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 gradient-text">
+          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#ffb396]">
             Meet the Team Under the Hood
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">

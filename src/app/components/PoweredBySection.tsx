@@ -89,10 +89,8 @@ export default function PoweredBySection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-bold tracking-wider mb-6">
-            <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-cyan-400 bg-clip-text text-transparent">
-              MARKETING SYSTEM
-            </span>
+          <h2 className="text-5xl md:text-6xl font-bold tracking-wider mb-6 text-[#ffb396]">
+            MARKETING SYSTEM
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             Our integrated digital marketing ecosystem powering your business
