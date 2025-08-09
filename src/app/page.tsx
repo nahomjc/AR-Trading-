@@ -449,7 +449,7 @@ const HeroSection = () => {
               className="space-y-4"
             >
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-outfit leading-tight hero-headline">
-                <span className="block gradient-text mb-4">
+                <span className="block text-[#ffb396] mb-4">
                   Let&apos;s Build Something Great Together
                 </span>
                 <span className="block text-white text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium">
@@ -1054,7 +1054,7 @@ const ContactSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Contact Us
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 gradient-text">
+          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#ff6026]">
             Let&apos;s Start Your Digital Journey
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -1156,7 +1156,7 @@ const ContactSection = () => {
                 {
                   icon: IconMapPin,
                   title: "Address",
-                  info: "3rd floor, Bass Addis Bldg. Bole\nAddis Ababa, Ethiopia",
+                  info: "8th floor, Kazadis Bldg, Kazanchis\nAddis Ababa, Ethiopia",
                 },
               ].map((contact, index) => (
                 <motion.div
@@ -1217,7 +1217,7 @@ const ContactSection = () => {
             {/* Embedded Google Map */}
             <iframe
               title="AR Trading PLC Location"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.669393698736!2d38.7725403!3d9.0122241!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b851aa37d610d%3A0x53b55e8e74640bdf!2sBetopia%20site!5e0!3m2!1sen!2set!4v1715612345678!5m2!1sen!2set"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4248.424677904093!2d38.77295590000001!3d9.011854399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b852ce1410c23%3A0xe500072b801f3134!2sAR%20Solutions%20Trading%20PLC!5e1!3m2!1sen!2set!4v1754757264346!5m2!1sen!2set"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -1232,7 +1232,7 @@ const ContactSection = () => {
                 Our Location
               </h4>
               <p className="text-cyan-100 text-base font-medium mb-3 drop-shadow">
-                3rd floor, Bass Addis Bldg. Bole, Addis Ababa, Ethiopia
+                8th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia
               </p>
               <motion.a
                 href="https://www.google.com/maps/place/Betopia+site/@9.0122241,38.7725403,119m/data=!3m1!1e3!4m6!3m5!1s0x164b851aa37d610d:0x53b55e8e74640bdf!8m2!3d9.0122241!4d38.7731438!16s%2Fg%2F11sckb3__w?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D"
