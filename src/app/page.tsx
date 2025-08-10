@@ -287,7 +287,7 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-20 sm:pt-24"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-8 sm:pt-12"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-cyan-900/30"></div>
 
@@ -433,10 +433,10 @@ const HeroSection = () => {
         </div>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* Left Column - Professional Content */}
           <motion.div
-            className="text-left space-y-6"
+            className="text-left space-y-6 order-2 lg:order-1"
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
@@ -449,19 +449,13 @@ const HeroSection = () => {
               className="space-y-4"
             >
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-outfit leading-tight hero-headline">
-                <span className="block text-[#ffb396] mb-4">
+                <span className="block text-[#C79D6D] mb-4">
                   Let&apos;s Build Something Great Together
                 </span>
                 <span className="block text-white text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium">
                   With Strategic Excellence
                 </span>
               </h1>
-
-              <p className="text-lg sm:text-xl text-gray-300 leading-relaxed max-w-2xl hero-subtitle">
-                We deliver cutting-edge digital marketing solutions that drive
-                exponential growth, enhance brand visibility, and create lasting
-                customer relationships.
-              </p>
             </motion.div>
 
             {/* Professional Stats - Compact */}
@@ -496,7 +490,7 @@ const HeroSection = () => {
 
           {/* Right Column - Professional Visual */}
           <motion.div
-            className="flex flex-col items-start justify-center mb-8 lg:mb-0 pt-8 lg:pt-0"
+            className="flex flex-col items-start justify-center mb-8 lg:mb-0 order-1 lg:order-2"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
@@ -1022,16 +1016,57 @@ const WhoWeAreSection = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <div className="mirror-card p-8 h-96 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 flex items-center justify-center">
-              <div className="text-center">
-                <IconUsers className="w-20 h-20 text-[#C69c6c] mb-4" />
-                <h4 className="text-2xl font-bold text-white mb-2">
-                  Our Team at Work
-                </h4>
-                <p className="text-gray-300">
-                  Dedicated professionals crafting digital excellence
-                </p>
+            <div className="relative">
+              {/* Professional Image Container */}
+              <div className="mirror-card p-4 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 rounded-2xl overflow-hidden">
+                <Image
+                  src="/img/about-us-4.png"
+                  alt="Professional team collaboration and digital excellence"
+                  width={600}
+                  height={600}
+                  className="w-full h-auto object-contain rounded-xl"
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 500px"
+                />
               </div>
+
+              {/* Floating Decorative Elements */}
+              <motion.div
+                className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 rounded-full blur-xl"
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.3, 0.6, 0.3],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+
+              <motion.div
+                className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-xl"
+                animate={{
+                  scale: [1.2, 1, 1.2],
+                  opacity: [0.6, 0.3, 0.6],
+                }}
+                transition={{
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
+              />
+
+              {/* Professional Badge */}
+              <motion.div
+                className="absolute top-4 left-4 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+              >
+                Professional Excellence
+              </motion.div>
             </div>
           </motion.div>
         </div>

@@ -246,7 +246,7 @@ const TeamSection = () => {
     {
       name: "Robson Habtamu",
       role: "General Manager and Co-founder",
-      image: "/img/image4.jpg",
+      image: "/img/image-ceo.jpg",
       description: "General manager and co-founder of AR Trading PLC",
     },
     {
@@ -274,91 +274,162 @@ const TeamSection = () => {
     <section id="team" className="py-20 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+          initial={{ opacity: 0, y: 80, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
-            Our Team
-          </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#ffb396]">
-            Meet the Team Under the Hood
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            With its existing reputation and plans to build a proprietary
-            technology solution that will bring meaningful value to clients, AR
-            Trading PLC is well-positioned to become one of the most trusted
-            digital solution providers in the industry.
-          </p>
+          {/* Elegant Badge */}
+          <motion.div
+            className="inline-flex items-center px-10 py-5 bg-gradient-to-r from-[#C69c6c]/15 via-[#d4a574]/15 to-[#C69c6c]/15 backdrop-blur-2xl border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-bold mb-12 tracking-wider shadow-xl"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <div className="w-2 h-2 bg-[#C69c6c] rounded-full mr-4 animate-pulse"></div>
+            OUR PROFESSIONAL TEAM
+            <div className="w-2 h-2 bg-[#C69c6c] rounded-full ml-4 animate-pulse"></div>
+          </motion.div>
+
+          {/* Elegant Title */}
+          <motion.h2
+            className="text-5xl sm:text-7xl font-bold font-outfit mb-8 text-white leading-tight"
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            Meet Our
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#C69c6c] via-[#d4a574] to-[#C69c6c]">
+              Expert Team
+            </span>
+          </motion.h2>
+
+          {/* Elegant Description */}
+          <motion.p
+            className="text-lg lg:text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed font-light"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            viewport={{ once: true }}
+          >
+            Our talented professionals bring together diverse expertise and
+            innovative thinking to deliver
+            <span className="text-[#C69c6c] font-semibold">
+              {" "}
+              exceptional results
+            </span>{" "}
+            that exceed expectations and drive success for our valued clients.
+          </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16">
           {team.map((member, index) => (
             <motion.div
               key={index}
-              className="flex justify-center"
-              initial={{ opacity: 0, y: 100 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              className="group relative"
+              initial={{ opacity: 0, y: 80, scale: 0.8 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{
+                duration: 1,
+                delay: index * 0.2,
+                ease: "easeOut",
+              }}
               viewport={{ once: true }}
+              whileHover={{ y: -20, scale: 1.05 }}
             >
-              {/* Hanging badge effect: real image and social icons */}
-              <motion.div
-                className="flex flex-col items-center relative cursor-pointer"
+              {/* Modern Professional Card */}
+              <div
+                className="relative bg-gradient-to-br from-slate-900/95 via-gray-900/95 to-slate-900/95 backdrop-blur-3xl border border-slate-700/40 rounded-2xl p-10 hover:border-[#C69c6c]/80 transition-all duration-800 cursor-pointer overflow-hidden shadow-2xl hover:shadow-[#C69c6c]/30 group"
                 onClick={() => {
                   console.log("Clicked:", member.name);
                   setHoveredMember(member);
                 }}
               >
-                {/* Hanging rope (lanyard) */}
-                <div className="w-2 h-14 bg-gradient-to-b from-[#C69c6c] via-[#d4a574] to-[#C69c6c] rounded-full mb-[-18px] z-20" />
-                {/* Badge with all info */}
-                <div
-                  className={`relative mirror-card bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 shadow-2xl rounded-2xl w-full max-w-xs sm:max-w-sm md:max-w-md lg:w-64 lg:h-80 flex flex-col items-center justify-start pt-6 pb-4 px-2 sm:px-4 hover:scale-105 hover:shadow-2xl hover:border-[#C69c6c]/50 hover:shadow-[#C69c6c]/20 transition-all duration-300 group ${
-                    member.name === "Nahom Tesfaye" ||
-                    member.name === "Abenezer Samuel" ||
-                    member.name === "Robson Habtamu" ||
-                    member.name === "Keneni Melkamu"
-                      ? "border-t-4 border-t-[#C69c6c]"
-                      : ""
-                  }`}
-                >
-                  {/* Metallic ring/hole */}
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-8 h-4 flex flex-col items-center z-10">
-                    <div
-                      className="w-5 h-5 bg-gradient-to-br from-gray-200 to-gray-400 rounded-full border-2 border-gray-300 shadow-inner"
-                      style={{ marginBottom: -8 }}
-                    />
-                    <div className="w-2 h-2 bg-gray-100 rounded-full border border-gray-300 absolute top-1 left-1/2 -translate-x-1/2" />
+                {/* Elegant Background Pattern */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#C69c6c]/5 via-transparent to-[#C69c6c]/5"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(198,156,108,0.08),transparent_40%)]"></div>
+
+                {/* Top Accent Line */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C69c6c] via-[#d4a574] to-[#C69c6c] rounded-t-2xl"></div>
+
+                {/* Floating Accent Dots */}
+                <div className="absolute top-8 right-8 w-2 h-2 bg-[#C69c6c] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-800 transform scale-0 group-hover:scale-100"></div>
+                <div className="absolute bottom-8 left-8 w-1.5 h-1.5 bg-[#d4a574] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-800 delay-300 transform scale-0 group-hover:scale-100"></div>
+
+                {/* Large Profile Image Section */}
+                <div className="relative flex justify-center mb-10">
+                  <div className="relative">
+                    {/* Main Large Image Container */}
+                    <div className="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-[#C69c6c]/20 group-hover:ring-[#C69c6c]/50 transition-all duration-700 shadow-2xl group-hover:shadow-[#C69c6c]/20">
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800"
+                      />
+                      {/* Subtle Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                    </div>
+
+                    {/* Elegant Status Ring */}
+                    <div className="absolute inset-0 rounded-full border border-[#C69c6c]/30 animate-pulse"></div>
+
+                    {/* Professional Status Indicator */}
+                    <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full border-4 border-slate-900 flex items-center justify-center shadow-xl">
+                      <div className="w-4 h-4 bg-white rounded-full animate-pulse"></div>
+                    </div>
+
+                    {/* Subtle Corner Accents */}
+                    <div className="absolute -top-3 -left-3 w-3 h-3 bg-[#C69c6c]/40 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 delay-400"></div>
+                    <div className="absolute -top-3 -right-3 w-2 h-2 bg-[#d4a574]/40 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 delay-500"></div>
                   </div>
-                  {/* Avatar image */}
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-4 border-white shadow-lg mb-3 mt-3 z-10"
-                    style={{ marginTop: 8 }}
-                  />
-                  <div className="w-full h-1 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] rounded-full opacity-60 mb-3 z-10 relative" />
-                  <h3 className="text-lg font-bold font-outfit text-white mb-1 text-center w-full px-2">
+                </div>
+
+                {/* Content Section */}
+                <div className="relative z-10 text-center">
+                  {/* Name with Elegant Typography */}
+                  <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-[#C69c6c] transition-all duration-600 leading-tight">
                     {member.name}
                   </h3>
-                  {/* Click indicator */}
-                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-[#C69c6c]/80 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                      <span>👆</span>
-                      <span>Click</span>
+
+                  {/* Professional Role Badge */}
+                  <div className="inline-block bg-gradient-to-r from-[#C69c6c]/15 via-[#d4a574]/15 to-[#C69c6c]/15 backdrop-blur-xl border border-[#C69c6c]/30 rounded-full px-8 py-4 mb-8 shadow-lg group-hover:border-[#C69c6c]/60 transition-all duration-600">
+                    <span className="text-[#C69c6c] font-semibold text-base lg:text-lg tracking-wide">
+                      {member.role}
+                    </span>
+                  </div>
+
+                  {/* Elegant Action Button */}
+                  <div className="flex items-center justify-center space-x-4 text-gray-300 group-hover:text-[#C69c6c] transition-all duration-600">
+                    <span className="text-base font-medium tracking-wide">
+                      View Profile
+                    </span>
+                    <div className="relative">
+                      <svg
+                        className="w-6 h-6 transform group-hover:translate-x-3 transition-transform duration-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
                     </div>
                   </div>
-                  <div className="text-[#C69c6c] font-medium mb-2 text-center w-full px-2">
-                    {member.role}
-                  </div>
-                  <p className="text-gray-200 text-sm leading-relaxed text-center w-full mt-1 mb-2">
-                    {member.description}
-                  </p>
                 </div>
-              </motion.div>
+
+                {/* Elegant Hover Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#C69c6c]/8 via-transparent to-[#C69c6c]/8 opacity-0 group-hover:opacity-100 transition-all duration-800 rounded-2xl"></div>
+
+                {/* Subtle Border Glow */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#C69c6c]/10 via-transparent to-[#C69c6c]/10 opacity-0 group-hover:opacity-100 transition-all duration-800 blur-xl"></div>
+              </div>
             </motion.div>
           ))}
         </div>
