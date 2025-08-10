@@ -367,7 +367,7 @@ const TeamSection = () => {
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800"
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800 grayscale group-hover:grayscale-0"
                       />
                       {/* Subtle Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
