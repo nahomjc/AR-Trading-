@@ -1020,7 +1020,7 @@ const WhoWeAreSection = () => {
               {/* Professional Image Container */}
               <div className="mirror-card p-4 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 rounded-2xl overflow-hidden">
                 <Image
-                  src="/img/about-us-4.png"
+                  src="/img/about-us-11.png"
                   alt="Professional team collaboration and digital excellence"
                   width={600}
                   height={600}
