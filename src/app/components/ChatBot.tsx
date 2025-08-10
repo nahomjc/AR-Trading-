@@ -3,9 +3,13 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const BOT_AVATAR = (
-  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-cyan-400 via-blue-600 to-purple-600 shadow-lg ring-2 ring-cyan-400/40 text-white font-bold text-lg">
-    🤖
-  </span>
+  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 via-blue-600 to-purple-600 shadow-lg ring-2 ring-cyan-400/40 overflow-hidden">
+    <img
+      src="/img/Ai-icon.png"
+      alt="AI Bot"
+      className="w-full h-full object-contain p-1"
+    />
+  </div>
 );
 const USER_AVATAR = (
   <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 shadow-lg ring-2 ring-blue-400/40 text-white font-bold text-lg">
@@ -209,13 +213,18 @@ export default function ChatBot() {
             onClick={() => setOpen(true)}
             style={{ cursor: "pointer" }}
           >
-            <motion.span
+            <motion.div
               initial={{ rotate: 0 }}
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ repeat: Infinity, duration: 2 }}
+              className="w-16 h-16"
             >
-              💬
-            </motion.span>
+              <img
+                src="/img/Ai-icon.png"
+                alt="AI Chatbot"
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
           </motion.button>
         )}
       </AnimatePresence>
