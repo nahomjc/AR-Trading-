@@ -556,7 +556,7 @@ const HeroSection = () => {
 
                 {/* Professional Floating Icons */}
                 <motion.div
-                  className="absolute top-1/4 right-1/4 w-12 h-12 floating-element rounded-full flex items-center justify-center"
+                  className="absolute bottom-1/4 right-1/4 w-12 h-12 floating-element rounded-full flex items-center justify-center"
                   animate={{
                     y: [0, -15, 0],
                     rotate: [0, 360],
