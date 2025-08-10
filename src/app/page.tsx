@@ -652,9 +652,9 @@ const HeroSection = () => {
                 </motion.div>
 
                 <motion.div
-                  className="absolute top-1/3 right-1/3 w-8 h-8 floating-element rounded-full flex items-center justify-center"
+                  className="absolute bottom-1/4 right-1/3 w-8 h-8 floating-element rounded-full flex items-center justify-center"
                   animate={{
-                    y: [0, -16, 0],
+                    y: [0, 16, 0],
                     rotate: [0, 360],
                   }}
                   transition={{
