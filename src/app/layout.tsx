@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -8,12 +8,7 @@ const inter = Inter({
   display: "swap",
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
-  display: "swap",
-});
+// 'Growth' is self-hosted via globals.css @font-face under --font-growth
 
 export const metadata: Metadata = {
   title: "AR Trading PLC - Digital Marketing Solutions",
@@ -32,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${outfit.variable} antialiased font-outfit bg-slate-900 text-white overflow-x-hidden`}
+        className={`${inter.variable} antialiased font-growth bg-slate-900 text-white overflow-x-hidden`}
       >
         {children}
       </body>

@@ -9,6 +9,7 @@ html {
   --secondary: #8b5cf6;
   --accent: #06b6d4;
   --custom-blue: #08243A;
+  --font-growth: "Growth", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {
@@ -29,11 +30,30 @@ html {
       radial-gradient(ellipse at bottom right, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
       linear-gradient(135deg, #08243A 0%, #1e293b 50%, #0f172a 100%);
     color: var(--foreground);
-    font-family: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-growth), ui-sans-serif, system-ui, sans-serif;
     line-height: 1.6;
     overflow-x: hidden;
     min-height: 100vh;
   }
+}
+
+/* Growth font-face declarations */
+@font-face {
+  font-family: "Growth";
+  src: url("/fonts/Growth-Variable.woff2") format("woff2"),
+       url("/fonts/Growth-Variable.woff") format("woff");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Growth";
+  src: url("/fonts/Growth-Regular.woff2") format("woff2"),
+       url("/fonts/Growth-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @layer components {
