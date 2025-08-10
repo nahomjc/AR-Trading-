@@ -810,7 +810,7 @@ const ServicesSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Services & Offerings
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-6 text-[#ffb396]">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
             What We Offer
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -936,7 +936,7 @@ const WhoWeAreSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             About Our Company
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#ffb396]">
+          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
             Excellence. Innovation. Results.
           </h2>
           <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
@@ -1090,7 +1090,7 @@ const ContactSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Contact Us
           </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#ffb396]">
+          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
             Let&apos;s Start Your Digital Journey
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
@@ -1497,7 +1497,7 @@ const LatestWorksSection = () => {
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/30 to-[#d4a574]/30 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
             Latest Works
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-4 text-[#ffb396]">
+          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-4 text-[#C79D6D]">
             Our Latest Works
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">

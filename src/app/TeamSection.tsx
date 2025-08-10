@@ -295,14 +295,14 @@ const TeamSection = () => {
 
           {/* Elegant Title */}
           <motion.h2
-            className="text-5xl sm:text-7xl font-bold font-outfit mb-8 text-white leading-tight"
+            className="text-5xl sm:text-7xl font-bold font-outfit mb-8 text-[#C79D6D] leading-tight"
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
             viewport={{ once: true }}
           >
             Meet Our
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#C69c6c] via-[#d4a574] to-[#C69c6c]">
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#C79D6D] via-[#d4a574] to-[#C79D6D]">
               Expert Team
             </span>
           </motion.h2>
