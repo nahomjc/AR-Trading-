@@ -517,7 +517,7 @@ const HeroSection = () => {
                 {/* Professional Image Container */}
                 <div className="relative">
                   <Image
-                    src="/img/aa.png"
+                    src="/img/hero-image-7.png"
                     alt="Professional Digital Marketing and Web Development Services"
                     width={1200}
                     height={1200}
