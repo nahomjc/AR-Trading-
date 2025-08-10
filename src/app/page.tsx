@@ -295,7 +295,7 @@ const HeroSection = () => {
         {/* Professional Background Elements */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Subtle Grid Pattern */}
-          <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0 opacity-5 md:opacity-10">
             <div
               className="absolute inset-0"
               style={{
@@ -306,7 +306,7 @@ const HeroSection = () => {
           </div>
 
           {/* Professional Floating Elements */}
-          <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 pointer-events-none hidden sm:block">
             <motion.div
               className="absolute top-1/4 left-1/8 w-16 h-16 floating-element rounded-full"
               animate={{
@@ -522,13 +522,14 @@ const HeroSection = () => {
                     width={1200}
                     height={1200}
                     className="w-full h-auto object-contain"
+                    sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 600px"
                     priority
                   />
                 </div>
 
                 {/* Professional Decorative Elements */}
                 <motion.div
-                  className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 rounded-full blur-xl"
+                  className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 rounded-full blur-none md:blur-xl"
                   animate={{
                     scale: [1, 1.2, 1],
                     opacity: [0.3, 0.6, 0.3],
@@ -541,7 +542,7 @@ const HeroSection = () => {
                 />
 
                 <motion.div
-                  className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-xl"
+                  className="absolute -bottom-6 -left-6 w-20 h-20 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-none md:blur-xl"
                   animate={{
                     scale: [1.2, 1, 1.2],
                     opacity: [0.6, 0.3, 0.6],
@@ -670,7 +671,7 @@ const HeroSection = () => {
 
               {/* Professional Glow Effect */}
               <motion.div
-                className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#C69c6c]/10 via-transparent to-blue-500/10 blur-3xl -z-10"
+                className="absolute inset-0 rounded-3xl bg-gradient-to-br from-[#C69c6c]/10 via-transparent to-blue-500/10 blur-none md:blur-3xl -z-10"
                 animate={{
                   scale: [1, 1.1, 1],
                   opacity: [0.3, 0.6, 0.3],
@@ -1336,6 +1337,7 @@ const Footer = () => {
 
 // Galaxy Background Component
 const GalaxyBackground = () => {
+  if (typeof window !== "undefined" && isMobile()) return null;
   return (
     <>
       <div className="galaxy-bg"></div>
@@ -1728,12 +1730,16 @@ export default function Home() {
     !/Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent
     );
+  const [isMobileClient, setIsMobileClient] = useState(false);
+  useEffect(() => {
+    setIsMobileClient(isMobile());
+  }, []);
   return (
     <div
       className="relative min-h-screen overflow-x-hidden"
-      style={{ cursor: "none" }}
+      style={{ cursor: isDesktop ? "none" : undefined }}
     >
-      <IntroLoader />
+      {!isMobileClient && <IntroLoader />}
       <GalaxyBackground />
       <Navigation />
       <main className="relative z-10">
@@ -1746,7 +1752,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
-      <ChatBot />
+      {!isMobileClient && <ChatBot />}
       {isDesktop && <CustomCursor />}
     </div>
   );
