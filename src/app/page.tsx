@@ -166,27 +166,42 @@ const Navigation = () => {
         animate={
           menuOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }
         }
-        transition={{ duration: 0.3 }}
-        className="md:hidden overflow-hidden backdrop-blur-xl shadow-lg border border-white/10"
+        transition={{ duration: 0.4, ease: "easeInOut" }}
+        className="md:hidden overflow-hidden backdrop-blur-2xl shadow-2xl border border-white/20 relative"
         style={{
           pointerEvents: menuOpen ? "auto" : "none",
-          backgroundColor: "rgba(8, 36, 58, 0.95)",
+          backgroundColor: "rgba(8, 36, 58, 0.3)",
           backgroundImage:
-            "linear-gradient(to bottom right, rgba(8, 36, 58, 0.4), rgba(8, 36, 58, 0.3), rgba(8, 36, 58, 0.2))",
+            "linear-gradient(135deg, rgba(8, 36, 58, 0.2), rgba(8, 36, 58, 0.1), rgba(8, 36, 58, 0.05))",
         }}
       >
-        <div className="px-4 pt-2 pb-4 flex flex-col space-y-2">
+        {/* Decorative Top Border */}
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C69c6c] to-transparent opacity-60"></div>
+
+        <div className="px-6 pt-4 pb-6 flex flex-col space-y-1">
           {navLinks.map((item, index) => (
             <motion.div
               key={item}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: menuOpen ? 1 : 0, x: menuOpen ? 0 : -20 }}
-              transition={{ delay: index * 0.05 + 0.1, duration: 0.3 }}
-              whileHover={{ scale: 1.05 }}
+              initial={{ opacity: 0, x: -30, y: 10 }}
+              animate={{
+                opacity: menuOpen ? 1 : 0,
+                x: menuOpen ? 0 : -30,
+                y: menuOpen ? 0 : 10,
+              }}
+              transition={{
+                delay: index * 0.08 + 0.15,
+                duration: 0.4,
+                ease: "easeOut",
+              }}
+              whileHover={{
+                scale: 1.02,
+                x: 5,
+              }}
+              className="relative"
             >
               <a
                 href={`#${item.toLowerCase()}`}
-                className="block text-gray-200 hover:text-white px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-white/10 backdrop-blur-sm"
+                className="block text-gray-100 hover:text-white px-4 py-3 rounded-xl text-base font-semibold transition-all duration-300 hover:bg-white/15 backdrop-blur-sm border border-transparent hover:border-white/20 group relative overflow-hidden"
                 onClick={() => {
                   handleNavClick();
                   // Smooth scroll to section with offset for fixed header
@@ -203,11 +218,28 @@ const Navigation = () => {
                   }, 100);
                 }}
               >
-                {item}
+                {/* Hover Background Effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-[#C69c6c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                {/* Menu Item Content */}
+                <div className="relative flex items-center justify-between">
+                  <span className="relative z-10">{item}</span>
+                  <motion.div
+                    className="w-2 h-2 bg-[#C69c6c] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    initial={{ scale: 0 }}
+                    whileHover={{ scale: 1.2 }}
+                  />
+                </div>
+
+                {/* Bottom Accent Line */}
+                <div className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-transparent via-[#C69c6c]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </a>
             </motion.div>
           ))}
         </div>
+
+        {/* Decorative Bottom Border */}
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C69c6c]/40 to-transparent opacity-40"></div>
       </motion.div>
     </motion.nav>
   );
