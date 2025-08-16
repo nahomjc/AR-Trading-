@@ -1,7 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
 import ScrollStars from "./components/ScrollStars";
 import CPUAnimation from "./components/CPUAnimation";
 
@@ -65,16 +70,7 @@ const TestimonialsSection = dynamic(() => import("./TestimonialsSection"), {
 
 // Navigation Component
 const Navigation = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // Close menu on navigation
   const handleNavClick = () => setMenuOpen(false);
@@ -90,9 +86,7 @@ const Navigation = () => {
 
   return (
     <motion.nav
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? "glass backdrop-blur-md" : "bg-transparent"
-      }`}
+      className="fixed top-0 w-full z-50 transition-all duration-300 glass backdrop-blur-md"
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -105,9 +99,14 @@ const Navigation = () => {
             transition={{ type: "spring", stiffness: 300 }}
           >
             <a href="#home" className="focus:outline-none">
-              <h1 className="text-2xl font-bold font-outfit gradient-text">
-                AR Trading PLC
-              </h1>
+              <Image
+                src="/img/ars.png"
+                alt="AR Solutions Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
             </a>
           </motion.div>
           {/* Desktop Nav */}
@@ -287,9 +286,10 @@ const HeroSection = () => {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative hero-pattern pt-8 sm:pt-12"
+      className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 relative pt-2 sm:pt-2"
+      style={{ backgroundColor: "#08243A" }}
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-900/30 via-purple-900/30 to-cyan-900/30"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-[#08243A]/40 via-[#08243A]/30 to-[#08243A]/20"></div>
 
       <div className="max-w-7xl mx-auto w-full relative z-10">
         {/* Professional Background Elements */}
@@ -466,10 +466,10 @@ const HeroSection = () => {
               transition={{ duration: 0.8, delay: 1.0 }}
             >
               {[
-                { number: "500+", label: "Projects" },
+                { number: "50+", label: "Projects" },
                 { number: "98%", label: "Satisfaction" },
-                { number: "150+", label: "Clients" },
-                { number: "5+", label: "Years" },
+                { number: "10+", label: "Clients" },
+                { number: "3+", label: "Years" },
               ].map((stat) => (
                 <motion.div
                   key={stat.label}
@@ -477,10 +477,10 @@ const HeroSection = () => {
                   whileHover={{ scale: 1.05, y: -5 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="text-xl font-bold gradient-text mb-1">
+                  <div className="text-xl font-bold text-[#C79D6D] mb-1">
                     {stat.number}
                   </div>
-                  <div className="text-gray-300 text-xs font-medium">
+                  <div className="text-[#C79D6D] text-xs font-medium">
                     {stat.label}
                   </div>
                 </motion.div>
@@ -961,7 +961,7 @@ const WhoWeAreSection = () => {
               Strategic Excellence. Creative Innovation. Measurable Results.
             </h4>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              AR Trading PLC stands as a leading multi-service creative and
+              AR Solutions stands as a leading multi-service creative and
               commercial agency, delivering comprehensive advertising, branding,
               printing, media production, and business solutions with unwavering
               commitment to excellence.
@@ -1252,7 +1252,7 @@ const ContactSection = () => {
           <div className="relative h-96 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 flex items-center justify-center shadow-2xl">
             {/* Embedded Google Map */}
             <iframe
-              title="AR Trading PLC Location"
+              title="AR Solutions Location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4248.424677904093!2d38.77295590000001!3d9.011854399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b852ce1410c23%3A0xe500072b801f3134!2sAR%20Solutions%20Trading%20PLC!5e1!3m2!1sen!2set!4v1754757264346!5m2!1sen!2set"
               width="100%"
               height="100%"
@@ -1307,12 +1307,16 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-2">
-            <motion.h3
-              className="text-2xl font-bold font-outfit gradient-text mb-4"
-              whileHover={{ scale: 1.05 }}
-            >
-              AR Trading PLC
-            </motion.h3>
+            <motion.div className="mb-4" whileHover={{ scale: 1.05 }}>
+              <Image
+                src="/img/ars.png"
+                alt="AR Solutions Logo"
+                width={120}
+                height={40}
+                className="h-10 w-auto"
+                priority
+              />
+            </motion.div>
             <p className="text-gray-300 mb-4 max-w-md">
               Transforming businesses through innovative digital marketing
               solutions. Your success is our mission.
@@ -1361,8 +1365,8 @@ const Footer = () => {
         <div className="section-divider"></div>
         <div className="text-center">
           <p className="text-gray-300">
-            © 2024 AR Trading PLC. All rights reserved. Built with innovation
-            and passion.
+            © {new Date().getFullYear()} AR Solutions. All rights reserved.
+            Built with innovation and passion.
           </p>
         </div>
       </div>
@@ -1396,7 +1400,7 @@ type WorkItem = {
   client: string;
 };
 
-const tabNames = ["Web Development", "Digital Marketing", "Branding"] as const;
+const tabNames = ["Digital Marketing", "Web Development", "Branding"] as const;
 
 type TabName = (typeof tabNames)[number];
 
@@ -1432,25 +1436,40 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   ],
   "Digital Marketing": [
     {
-      title: "Viral Social Campaign",
-      desc: "Multi-platform campaign that increased engagement by 300%.",
-      image:
-        "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=600&q=80",
-      client: "Retail Brand",
+      title: "Social Media Campaign Design",
+      desc: "",
+      image: "/img/social-media-post-designs/1.jpg",
+      client: "Muyalogy LMS Platform",
     },
     {
-      title: "SEO Overhaul",
-      desc: "Boosted organic traffic for a logistics company.",
-      image:
-        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
-      client: "Logistics Co.",
+      title: "Instagram Story Collection",
+      desc: "",
+      image: "/img/social-media-post-designs/2.jpg",
+      client: "Muyalogy LMS Platform",
     },
     {
-      title: "Influencer Partnership",
-      desc: "Brand awareness campaign with top influencers.",
-      image:
-        "https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80",
-      client: "Consumer Goods",
+      title: "Facebook Post Series",
+      desc: "",
+      image: "/img/social-media-post-designs/3.jpg",
+      client: "Muyalogy LMS Platform",
+    },
+    {
+      title: "LinkedIn Professional Posts",
+      desc: "",
+      image: "/img/social-media-post-designs/4.jpg",
+      client: "Muyalogy LMS Platform",
+    },
+    {
+      title: "Twitter Campaign Graphics",
+      desc: "",
+      image: "/img/social-media-post-designs/5.jpg",
+      client: "Muyalogy LMS Platform",
+    },
+    {
+      title: "Social Media Brand Kit",
+      desc: "",
+      image: "/img/social-media-post-designs/6.jpg",
+      client: "Muyalogy LMS Platform",
     },
   ],
   Branding: [
@@ -1480,36 +1499,71 @@ const latestWorks: Record<TabName, WorkItem[]> = {
 
 const LatestWorksSection = () => {
   const [activeTab, setActiveTab] = useState<TabName>(tabNames[0]);
-  const isMobileDevice = typeof window !== "undefined" && isMobile();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openImagePreview = (imageSrc: string) => {
+    setSelectedImage(imageSrc);
+    setIsModalOpen(true);
+  };
+
+  const closeImagePreview = () => {
+    setIsModalOpen(false);
+    setSelectedImage(null);
+  };
+
+  // Close modal on Escape key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isModalOpen) {
+        closeImagePreview();
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden"; // Prevent background scroll
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
+    };
+  }, [isModalOpen]);
+
   return (
     <section
       id="latest-works"
-      className="py-10 sm:py-20 px-2 sm:px-4 lg:px-8 relative"
+      className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-[#08243A]/20 via-transparent to-[#08243A]/10"
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
-          className="text-center mb-14"
-          initial={{ opacity: 0, y: 100 }}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/30 to-[#d4a574]/30 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
+          <span className="inline-block px-6 py-3 bg-[#C69c6c]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-lg font-bold mb-8">
             Latest Works
           </span>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-4 text-[#C79D6D]">
+
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
             Our Latest Works
           </h2>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            Our customer base ranges from small startups to big governmental
-            firms.
+
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+            Showcasing our creative excellence in digital marketing, web
+            development, and branding solutions. From social media campaigns to
+            enterprise applications, we deliver results that exceed
+            expectations.
           </p>
         </motion.div>
         {/* Tabs */}
         <div className="flex justify-center mb-6">
           <div className="relative max-w-full">
             <div
-              className="inline-flex rounded-full bg-gradient-to-r from-blue-900/60 to-purple-900/60 p-1 shadow-xl max-w-full overflow-x-auto scrollbar-hide gap-2 px-1 snap-x snap-mandatory"
+              className="inline-flex rounded-full bg-[#08243A]/60 p-1 shadow-xl max-w-full overflow-x-auto scrollbar-hide gap-2 px-1 snap-x snap-mandatory"
               style={{ WebkitOverflowScrolling: "touch" }}
               role="tablist"
             >
@@ -1562,43 +1616,79 @@ const LatestWorksSection = () => {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="w-full"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-              {(isMobileDevice
-                ? latestWorks[activeTab].slice(0, 1)
-                : latestWorks[activeTab]
-              ).map((work: WorkItem, idx: number) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+              {latestWorks[activeTab].map((work: WorkItem, idx: number) => (
                 <motion.div
                   key={work.title}
-                  className="group relative rounded-2xl overflow-hidden mirror-card bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 shadow-2xl hover:shadow-2xl transition-all duration-300 w-full max-w-full sm:max-w-xs mx-auto p-2 sm:p-4"
-                  initial={{ opacity: 0, y: 40 }}
+                  className="group relative"
+                  initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.03, y: -5 }}
+                  whileHover={{ y: -8 }}
                 >
-                  <div className="relative h-56 w-full overflow-hidden">
-                    <Image
-                      src={
-                        isMobileDevice ? work.image + "&w=300&q=50" : work.image
-                      }
-                      alt={work.title}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                      loading="lazy"
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300"></div>
-                  </div>
-                  <div className="p-6">
-                    <h3 className="text-lg font-bold font-outfit mb-1 text-white group-hover:text-blue-300 transition-colors">
-                      {work.title}
-                    </h3>
-                    <div className="text-blue-400 font-medium mb-1 text-sm">
-                      {work.client}
+                  {/* Optimized Card Design */}
+                  <div
+                    className="relative bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
+                    onClick={() => openImagePreview(work.image)}
+                  >
+                    {/* Simple Top Accent */}
+                    <div className="absolute top-0 left-0 right-0 h-1 bg-[#C69c6c] rounded-t-2xl"></div>
+
+                    {/* Image Container */}
+                    <div className="relative h-64 w-full overflow-hidden">
+                      <Image
+                        src={work.image}
+                        alt={work.title}
+                        className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
+                        loading="lazy"
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+
+                      {/* Simple Overlay */}
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+
+                      {/* Category Badge */}
+                      <div className="absolute top-4 right-4 bg-[#C69c6c] text-white text-xs font-bold px-3 py-1 rounded-full">
+                        {activeTab}
+                      </div>
+
+                      {/* Preview Icon */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 border border-white/30">
+                          <svg
+                            className="w-6 h-6 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                            />
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-gray-300 text-sm leading-relaxed mb-0">
-                      {work.desc}
-                    </p>
+
+                    {/* Content */}
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#C69c6c] transition-colors duration-300">
+                        {work.title}
+                      </h3>
+                      <div className="text-[#C69c6c] font-medium text-sm">
+                        {work.client}
+                      </div>
+                    </div>
                   </div>
                 </motion.div>
               ))}
@@ -1607,6 +1697,82 @@ const LatestWorksSection = () => {
         </div>
       </div>
       <div className="absolute left-0 right-0 bottom-0 h-24 bg-gradient-to-t from-blue-950/80 to-transparent pointer-events-none" />
+
+      {/* Image Preview Modal */}
+      <AnimatePresence>
+        {isModalOpen && selectedImage && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            onClick={closeImagePreview}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="relative max-w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close Button */}
+              <button
+                onClick={closeImagePreview}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors duration-300 border border-white/20"
+              >
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </button>
+
+              {/* Image */}
+              <Image
+                src={selectedImage}
+                alt="Preview"
+                width={1200}
+                height={800}
+                className="w-full h-auto max-h-[90vh] object-contain"
+                priority
+              />
+
+              {/* Download Button */}
+              <div className="absolute bottom-4 left-4 z-10">
+                <a
+                  href={selectedImage}
+                  download
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#C69c6c] text-white rounded-full hover:bg-[#d4a574] transition-colors duration-300 shadow-lg"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                    />
+                  </svg>
+                  Download
+                </a>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
@@ -1787,7 +1953,7 @@ export default function Home() {
         <ContactSection />
       </main>
       <Footer />
-      {!isMobileClient && <ChatBot />}
+      <ChatBot />
       {isDesktop && <CustomCursor />}
     </div>
   );

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const BOT_AVATAR = (
-  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-cyan-400 via-blue-600 to-purple-600 shadow-lg ring-2 ring-cyan-400/40 overflow-hidden">
+  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#08243A] shadow-lg ring-2 ring-[#08243A]/40 overflow-hidden">
     <img
       src="/img/Ai-icon.png"
       alt="AI Bot"
@@ -12,7 +12,7 @@ const BOT_AVATAR = (
   </div>
 );
 const USER_AVATAR = (
-  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-cyan-400 shadow-lg ring-2 ring-blue-400/40 text-white font-bold text-lg">
+  <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-[#08243A] shadow-lg ring-2 ring-[#08243A]/40 text-white font-bold text-lg">
     🧑
   </span>
 );
@@ -22,17 +22,17 @@ const TYPING_DELAY = 1200; // ms
 function TypingIndicator() {
   return (
     <div className="flex items-center gap-2 ml-2">
-      <span className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce [animation-delay:-.2s]"></span>
-      <span className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce [animation-delay:-.1s]"></span>
-      <span className="w-2 h-2 bg-cyan-400 rounded-full animate-bounce"></span>
-      <span className="text-xs text-cyan-300 ml-2">Typing...</span>
+      <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-.2s]"></span>
+      <span className="w-2 h-2 bg-white rounded-full animate-bounce [animation-delay:-.1s]"></span>
+      <span className="w-2 h-2 bg-white rounded-full animate-bounce"></span>
+      <span className="text-xs text-white ml-2">Typing...</span>
     </div>
   );
 }
 
 // Website info context
 const websiteInfo = {
-  about: `AR Trading PLC is a multi-service creative and commercial agency committed to delivering advertising, branding, printing, media production, and business solutions — all under one roof. We combine innovative ideas with practical execution, helping our clients grow, connect, and stand out in today’s competitive world.`,
+  about: `AR Solutions is a multi-service creative and commercial agency committed to delivering advertising, branding, printing, media production, and business solutions — all under one roof. We combine innovative ideas with practical execution, helping our clients grow, connect, and stand out in today’s competitive world.`,
   services: [
     "Advertising & Printing: Banners, stickers, office & vehicle branding, merchandise",
     "Digital Marketing: Social media management, paid ads, SEO, strategy, influencer marketing",
@@ -43,10 +43,10 @@ const websiteInfo = {
     "Training: Corporate, personal development, and media trainings (meeting rooms or offsite)",
   ],
   stats: [
-    "500+ Projects Completed",
+    "50+ Projects Completed",
     "98% Client Satisfaction",
-    "150+ Happy Clients",
-    "5+ Years Experience",
+    "10+ Happy Clients",
+    "3+ Years Experience",
   ],
   contact: {
     email: "artradingplc@gmail.com",
@@ -66,7 +66,7 @@ const FAQS = [
   { q: "What services do you offer?" },
   { q: "Where are you located?" },
   { q: "How can I contact you?" },
-  { q: "Tell me about AR Trading PLC." },
+  { q: "Tell me about AR Solutions." },
   { q: "Who are your clients?" },
   { q: "What is your mission?" },
 ];
@@ -188,7 +188,7 @@ export default function ChatBot() {
     if (lower.includes("bye") || lower.includes("goodbye"))
       return "Goodbye! Have a great day!";
     // Fallback
-    return "Thank you for your message! If you have questions about AR Trading PLC, our services, or how we can help your business, just ask! (This is a demo bot.)";
+    return "Thank you for your message! If you have questions about AR Solutions, our services, or how we can help your business, just ask! (This is a demo bot.)";
   }
 
   return (
@@ -196,7 +196,7 @@ export default function ChatBot() {
       className={
         fullScreen
           ? "fixed inset-0 z-[100] flex items-center justify-center bg-black/40"
-          : "fixed bottom-6 right-6 z-50"
+          : "fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50"
       }
     >
       {/* Floating Button */}
@@ -208,7 +208,7 @@ export default function ChatBot() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.7 }}
             transition={{ type: "spring", stiffness: 300 }}
-            className="bg-gradient-to-br from-cyan-400 via-blue-600 to-purple-600 text-white rounded-full shadow-2xl w-16 h-16 flex items-center justify-center text-3xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-cyan-400/40 border-2 border-cyan-400/30 animate-pulse cursor-pointer"
+            className="bg-[#08243A] text-white rounded-full shadow-2xl w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center text-3xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#08243A]/40 border-2 border-[#08243A]/30 animate-pulse cursor-pointer"
             aria-label="Open chat bot"
             onClick={() => setOpen(true)}
             style={{ cursor: "pointer" }}
@@ -217,7 +217,7 @@ export default function ChatBot() {
               initial={{ rotate: 0 }}
               animate={{ rotate: [0, 10, -10, 0] }}
               transition={{ repeat: Infinity, duration: 2 }}
-              className="w-16 h-16"
+              className="w-14 h-14 sm:w-16 sm:h-16"
             >
               <img
                 src="/img/Ai-icon.png"
@@ -240,8 +240,8 @@ export default function ChatBot() {
             className={
               (fullScreen
                 ? "w-full h-full max-w-none max-h-none rounded-none flex flex-col"
-                : "w-full max-w-xs sm:w-[420px] sm:max-w-[98vw] h-[80vh] sm:h-[520px] flex flex-col rounded-3xl") +
-              " bg-gradient-to-br from-blue-900/10 via-purple-900/10 to-cyan-900/10 border border-cyan-400/30 shadow-2xl backdrop-blur-xl overflow-hidden"
+                : "w-[95vw] max-w-xs sm:w-[420px] sm:max-w-[98vw] h-[70vh] sm:h-[520px] flex flex-col rounded-3xl") +
+              " bg-[#08243A] border border-[#08243A]/30 shadow-2xl backdrop-blur-xl overflow-hidden"
             }
             style={{
               boxShadow: fullScreen
@@ -250,18 +250,18 @@ export default function ChatBot() {
             }}
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-br from-blue-800/20 via-purple-800/20 to-cyan-800/20 border-b border-cyan-400/30 backdrop-blur-md">
+            <div className="flex items-center justify-between px-4 py-3 bg-[#08243A]/80 border-b border-[#08243A]/30 backdrop-blur-md">
               <div className="flex items-center gap-2">
-                <span className="text-lg font-bold text-cyan-200 tracking-wide drop-shadow">
+                <span className="text-lg font-bold text-white tracking-wide drop-shadow">
                   AR ChatBot
                 </span>
-                <span className="ml-2 text-xs text-cyan-200 bg-cyan-800/20 px-2 py-0.5 rounded-full animate-pulse">
+                <span className="ml-2 text-xs text-white bg-[#08243A]/40 px-2 py-0.5 rounded-full animate-pulse">
                   ● Online
                 </span>
               </div>
               <div className="flex items-center gap-2">
                 <button
-                  className="text-cyan-300 hover:text-white text-xl focus:outline-none transition-colors cursor-pointer"
+                  className="text-white hover:text-gray-200 text-xl focus:outline-none transition-colors cursor-pointer"
                   aria-label={
                     fullScreen ? "Minimize chat bot" : "Full screen chat bot"
                   }
@@ -303,7 +303,7 @@ export default function ChatBot() {
                   )}
                 </button>
                 <button
-                  className="text-cyan-300 hover:text-white text-2xl focus:outline-none transition-colors cursor-pointer"
+                  className="text-white hover:text-gray-200 text-2xl focus:outline-none transition-colors cursor-pointer"
                   aria-label="Close chat bot"
                   onClick={() => {
                     setOpen(false);
@@ -316,10 +316,10 @@ export default function ChatBot() {
               </div>
             </div>
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 bg-transparent scrollbar-thin scrollbar-thumb-cyan-700/40 scrollbar-track-transparent">
+            <div className="flex-1 overflow-y-auto px-3 py-4 space-y-4 bg-[#08243A]/20 scrollbar-thin scrollbar-thumb-white/20 scrollbar-track-transparent">
               {/* Friendly intro */}
               {messages.length === 1 && (
-                <div className="flex gap-2 text-cyan-200 text-sm mb-2 items-start">
+                <div className="flex gap-2 text-white text-sm mb-2 items-start">
                   <div className="pt-1">{BOT_AVATAR}</div>
                   <span className="leading-5 pt-0.5">
                     I can answer questions about our services, team, contact
@@ -340,10 +340,10 @@ export default function ChatBot() {
                 >
                   {msg.from === "bot" && BOT_AVATAR}
                   <div
-                    className={`max-w-[70%] px-4 py-2 rounded-2xl text-sm shadow-lg backdrop-blur-md border border-cyan-400/20 ${
+                    className={`max-w-[70%] px-4 py-3 rounded-2xl text-sm shadow-lg backdrop-blur-md ${
                       msg.from === "bot"
-                        ? "bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 text-white ml-2"
-                        : "bg-gradient-to-br from-cyan-600/60 to-blue-700/60 text-white mr-2"
+                        ? "bg-white/10 text-white ml-2 border border-white/20"
+                        : "bg-[#08243A]/80 text-white mr-2 border border-[#08243A]/40"
                     }`}
                     style={{ cursor: "default" }}
                   >
@@ -361,11 +361,11 @@ export default function ChatBot() {
               <div ref={messagesEndRef} />
             </div>
             {/* FAQ Quick Buttons above Input */}
-            <div className="flex flex-wrap gap-2 px-4 py-3 bg-transparent border-t border-cyan-400/10">
+            <div className="flex flex-wrap gap-2 px-4 py-3 bg-[#08243A]/10 border-t border-white/10">
               {FAQS.map((faq, i) => (
                 <button
                   key={i}
-                  className="bg-gradient-to-br from-cyan-700/20 to-blue-700/20 text-cyan-200 text-xs px-3 py-1 rounded-full border border-cyan-400/20 hover:bg-cyan-700/30 transition-colors cursor-pointer"
+                  className="bg-white/10 text-white text-xs px-3 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-colors cursor-pointer"
                   onClick={() => {
                     setInput(faq.q);
                     setTimeout(handleSend, 100);
@@ -378,10 +378,10 @@ export default function ChatBot() {
               ))}
             </div>
             {/* Input */}
-            <div className="px-3 py-3 bg-gradient-to-br from-blue-800/20 via-purple-800/20 to-cyan-800/20 border-t border-cyan-400/30 flex items-center gap-2 backdrop-blur-md">
+            <div className="px-3 py-3 bg-[#08243A]/60 border-t border-white/20 flex items-center gap-2 backdrop-blur-md">
               <input
                 type="text"
-                className="flex-1 min-w-0 px-3 py-2 rounded-xl bg-blue-900/10 text-white placeholder-cyan-400 border border-cyan-400/30 outline-none focus:ring-2 focus:ring-cyan-400/60 text-sm shadow-inner backdrop-blur-md"
+                className="flex-1 min-w-0 px-3 py-2 rounded-xl bg-white/10 text-white placeholder-white/70 border border-white/20 outline-none focus:ring-2 focus:ring-white/40 text-sm shadow-inner backdrop-blur-md"
                 placeholder="Type your message..."
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -392,7 +392,7 @@ export default function ChatBot() {
                 style={{ cursor: botTyping ? "not-allowed" : "text" }}
               />
               <motion.button
-                className="shrink-0 bg-gradient-to-br from-cyan-500 to-blue-600 text-white rounded-xl px-4 py-2 font-semibold shadow-lg hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-cyan-400/60 border border-cyan-400/30 cursor-pointer"
+                className="shrink-0 bg-white/20 text-white rounded-xl px-4 py-2 font-semibold shadow-lg hover:scale-110 transition-transform focus:outline-none focus:ring-2 focus:ring-white/40 border border-white/30 cursor-pointer"
                 onClick={handleSend}
                 disabled={!input.trim() || botTyping}
                 aria-label="Send message"

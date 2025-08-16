@@ -11,11 +11,11 @@ const inter = Inter({
 // 'Growth' is self-hosted via globals.css @font-face under --font-growth
 
 export const metadata: Metadata = {
-  title: "AR Trading PLC - Digital Marketing Solutions",
+  title: "AR Solutions - Digital Marketing Solutions",
   description:
-    "Transform your business with cutting-edge digital marketing strategies. AR Trading PLC delivers innovative solutions for modern enterprises.",
-  keywords: "digital marketing, trading, business solutions, AR Trading PLC",
-  authors: [{ name: "AR Trading PLC" }],
+    "Transform your business with cutting-edge digital marketing strategies. AR Solutions delivers innovative solutions for modern enterprises.",
+  keywords: "digital marketing, trading, business solutions, AR Solutions",
+  authors: [{ name: "AR Solutions" }],
   viewport: "width=device-width, initial-scale=1",
 };
 

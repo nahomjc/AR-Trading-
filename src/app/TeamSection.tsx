@@ -376,11 +376,6 @@ const TeamSection = () => {
                     {/* Elegant Status Ring */}
                     <div className="absolute inset-0 rounded-full border border-[#C69c6c]/30 animate-pulse"></div>
 
-                    {/* Professional Status Indicator */}
-                    <div className="absolute -bottom-4 -right-4 w-12 h-12 bg-gradient-to-br from-emerald-500 to-green-600 rounded-full border-4 border-slate-900 flex items-center justify-center shadow-xl">
-                      <div className="w-4 h-4 bg-white rounded-full animate-pulse"></div>
-                    </div>
-
                     {/* Subtle Corner Accents */}
                     <div className="absolute -top-3 -left-3 w-3 h-3 bg-[#C69c6c]/40 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 delay-400"></div>
                     <div className="absolute -top-3 -right-3 w-2 h-2 bg-[#d4a574]/40 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 delay-500"></div>
