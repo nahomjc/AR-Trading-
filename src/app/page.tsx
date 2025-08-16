@@ -167,8 +167,13 @@ const Navigation = () => {
           menuOpen ? { height: "auto", opacity: 1 } : { height: 0, opacity: 0 }
         }
         transition={{ duration: 0.3 }}
-        className="md:hidden overflow-hidden bg-gradient-to-br from-blue-900/80 via-purple-900/80 to-cyan-900/80 backdrop-blur-md shadow-lg"
-        style={{ pointerEvents: menuOpen ? "auto" : "none" }}
+        className="md:hidden overflow-hidden backdrop-blur-xl shadow-lg border border-white/10"
+        style={{
+          pointerEvents: menuOpen ? "auto" : "none",
+          backgroundColor: "rgba(8, 36, 58, 0.95)",
+          backgroundImage:
+            "linear-gradient(to bottom right, rgba(8, 36, 58, 0.4), rgba(8, 36, 58, 0.3), rgba(8, 36, 58, 0.2))",
+        }}
       >
         <div className="px-4 pt-2 pb-4 flex flex-col space-y-2">
           {navLinks.map((item, index) => (
@@ -181,8 +186,22 @@ const Navigation = () => {
             >
               <a
                 href={`#${item.toLowerCase()}`}
-                className="block text-gray-200 hover:text-white px-3 py-2 rounded-md text-base font-medium transition-colors"
-                onClick={() => setTimeout(() => handleNavClick(), 120)}
+                className="block text-gray-200 hover:text-white px-3 py-2 rounded-md text-base font-medium transition-colors hover:bg-white/10 backdrop-blur-sm"
+                onClick={() => {
+                  handleNavClick();
+                  // Smooth scroll to section with offset for fixed header
+                  setTimeout(() => {
+                    const element = document.getElementById(item.toLowerCase());
+                    if (element) {
+                      const headerHeight = 64; // h-16 = 64px
+                      const elementPosition = element.offsetTop - headerHeight;
+                      window.scrollTo({
+                        top: elementPosition,
+                        behavior: "smooth",
+                      });
+                    }
+                  }, 100);
+                }}
               >
                 {item}
               </a>
