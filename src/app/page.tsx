@@ -1128,6 +1128,66 @@ const WhoWeAreSection = () => {
 
 // Contact Section with Google Map
 const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      // Send form data to Getform
+      const response = await fetch(
+        "https://getform.io/f/3541f08d-6ce4-4e35-bc6a-ee35ea66c98e",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            message: formData.message,
+            subject: `Contact from ${formData.name} - AR Solutions Website`,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", message: "" });
+        // Reset success message after 5 seconds
+        setTimeout(() => setSubmitStatus("idle"), 5000);
+      } else {
+        throw new Error("Failed to send message");
+      }
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setSubmitStatus("error");
+      setTimeout(() => setSubmitStatus("idle"), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl mx-auto">
@@ -1161,20 +1221,48 @@ const ContactSection = () => {
             <h3 className="text-2xl font-semibold font-outfit mb-6 text-white">
               Get In Touch
             </h3>
-            <form className="space-y-6">
+
+            {/* Success/Error Messages */}
+            {submitStatus === "success" && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 bg-green-500/20 border border-green-400/30 rounded-lg text-green-300"
+              >
+                ✅ Message sent successfully! We'll get back to you soon.
+              </motion.div>
+            )}
+
+            {submitStatus === "error" && (
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-6 p-4 bg-red-500/20 border border-red-400/30 rounded-lg text-red-300"
+              >
+                ❌ Something went wrong. Please try again or contact us directly
+                at asl.solutions@gmail.com
+              </motion.div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label
                   htmlFor="name"
                   className="block text-sm font-medium text-gray-300 mb-2"
                 >
-                  Name
+                  Name *
                 </label>
                 <motion.input
                   type="text"
                   id="name"
-                  className="w-full px-4 py-3 neomorph-inset bg-transparent text-white border-none outline-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 neomorph-inset bg-transparent text-white border-none outline-none focus:ring-2 focus:ring-[#C69c6c] rounded-lg placeholder-gray-400"
                   placeholder="Your Name"
                   whileFocus={{ scale: 1.02 }}
+                  disabled={isSubmitting}
                 />
               </div>
               <div>
@@ -1182,14 +1270,19 @@ const ContactSection = () => {
                   htmlFor="email"
                   className="block text-sm font-medium text-gray-300 mb-2"
                 >
-                  Email
+                  Email *
                 </label>
                 <motion.input
                   type="email"
                   id="email"
-                  className="w-full px-4 py-3 neomorph-inset bg-transparent text-white border-none outline-none focus:ring-2 focus:ring-blue-500 rounded-lg"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 neomorph-inset bg-transparent text-white border-none outline-none focus:ring-2 focus:ring-[#C69c6c] rounded-lg placeholder-gray-400"
                   placeholder="your@email.com"
                   whileFocus={{ scale: 1.02 }}
+                  disabled={isSubmitting}
                 />
               </div>
               <div>
@@ -1197,28 +1290,83 @@ const ContactSection = () => {
                   htmlFor="message"
                   className="block text-sm font-medium text-gray-300 mb-2"
                 >
-                  Message
+                  Message *
                 </label>
                 <motion.textarea
                   id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
                   rows={4}
-                  className="w-full px-4 py-3 neomorph-inset bg-transparent text-white border-none outline-none focus:ring-2 focus:ring-blue-500 resize-none rounded-lg"
-                  placeholder="Tell us about your project..."
+                  className="w-full px-4 py-3 neomorph-inset bg-transparent text-white border-none outline-none focus:ring-2 focus:ring-[#C69c6c] resize-none rounded-lg placeholder-gray-400"
+                  placeholder="Tell us about your project, requirements, or any questions you have..."
                   whileFocus={{ scale: 1.02 }}
+                  disabled={isSubmitting}
                 ></motion.textarea>
               </div>
               <motion.button
                 type="submit"
-                className="w-full btn-secondary"
-                whileHover={{
-                  scale: 1.02,
-                  y: -2,
-                  boxShadow: "0 0 16px #C69c6c",
-                }}
+                disabled={
+                  isSubmitting ||
+                  !formData.name ||
+                  !formData.email ||
+                  !formData.message
+                }
+                className={`w-full btn-secondary transition-all duration-300 ${
+                  isSubmitting ||
+                  !formData.name ||
+                  !formData.email ||
+                  !formData.message
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:scale-105"
+                }`}
+                whileHover={
+                  !isSubmitting &&
+                  formData.name &&
+                  formData.email &&
+                  formData.message
+                    ? {
+                        scale: 1.02,
+                        y: -2,
+                        boxShadow: "0 0 16px #C69c6c",
+                      }
+                    : {}
+                }
                 whileTap={{ scale: 0.98 }}
               >
-                Send Message
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <svg
+                      className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                    Sending...
+                  </span>
+                ) : (
+                  "Send Message"
+                )}
               </motion.button>
+
+              <p className="text-xs text-gray-400 text-center">
+                * Your message will be sent directly to our team
+              </p>
             </form>
           </motion.div>
 
