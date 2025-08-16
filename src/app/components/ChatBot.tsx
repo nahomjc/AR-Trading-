@@ -361,21 +361,23 @@ export default function ChatBot() {
               <div ref={messagesEndRef} />
             </div>
             {/* FAQ Quick Buttons above Input */}
-            <div className="flex flex-wrap gap-2 px-4 py-3 bg-[#08243A]/10 border-t border-white/10">
-              {FAQS.map((faq, i) => (
-                <button
-                  key={i}
-                  className="bg-white/10 text-white text-xs px-3 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-colors cursor-pointer"
-                  onClick={() => {
-                    setInput(faq.q);
-                    setTimeout(handleSend, 100);
-                  }}
-                  disabled={botTyping}
-                  style={{ cursor: botTyping ? "not-allowed" : "pointer" }}
-                >
-                  {faq.q}
-                </button>
-              ))}
+            <div className="px-4 py-4 bg-[#08243A]/10 border-t border-white/10">
+              <div className="grid grid-cols-2 gap-2">
+                {FAQS.map((faq, i) => (
+                  <button
+                    key={i}
+                    className="bg-white/15 text-white text-sm px-3 py-2.5 rounded-lg border border-white/25 hover:bg-white/25 transition-all duration-200 cursor-pointer hover:scale-105 text-center"
+                    onClick={() => {
+                      setInput(faq.q);
+                      setTimeout(handleSend, 100);
+                    }}
+                    disabled={botTyping}
+                    style={{ cursor: botTyping ? "not-allowed" : "pointer" }}
+                  >
+                    {faq.q}
+                  </button>
+                ))}
+              </div>
             </div>
             {/* Input */}
             <div className="px-3 py-3 bg-[#08243A]/60 border-t border-white/20 flex items-center gap-2 backdrop-blur-md">
