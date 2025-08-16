@@ -325,7 +325,7 @@ const TeamSection = () => {
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {team.map((member, index) => (
             <motion.div
               key={index}
@@ -342,7 +342,7 @@ const TeamSection = () => {
             >
               {/* Modern Professional Card */}
               <div
-                className="relative bg-gradient-to-br from-slate-900/95 via-gray-900/95 to-slate-900/95 backdrop-blur-3xl border border-slate-700/40 rounded-2xl p-10 hover:border-[#C69c6c]/80 transition-all duration-800 cursor-pointer overflow-hidden shadow-2xl hover:shadow-[#C69c6c]/30 group"
+                className="relative bg-gradient-to-br from-slate-900/95 via-gray-900/95 to-slate-900/95 backdrop-blur-3xl border border-slate-700/40 rounded-2xl p-6 hover:border-[#C69c6c]/80 transition-all duration-800 cursor-pointer overflow-hidden shadow-2xl hover:shadow-[#C69c6c]/30 group"
                 onClick={() => {
                   console.log("Clicked:", member.name);
                   setHoveredMember(member);
@@ -360,10 +360,10 @@ const TeamSection = () => {
                 <div className="absolute bottom-8 left-8 w-1.5 h-1.5 bg-[#d4a574] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-800 delay-300 transform scale-0 group-hover:scale-100"></div>
 
                 {/* Large Profile Image Section */}
-                <div className="relative flex justify-center mb-10">
+                <div className="relative flex justify-center mb-6">
                   <div className="relative">
                     {/* Main Large Image Container */}
-                    <div className="relative w-48 h-48 rounded-full overflow-hidden ring-4 ring-[#C69c6c]/20 group-hover:ring-[#C69c6c]/50 transition-all duration-700 shadow-2xl group-hover:shadow-[#C69c6c]/20">
+                    <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-[#C69c6c]/20 group-hover:ring-[#C69c6c]/50 transition-all duration-700 shadow-2xl group-hover:shadow-[#C69c6c]/20">
                       <img
                         src={member.image}
                         alt={member.name}
@@ -385,13 +385,13 @@ const TeamSection = () => {
                 {/* Content Section */}
                 <div className="relative z-10 text-center">
                   {/* Name with Elegant Typography */}
-                  <h3 className="text-3xl lg:text-4xl font-bold text-white mb-4 group-hover:text-[#C69c6c] transition-all duration-600 leading-tight">
+                  <h3 className="text-xl lg:text-2xl font-bold text-white mb-3 group-hover:text-[#C69c6c] transition-all duration-600 leading-tight">
                     {member.name}
                   </h3>
 
                   {/* Professional Role Badge */}
-                  <div className="inline-block bg-gradient-to-r from-[#C69c6c]/15 via-[#d4a574]/15 to-[#C69c6c]/15 backdrop-blur-xl border border-[#C69c6c]/30 rounded-full px-8 py-4 mb-8 shadow-lg group-hover:border-[#C69c6c]/60 transition-all duration-600">
-                    <span className="text-[#C69c6c] font-semibold text-base lg:text-lg tracking-wide">
+                  <div className="inline-block bg-gradient-to-r from-[#C69c6c]/15 via-[#d4a574]/15 to-[#C69c6c]/15 backdrop-blur-xl border border-[#C69c6c]/30 rounded-full px-6 py-3 mb-6 shadow-lg group-hover:border-[#C69c6c]/60 transition-all duration-600">
+                    <span className="text-[#C69c6c] font-semibold text-sm lg:text-base tracking-wide">
                       {member.role}
                     </span>
                   </div>

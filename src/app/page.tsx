@@ -1163,7 +1163,7 @@ const ContactSection = () => {
             </h3>
 
             <form
-              action="https://getform.io/f/3541f08d-6ce4-4e35-bc6a-ee35ea66c98e"
+              action="https://getform.io/f/byvevxpa"
               method="POST"
               encType="multipart/form-data"
               className="space-y-6"
@@ -1717,7 +1717,7 @@ const LatestWorksSection = () => {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="w-full"
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
               {latestWorks[activeTab].map((work: WorkItem, idx: number) => (
                 <motion.div
                   key={work.title}
@@ -1737,7 +1737,7 @@ const LatestWorksSection = () => {
                     <div className="absolute top-0 left-0 right-0 h-1 bg-[#C69c6c] rounded-t-2xl"></div>
 
                     {/* Image Container */}
-                    <div className="relative h-64 w-full overflow-hidden">
+                    <div className="relative h-48 w-full overflow-hidden">
                       <Image
                         src={work.image}
                         alt={work.title}
@@ -1782,11 +1782,11 @@ const LatestWorksSection = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#C69c6c] transition-colors duration-300">
+                    <div className="p-4">
+                      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#C69c6c] transition-colors duration-300">
                         {work.title}
                       </h3>
-                      <div className="text-[#C69c6c] font-medium text-sm">
+                      <div className="text-[#C69c6c] font-medium text-xs">
                         {work.client}
                       </div>
                     </div>
