@@ -1940,7 +1940,7 @@ export default function Home() {
       className="relative min-h-screen overflow-x-hidden"
       style={{ cursor: isDesktop ? "none" : undefined }}
     >
-      {!isMobileClient && <IntroLoader />}
+      <IntroLoader />
       <GalaxyBackground />
       <Navigation />
       <main className="relative z-10">
