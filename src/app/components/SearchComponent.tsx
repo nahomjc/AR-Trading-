@@ -380,6 +380,57 @@ const SearchComponent = () => {
             top: elementPosition,
             behavior: "smooth",
           });
+
+          // If it's an employee search, highlight the specific employee
+          if (result.type === "employee") {
+            // Store the employee name in sessionStorage for highlighting
+            sessionStorage.setItem("highlightEmployee", result.title);
+            // Trigger a custom event to notify the team section
+            window.dispatchEvent(
+              new CustomEvent("highlightEmployee", {
+                detail: { employeeName: result.title },
+              })
+            );
+          }
+
+          // If it's a contact search, highlight the specific contact
+          if (result.type === "contact") {
+            // Store the contact type in sessionStorage for highlighting
+            sessionStorage.setItem(
+              "highlightContact",
+              result.title.toLowerCase()
+            );
+            // Trigger a custom event to notify the contact section
+            window.dispatchEvent(
+              new CustomEvent("highlightContact", {
+                detail: { contactType: result.title.toLowerCase() },
+              })
+            );
+          }
+
+          // If it's an about search, highlight the about section
+          if (result.title === "About Us") {
+            // Store the about highlight in sessionStorage
+            sessionStorage.setItem("highlightAbout", "true");
+            // Trigger a custom event to notify the about section
+            window.dispatchEvent(new CustomEvent("highlightAbout"));
+          }
+
+          // If it's a testimonials search, highlight the testimonials section
+          if (result.title === "Testimonials") {
+            // Store the testimonials highlight in sessionStorage
+            sessionStorage.setItem("highlightTestimonials", "true");
+            // Trigger a custom event to notify the testimonials section
+            window.dispatchEvent(new CustomEvent("highlightTestimonials"));
+          }
+
+          // If it's a latest works search, highlight the latest works section
+          if (result.title === "Latest Works") {
+            // Store the latest works highlight in sessionStorage
+            sessionStorage.setItem("highlightLatestWorks", "true");
+            // Trigger a custom event to notify the latest works section
+            window.dispatchEvent(new CustomEvent("highlightLatestWorks"));
+          }
         }
       }, 100);
     }

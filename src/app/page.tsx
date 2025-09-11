@@ -12,6 +12,7 @@ import LatestWorksSection from "./components/LatestWorksSection";
 import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
 import CustomCursor from "./components/CustomCursor";
+import ScrollToTop from "./components/ScrollToTop";
 import dynamic from "next/dynamic";
 
 // Lazy load heavy sections
@@ -77,6 +78,7 @@ export default function Home() {
       </main>
       <Footer />
       <ChatBot />
+      <ScrollToTop />
       {isDesktop && <CustomCursor />}
     </div>
   );

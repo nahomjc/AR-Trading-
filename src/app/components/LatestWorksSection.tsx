@@ -114,6 +114,39 @@ const LatestWorksSection = () => {
   const [activeTab, setActiveTab] = useState<TabName>(tabNames[0]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isHighlighted, setIsHighlighted] = useState(false);
+
+  // Handle latest works section highlighting from search
+  useEffect(() => {
+    // Check if there's a highlighted latest works from search
+    const storedLatestWorks = sessionStorage.getItem("highlightLatestWorks");
+    if (storedLatestWorks) {
+      setIsHighlighted(true);
+      // Clear the stored value after a delay
+      setTimeout(() => {
+        setIsHighlighted(false);
+        sessionStorage.removeItem("highlightLatestWorks");
+      }, 3000); // Highlight for 3 seconds
+    }
+
+    // Listen for highlight events from search
+    const handleHighlightLatestWorks = () => {
+      setIsHighlighted(true);
+      // Clear highlight after 3 seconds
+      setTimeout(() => {
+        setIsHighlighted(false);
+      }, 3000);
+    };
+
+    window.addEventListener("highlightLatestWorks", handleHighlightLatestWorks);
+
+    return () => {
+      window.removeEventListener(
+        "highlightLatestWorks",
+        handleHighlightLatestWorks
+      );
+    };
+  }, []);
 
   const openImagePreview = (imageSrc: string) => {
     setSelectedImage(imageSrc);
@@ -151,7 +184,11 @@ const LatestWorksSection = () => {
     >
       <div className="max-w-7xl mx-auto">
         <motion.div
-          className="text-center mb-16"
+          className={`text-center mb-16 p-6 rounded-xl transition-all duration-500 ${
+            isHighlighted
+              ? "bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/50 shadow-lg shadow-[#C69c6c]/20 animate-pulse"
+              : ""
+          }`}
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}

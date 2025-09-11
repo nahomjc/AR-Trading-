@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import Image from "next/image";
 
@@ -241,6 +241,9 @@ const getExpertiseByRole = (role: string) => {
 
 const TeamSection = () => {
   const [hoveredMember, setHoveredMember] = useState<TeamMember | null>(null);
+  const [highlightedEmployee, setHighlightedEmployee] = useState<string | null>(
+    null
+  );
 
   const team: TeamMember[] = [
     {
@@ -269,6 +272,56 @@ const TeamSection = () => {
       description: "Full-stack developer with modern web technology expertise",
     },
   ];
+
+  // Handle employee highlighting from search
+  useEffect(() => {
+    // Check if there's a highlighted employee from search
+    const storedEmployee = sessionStorage.getItem("highlightEmployee");
+    if (storedEmployee) {
+      setHighlightedEmployee(storedEmployee);
+      // Find and open the employee modal after a delay to show highlighting
+      const employee = team.find((member) => member.name === storedEmployee);
+      if (employee) {
+        setTimeout(() => {
+          setHoveredMember(employee);
+        }, 1500); // Delay modal opening by 1.5 seconds
+      }
+      // Clear the stored value after a delay
+      setTimeout(() => {
+        setHighlightedEmployee(null);
+        sessionStorage.removeItem("highlightEmployee");
+      }, 3000); // Highlight for 3 seconds
+    }
+
+    // Listen for highlight events from search
+    const handleHighlightEmployee = (event: CustomEvent) => {
+      const employeeName = event.detail.employeeName;
+      setHighlightedEmployee(employeeName);
+      // Find and open the employee modal after a delay to show highlighting
+      const employee = team.find((member) => member.name === employeeName);
+      if (employee) {
+        setTimeout(() => {
+          setHoveredMember(employee);
+        }, 1500); // Delay modal opening by 1.5 seconds
+      }
+      // Clear highlight after 3 seconds
+      setTimeout(() => {
+        setHighlightedEmployee(null);
+      }, 3000);
+    };
+
+    window.addEventListener(
+      "highlightEmployee",
+      handleHighlightEmployee as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "highlightEmployee",
+        handleHighlightEmployee as EventListener
+      );
+    };
+  }, [team]);
 
   return (
     <section id="team" className="py-20 px-4 sm:px-6 lg:px-8 relative">
@@ -342,7 +395,11 @@ const TeamSection = () => {
             >
               {/* Modern Professional Card */}
               <div
-                className="relative bg-gradient-to-br from-slate-900/95 via-gray-900/95 to-slate-900/95 backdrop-blur-3xl border border-slate-700/40 rounded-2xl p-6 hover:border-[#C69c6c]/80 transition-all duration-800 cursor-pointer overflow-hidden shadow-2xl hover:shadow-[#C69c6c]/30 group"
+                className={`relative bg-gradient-to-br from-slate-900/95 via-gray-900/95 to-slate-900/95 backdrop-blur-3xl border rounded-2xl p-6 transition-all duration-800 cursor-pointer overflow-hidden shadow-2xl group ${
+                  highlightedEmployee === member.name
+                    ? "border-[#C69c6c] shadow-[#C69c6c]/50 ring-4 ring-[#C69c6c]/30 animate-pulse"
+                    : "border-slate-700/40 hover:border-[#C69c6c]/80 hover:shadow-[#C69c6c]/30"
+                }`}
                 onClick={() => {
                   console.log("Clicked:", member.name);
                   setHoveredMember(member);
@@ -353,7 +410,11 @@ const TeamSection = () => {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(198,156,108,0.08),transparent_40%)]"></div>
 
                 {/* Top Accent Line */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C69c6c] via-[#d4a574] to-[#C69c6c] rounded-t-2xl"></div>
+                <div
+                  className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C69c6c] via-[#d4a574] to-[#C69c6c] rounded-t-2xl ${
+                    highlightedEmployee === member.name ? "animate-pulse" : ""
+                  }`}
+                ></div>
 
                 {/* Floating Accent Dots */}
                 <div className="absolute top-8 right-8 w-2 h-2 bg-[#C69c6c] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-800 transform scale-0 group-hover:scale-100"></div>
@@ -363,7 +424,13 @@ const TeamSection = () => {
                 <div className="relative flex justify-center mb-6">
                   <div className="relative">
                     {/* Main Large Image Container */}
-                    <div className="relative w-32 h-32 rounded-full overflow-hidden ring-4 ring-[#C69c6c]/20 group-hover:ring-[#C69c6c]/50 transition-all duration-700 shadow-2xl group-hover:shadow-[#C69c6c]/20">
+                    <div
+                      className={`relative w-32 h-32 rounded-full overflow-hidden ring-4 transition-all duration-700 shadow-2xl ${
+                        highlightedEmployee === member.name
+                          ? "ring-[#C69c6c] shadow-[#C69c6c]/40 animate-pulse"
+                          : "ring-[#C69c6c]/20 group-hover:ring-[#C69c6c]/50 group-hover:shadow-[#C69c6c]/20"
+                      }`}
+                    >
                       <img
                         src={member.image}
                         alt={member.name}

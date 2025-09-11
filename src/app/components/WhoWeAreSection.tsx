@@ -1,11 +1,42 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
 // Who We Are Section
 const WhoWeAreSection = () => {
+  const [isHighlighted, setIsHighlighted] = useState(false);
+
+  // Handle about section highlighting from search
+  useEffect(() => {
+    // Check if there's a highlighted about from search
+    const storedAbout = sessionStorage.getItem("highlightAbout");
+    if (storedAbout) {
+      setIsHighlighted(true);
+      // Clear the stored value after a delay
+      setTimeout(() => {
+        setIsHighlighted(false);
+        sessionStorage.removeItem("highlightAbout");
+      }, 3000); // Highlight for 3 seconds
+    }
+
+    // Listen for highlight events from search
+    const handleHighlightAbout = () => {
+      setIsHighlighted(true);
+      // Clear highlight after 3 seconds
+      setTimeout(() => {
+        setIsHighlighted(false);
+      }, 3000);
+    };
+
+    window.addEventListener("highlightAbout", handleHighlightAbout);
+
+    return () => {
+      window.removeEventListener("highlightAbout", handleHighlightAbout);
+    };
+  }, []);
+
   return (
     <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative team-bg">
       <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 via-purple-900/10 to-cyan-900/10"></div>
@@ -33,7 +64,11 @@ const WhoWeAreSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div
-            className="mirror-card p-8 lg:p-12 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30"
+            className={`mirror-card p-8 lg:p-12 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border transition-all duration-500 ${
+              isHighlighted
+                ? "border-[#C69c6c] shadow-lg shadow-[#C69c6c]/30 animate-pulse"
+                : "border-[#C69c6c]/30"
+            }`}
             initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}

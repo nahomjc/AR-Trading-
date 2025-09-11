@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   IconMail,
@@ -13,6 +13,46 @@ import {
 
 // Contact Section with Google Map
 const ContactSection = () => {
+  const [highlightedContact, setHighlightedContact] = useState<string | null>(
+    null
+  );
+
+  // Handle contact highlighting from search
+  useEffect(() => {
+    // Check if there's a highlighted contact from search
+    const storedContact = sessionStorage.getItem("highlightContact");
+    if (storedContact) {
+      setHighlightedContact(storedContact);
+      // Clear the stored value after a delay
+      setTimeout(() => {
+        setHighlightedContact(null);
+        sessionStorage.removeItem("highlightContact");
+      }, 3000); // Highlight for 3 seconds
+    }
+
+    // Listen for highlight events from search
+    const handleHighlightContact = (event: CustomEvent) => {
+      const contactType = event.detail.contactType;
+      setHighlightedContact(contactType);
+      // Clear highlight after 3 seconds
+      setTimeout(() => {
+        setHighlightedContact(null);
+      }, 3000);
+    };
+
+    window.addEventListener(
+      "highlightContact",
+      handleHighlightContact as EventListener
+    );
+
+    return () => {
+      window.removeEventListener(
+        "highlightContact",
+        handleHighlightContact as EventListener
+      );
+    };
+  }, []);
+
   return (
     <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl mx-auto">
@@ -183,7 +223,11 @@ const ContactSection = () => {
               ].map((contact, index) => (
                 <motion.div
                   key={index}
-                  className="flex items-center space-x-4"
+                  className={`flex items-center space-x-4 p-4 rounded-xl transition-all duration-500 ${
+                    highlightedContact === contact.title.toLowerCase()
+                      ? "bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/50 shadow-lg shadow-[#C69c6c]/20 animate-pulse"
+                      : "hover:bg-white/5"
+                  }`}
                   initial={{ opacity: 0, y: 50 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.2 }}
