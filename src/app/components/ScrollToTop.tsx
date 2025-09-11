@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { IconArrowUp } from "@tabler/icons-react";
+import { IconChevronUp } from "@tabler/icons-react";
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -42,12 +42,12 @@ const ScrollToTop = () => {
           exit={{ opacity: 0, scale: 0.5, y: 20 }}
           transition={{ duration: 0.3, ease: "easeOut" }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-20 z-40 w-12 h-12 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
+          className="fixed bottom-20 right-4 sm:bottom-24 sm:right-6 z-40 w-12 h-12 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
           whileHover={{ scale: 1.1, y: -2 }}
           whileTap={{ scale: 0.95 }}
           aria-label="Scroll to top"
         >
-          <IconArrowUp className="w-6 h-6 group-hover:animate-bounce" />
+          <IconChevronUp className="w-6 h-6 group-hover:animate-bounce" />
 
           {/* Tooltip */}
           <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
