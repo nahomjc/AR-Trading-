@@ -1,35 +1,23 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import ScrollStars from "./components/ScrollStars";
-import CPUAnimation from "./components/CPUAnimation";
-
 import ChatBot from "./components/ChatBot";
 import IntroLoader from "./components/IntroLoader";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useRef } from "react";
-import { useMotionValue, useSpring } from "framer-motion";
+import { useRouter } from "next/navigation";
+
 import {
-  IconRocket,
-  IconTarget,
-  IconCheck,
   IconCode,
   IconChartLine,
   IconPalette,
   IconPrinter,
-  IconDeviceMobile,
   IconVideo,
   IconWorld,
   IconCalendarEvent,
   IconBook,
-  IconUsers,
   IconMail,
   IconPhone,
   IconMapPin,
@@ -44,15 +32,6 @@ import {
   IconBriefcase,
   IconGlobe,
   IconDeviceLaptop,
-  IconBrandInstagram,
-  IconBrandYoutube,
-  IconSearch,
-  IconBuilding,
-  IconCurrencyDollar,
-  IconShieldCheck,
-  IconClock,
-  IconStar,
-  IconArrowRight,
 } from "@tabler/icons-react";
 
 // Utility to detect mobile devices
@@ -738,6 +717,7 @@ const HeroSection = () => {
 // Services Section
 const ServicesSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const router = useRouter();
 
   const services = [
     {
@@ -877,7 +857,7 @@ const ServicesSection = () => {
             {services.map((service, index) => (
               <motion.div
                 key={index}
-                className={`relative overflow-hidden rounded-2xl p-8 group cursor-pointer transition-all duration-500 ${
+                className={`relative overflow-hidden rounded-2xl p-8 group transition-all duration-500 ${
                   index === activeIndex
                     ? "bg-gradient-to-br from-[#C69c6c]/20 via-[#d4a574]/20 to-[#C69c6c]/20 border-2 border-[#C69c6c]/50 shadow-2xl shadow-[#C69c6c]/20"
                     : "bg-gradient-to-br from-white/5 via-white/10 to-white/5 border border-white/20 hover:border-[#C69c6c]/30"
@@ -890,9 +870,6 @@ const ServicesSection = () => {
                   scale: 1.05,
                   y: -15,
                   transition: { type: "spring", stiffness: 300 },
-                }}
-                onClick={() => {
-                  setActiveIndex(index);
                 }}
               >
                 {/* Animated Background */}
@@ -938,7 +915,7 @@ const ServicesSection = () => {
                   </p>
 
                   {/* Features List */}
-                  <div className="space-y-2">
+                  <div className="space-y-2 mb-6">
                     {service.features.map((feature, featureIndex) => (
                       <motion.div
                         key={featureIndex}
@@ -954,11 +931,36 @@ const ServicesSection = () => {
                       </motion.div>
                     ))}
                   </div>
+
+                  {/* Order Now Button */}
+                  <motion.button
+                    className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#C79D6D]/25"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      // Navigate to service detail page
+                      const slug = service.title
+                        .toLowerCase()
+                        .replace(/[&\s]+/g, "-")
+                        .replace(/[^a-z0-9-]/g, "");
+                      try {
+                        router.push(`/services/${slug}`);
+                      } catch (error) {
+                        console.error("Router push failed:", error);
+                        // Fallback to window.location
+                        window.location.href = `/services/${slug}`;
+                      }
+                    }}
+                  >
+                    Order Now
+                  </motion.button>
                 </div>
 
                 {/* Hover Effect Overlay */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-[#C69c6c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                  className="absolute inset-0 bg-gradient-to-t from-[#C69c6c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
                   initial={false}
                 />
               </motion.div>
@@ -1518,21 +1520,21 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       desc: "Comprehensive business management system for resource planning and operations.",
       image:
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
-      client: "Corporate Clients",
+      client: "Ethiopian Corporations",
     },
     {
       title: "Learning Management System (LMS)",
       desc: "Advanced educational platform for online learning and course management.",
       image:
         "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
-      client: "Educational Institutions",
+      client: "Ethiopian Universities",
     },
     {
       title: "Customer Relationship Management (CRM)",
       desc: "Integrated system for managing customer interactions and business relationships.",
       image:
         "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
-      client: "Business Organizations",
+      client: "Ethiopian Business Organizations",
     },
   ],
   "Digital Marketing": [
@@ -1540,37 +1542,37 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       title: "Social Media Campaign Design",
       desc: "",
       image: "/img/social-media-post-designs/1.jpg",
-      client: "Muyalogy LMS Platform",
+      client: "EthioLearn Platform",
     },
     {
       title: "Instagram Story Collection",
       desc: "",
       image: "/img/social-media-post-designs/2.jpg",
-      client: "Muyalogy LMS Platform",
+      client: "EthioLearn Platform",
     },
     {
       title: "Facebook Post Series",
       desc: "",
       image: "/img/social-media-post-designs/3.jpg",
-      client: "Muyalogy LMS Platform",
+      client: "EthioLearn Platform",
     },
     {
       title: "LinkedIn Professional Posts",
       desc: "",
       image: "/img/social-media-post-designs/4.jpg",
-      client: "Muyalogy LMS Platform",
+      client: "EthioLearn Platform",
     },
     {
       title: "Twitter Campaign Graphics",
       desc: "",
       image: "/img/social-media-post-designs/5.jpg",
-      client: "Muyalogy LMS Platform",
+      client: "EthioLearn Platform",
     },
     {
       title: "Social Media Brand Kit",
       desc: "",
       image: "/img/social-media-post-designs/6.jpg",
-      client: "Muyalogy LMS Platform",
+      client: "EthioLearn Platform",
     },
   ],
   Branding: [
@@ -1579,21 +1581,21 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       desc: "Complete brand refresh for a leading hospitality group.",
       image:
         "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80",
-      client: "Haile Hospitality Group",
+      client: "Ethiopian Hospitality Group",
     },
     {
       title: "Logo & Identity Suite",
       desc: "Distinctive visual identity for a tech startup.",
       image:
         "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=600&q=80",
-      client: "Tech Startup",
+      client: "Addis Tech Startup",
     },
     {
       title: "Government Brand Guidelines",
       desc: "Comprehensive branding for a government initiative.",
       image:
         "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
-      client: "Gov. Initiative",
+      client: "Ethiopian Government",
     },
   ],
 };

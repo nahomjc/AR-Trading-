@@ -102,10 +102,16 @@ export default function IntroLoader() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
             >
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-2 px-4">
+              <h1
+                className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-2 px-4"
+                style={{ color: "#C79D6D" }}
+              >
                 AR Solutions
               </h1>
-              <p className="text-lg sm:text-xl text-gray-400 font-light tracking-wider px-4">
+              <p
+                className="text-lg sm:text-xl font-light tracking-wider px-4"
+                style={{ color: "#C79D6D" }}
+              >
                 MARKETING EXCELLENCE
               </p>
             </motion.div>
@@ -131,7 +137,8 @@ export default function IntroLoader() {
 
             {/* Status Text */}
             <motion.p
-              className="text-sm text-gray-500 mt-4 font-medium tracking-wide"
+              className="text-sm mt-4 font-medium tracking-wide"
+              style={{ color: "#C79D6D" }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5, duration: 0.5 }}
