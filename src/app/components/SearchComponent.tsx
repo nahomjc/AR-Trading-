@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 import {
   IconSearch,
   IconX,
@@ -10,6 +11,7 @@ import {
   IconBuilding,
   IconWorld,
   IconPhone,
+  IconUser,
 } from "@tabler/icons-react";
 
 // Search Component
@@ -21,6 +23,7 @@ interface SearchItem {
 }
 
 const SearchComponent = () => {
+  const router = useRouter();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
@@ -157,6 +160,32 @@ const SearchComponent = () => {
       title: "Address",
       description: "8th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia",
     },
+
+    // Team Members
+    {
+      type: "employee",
+      title: "Robson Habtamu",
+      description:
+        "General Manager and Co-founder - Strategic leader managing operations and business direction",
+    },
+    {
+      type: "employee",
+      title: "Abenezer Samuel",
+      description:
+        "CEO and co-founder - Strategic leader managing operations and business direction",
+    },
+    {
+      type: "employee",
+      title: "Keneni Melkamu",
+      description:
+        "Digital Marketer - Digital marketing expert specializing in campaigns and SEO",
+    },
+    {
+      type: "employee",
+      title: "Nahom Tesfaye",
+      description:
+        "Senior Software Engineer - Full-stack developer with modern web technology expertise",
+    },
   ];
 
   // Search suggestions based on common queries
@@ -196,6 +225,18 @@ const SearchComponent = () => {
     "latest works",
     "works",
     "projects",
+    "team",
+    "employees",
+    "staff",
+    "robson",
+    "abenezer",
+    "keneni",
+    "nahom",
+    "ceo",
+    "manager",
+    "engineer",
+    "marketer",
+    "founder",
   ];
 
   const performSearch = (query: string) => {
@@ -264,7 +305,14 @@ const SearchComponent = () => {
       if (selectedIndex >= 0 && selectedIndex < searchResults.length) {
         const result = searchResults[selectedIndex];
         if (result.url) {
-          window.location.href = result.url;
+          // Close search modal first
+          setIsSearchOpen(false);
+          setSearchQuery("");
+          setSearchResults([]);
+          setSuggestions([]);
+
+          // Navigate using Next.js router
+          router.push(result.url);
         }
       } else if (selectedIndex >= searchResults.length) {
         const suggestion = suggestions[selectedIndex - searchResults.length];
@@ -286,7 +334,14 @@ const SearchComponent = () => {
 
   const handleResultClick = (result: SearchItem) => {
     if (result.url) {
-      window.location.href = result.url;
+      // Close search modal first
+      setIsSearchOpen(false);
+      setSearchQuery("");
+      setSearchResults([]);
+      setSuggestions([]);
+
+      // Navigate using Next.js router
+      router.push(result.url);
     } else {
       // Scroll to section based on result type and title
       const sectionMap: { [key: string]: string } = {
@@ -299,6 +354,11 @@ const SearchComponent = () => {
         Phone: "contact",
         Email: "contact",
         Address: "contact",
+        // Employee names map to team section
+        "Robson Habtamu": "team",
+        "Abenezer Samuel": "team",
+        "Keneni Melkamu": "team",
+        "Nahom Tesfaye": "team",
       };
 
       const sectionId = sectionMap[result.title] || result.type;
@@ -436,6 +496,8 @@ const SearchComponent = () => {
                                       ? "bg-green-500/20"
                                       : result.type === "company"
                                       ? "bg-purple-500/20"
+                                      : result.type === "employee"
+                                      ? "bg-cyan-500/20"
                                       : "bg-orange-500/20"
                                   }`}
                                 >
@@ -447,6 +509,9 @@ const SearchComponent = () => {
                                   )}
                                   {result.type === "company" && (
                                     <IconBuilding className="w-3 h-3 sm:w-4 sm:h-4 text-purple-400" />
+                                  )}
+                                  {result.type === "employee" && (
+                                    <IconUser className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-400" />
                                   )}
                                   {result.type === "contact" && (
                                     <IconPhone className="w-3 h-3 sm:w-4 sm:h-4 text-orange-400" />
