@@ -860,6 +860,17 @@ export default function ServiceDetailPage() {
                     )}
                   </div>
 
+                  {/* Call Now Button */}
+                  <motion.a
+                    href={`tel:${companyPhone}`}
+                    className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <IconPhone className="w-5 h-5" />
+                    <span>Call Now</span>
+                  </motion.a>
+
                   {/* WhatsApp */}
                   <motion.button
                     onClick={handleWhatsAppClick}

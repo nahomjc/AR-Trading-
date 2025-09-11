@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
@@ -29,6 +29,7 @@ const SearchComponent = () => {
   const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // Search data - all content from the website
   const searchData = [
@@ -387,15 +388,43 @@ const SearchComponent = () => {
   // Keyboard shortcut for search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      // Debug: log all keydown events to see what's happening
+      console.log(
+        "Key pressed:",
+        e.key,
+        "Ctrl:",
+        e.ctrlKey,
+        "Meta:",
+        e.metaKey
+      );
+
+      // Check for Ctrl+K (Windows/Linux) or Cmd+K (Mac)
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
+        e.stopPropagation();
+        console.log("Search shortcut triggered!"); // Debug log
         setIsSearchOpen(true);
+        return false;
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
+    // Add event listener to window for better reliability
+    window.addEventListener("keydown", handleKeyDown, true);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown, true);
+    };
   }, []);
+
+  // Focus input when search opens
+  useEffect(() => {
+    if (isSearchOpen && inputRef.current) {
+      // Small delay to ensure the input is rendered
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+  }, [isSearchOpen]);
 
   return (
     <>
@@ -447,6 +476,7 @@ const SearchComponent = () => {
                 <div className="relative">
                   <IconSearch className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
                   <input
+                    ref={inputRef}
                     type="text"
                     value={searchQuery}
                     onChange={handleSearchChange}
