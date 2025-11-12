@@ -85,7 +85,7 @@ export default function IntroLoader() {
               />
               <div className="relative bg-white/15 backdrop-blur-md rounded-2xl p-8 border border-white/20">
                 <Image
-                  src="/img/ars.png"
+                  src="/img/White-with-background-removebg-preview.png"
                   alt="AR Solutions Logo"
                   width={280}
                   height={112}

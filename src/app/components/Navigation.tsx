@@ -29,7 +29,7 @@ const Navigation = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           <motion.div
             className="flex-shrink-0"
             whileHover={{ scale: 1.05 }}
@@ -37,11 +37,11 @@ const Navigation = () => {
           >
             <a href="#home" className="focus:outline-none">
               <Image
-                src="/img/ars.png"
+                src="/img/White-with-background-removebg-preview.png"
                 alt="AR Solutions Logo"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
+                width={200}
+                height={70}
+                className="h-20 w-auto"
                 priority
               />
             </a>

@@ -19,11 +19,11 @@ const Footer = () => {
           <div className="col-span-2">
             <motion.div className="mb-4" whileHover={{ scale: 1.05 }}>
               <Image
-                src="/img/ars.png"
+                src="/img/White-with-background-removebg-preview.png"
                 alt="AR Solutions Logo"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
+                width={190}
+                height={70}
+                className="h-20 w-auto"
                 priority
               />
             </motion.div>
