@@ -685,16 +685,25 @@ const LatestWorksSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 sm:p-8 pt-20 sm:pt-24"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-md"
             onClick={closeImagePreview}
-            style={{ top: 0, left: 0, right: 0, bottom: 0 }}
+            style={{
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              paddingTop: "80px",
+              paddingBottom: "20px",
+              paddingLeft: "20px",
+              paddingRight: "20px",
+            }}
           >
             <motion.div
               initial={{ scale: 0.8, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 50 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative max-w-[95vw] max-h-[calc(95vh-5rem)] sm:max-h-[calc(95vh-6rem)] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-gradient-to-br from-[#08243A] to-[#0a2a42]"
+              className="relative w-full h-full max-w-[95vw] max-h-[calc(100vh-100px)] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-gradient-to-br from-[#08243A] to-[#0a2a42] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
@@ -707,14 +716,14 @@ const LatestWorksSection = () => {
                 <IconX className="w-6 h-6" />
               </motion.button>
 
-              {/* Image */}
-              <div className="relative w-full h-full max-h-[calc(95vh-5rem)] sm:max-h-[calc(95vh-6rem)] flex items-center justify-center p-4 overflow-auto">
+              {/* Image Container */}
+              <div className="relative w-full h-full flex items-center justify-center p-4 overflow-auto">
                 <Image
                   src={selectedImage}
                   alt="Preview"
                   width={1200}
                   height={800}
-                  className="w-full h-auto max-h-full object-contain rounded-2xl"
+                  className="w-auto h-auto max-w-full max-h-full object-contain rounded-2xl"
                   priority
                 />
               </div>
