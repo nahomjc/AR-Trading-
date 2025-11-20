@@ -41,8 +41,15 @@ const WhoWeAreSection = () => {
   }, []);
 
   return (
-    <section id="about" className="py-20 px-4 sm:px-6 lg:px-8 relative team-bg">
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/10 via-purple-900/10 to-cyan-900/10"></div>
+    <section
+      id="about"
+      className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
+    >
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div

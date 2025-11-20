@@ -385,106 +385,191 @@ const TeamSection = () => {
                 ease: "easeOut",
               }}
               viewport={{ once: true }}
-              whileHover={{ y: -20, scale: 1.05 }}
+              whileHover={{ y: -12 }}
             >
-              {/* Modern Professional Card */}
+              {/* Premium Professional Card */}
               <div
-                className={`relative bg-gradient-to-br from-slate-900/95 via-gray-900/95 to-slate-900/95 backdrop-blur-3xl border rounded-2xl p-6 transition-all duration-800 cursor-pointer overflow-hidden shadow-2xl group ${
+                className={`relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-xl border rounded-3xl p-8 transition-all duration-500 cursor-pointer overflow-hidden shadow-2xl group ${
                   highlightedEmployee === member.name
-                    ? "border-[#C69c6c] shadow-[#C69c6c]/50 ring-4 ring-[#C69c6c]/30 animate-pulse"
-                    : "border-slate-700/40 hover:border-[#C69c6c]/80 hover:shadow-[#C69c6c]/30"
+                    ? "border-[#C79D6D] shadow-[#C79D6D]/50 ring-4 ring-[#C79D6D]/30"
+                    : "border-white/20 hover:border-[#C79D6D]/50 hover:shadow-[#C79D6D]/30"
                 }`}
                 onClick={() => {
                   console.log("Clicked:", member.name);
                   setHoveredMember(member);
                 }}
               >
-                {/* Elegant Background Pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#C69c6c]/5 via-transparent to-[#C69c6c]/5"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(198,156,108,0.08),transparent_40%)]"></div>
+                {/* Animated Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/5 via-transparent to-[#C79D6D]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                {/* Radial Gradient Overlay */}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(199,157,109,0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 {/* Top Accent Line */}
-                <div
-                  className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C69c6c] via-[#d4a574] to-[#C69c6c] rounded-t-2xl ${
+                <motion.div
+                  className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C79D6D] via-[#d4a574] to-[#C79D6D] rounded-t-3xl ${
                     highlightedEmployee === member.name ? "animate-pulse" : ""
                   }`}
-                ></div>
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  transition={{ duration: 0.8, delay: index * 0.2 + 0.3 }}
+                  viewport={{ once: true }}
+                ></motion.div>
 
-                {/* Floating Accent Dots */}
-                <div className="absolute top-8 right-8 w-2 h-2 bg-[#C69c6c] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-800 transform scale-0 group-hover:scale-100"></div>
-                <div className="absolute bottom-8 left-8 w-1.5 h-1.5 bg-[#d4a574] rounded-full opacity-0 group-hover:opacity-100 transition-all duration-800 delay-300 transform scale-0 group-hover:scale-100"></div>
+                {/* Floating Accent Elements */}
+                <motion.div
+                  className="absolute top-6 right-6 w-3 h-3 bg-[#C79D6D] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    delay: index * 0.2,
+                  }}
+                ></motion.div>
+                <motion.div
+                  className="absolute bottom-6 left-6 w-2 h-2 bg-[#d4a574] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{
+                    scale: [1, 1.3, 1],
+                    opacity: [0, 1, 0],
+                  }}
+                  transition={{
+                    duration: 2.5,
+                    repeat: Infinity,
+                    delay: index * 0.2 + 0.5,
+                  }}
+                ></motion.div>
 
-                {/* Large Profile Image Section */}
+                {/* Profile Image Section */}
                 <div className="relative flex justify-center mb-6">
                   <div className="relative">
-                    {/* Main Large Image Container */}
+                    {/* Glow Effect */}
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-gradient-to-r from-[#C79D6D]/30 to-[#d4a574]/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                      animate={{
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    ></motion.div>
+
+                    {/* Main Image Container */}
                     <div
-                      className={`relative w-32 h-32 rounded-full overflow-hidden ring-4 transition-all duration-700 shadow-2xl ${
+                      className={`relative w-36 h-36 rounded-full overflow-hidden ring-4 transition-all duration-500 shadow-2xl ${
                         highlightedEmployee === member.name
-                          ? "ring-[#C69c6c] shadow-[#C69c6c]/40 animate-pulse"
-                          : "ring-[#C69c6c]/20 group-hover:ring-[#C69c6c]/50 group-hover:shadow-[#C69c6c]/20"
+                          ? "ring-[#C79D6D] shadow-[#C79D6D]/50"
+                          : "ring-[#C79D6D]/30 group-hover:ring-[#C79D6D]/60 group-hover:shadow-[#C79D6D]/40"
                       }`}
                     >
-                      <img
+                      <Image
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-800 grayscale group-hover:grayscale-0"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0"
+                        sizes="(max-width: 768px) 144px, 144px"
                       />
-                      {/* Subtle Gradient Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/40 via-transparent to-transparent"></div>
                     </div>
 
-                    {/* Elegant Status Ring */}
-                    <div className="absolute inset-0 rounded-full border border-[#C69c6c]/30 animate-pulse"></div>
-
-                    {/* Subtle Corner Accents */}
-                    <div className="absolute -top-3 -left-3 w-3 h-3 bg-[#C69c6c]/40 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 delay-400"></div>
-                    <div className="absolute -top-3 -right-3 w-2 h-2 bg-[#d4a574]/40 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-600 delay-500"></div>
+                    {/* Animated Ring */}
+                    <motion.div
+                      className="absolute inset-0 rounded-full border-2 border-[#C79D6D]/40"
+                      animate={{
+                        scale: [1, 1.1, 1],
+                        opacity: [0.4, 0.7, 0.4],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    ></motion.div>
                   </div>
                 </div>
 
                 {/* Content Section */}
                 <div className="relative z-10 text-center">
-                  {/* Name with Elegant Typography */}
-                  <h3 className="text-xl lg:text-2xl font-bold text-white mb-3 group-hover:text-[#C69c6c] transition-all duration-600 leading-tight">
+                  {/* Name */}
+                  <motion.h3
+                    className="text-xl lg:text-2xl font-bold text-white mb-3 group-hover:text-[#C79D6D] transition-colors duration-300 leading-tight"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.2 + 0.4, duration: 0.6 }}
+                    viewport={{ once: true }}
+                  >
                     {member.name}
-                  </h3>
+                  </motion.h3>
 
-                  {/* Professional Role Badge */}
-                  <div className="inline-block bg-gradient-to-r from-[#C69c6c]/15 via-[#d4a574]/15 to-[#C69c6c]/15 backdrop-blur-xl border border-[#C69c6c]/30 rounded-full px-6 py-3 mb-6 shadow-lg group-hover:border-[#C69c6c]/60 transition-all duration-600">
-                    <span className="text-[#C69c6c] font-semibold text-sm lg:text-base tracking-wide">
+                  {/* Role Badge */}
+                  <motion.div
+                    className="inline-block bg-gradient-to-r from-[#C79D6D]/20 via-[#d4a574]/20 to-[#C79D6D]/20 backdrop-blur-sm border border-[#C79D6D]/40 rounded-full px-5 py-2.5 mb-6 shadow-lg group-hover:border-[#C79D6D]/60 group-hover:shadow-[#C79D6D]/20 transition-all duration-300"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.2 + 0.5, duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
+                    <span className="text-[#C79D6D] font-semibold text-xs lg:text-sm tracking-wide">
                       {member.role}
                     </span>
-                  </div>
+                  </motion.div>
 
-                  {/* Elegant Action Button */}
-                  <div className="flex items-center justify-center space-x-4 text-gray-300 group-hover:text-[#C69c6c] transition-all duration-600">
-                    <span className="text-base font-medium tracking-wide">
+                  {/* View Profile Button */}
+                  <motion.div
+                    className="flex items-center justify-center gap-2 text-gray-400 group-hover:text-[#C79D6D] transition-colors duration-300"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: index * 0.2 + 0.6, duration: 0.5 }}
+                    viewport={{ once: true }}
+                  >
+                    <span className="text-sm font-medium tracking-wide">
                       View Profile
                     </span>
-                    <div className="relative">
-                      <svg
-                        className="w-6 h-6 transform group-hover:translate-x-3 transition-transform duration-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 5l7 7-7 7"
-                        />
-                      </svg>
-                    </div>
-                  </div>
+                    <motion.svg
+                      className="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      animate={{
+                        x: [0, 5, 0],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </motion.svg>
+                  </motion.div>
                 </div>
 
-                {/* Elegant Hover Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#C69c6c]/8 via-transparent to-[#C69c6c]/8 opacity-0 group-hover:opacity-100 transition-all duration-800 rounded-2xl"></div>
+                {/* Shine Effect */}
+                <motion.div
+                  className="absolute inset-0 -top-32 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
+                  animate={{
+                    x: ["-100%", "100%"],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatDelay: 3,
+                    ease: "linear",
+                  }}
+                ></motion.div>
 
-                {/* Subtle Border Glow */}
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#C69c6c]/10 via-transparent to-[#C69c6c]/10 opacity-0 group-hover:opacity-100 transition-all duration-800 blur-xl"></div>
+                {/* Border Glow on Hover */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-[#C79D6D]/20 via-transparent to-[#C79D6D]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl pointer-events-none"></div>
               </div>
             </motion.div>
           ))}
