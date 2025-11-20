@@ -2,6 +2,7 @@
 import { useRouter, useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import Image from "next/image";
 import {
   IconPrinter,
   IconChartLine,
@@ -28,6 +29,8 @@ const serviceData = {
     icon: IconPrinter,
     color: "from-orange-500/20 to-red-500/20",
     iconColor: "text-orange-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1920&q=80",
     features: [
       "Banner Design",
       "Vehicle Branding",
@@ -106,6 +109,8 @@ const serviceData = {
     icon: IconChartLine,
     color: "from-blue-500/20 to-purple-500/20",
     iconColor: "text-blue-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80",
     features: [
       "Social Media",
       "Paid Advertising",
@@ -182,6 +187,8 @@ const serviceData = {
     icon: IconPalette,
     color: "from-pink-500/20 to-purple-500/20",
     iconColor: "text-pink-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=1920&q=80",
     features: [
       "Logo Design",
       "Brand Identity",
@@ -258,6 +265,8 @@ const serviceData = {
     icon: IconVideo,
     color: "from-green-500/20 to-teal-500/20",
     iconColor: "text-green-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1920&q=80",
     features: [
       "Videography",
       "Photography",
@@ -333,6 +342,8 @@ const serviceData = {
     icon: IconWorld,
     color: "from-cyan-500/20 to-blue-500/20",
     iconColor: "text-cyan-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80",
     features: [
       "Website Design & Development",
       "Maintenance",
@@ -343,7 +354,8 @@ const serviceData = {
     services: [
       {
         name: "Website Design & Development",
-        description: "Custom website design and development tailored to your brand",
+        description:
+          "Custom website design and development tailored to your brand",
         price: "Starting from $1,500",
         features: [
           "Responsive design",
@@ -406,6 +418,8 @@ const serviceData = {
     icon: IconCalendarEvent,
     color: "from-purple-500/20 to-pink-500/20",
     iconColor: "text-purple-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1920&q=80",
     features: [
       "Corporate Events",
       "Conferences",
@@ -483,6 +497,113 @@ const serviceData = {
     icon: IconBook,
     color: "from-indigo-500/20 to-purple-500/20",
     iconColor: "text-indigo-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80",
+    features: [
+      "Corporate Training",
+      "Personal Development",
+      "Media Training",
+      "Workshops",
+    ],
+    detailedDescription:
+      "Empower your team with our comprehensive training programs designed to enhance skills, boost productivity, and drive organizational success.",
+    services: [
+      {
+        name: "Corporate Training",
+        description:
+          "Tailored training programs for businesses and organizations",
+        price: "Starting from $500/day",
+        features: [
+          "Customized curriculum",
+          "Experienced trainers",
+          "Interactive sessions",
+          "Follow-up support",
+        ],
+      },
+      {
+        name: "Personal Development",
+        description: "Individual coaching and skill development programs",
+        price: "Starting from $100/session",
+        features: [
+          "One-on-one coaching",
+          "Goal setting",
+          "Progress tracking",
+          "Flexible scheduling",
+        ],
+      },
+      {
+        name: "Media Training",
+        description: "Professional media and communication training",
+        price: "Starting from $300/session",
+        features: [
+          "Interview preparation",
+          "Public speaking",
+          "Crisis communication",
+          "Media relations",
+        ],
+      },
+    ],
+    pricing: {
+      basic: {
+        name: "Basic Training",
+        price: "$500",
+        features: [
+          "Half-day session",
+          "Up to 10 participants",
+          "Basic materials",
+          "Certificate of completion",
+        ],
+      },
+      professional: {
+        name: "Professional Training",
+        price: "$800",
+        features: [
+          "Full-day session",
+          "Up to 20 participants",
+          "Comprehensive materials",
+          "Follow-up consultation",
+          "Certificate of completion",
+        ],
+      },
+      enterprise: {
+        name: "Enterprise Training",
+        price: "$1,200",
+        features: [
+          "Multi-day program",
+          "Unlimited participants",
+          "Custom curriculum",
+          "Ongoing support",
+          "Progress tracking",
+          "Certificate of completion",
+        ],
+      },
+    },
+    testimonials: [
+      {
+        name: "Sara Tadesse",
+        company: "Ethiopian Tech Solutions",
+        rating: 5,
+        comment: "The corporate training transformed our team's productivity.",
+      },
+      {
+        name: "Mikias Haile",
+        company: "Addis Marketing Solutions",
+        rating: 5,
+        comment:
+          "Excellent media training that prepared us for major interviews.",
+      },
+    ],
+  },
+  // Alias for training-development slug
+  "training-development": {
+    title: "Training & Development",
+    description:
+      "Corporate, personal development, and media trainings (conducted in meeting rooms or offsite).",
+    icon: IconBook,
+    color: "from-indigo-500/20 to-purple-500/20",
+    iconColor: "text-indigo-400",
+    heroImage:
+      "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=80",
     features: [
       "Corporate Training",
       "Personal Development",
@@ -584,6 +705,7 @@ export default function ServiceDetailPage() {
   const router = useRouter();
   const params = useParams();
   const slug = params.slug;
+
   const service = serviceData[slug as keyof typeof serviceData];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -631,143 +753,252 @@ export default function ServiceDetailPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]">
-      {/* Header */}
-      <div className="relative py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      {/* Background Elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      {/* Hero Image Section */}
+      <div className="relative h-[60vh] min-h-[500px] overflow-hidden">
+        {service.heroImage && (
+          <Image
+            src={service.heroImage}
+            alt={service.title}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#08243A]/90 via-[#08243A]/80 to-[#08243A]/95"></div>
+
+        {/* Decorative overlay */}
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#C79D6D]/10 to-transparent"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        </div>
+
+        {/* Content Overlay */}
+        <div className="relative z-10 h-full flex flex-col items-center justify-center">
           {/* Back Button */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-8"
+            className="absolute top-8 left-4 sm:left-8 z-20"
           >
-            <button
-              onClick={() => router.push("/")}
-              className="inline-flex items-center text-[#C79D6D] hover:text-[#d4a574] transition-colors duration-300"
+            <motion.button
+              onClick={() => router.push("/services")}
+              className="inline-flex items-center bg-black/30 backdrop-blur-sm px-4 py-2 rounded-xl text-white hover:text-[#C79D6D] transition-colors duration-300 group border border-white/20 hover:border-[#C79D6D]/50"
+              whileHover={{ x: -5 }}
             >
-              <IconArrowLeft className="w-5 h-5 mr-2" />
+              <IconArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform duration-300" />
               Back to Services
-            </button>
+            </motion.button>
           </motion.div>
 
-          {/* Service Header */}
-          <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <div className="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/20 mb-6">
-              <IconComponent className={`w-10 h-10 ${service.iconColor}`} />
-            </div>
-            <h1 className="text-4xl sm:text-6xl font-bold text-[#C79D6D] mb-6">
-              {service.title}
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              {service.detailedDescription}
-            </p>
-          </motion.div>
-
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {service.services.map((item, index) => (
+          <div className="text-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-16">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
               <motion.div
-                key={index}
-                className="bg-gradient-to-br from-white/5 via-white/10 to-white/5 border border-white/20 rounded-2xl p-8 hover:border-[#C79D6D]/30 transition-all duration-300"
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-[#C79D6D]/30 to-[#d4a574]/30 backdrop-blur-sm mb-8 shadow-lg shadow-[#C79D6D]/20 border border-[#C79D6D]/30"
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ duration: 0.8, delay: 0.2, type: "spring" }}
+                whileHover={{ scale: 1.1, rotate: 360 }}
               >
-                <h3 className="text-2xl font-bold text-white mb-3">
-                  {item.name}
-                </h3>
-                <p className="text-gray-300 mb-4">{item.description}</p>
-                <div className="text-2xl font-bold text-[#C79D6D] mb-4">
-                  {item.price}
-                </div>
-                <ul className="space-y-2">
-                  {item.features.map((feature, featureIndex) => (
-                    <li
-                      key={featureIndex}
-                      className="flex items-center text-gray-300"
-                    >
-                      <IconCheck className="w-5 h-5 text-[#C79D6D] mr-3 flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <motion.button
-                  className="w-full mt-6 bg-gradient-to-r cursor-pointer from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setIsModalOpen(true)}
-                >
-                  Get Started
-                </motion.button>
+                <IconComponent className={`w-12 h-12 ${service.iconColor}`} />
               </motion.div>
-            ))}
+              <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-6">
+                <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+                  {service.title}
+                </span>
+              </h1>
+              <p className="text-xl sm:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
+                {service.detailedDescription}
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+
+      {/* Content Section */}
+      <div className="relative py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Services Grid */}
+          <div className="mb-20">
+            <motion.h2
+              className="text-3xl sm:text-4xl font-bold text-white text-center mb-12"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              Service <span className="text-[#C79D6D]">Offerings</span>
+            </motion.h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {service.services.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="group relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8 hover:border-[#C79D6D]/50 hover:shadow-2xl hover:shadow-[#C79D6D]/20 transition-all duration-500 overflow-hidden"
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -8 }}
+                >
+                  {/* Hover Background Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/5 to-[#d4a574]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  <div className="relative z-10">
+                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#C79D6D] transition-colors duration-300">
+                      {item.name}
+                    </h3>
+                    <p className="text-gray-300 mb-6 leading-relaxed">
+                      {item.description}
+                    </p>
+                    <div className="text-3xl font-bold bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent mb-6">
+                      {item.price}
+                    </div>
+                    <ul className="space-y-3 mb-8">
+                      {item.features.map((feature, featureIndex) => (
+                        <motion.li
+                          key={featureIndex}
+                          className="flex items-center text-gray-300 group-hover:text-gray-200 transition-colors duration-300"
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{
+                            duration: 0.4,
+                            delay: index * 0.1 + featureIndex * 0.05,
+                          }}
+                        >
+                          <IconCheck className="w-5 h-5 text-[#C79D6D] mr-3 flex-shrink-0" />
+                          <span>{feature}</span>
+                        </motion.li>
+                      ))}
+                    </ul>
+                    <motion.button
+                      className="w-full bg-gradient-to-r cursor-pointer from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg shadow-[#C79D6D]/25"
+                      whileHover={{
+                        scale: 1.02,
+                        boxShadow: "0 10px 30px rgba(199, 157, 109, 0.4)",
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => setIsModalOpen(true)}
+                    >
+                      Get Started
+                    </motion.button>
+                  </div>
+
+                  {/* Shine Effect */}
+                  <div className="absolute inset-0 -top-32 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine transition-opacity duration-500"></div>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
           {/* Testimonials */}
           <motion.div
-            className="mb-16"
+            className="mb-20"
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl font-bold text-white text-center mb-12">
-              What Our Clients Say
+            <h2 className="text-3xl sm:text-4xl font-bold text-white text-center mb-4">
+              What Our <span className="text-[#C79D6D]">Clients Say</span>
             </h2>
+            <p className="text-center text-gray-400 mb-12 max-w-2xl mx-auto">
+              Don't just take our word for it. See what our satisfied clients
+              have to say about our services.
+            </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {service.testimonials.map((testimonial, index) => (
-                <div
+                <motion.div
                   key={index}
-                  className="bg-gradient-to-br from-white/5 via-white/10 to-white/5 border border-white/20 rounded-2xl p-6"
+                  className="group bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8 hover:border-[#C79D6D]/50 hover:shadow-xl hover:shadow-[#C79D6D]/10 transition-all duration-500"
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: index * 0.1 }}
+                  whileHover={{ y: -5 }}
                 >
-                  <div className="flex items-center mb-4">
+                  <div className="flex items-center mb-6">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <IconStar
+                      <motion.div
                         key={i}
-                        className="w-5 h-5 text-[#C79D6D] fill-current"
-                      />
+                        initial={{ scale: 0, rotate: -180 }}
+                        whileInView={{ scale: 1, rotate: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.5, delay: i * 0.1 }}
+                      >
+                        <IconStar className="w-6 h-6 text-[#C79D6D] fill-current" />
+                      </motion.div>
                     ))}
                   </div>
-                  <p className="text-gray-300 mb-4 italic">
-                    &ldquo;{testimonial.comment}&rdquo;
+                  <p className="text-gray-300 mb-6 italic text-lg leading-relaxed relative">
+                    <span className="text-4xl text-[#C79D6D]/30 absolute -top-2 -left-2">
+                      "
+                    </span>
+                    <span className="relative z-10">{testimonial.comment}</span>
+                    <span className="text-4xl text-[#C79D6D]/30 absolute -bottom-6 -right-2">
+                      "
+                    </span>
                   </p>
-                  <div>
-                    <div className="font-semibold text-white">
+                  <div className="pt-4 border-t border-white/10">
+                    <div className="font-semibold text-white text-lg">
                       {testimonial.name}
                     </div>
                     <div className="text-[#C79D6D]">{testimonial.company}</div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.div>
 
           {/* CTA Section */}
           <motion.div
-            className="text-center bg-gradient-to-br from-[#C79D6D]/10 via-[#d4a574]/10 to-[#C79D6D]/10 border border-[#C79D6D]/30 rounded-2xl p-12"
+            className="relative text-center bg-gradient-to-br from-[#C79D6D]/10 via-[#d4a574]/10 to-[#C79D6D]/10 backdrop-blur-sm border border-[#C79D6D]/30 rounded-3xl p-12 overflow-hidden"
             initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to Get Started?
-            </h2>
-            <p className="text-xl text-gray-300 mb-8">
-              Contact us today to discuss your {service.title.toLowerCase()}{" "}
-              needs
-            </p>
-            <motion.button
-              className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 text-lg"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsModalOpen(true)}
-            >
-              Contact Us Now
-            </motion.button>
+            {/* Background Pattern */}
+            <div className="absolute inset-0 opacity-10">
+              <div className="absolute top-0 left-0 w-64 h-64 bg-[#C79D6D] rounded-full blur-3xl"></div>
+              <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#d4a574] rounded-full blur-3xl"></div>
+            </div>
+
+            <div className="relative z-10">
+              <motion.h2
+                className="text-3xl sm:text-4xl font-bold text-white mb-4"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                Ready to Get <span className="text-[#C79D6D]">Started</span>?
+              </motion.h2>
+              <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+                Contact us today to discuss your {service.title.toLowerCase()}{" "}
+                needs and discover how we can help transform your business.
+              </p>
+              <motion.button
+                className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 text-lg shadow-lg shadow-[#C79D6D]/25"
+                whileHover={{
+                  scale: 1.05,
+                  boxShadow: "0 20px 40px rgba(199, 157, 109, 0.4)",
+                }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsModalOpen(true)}
+              >
+                Contact Us Now
+              </motion.button>
+            </div>
           </motion.div>
         </div>
       </div>

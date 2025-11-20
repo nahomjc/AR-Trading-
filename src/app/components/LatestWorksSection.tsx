@@ -11,6 +11,11 @@ import {
   IconVideo,
   IconCalendarEvent,
   IconBook,
+  IconEye,
+  IconX,
+  IconArrowRight,
+  IconChevronLeft,
+  IconChevronRight,
 } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
 
@@ -46,6 +51,17 @@ const tabIcons: Record<TabName, React.ComponentType<{ className?: string }>> = {
   "Advertising & Printing": IconPrinter,
   "Event Planning": IconCalendarEvent,
   Training: IconBook,
+};
+
+const tabColors: Record<TabName, string> = {
+  "Digital Marketing": "from-blue-500/20 via-purple-500/20 to-blue-500/20",
+  "Web Development": "from-cyan-500/20 via-blue-500/20 to-cyan-500/20",
+  Branding: "from-pink-500/20 via-purple-500/20 to-pink-500/20",
+  "Media Production": "from-green-500/20 via-teal-500/20 to-green-500/20",
+  "Advertising & Printing":
+    "from-orange-500/20 via-red-500/20 to-orange-500/20",
+  "Event Planning": "from-purple-500/20 via-pink-500/20 to-purple-500/20",
+  Training: "from-indigo-500/20 via-purple-500/20 to-indigo-500/20",
 };
 
 const latestWorks: Record<TabName, WorkItem[]> = {
@@ -260,24 +276,21 @@ const LatestWorksSection = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
+  const [carouselRef, setCarouselRef] = useState<HTMLDivElement | null>(null);
 
   // Handle latest works section highlighting from search
   useEffect(() => {
-    // Check if there's a highlighted latest works from search
     const storedLatestWorks = sessionStorage.getItem("highlightLatestWorks");
     if (storedLatestWorks) {
       setIsHighlighted(true);
-      // Clear the stored value after a delay
       setTimeout(() => {
         setIsHighlighted(false);
         sessionStorage.removeItem("highlightLatestWorks");
-      }, 3000); // Highlight for 3 seconds
+      }, 3000);
     }
 
-    // Listen for highlight events from search
     const handleHighlightLatestWorks = () => {
       setIsHighlighted(true);
-      // Clear highlight after 3 seconds
       setTimeout(() => {
         setIsHighlighted(false);
       }, 3000);
@@ -303,6 +316,13 @@ const LatestWorksSection = () => {
     setSelectedImage(null);
   };
 
+  // Reset carousel scroll when tab changes
+  useEffect(() => {
+    if (carouselRef) {
+      carouselRef.scrollTo({ left: 0, behavior: "smooth" });
+    }
+  }, [activeTab, carouselRef]);
+
   // Close modal on Escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -313,7 +333,7 @@ const LatestWorksSection = () => {
 
     if (isModalOpen) {
       document.addEventListener("keydown", handleEscape);
-      document.body.style.overflow = "hidden"; // Prevent background scroll
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
@@ -325,13 +345,20 @@ const LatestWorksSection = () => {
   return (
     <section
       id="latest-works"
-      className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 relative bg-gradient-to-br from-[#08243A]/20 via-transparent to-[#08243A]/10"
+      className="relative py-20 sm:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
     >
-      <div className="max-w-7xl mx-auto">
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header Section */}
         <motion.div
-          className={`text-center mb-16 p-6 rounded-xl transition-all duration-500 ${
+          className={`text-center mb-16 p-8 rounded-3xl transition-all duration-500 ${
             isHighlighted
-              ? "bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/50 shadow-lg shadow-[#C69c6c]/20 animate-pulse"
+              ? "bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 border border-[#C79D6D]/50 shadow-lg shadow-[#C79D6D]/20"
               : ""
           }`}
           initial={{ opacity: 0, y: 50 }}
@@ -339,156 +366,310 @@ const LatestWorksSection = () => {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-6 py-3 bg-[#C69c6c]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-lg font-bold mb-8">
-            Latest Works
-          </span>
+          <motion.span
+            className="inline-block px-6 py-3 bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C79D6D]/30 rounded-full text-[#C79D6D] text-sm font-semibold mb-6 uppercase tracking-wider"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Our Portfolio
+          </motion.span>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
-            Our Latest Works
-          </h2>
+          <motion.h2
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+              Our Latest{" "}
+            </span>
+            <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+              Works
+            </span>
+          </motion.h2>
 
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <motion.p
+            className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
             Showcasing our creative excellence in digital marketing, web
             development, and branding solutions. From social media campaigns to
             enterprise applications, we deliver results that exceed
             expectations.
-          </p>
+          </motion.p>
         </motion.div>
-        {/* Tabs */}
-        <div className="flex justify-center mb-6">
+
+        {/* Professional Tabs */}
+        <div className="flex justify-center mb-12">
           <div className="relative max-w-full">
             <div
-              className="inline-flex rounded-full bg-[#08243A]/60 p-1 shadow-xl max-w-full overflow-x-auto scrollbar-hide gap-2 px-1 snap-x snap-mandatory"
+              className="inline-flex rounded-2xl bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 p-2 shadow-xl max-w-full overflow-x-auto scrollbar-hide gap-2 snap-x snap-mandatory"
               style={{ WebkitOverflowScrolling: "touch" }}
               role="tablist"
             >
-              {tabNames.map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`relative flex-shrink-0 px-2 py-1 sm:px-4 sm:py-2 rounded-full font-semibold text-xl sm:text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#C69c6c] whitespace-nowrap
-                    ${
-                      activeTab === tab
-                        ? "btn-secondary text-white shadow-lg"
-                        : "btn-secondary text-[#C69c6c] hover:bg-[#C69c6c]/20"
-                    }
-                  `}
-                  aria-controls={`tab-panel-${tab}`}
-                  tabIndex={activeTab === tab ? 0 : -1}
-                  style={{ minWidth: "44px", scrollSnapAlign: "center" }}
-                >
-                  {activeTab === tab && (
-                    <motion.div
-                      layoutId="tab-underline"
-                      className="absolute left-2 right-2 bottom-1 h-1 rounded-full bg-gradient-to-r from-[#C69c6c] to-[#d4a574]"
-                      style={{ zIndex: 1 }}
+              {tabNames.map((tab) => {
+                const IconComponent = tabIcons[tab];
+                const isActive = activeTab === tab;
+                return (
+                  <motion.button
+                    key={tab}
+                    onClick={() => setActiveTab(tab)}
+                    className={`relative flex-shrink-0 flex items-center gap-2 px-4 py-3 rounded-xl font-semibold text-sm sm:text-base transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#C79D6D] whitespace-nowrap ${
+                      isActive
+                        ? "bg-gradient-to-r from-[#C79D6D] to-[#d4a574] text-white shadow-lg shadow-[#C79D6D]/25"
+                        : "text-gray-300 hover:text-white hover:bg-white/10"
+                    }`}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    aria-controls={`tab-panel-${tab}`}
+                    tabIndex={isActive ? 0 : -1}
+                    style={{ scrollSnapAlign: "center" }}
+                  >
+                    <IconComponent
+                      className={`w-4 h-4 sm:w-5 sm:h-5 ${
+                        isActive ? "text-white" : "text-[#C79D6D]"
+                      }`}
                     />
-                  )}
-                  <span className="sm:hidden" title={tab}>
-                    {(() => {
-                      const IconComponent = tabIcons[tab];
-                      return <IconComponent className="w-5 h-5" />;
-                    })()}
-                  </span>
-                  <span className="hidden sm:inline">{tab}</span>
-                </button>
-              ))}
+                    <span className="hidden sm:inline">{tab}</span>
+                    <span className="sm:hidden" title={tab}>
+                      {tab.split(" ")[0]}
+                    </span>
+                  </motion.button>
+                );
+              })}
             </div>
-            {/* Right-edge fade indicator for scrollable tabs on mobile/tablet */}
-            <div className="pointer-events-none absolute right-0 top-0 h-full w-6 bg-gradient-to-l from-blue-900/80 via-blue-900/40 to-transparent rounded-r-full block" />
           </div>
         </div>
-        {/* Tab Panels - render only the active tab's panel, no absolute positioning */}
+
+        {/* Portfolio Grid */}
         <div className="relative w-full">
-          <motion.div
-            key={activeTab}
-            id={`tab-panel-${activeTab}`}
-            role="tabpanel"
-            aria-labelledby={activeTab}
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.98 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full"
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-              {latestWorks[activeTab].map((work: WorkItem, idx: number) => (
-                <motion.div
-                  key={work.title}
-                  className="group relative"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: idx * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -8 }}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              id={`tab-panel-${activeTab}`}
+              role="tabpanel"
+              aria-labelledby={activeTab}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -30 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="w-full"
+            >
+              {/* Mobile Carousel / Desktop Grid */}
+              <div className="relative">
+                {/* Mobile Carousel Container */}
+                <div
+                  ref={setCarouselRef}
+                  className="sm:hidden flex overflow-x-auto scrollbar-hide gap-4 pb-4 snap-x snap-mandatory scroll-smooth"
+                  style={{ WebkitOverflowScrolling: "touch" }}
                 >
-                  {/* Optimized Card Design */}
-                  <div
-                    className="relative bg-slate-900/90 backdrop-blur-sm border border-slate-700/50 rounded-2xl shadow-xl group-hover:shadow-2xl transition-all duration-300 overflow-hidden group cursor-pointer"
-                    onClick={() => openImagePreview(work.image)}
-                  >
-                    {/* Simple Top Accent */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-[#C69c6c] rounded-t-2xl"></div>
+                  {latestWorks[activeTab].map((work: WorkItem, idx: number) => (
+                    <motion.div
+                      key={work.title}
+                      className="group relative flex-shrink-0 w-[85vw] max-w-sm"
+                      initial={{ opacity: 0, x: 50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.6, delay: idx * 0.1 }}
+                      style={{ scrollSnapAlign: "start" }}
+                    >
+                      {/* Professional Portfolio Card */}
+                      <div
+                        className="relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/50 hover:shadow-2xl hover:shadow-[#C79D6D]/20 transition-all duration-500 cursor-pointer h-full flex flex-col"
+                        onClick={() => openImagePreview(work.image)}
+                      >
+                        {/* Image Container */}
+                        <div className="relative h-64 w-full overflow-hidden">
+                          <Image
+                            src={work.image}
+                            alt={work.title}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                            loading="lazy"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          />
 
-                    {/* Image Container */}
-                    <div className="relative h-48 w-full overflow-hidden">
-                      <Image
-                        src={work.image}
-                        alt={work.title}
-                        className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-300"
-                        loading="lazy"
-                        fill
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      />
+                          {/* Gradient Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/90 via-[#08243A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                      {/* Simple Overlay */}
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
+                          {/* Active Tab Color Overlay */}
+                          <div
+                            className={`absolute inset-0 bg-gradient-to-br ${tabColors[activeTab]} opacity-0 group-hover:opacity-50 transition-opacity duration-500`}
+                          ></div>
 
-                      {/* Category Badge */}
-                      <div className="absolute top-4 right-4 bg-[#C69c6c] text-white text-xs font-bold px-3 py-1 rounded-full">
-                        {activeTab}
-                      </div>
+                          {/* Category Badge */}
+                          <div className="absolute top-4 left-4 z-10">
+                            <span className="px-3 py-1.5 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/20">
+                              {activeTab}
+                            </span>
+                          </div>
 
-                      {/* Preview Icon */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-white/20 backdrop-blur-sm rounded-full p-3 border border-white/30">
-                          <svg
-                            className="w-6 h-6 text-white"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                            />
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                            />
-                          </svg>
+                          {/* View Icon */}
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                            <motion.div
+                              className="bg-[#C79D6D]/90 backdrop-blur-sm rounded-full p-4 border-2 border-white/30 shadow-xl"
+                              whileHover={{ scale: 1.1, rotate: 360 }}
+                              transition={{ duration: 0.5 }}
+                            >
+                              <IconEye className="w-6 h-6 text-white" />
+                            </motion.div>
+                          </div>
+
+                          {/* Top Accent Line */}
+                          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                         </div>
-                      </div>
-                    </div>
 
-                    {/* Content */}
-                    <div className="p-4">
-                      <h3 className="text-lg font-bold text-white mb-2 group-hover:text-[#C69c6c] transition-colors duration-300">
-                        {work.title}
-                      </h3>
-                      <div className="text-[#C69c6c] font-medium text-xs">
-                        {work.client}
+                        {/* Content */}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#C79D6D] transition-colors duration-300 line-clamp-1">
+                            {work.title}
+                          </h3>
+                          <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+                            {work.desc}
+                          </p>
+                          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                            <span className="text-[#C79D6D] font-semibold text-sm">
+                              {work.client}
+                            </span>
+                            <motion.div
+                              className="text-[#C79D6D] group-hover:text-[#d4a574] transition-colors duration-300"
+                              whileHover={{ x: 5 }}
+                            >
+                              <IconArrowRight className="w-5 h-5" />
+                            </motion.div>
+                          </div>
+                        </div>
+
+                        {/* Shine Effect */}
+                        <div className="absolute inset-0 -top-32 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine transition-opacity duration-500 pointer-events-none"></div>
                       </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
+                    </motion.div>
+                  ))}
+                </div>
+
+                {/* Mobile Carousel Navigation */}
+                <div className="sm:hidden flex justify-center items-center gap-4 mt-6">
+                  <motion.button
+                    onClick={() => {
+                      if (carouselRef) {
+                        carouselRef.scrollBy({
+                          left: -300,
+                          behavior: "smooth",
+                        });
+                      }
+                    }}
+                    className="w-12 h-12 rounded-full bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C79D6D]/30 text-[#C79D6D] flex items-center justify-center hover:from-[#C79D6D] hover:to-[#d4a574] hover:text-white transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <IconChevronLeft className="w-6 h-6" />
+                  </motion.button>
+                  <motion.button
+                    onClick={() => {
+                      if (carouselRef) {
+                        carouselRef.scrollBy({ left: 300, behavior: "smooth" });
+                      }
+                    }}
+                    className="w-12 h-12 rounded-full bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C79D6D]/30 text-[#C79D6D] flex items-center justify-center hover:from-[#C79D6D] hover:to-[#d4a574] hover:text-white transition-all duration-300"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <IconChevronRight className="w-6 h-6" />
+                  </motion.button>
+                </div>
+
+                {/* Desktop Grid */}
+                <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {latestWorks[activeTab].map((work: WorkItem, idx: number) => (
+                    <motion.div
+                      key={work.title}
+                      className="group relative"
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: idx * 0.1 }}
+                      whileHover={{ y: -10 }}
+                    >
+                      {/* Professional Portfolio Card */}
+                      <div
+                        className="relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/50 hover:shadow-2xl hover:shadow-[#C79D6D]/20 transition-all duration-500 cursor-pointer h-full flex flex-col"
+                        onClick={() => openImagePreview(work.image)}
+                      >
+                        {/* Image Container */}
+                        <div className="relative h-64 w-full overflow-hidden">
+                          <Image
+                            src={work.image}
+                            alt={work.title}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                            loading="lazy"
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          />
+
+                          {/* Gradient Overlay */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/90 via-[#08243A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                          {/* Active Tab Color Overlay */}
+                          <div
+                            className={`absolute inset-0 bg-gradient-to-br ${tabColors[activeTab]} opacity-0 group-hover:opacity-50 transition-opacity duration-500`}
+                          ></div>
+
+                          {/* Category Badge */}
+                          <div className="absolute top-4 left-4 z-10">
+                            <span className="px-3 py-1.5 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/20">
+                              {activeTab}
+                            </span>
+                          </div>
+
+                          {/* View Icon */}
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                            <motion.div
+                              className="bg-[#C79D6D]/90 backdrop-blur-sm rounded-full p-4 border-2 border-white/30 shadow-xl"
+                              whileHover={{ scale: 1.1, rotate: 360 }}
+                              transition={{ duration: 0.5 }}
+                            >
+                              <IconEye className="w-6 h-6 text-white" />
+                            </motion.div>
+                          </div>
+
+                          {/* Top Accent Line */}
+                          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6 flex-1 flex flex-col">
+                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#C79D6D] transition-colors duration-300 line-clamp-1">
+                            {work.title}
+                          </h3>
+                          <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+                            {work.desc}
+                          </p>
+                          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+                            <span className="text-[#C79D6D] font-semibold text-sm">
+                              {work.client}
+                            </span>
+                            <motion.div
+                              className="text-[#C79D6D] group-hover:text-[#d4a574] transition-colors duration-300"
+                              whileHover={{ x: 5 }}
+                            >
+                              <IconArrowRight className="w-5 h-5" />
+                            </motion.div>
+                          </div>
+                        </div>
+
+                        {/* Shine Effect */}
+                        <div className="absolute inset-0 -top-32 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine transition-opacity duration-500 pointer-events-none"></div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
         {/* Testimonials Section */}
@@ -496,7 +677,6 @@ const LatestWorksSection = () => {
           <TestimonialsSection />
         </div>
       </div>
-      <div className="absolute left-0 right-0 bottom-0 h-24 bg-gradient-to-t from-blue-950/80 to-transparent pointer-events-none" />
 
       {/* Image Preview Modal */}
       <AnimatePresence>
@@ -505,69 +685,38 @@ const LatestWorksSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-center justify-center bg-black/90 backdrop-blur-sm"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 sm:p-8 pt-20 sm:pt-24"
             onClick={closeImagePreview}
+            style={{ top: 0, left: 0, right: 0, bottom: 0 }}
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative max-w-[90vw] max-h-[90vh] rounded-2xl overflow-hidden shadow-2xl"
+              className="relative max-w-[95vw] max-h-[calc(95vh-5rem)] sm:max-h-[calc(95vh-6rem)] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-gradient-to-br from-[#08243A] to-[#0a2a42]"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Close Button */}
-              <button
+              <motion.button
                 onClick={closeImagePreview}
-                className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-black/70 transition-colors duration-300 border border-white/20"
+                className="absolute top-4 right-4 z-[10000] w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[#C79D6D] transition-all duration-300 border border-white/20 shadow-lg"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
+                <IconX className="w-6 h-6" />
+              </motion.button>
 
               {/* Image */}
-              <Image
-                src={selectedImage}
-                alt="Preview"
-                width={1200}
-                height={800}
-                className="w-full h-auto max-h-[90vh] object-contain"
-                priority
-              />
-
-              {/* Download Button */}
-              <div className="absolute bottom-4 left-4 z-10">
-                <a
-                  href={selectedImage}
-                  download
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-[#C69c6c] text-white rounded-full hover:bg-[#d4a574] transition-colors duration-300 shadow-lg"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
-                  Download
-                </a>
+              <div className="relative w-full h-full max-h-[calc(95vh-5rem)] sm:max-h-[calc(95vh-6rem)] flex items-center justify-center p-4 overflow-auto">
+                <Image
+                  src={selectedImage}
+                  alt="Preview"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto max-h-full object-contain rounded-2xl"
+                  priority
+                />
               </div>
             </motion.div>
           </motion.div>

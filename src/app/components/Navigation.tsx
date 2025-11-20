@@ -35,7 +35,7 @@ const Navigation = () => {
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
-            <a href="#home" className="focus:outline-none">
+            <a href="/" className="focus:outline-none">
               <Image
                 src="/img/White-with-background-removebg-preview.png"
                 alt="AR Solutions Logo"
