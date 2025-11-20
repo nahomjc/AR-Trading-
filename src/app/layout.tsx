@@ -16,7 +16,11 @@ export const metadata: Metadata = {
     "Transform your business with cutting-edge digital marketing strategies. AR Solutions delivers innovative solutions for modern enterprises.",
   keywords: "digital marketing, trading, business solutions, AR Solutions",
   authors: [{ name: "AR Solutions" }],
-  viewport: "width=device-width, initial-scale=1",
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

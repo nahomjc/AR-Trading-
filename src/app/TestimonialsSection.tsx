@@ -6,21 +6,21 @@ const testimonials = [
     name: "Mr. Melkamu Mekonnen",
     role: "Group CEO at Haile Hospitality Group",
     content:
-      "It's with much enthusiasm that I am writing to recommend the service & products of AR Trading PLC. We have been using some of the services of the company in the area of Re-branding and website development and have always been completely satisfied with their performance.",
+      "AR Trading PLC has consistently delivered exceptional results in rebranding and website development. Their professional approach and attention to detail have exceeded our expectations.",
     rating: 5,
   },
   {
     name: "Mr. Bikila Hurisa",
     role: "Public & International Relations Director at Prosperity Party",
     content:
-      "On behalf of our party, I am extremely delighted to recommend you the exemplary quality services of AR Trading PLC. They provide all the Rebranding solutions. The company has developed an outstanding reputation in the industry.",
+      "AR Trading PLC provides exemplary quality services in rebranding solutions. The company has developed an outstanding reputation for excellence and reliability in the industry.",
     rating: 5,
   },
   {
     name: "Mr. Fisseha Asress",
     role: "Senior Consultant & Advisor at Ethiopian Airlines",
     content:
-      "With well earned respect, I confidently recommend AR Trading PLC for brand strategy and guideline development, website and ERP design & development, digital marketing and other tech related services. Their team manages their portion exceptionally well.",
+      "I confidently recommend AR Trading PLC for brand strategy, website development, digital marketing, and tech services. Their team manages projects exceptionally well with professionalism and expertise.",
     rating: 5,
   },
 ];

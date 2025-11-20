@@ -324,7 +324,7 @@ const TeamSection = () => {
   }, [team]);
 
   return (
-    <section id="team" className="py-20 px-4 sm:px-6 lg:px-8 relative">
+    <section id="team" className="py-12 px-4 sm:px-6 lg:px-8 relative">
       <div className="max-w-7xl mx-auto">
         <motion.div
           className="text-center mb-20"
@@ -368,13 +368,7 @@ const TeamSection = () => {
             transition={{ duration: 1, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            Our talented professionals bring together diverse expertise and
-            innovative thinking to deliver
-            <span className="text-[#C69c6c] font-semibold">
-              {" "}
-              exceptional results
-            </span>{" "}
-            that exceed expectations and drive success for our valued clients.
+            Our success comes from a passionate team of professionals who blend creativity with technical skills to deliver outstanding results.
           </motion.p>
         </motion.div>
 

@@ -3,7 +3,10 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { IconCode, IconChartLine, IconPalette } from "@tabler/icons-react";
+import { IconCode, IconChartLine, IconPalette, IconPrinter, IconVideo, IconCalendarEvent, IconBook } from "@tabler/icons-react";
+import dynamic from "next/dynamic";
+
+const TestimonialsSection = dynamic(() => import("../TestimonialsSection"), { ssr: false });
 
 // Latest Works Section with Tabs
 type WorkItem = {
@@ -13,7 +16,15 @@ type WorkItem = {
   client: string;
 };
 
-const tabNames = ["Digital Marketing", "Web Development", "Branding"] as const;
+const tabNames = [
+  "Digital Marketing",
+  "Web Development",
+  "Branding",
+  "Media Production",
+  "Advertising & Printing",
+  "Event Planning",
+  "Training"
+] as const;
 
 type TabName = (typeof tabNames)[number];
 
@@ -21,32 +32,13 @@ const tabIcons: Record<TabName, React.ComponentType<{ className?: string }>> = {
   "Web Development": IconCode,
   "Digital Marketing": IconChartLine,
   Branding: IconPalette,
+  "Media Production": IconVideo,
+  "Advertising & Printing": IconPrinter,
+  "Event Planning": IconCalendarEvent,
+  Training: IconBook,
 };
 
 const latestWorks: Record<TabName, WorkItem[]> = {
-  "Web Development": [
-    {
-      title: "Enterprise Resource Planning (ERP)",
-      desc: "Comprehensive business management system for resource planning and operations.",
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Corporations",
-    },
-    {
-      title: "Learning Management System (LMS)",
-      desc: "Advanced educational platform for online learning and course management.",
-      image:
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Universities",
-    },
-    {
-      title: "Customer Relationship Management (CRM)",
-      desc: "Integrated system for managing customer interactions and business relationships.",
-      image:
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Business Organizations",
-    },
-  ],
   "Digital Marketing": [
     {
       title: "Social Media Campaign Design",
@@ -85,33 +77,127 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       client: "EthioLearn Platform",
     },
   ],
+  "Web Development": [
+    {
+      title: "Websites & Portfolios",
+      desc: "Modern, responsive websites built to perform.",
+      image:
+        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
+      client: "Ethiopian Corporations",
+    },
+    {
+      title: "E-commerce Platforms",
+      desc: "Advanced e-commerce solutions for online businesses.",
+      image:
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+      client: "Ethiopian Businesses",
+    },
+    {
+      title: "Web Applications",
+      desc: "Custom web applications for business operations.",
+      image:
+        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
+      client: "Ethiopian Business Organizations",
+    },
+  ],
   Branding: [
     {
-      title: "Rebranding for Haile Hospitality Group",
-      desc: "Complete brand refresh for a leading hospitality group.",
-      image:
-        "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Hospitality Group",
-    },
-    {
-      title: "Logo & Identity Suite",
-      desc: "Distinctive visual identity for a tech startup.",
+      title: "Logo Design",
+      desc: "Distinctive logos that represent your brand identity.",
       image:
         "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=600&q=80",
-      client: "Addis Tech Startup",
+      client: "Various Clients",
     },
     {
-      title: "Government Brand Guidelines",
-      desc: "Comprehensive branding for a government initiative.",
+      title: "Brand Identity Systems",
+      desc: "Complete brand identity packages for businesses.",
+      image:
+        "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80",
+      client: "Ethiopian Businesses",
+    },
+    {
+      title: "Rebranding Projects",
+      desc: "Comprehensive rebranding for established brands.",
       image:
         "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Government",
+      client: "Ethiopian Organizations",
+    },
+  ],
+  "Media Production": [
+    {
+      title: "Photography",
+      desc: "Professional photography services.",
+      image:
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Videography",
+      desc: "High-quality video production.",
+      image:
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "TV & Social Ads",
+      desc: "Creative advertising content.",
+      image:
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+  ],
+  "Advertising & Printing": [
+    {
+      title: "Billboards & Banners",
+      desc: "Large format printing and design.",
+      image:
+        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Flyers & Posters",
+      desc: "Print marketing materials.",
+      image:
+        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+  ],
+  "Event Planning": [
+    {
+      title: "Organized Events",
+      desc: "Professional event organization.",
+      image:
+        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Corporate Events",
+      desc: "Corporate event planning and execution.",
+      image:
+        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+  ],
+  Training: [
+    {
+      title: "Delivered Workshops",
+      desc: "Professional training workshops.",
+      image:
+        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Skill Training Programs",
+      desc: "Comprehensive skill development programs.",
+      image:
+        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
     },
   ],
 };
 
 const LatestWorksSection = () => {
-  const [activeTab, setActiveTab] = useState<TabName>(tabNames[0]);
+  const [activeTab, setActiveTab] = useState<TabName>("Digital Marketing");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
@@ -344,6 +430,11 @@ const LatestWorksSection = () => {
               ))}
             </div>
           </motion.div>
+        </div>
+
+        {/* Testimonials Section */}
+        <div className="mt-20">
+          <TestimonialsSection />
         </div>
       </div>
       <div className="absolute left-0 right-0 bottom-0 h-24 bg-gradient-to-t from-blue-950/80 to-transparent pointer-events-none" />

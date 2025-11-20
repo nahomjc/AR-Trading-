@@ -3,6 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const TeamSection = dynamic(() => import("../TeamSection"), { ssr: false });
 
 // Who We Are Section
 const WhoWeAreSection = () => {
@@ -56,9 +59,13 @@ const WhoWeAreSection = () => {
             Excellence. Innovation. Results.
           </h2>
           <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            We are a premier digital marketing and creative agency dedicated to
-            transforming businesses through strategic innovation and exceptional
-            execution.
+            Founded in 2016, AR Solutions is a premier digital marketing and
+            creative agency transforming Ethiopian businesses through strategic
+            innovation and exceptional execution. We don't just follow trends —
+            we create trends, build digital experiences that connect
+            emotionally, perform technically, and deliver measurable results. We
+            are a full-service agency trusted to help brands stand out and
+            succeed online and offline.
           </p>
         </motion.div>
 
@@ -77,19 +84,10 @@ const WhoWeAreSection = () => {
             <h3 className="text-3xl font-bold font-outfit mb-6 text-white">
               Our Mission & Vision
             </h3>
-            <h4 className="text-xl font-semibold text-[#C69c6c] mb-4">
-              Strategic Excellence. Creative Innovation. Measurable Results.
-            </h4>
             <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              AR Solutions stands as a leading multi-service creative and
-              commercial agency, delivering comprehensive advertising, branding,
-              printing, media production, and business solutions with unwavering
-              commitment to excellence.
-            </p>
-            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              We combine innovative ideas with practical execution, helping our
-              clients grow, connect, and stand out in today&apos;s competitive
-              world.
+              To lead Ethiopia's digital transformation by delivering creative,
+              practical, and measurable marketing solutions for every business
+              size — from startups to established brands.
             </p>
             <div className="mb-8">
               <span className="inline-block text-2xl mr-2 align-middle">
@@ -99,10 +97,10 @@ const WhoWeAreSection = () => {
                 Our Purpose
               </span>
               <p className="text-lg text-gray-300 mt-2 leading-relaxed">
-                We exist to elevate brands, simplify solutions, and deliver
-                quality with heart. Whether you&apos;re a startup or an
-                established business, we offer tailored services that align with
-                your goals and exceed expectations.
+                We exist to elevate Ethiopian brands with strategy, creativity,
+                and heart. Whether you're launching a new brand or refreshing
+                your digital presence, we design solutions that align with your
+                goals — and exceed expectations.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-6">
@@ -189,6 +187,11 @@ const WhoWeAreSection = () => {
               </motion.div>
             </div>
           </motion.div>
+        </div>
+
+        {/* Team Section */}
+        <div className="mt-20">
+          <TeamSection />
         </div>
       </div>
     </section>

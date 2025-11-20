@@ -54,8 +54,19 @@ const ContactSection = () => {
   }, []);
 
   return (
-    <section id="contact" className="py-20 px-4 sm:px-6 lg:px-8 relative">
-      <div className="max-w-7xl mx-auto">
+    <section
+      id="contact"
+      className="py-20 px-4 sm:px-6 lg:px-8 relative"
+      style={{
+        backgroundImage:
+          "url(https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=80)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-[#08243A]/90 via-[#08243A]/85 to-[#08243A]/90"></div>
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 100 }}
@@ -218,7 +229,7 @@ const ContactSection = () => {
                 {
                   icon: IconMapPin,
                   title: "Address",
-                  info: "8th floor, Kazadis Bldg, Kazanchis\nAddis Ababa, Ethiopia",
+                  info: "9th floor, Kazadis Bldg, Kazanchis\nAddis Ababa, Ethiopia",
                 },
               ].map((contact, index) => (
                 <motion.div
@@ -251,13 +262,29 @@ const ContactSection = () => {
                 <h4 className="font-semibold text-white mb-4">Follow Us</h4>
                 <div className="flex space-x-4">
                   {[
-                    { icon: IconBrandFacebook, href: "#" },
-                    { icon: IconBrandTwitter, href: "#" },
-                    { icon: IconBrandLinkedin, href: "#" },
+                    // TODO: Replace with actual social media URLs
+                    {
+                      icon: IconBrandFacebook,
+                      href: "https://www.facebook.com/yourpage",
+                      label: "Facebook",
+                    },
+                    {
+                      icon: IconBrandTwitter,
+                      href: "https://www.twitter.com/yourhandle",
+                      label: "Twitter",
+                    },
+                    {
+                      icon: IconBrandLinkedin,
+                      href: "https://www.linkedin.com/company/yourcompany",
+                      label: "LinkedIn",
+                    },
                   ].map((social, index) => (
                     <motion.a
                       key={index}
                       href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={social.label}
                       className="w-10 h-10 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/40 rounded-full flex items-center justify-center text-[#C69c6c] hover:bg-gradient-to-br hover:from-[#C69c6c]/30 hover:to-[#d4a574]/30 transition-all duration-300"
                       whileHover={{ scale: 1.2, rotate: 360 }}
                       transition={{ duration: 0.3 }}
@@ -298,7 +325,7 @@ const ContactSection = () => {
                 Our Location
               </h4>
               <p className="text-cyan-100 text-base font-medium mb-3 drop-shadow">
-                8th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia
+                9th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia
               </p>
               <motion.a
                 href="https://www.google.com/maps/place/Betopia+site/@9.0122241,38.7725403,119m/data=!3m1!1e3!4m6!3m5!1s0x164b851aa37d610d:0x53b55e8e74640bdf!8m2!3d9.0122241!4d38.7731438!16s%2Fg%2F11sckb3__w?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D"

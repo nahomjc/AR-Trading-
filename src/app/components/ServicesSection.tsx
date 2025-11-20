@@ -22,97 +22,120 @@ const ServicesSection = () => {
   const services = [
     {
       title: "Advertising & Printing",
-      description: "Banners, stickers, office & vehicle branding, merchandise ",
+      description:
+        "From banners to merchandise, we design and print with impact.",
       icon: IconPrinter,
       color: "from-orange-500/20 to-red-500/20",
       iconColor: "text-orange-400",
       features: [
-        "Banner Design",
+        "Banner & Sticker Design",
         "Vehicle Branding",
         "Office Branding",
-        "Merchandise",
+        "Merchandise & Promotional Items",
       ],
+      buttonText: "Get a Quote",
+      backgroundImage:
+        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80", // Printing press and paper textures
     },
     {
       title: "Digital Marketing",
       description:
-        "Social media management, paid ads, SEO, strategy, influencer marketing.",
+        "Connect with your audience through data-driven marketing that delivers measurable results.",
       icon: IconChartLine,
       color: "from-blue-500/20 to-purple-500/20",
       iconColor: "text-blue-400",
       features: [
-        "Social Media",
+        "Social Media Management",
         "Paid Advertising",
         "SEO Strategy",
         "Influencer Marketing",
       ],
+      buttonText: "Get a Quote",
+      backgroundImage:
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80", // Digital marketing analytics and social media
     },
     {
       title: "Branding & Design",
-      description: "Logo, brand identity, strategy, visual content.",
+      description:
+        "Creating unique brand identities with attractive logos, clear strategy, and visual content that set you apart.",
       icon: IconPalette,
       color: "from-pink-500/20 to-purple-500/20",
       iconColor: "text-pink-400",
       features: [
         "Logo Design",
-        "Brand Identity",
+        "Brand Identity & Strategy",
         "Visual Strategy",
-        "Creative Content",
+        "Creative Contents",
       ],
+      buttonText: "Start Your Brand Journey",
+      backgroundImage:
+        "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?auto=format&fit=crop&w=1200&q=80", // Brand design and creative workspace with design tools
     },
     {
       title: "Media Production",
-      description: "Videography, photography, promotional content .",
+      description:
+        "Bring your story to life through visuals that inspire action.",
       icon: IconVideo,
       color: "from-green-500/20 to-teal-500/20",
       iconColor: "text-green-400",
       features: [
-        "Videography",
-        "Photography",
-        "Promotional Content",
+        "Videography & Photography",
+        "Promotional Contents & Videos",
         "Video Editing",
+        "Post-Production",
       ],
+      buttonText: "Work with Our Media Team",
+      backgroundImage:
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80", // Camera and video production equipment
     },
     {
       title: "Web Development",
       description:
-        "Website design, development, maintenance, SEO optimization.",
+        "Modern, responsive, and SEO-friendly websites built to perform.",
       icon: IconWorld,
       color: "from-cyan-500/20 to-blue-500/20",
       iconColor: "text-cyan-400",
       features: [
-        "Website Design",
-        "Development",
-        "Maintenance",
+        "Website Design & Development",
+        "Maintenance & Updates",
         "SEO Optimization",
       ],
+      buttonText: "Build Your Website",
+      backgroundImage:
+        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80", // Developer coding and team collaboration
     },
     {
       title: "Event Planning",
-      description: "Corporate events, launches, conferences, exhibitions.",
+      description:
+        "We create unforgettable experiences for your brand and clients.",
       icon: IconCalendarEvent,
       color: "from-yellow-500/20 to-orange-500/20",
       iconColor: "text-yellow-400",
       features: [
         "Corporate Events",
-        "Product Launches",
         "Conferences",
+        "Product Launches",
         "Exhibitions",
       ],
+      buttonText: "Plan Your Event",
+      backgroundImage:
+        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80", // Event planning with people networking and stage lighting
     },
     {
-      title: "Training",
-      description:
-        "Corporate, personal development, and media trainings (conducted in meeting rooms or offsite).",
+      title: "Training & Development",
+      description: "Empower your team with skills that drive success.",
       icon: IconBook,
       color: "from-indigo-500/20 to-purple-500/20",
       iconColor: "text-indigo-400",
       features: [
-        "Corporate Training",
+        "Corporate & Media Trainings",
         "Personal Development",
         "Media Training",
         "Workshops",
       ],
+      buttonText: "Book a Training",
+      backgroundImage:
+        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80", // Training workshop with people learning and collaborating
     },
   ];
 
@@ -145,8 +168,8 @@ const ServicesSection = () => {
             What We Offer
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Explore our comprehensive range of services designed to elevate your
-            brand and drive results.
+            Explore our full range of creative and digital solutions — designed
+            to grow your business and help your brand stand out.
           </p>
         </motion.div>
 
@@ -172,6 +195,18 @@ const ServicesSection = () => {
                   transition: { type: "spring", stiffness: 300 },
                 }}
               >
+                {/* Background Image Overlay */}
+                {service.backgroundImage && (
+                  <div
+                    className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500"
+                    style={{
+                      backgroundImage: `url(${service.backgroundImage})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  />
+                )}
+
                 {/* Animated Background */}
                 <motion.div
                   className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
@@ -232,7 +267,7 @@ const ServicesSection = () => {
                     ))}
                   </div>
 
-                  {/* Order Now Button */}
+                  {/* Service Button */}
                   <motion.button
                     className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#C79D6D]/25"
                     whileHover={{ scale: 1.02 }}
@@ -254,7 +289,7 @@ const ServicesSection = () => {
                       }
                     }}
                   >
-                    Order Now
+                    {service.buttonText || "Get a Free Quote"}
                   </motion.button>
                 </div>
 

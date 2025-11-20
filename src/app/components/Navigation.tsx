@@ -39,9 +39,9 @@ const Navigation = () => {
               <Image
                 src="/img/White-with-background-removebg-preview.png"
                 alt="AR Solutions Logo"
-                width={200}
+                width={120}
                 height={70}
-                className="h-20 w-auto"
+                className=" w-auto"
                 priority
               />
             </a>

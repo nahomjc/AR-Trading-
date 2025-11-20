@@ -334,8 +334,7 @@ const serviceData = {
     color: "from-cyan-500/20 to-blue-500/20",
     iconColor: "text-cyan-400",
     features: [
-      "Website Design",
-      "Development",
+      "Website Design & Development",
       "Maintenance",
       "SEO Optimization",
     ],
@@ -343,8 +342,8 @@ const serviceData = {
       "Build a powerful online presence with our comprehensive web development services. From custom websites to e-commerce solutions, we create fast, secure, and user-friendly websites that drive business growth.",
     services: [
       {
-        name: "Website Design",
-        description: "Custom website design tailored to your brand",
+        name: "Website Design & Development",
+        description: "Custom website design and development tailored to your brand",
         price: "Starting from $1,500",
         features: [
           "Responsive design",
@@ -354,8 +353,6 @@ const serviceData = {
         ],
       },
       {
-        name: "Development",
-        description: "Full-stack web development with modern technologies",
         price: "Starting from $2,500",
         features: [
           "Custom functionality",

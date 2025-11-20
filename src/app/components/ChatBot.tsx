@@ -51,7 +51,7 @@ const websiteInfo = {
   contact: {
     email: "artradingplc@gmail.com",
     phone: "0988175550",
-    address: "8th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia",
+    address: "9th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia",
   },
   clients:
     "Our customer base ranges from small startups to big governmental firms.",

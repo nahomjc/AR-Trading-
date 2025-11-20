@@ -1,25 +1,42 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import ScrollStars from "./components/ScrollStars";
-import ChatBot from "./components/ChatBot";
+import dynamic from "next/dynamic";
 import IntroLoader from "./components/IntroLoader";
 import Navigation from "./components/Navigation";
 import HeroSection from "./components/HeroSection";
-import ServicesSection from "./components/ServicesSection";
-import WhoWeAreSection from "./components/WhoWeAreSection";
-import LatestWorksSection from "./components/LatestWorksSection";
-import ContactSection from "./components/ContactSection";
 import Footer from "./components/Footer";
-import CustomCursor from "./components/CustomCursor";
-import ScrollToTop from "./components/ScrollToTop";
-import dynamic from "next/dynamic";
 
-// Lazy load heavy sections
-const TeamSection = dynamic(() => import("./TeamSection"), { ssr: false });
-const TestimonialsSection = dynamic(() => import("./TestimonialsSection"), {
+// Lazy load heavy components
+const ScrollStars = dynamic(() => import("./components/ScrollStars"), {
   ssr: false,
 });
+const ChatBot = dynamic(() => import("./components/ChatBot"), {
+  ssr: false,
+});
+const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
+  ssr: false,
+});
+const WhoWeAreSection = dynamic(() => import("./components/WhoWeAreSection"), {
+  ssr: false,
+});
+const LatestWorksSection = dynamic(
+  () => import("./components/LatestWorksSection"),
+  {
+    ssr: false,
+  }
+);
+const ContactSection = dynamic(() => import("./components/ContactSection"), {
+  ssr: false,
+});
+const CustomCursor = dynamic(() => import("./components/CustomCursor"), {
+  ssr: false,
+});
+const ScrollToTop = dynamic(() => import("./components/ScrollToTop"), {
+  ssr: false,
+});
+
+// Testimonials moved to LatestWorksSection
 
 // Utility to detect mobile devices
 const isMobile = () =>
@@ -72,8 +89,6 @@ export default function Home() {
         <ServicesSection />
         <WhoWeAreSection />
         <LatestWorksSection />
-        <TeamSection />
-        <TestimonialsSection />
         <ContactSection />
       </main>
       <Footer />

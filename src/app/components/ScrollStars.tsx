@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
 interface Star {
@@ -16,67 +16,54 @@ interface Star {
 }
 
 const ScrollStars = () => {
-  const [stars, setStars] = useState<Star[]>([]);
   const { scrollY } = useScroll();
 
-  useEffect(() => {
-    // Generate many stars for a galaxy effect
-    const generateStars = () => {
-      const newStars: Star[] = [];
-      const starColors = [
-        "#ffffff", // White
-        "#b3d9ff", // Light blue
-        "#ffd9b3", // Light orange
-        "#ffb3b3", // Light red
-        "#e6b3ff", // Light purple
-        "#b3ffb3", // Light green
-        "#ffffb3", // Light yellow
-        "#ffccff", // Pink
-        "#ccffff", // Cyan
-      ];
+  // Memoize stars generation
+  const stars = useMemo<Star[]>(() => {
+    const newStars: Star[] = [];
+    const starColors = [
+      "#ffffff", // White
+      "#b3d9ff", // Light blue
+      "#ffd9b3", // Light orange
+      "#ffb3b3", // Light red
+      "#e6b3ff", // Light purple
+      "#b3ffb3", // Light green
+      "#ffffb3", // Light yellow
+      "#ffccff", // Pink
+      "#ccffff", // Cyan
+    ];
 
-      // Generate 60 stars for a lighter galaxy effect
-      for (let i = 0; i < 60; i++) {
-        const size = Math.random() * 4 + 0.5;
-        const layer = Math.floor(Math.random() * 5) + 1;
-        newStars.push({
-          id: i,
-          x: Math.random() * (window.innerWidth + 400) - 200,
-          y: Math.random() * (window.innerHeight * 6),
-          size: size,
-          opacity: Math.random() * 0.8 + 0.2,
-          speed: (Math.random() * 0.8 + 0.1) * layer,
-          color: starColors[Math.floor(Math.random() * starColors.length)],
-          twinkleSpeed: Math.random() * 2 + 1,
-          layer: layer,
-        });
-      }
-      // Add some larger "nebula" stars (reduce to 5)
-      for (let i = 60; i < 65; i++) {
-        newStars.push({
-          id: i,
-          x: Math.random() * (window.innerWidth + 600) - 300,
-          y: Math.random() * (window.innerHeight * 6),
-          size: Math.random() * 12 + 3,
-          opacity: Math.random() * 0.3 + 0.05,
-          speed: Math.random() * 0.2 + 0.02,
-          color: "#b3d9ff",
-          twinkleSpeed: Math.random() * 0.5 + 0.2,
-          layer: 1,
-        });
-      }
-
-      setStars(newStars);
-    };
-
-    generateStars();
-
-    const handleResize = () => {
-      generateStars();
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    // Generate 30 stars for better performance (reduced from 60)
+    for (let i = 0; i < 30; i++) {
+      const size = Math.random() * 4 + 0.5;
+      const layer = Math.floor(Math.random() * 5) + 1;
+      newStars.push({
+        id: i,
+        x: Math.random() * (typeof window !== "undefined" ? window.innerWidth + 400 : 1200) - 200,
+        y: Math.random() * (typeof window !== "undefined" ? window.innerHeight * 6 : 6000),
+        size: size,
+        opacity: Math.random() * 0.8 + 0.2,
+        speed: (Math.random() * 0.8 + 0.1) * layer,
+        color: starColors[Math.floor(Math.random() * starColors.length)],
+        twinkleSpeed: Math.random() * 2 + 1,
+        layer: layer,
+      });
+    }
+    // Add some larger "nebula" stars (reduce to 3)
+    for (let i = 30; i < 33; i++) {
+      newStars.push({
+        id: i,
+        x: Math.random() * (typeof window !== "undefined" ? window.innerWidth + 600 : 1400) - 300,
+        y: Math.random() * (typeof window !== "undefined" ? window.innerHeight * 6 : 6000),
+        size: Math.random() * 12 + 3,
+        opacity: Math.random() * 0.3 + 0.05,
+        speed: Math.random() * 0.2 + 0.02,
+        color: "#b3d9ff",
+        twinkleSpeed: Math.random() * 0.5 + 0.2,
+        layer: 1,
+      });
+    }
+    return newStars;
   }, []);
 
   // Create transform values for different star layers
@@ -156,7 +143,6 @@ const ScrollStars = () => {
               y: layerY,
             }}
             animate={{
-              scale: [1, 1.2, 1],
               opacity: [star.opacity * 0.7, star.opacity, star.opacity * 0.7],
             }}
             transition={{
@@ -164,9 +150,6 @@ const ScrollStars = () => {
               repeat: Infinity,
               ease: "easeInOut",
               delay: star.id * 0.1,
-            }}
-            whileInView={{
-              scale: [1, 1.1, 1],
             }}
           />
         );
@@ -201,12 +184,12 @@ const ScrollStars = () => {
         ))}
       </div>
 
-      {/* Floating Cosmic Dust */}
+      {/* Floating Cosmic Dust - reduced for performance */}
       <motion.div
         className="absolute inset-0 opacity-30"
         style={{ y: useTransform(scrollY, [0, 1000], [0, -150]) }}
       >
-        {[...Array(10)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <motion.div
             key={`dust-${i}`}
             className="absolute w-1 h-1 bg-blue-200 rounded-full opacity-20"

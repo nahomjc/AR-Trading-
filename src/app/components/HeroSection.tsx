@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
@@ -94,86 +94,6 @@ const HeroSection = () => {
             >
               <IconAward className="w-5 h-5 text-[#C69c6c]" />
             </motion.div>
-
-            <motion.div
-              className="absolute bottom-1/6 left-1/3 w-8 h-8 floating-element rounded-full flex items-center justify-center"
-              animate={{
-                y: [0, 12, 0],
-                rotate: [0, -360],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 3,
-              }}
-            >
-              <IconGraph className="w-4 h-4 text-blue-400" />
-            </motion.div>
-
-            <motion.div
-              className="absolute top-1/2 right-1/8 w-9 h-9 floating-element rounded-full flex items-center justify-center"
-              animate={{
-                y: [0, -18, 0],
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 9,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-            >
-              <IconPresentation className="w-4 h-4 text-purple-400" />
-            </motion.div>
-
-            <motion.div
-              className="absolute bottom-1/3 right-1/3 w-7 h-7 floating-element rounded-full flex items-center justify-center"
-              animate={{
-                y: [0, 10, 0],
-                rotate: [0, -360],
-              }}
-              transition={{
-                duration: 6.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2.5,
-              }}
-            >
-              <IconBriefcase className="w-3 h-3 text-[#C69c6c]" />
-            </motion.div>
-
-            <motion.div
-              className="absolute top-3/4 left-1/6 w-6 h-6 floating-element rounded-full flex items-center justify-center"
-              animate={{
-                y: [0, -14, 0],
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: 7.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1.8,
-              }}
-            >
-              <IconGlobe className="w-3 h-3 text-green-400" />
-            </motion.div>
-
-            <motion.div
-              className="absolute bottom-1/8 left-1/5 w-8 h-8 floating-element rounded-full flex items-center justify-center"
-              animate={{
-                y: [0, 16, 0],
-                rotate: [0, -360],
-              }}
-              transition={{
-                duration: 8.5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 3.2,
-              }}
-            >
-              <IconDeviceLaptop className="w-4 h-4 text-pink-400" />
-            </motion.div>
           </div>
         </div>
 
@@ -195,10 +115,14 @@ const HeroSection = () => {
             >
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-outfit leading-tight hero-headline">
                 <span className="block text-[#C79D6D] mb-4">
-                  Let&apos;s Build Something Great Together
+                  AR Solutions — Digital Innovation for Ethiopian Brands
                 </span>
                 <span className="block text-white text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium">
-                  With Strategic Excellence
+                  Ethiopia Meets Modern Marketing — Let&apos;s Transform Your
+                  Brand
+                </span>
+                <span className="block text-[#C79D6D] text-lg sm:text-xl lg:text-2xl font-medium mt-4">
+                  With Strategy, Creativity, and Excellence
                 </span>
               </h1>
             </motion.div>
@@ -325,87 +249,6 @@ const HeroSection = () => {
                 >
                   <IconBulb className="w-5 h-5 text-blue-400" />
                 </motion.div>
-
-                {/* Additional Image Floating Icons */}
-                <motion.div
-                  className="absolute top-1/6 left-1/6 w-8 h-8 floating-element rounded-full flex items-center justify-center"
-                  animate={{
-                    y: [0, -12, 0],
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    duration: 5.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.8,
-                  }}
-                >
-                  <IconCode className="w-4 h-4 text-cyan-400" />
-                </motion.div>
-
-                <motion.div
-                  className="absolute bottom-1/6 right-1/6 w-9 h-9 floating-element rounded-full flex items-center justify-center"
-                  animate={{
-                    y: [0, 14, 0],
-                    rotate: [0, -360],
-                  }}
-                  transition={{
-                    duration: 6.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 2.2,
-                  }}
-                >
-                  <IconChartLine className="w-4 h-4 text-[#C69c6c]" />
-                </motion.div>
-
-                <motion.div
-                  className="absolute top-1/2 left-1/8 w-7 h-7 floating-element rounded-full flex items-center justify-center"
-                  animate={{
-                    y: [0, -10, 0],
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    duration: 4.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 1.2,
-                  }}
-                >
-                  <IconPalette className="w-3 h-3 text-purple-400" />
-                </motion.div>
-
-                <motion.div
-                  className="absolute bottom-1/4 right-1/8 w-6 h-6 floating-element rounded-full flex items-center justify-center"
-                  animate={{
-                    y: [0, 8, 0],
-                    rotate: [0, -360],
-                  }}
-                  transition={{
-                    duration: 7.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 3.5,
-                  }}
-                >
-                  <IconVideo className="w-3 h-3 text-green-400" />
-                </motion.div>
-
-                <motion.div
-                  className="absolute bottom-1/4 right-1/3 w-8 h-8 floating-element rounded-full flex items-center justify-center"
-                  animate={{
-                    y: [0, 16, 0],
-                    rotate: [0, 360],
-                  }}
-                  transition={{
-                    duration: 8.5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 0.3,
-                  }}
-                >
-                  <IconWorld className="w-4 h-4 text-blue-400" />
-                </motion.div>
               </motion.div>
 
               {/* Professional Glow Effect */}
@@ -429,4 +272,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default memo(HeroSection);

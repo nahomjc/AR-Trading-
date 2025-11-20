@@ -1,55 +1,69 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
 // Custom Creative Cursor Component
 const CustomCursor = () => {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const rafId = useRef<number | null>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const ringRef = useRef<HTMLDivElement>(null);
+  const lastPosRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+    const updateCursor = () => {
+      const { x, y } = lastPosRef.current;
+      if (cursorRef.current && ringRef.current) {
+        cursorRef.current.style.transform = `translate3d(${x - 8}px, ${
+          y - 8
+        }px, 0)`;
+        ringRef.current.style.transform = `translate3d(${x - 16}px, ${
+          y - 16
+        }px, 0)`;
+      }
+      rafId.current = null;
     };
 
-    const handleMouseEnter = () => setIsHovering(true);
-    const handleMouseLeave = () => setIsHovering(false);
+    const handleMouseMove = (e: MouseEvent) => {
+      lastPosRef.current = { x: e.clientX, y: e.clientY };
+      if (!rafId.current) {
+        rafId.current = requestAnimationFrame(updateCursor);
+      }
+    };
 
-    // Add hover detection for interactive elements
-    const interactiveElements = document.querySelectorAll(
-      "a, button, .hover-lift, .mirror-card"
-    );
-    interactiveElements.forEach((el) => {
-      el.addEventListener("mouseenter", handleMouseEnter);
-      el.addEventListener("mouseleave", handleMouseLeave);
-    });
+    const handleMouseOver = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      setIsHovering(
+        target.tagName === "A" ||
+          target.tagName === "BUTTON" ||
+          !!target.closest("a, button, .hover-lift, .mirror-card")
+      );
+    };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    document.addEventListener("mouseover", handleMouseOver, { passive: true });
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      interactiveElements.forEach((el) => {
-        el.removeEventListener("mouseenter", handleMouseEnter);
-        el.removeEventListener("mouseleave", handleMouseLeave);
-      });
+      document.removeEventListener("mouseover", handleMouseOver);
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+      }
     };
   }, []);
 
   return (
     <>
-      {/* Main cursor dot */}
+      {/* Main cursor dot - optimized with direct CSS transforms */}
       <motion.div
-        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] mix-blend-difference"
-        style={{
-          x: mousePosition.x - 8,
-          y: mousePosition.y - 8,
-        }}
+        ref={cursorRef}
+        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] mix-blend-difference will-change-transform"
         animate={{
           scale: isHovering ? 1.5 : 1,
           opacity: isHovering ? 0.8 : 0.6,
         }}
-        transition={{ type: "spring", stiffness: 500, damping: 28 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
       >
         <div
           className="w-full h-full rounded-full shadow-lg"
@@ -63,18 +77,14 @@ const CustomCursor = () => {
         />
       </motion.div>
 
-      {/* Outer ring */}
+      {/* Outer ring - simplified animation */}
       <motion.div
-        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9998]"
-        style={{
-          x: mousePosition.x - 16,
-          y: mousePosition.y - 16,
-        }}
+        ref={ringRef}
+        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9998] will-change-transform"
         animate={{
           scale: isHovering ? 1.2 : 1,
-          rotate: isHovering ? 180 : 0,
         }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <div
           className="w-full h-full rounded-full border-2"
@@ -88,62 +98,40 @@ const CustomCursor = () => {
         />
       </motion.div>
 
-      {/* Trailing particles */}
-      <motion.div
-        className="fixed top-0 left-0 w-2 h-2 pointer-events-none z-[9997]"
-        style={{
-          x: mousePosition.x - 4,
-          y: mousePosition.y - 4,
-        }}
-        animate={{
-          scale: [0, 1, 0],
-          opacity: [0, 0.6, 0],
-        }}
-        transition={{
-          duration: 0.8,
-          repeat: Infinity,
-          ease: "easeOut",
-        }}
-      >
-        <div
-          className="w-full h-full rounded-full"
+      {/* Ethiopian star cursor for special elements - only animate when hovering */}
+      {isHovering && (
+        <motion.div
+          className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[9996] will-change-transform"
           style={{
-            background: `
-              radial-gradient(circle, rgba(59, 130, 246, 0.7) 0%, rgba(139, 92, 246, 0.7) 100%)
-            `,
+            x: lastPosRef.current.x - 12,
+            y: lastPosRef.current.y - 12,
           }}
-        />
-      </motion.div>
-
-      {/* Ethiopian star cursor for special elements */}
-      <motion.div
-        className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[9996]"
-        style={{
-          x: mousePosition.x - 12,
-          y: mousePosition.y - 12,
-        }}
-        animate={{
-          scale: isHovering ? 1.3 : 0,
-          rotate: isHovering ? 360 : 0,
-        }}
-        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      >
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="starGradient" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0%" stopColor="rgba(59, 130, 246, 0.8)" />
-              <stop offset="50%" stopColor="rgba(139, 92, 246, 0.8)" />
-              <stop offset="100%" stopColor="rgba(15, 23, 42, 0.9)" />
-            </radialGradient>
-          </defs>
-          <path
-            d="M12 2L14.09 8.26L22 9L16 14.14L17.18 22.02L12 18.77L6.82 22.02L8 14.14L2 9L9.91 8.26L12 2Z"
-            fill="url(#starGradient)"
-            stroke="rgba(59, 130, 246, 0.6)"
-            strokeWidth="0.5"
-          />
-        </svg>
-      </motion.div>
+          initial={{ scale: 0, rotate: 0 }}
+          animate={{ scale: 1.3, rotate: 360 }}
+          exit={{ scale: 0 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <defs>
+              <radialGradient id="starGradient" cx="0.5" cy="0.5" r="0.5">
+                <stop offset="0%" stopColor="rgba(59, 130, 246, 0.8)" />
+                <stop offset="50%" stopColor="rgba(139, 92, 246, 0.8)" />
+                <stop offset="100%" stopColor="rgba(15, 23, 42, 0.9)" />
+              </radialGradient>
+            </defs>
+            <path
+              d="M12 2L14.09 8.26L22 9L16 14.14L17.18 22.02L12 18.77L6.82 22.02L8 14.14L2 9L9.91 8.26L12 2Z"
+              fill="url(#starGradient)"
+              stroke="rgba(59, 130, 246, 0.6)"
+              strokeWidth="0.5"
+            />
+          </svg>
+        </motion.div>
+      )}
     </>
   );
 };
