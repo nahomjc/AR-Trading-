@@ -498,64 +498,74 @@ const LatestWorksSection = () => {
                     >
                       {/* Professional Portfolio Card */}
                       <div
-                        className="relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/50 hover:shadow-2xl hover:shadow-[#C79D6D]/20 transition-all duration-500 cursor-pointer h-full flex flex-col"
+                        className="relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 cursor-pointer h-full flex flex-col group/card"
                         onClick={() => openImagePreview(work.image)}
                       >
+                        {/* Card Glow Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
+
                         {/* Image Container */}
-                        <div className="relative h-64 w-full overflow-hidden">
+                        <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50">
                           <Image
                             src={work.image}
                             alt={work.title}
                             fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                            className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
                             loading="lazy"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                           />
 
                           {/* Gradient Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/90 via-[#08243A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/95 via-[#08243A]/30 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
 
                           {/* Active Tab Color Overlay */}
                           <div
-                            className={`absolute inset-0 bg-gradient-to-br ${tabColors[activeTab]} opacity-0 group-hover:opacity-50 transition-opacity duration-500`}
+                            className={`absolute inset-0 bg-gradient-to-br ${tabColors[activeTab]} opacity-0 group-hover/card:opacity-40 transition-opacity duration-500`}
                           ></div>
 
                           {/* Category Badge */}
                           <div className="absolute top-4 left-4 z-10">
-                            <span className="px-3 py-1.5 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/20">
-                              {activeTab}
-                            </span>
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: idx * 0.1 + 0.3 }}
+                              className="px-3.5 py-1.5 bg-black/70 backdrop-blur-md text-white text-xs font-semibold rounded-full border border-white/30 shadow-lg"
+                            >
+                              <span className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+                                {activeTab}
+                              </span>
+                            </motion.div>
                           </div>
 
                           {/* View Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10">
                             <motion.div
-                              className="bg-[#C79D6D]/90 backdrop-blur-sm rounded-full p-4 border-2 border-white/30 shadow-xl"
-                              whileHover={{ scale: 1.1, rotate: 360 }}
-                              transition={{ duration: 0.5 }}
+                              className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-4 border-2 border-white/40 shadow-2xl"
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              transition={{ duration: 0.3 }}
                             >
                               <IconEye className="w-6 h-6 text-white" />
                             </motion.div>
                           </div>
 
                           {/* Top Accent Line */}
-                          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C79D6D] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"></div>
                         </div>
 
                         {/* Content */}
-                        <div className="p-6 flex-1 flex flex-col">
-                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#C79D6D] transition-colors duration-300 line-clamp-1">
+                        <div className="relative p-6 flex-1 flex flex-col bg-gradient-to-b from-transparent to-white/[0.02]">
+                          <h3 className="text-xl font-bold text-white mb-2.5 group-hover/card:text-[#C79D6D] transition-colors duration-300 line-clamp-1 tracking-tight">
                             {work.title}
                           </h3>
-                          <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+                          <p className="text-gray-300 text-sm mb-5 line-clamp-2 flex-1 leading-relaxed">
                             {work.desc}
                           </p>
-                          <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                            <span className="text-[#C79D6D] font-semibold text-sm">
+                          <div className="flex items-center justify-between pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
+                            <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
                               {work.client}
                             </span>
                             <motion.div
-                              className="text-[#C79D6D] group-hover:text-[#d4a574] transition-colors duration-300"
+                              className="text-[#C79D6D] group-hover/card:text-[#d4a574] transition-colors duration-300"
                               whileHover={{ x: 5 }}
                             >
                               <IconArrowRight className="w-5 h-5" />
@@ -564,7 +574,7 @@ const LatestWorksSection = () => {
                         </div>
 
                         {/* Shine Effect */}
-                        <div className="absolute inset-0 -top-32 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine transition-opacity duration-500 pointer-events-none"></div>
+                        <div className="absolute inset-0 -top-40 left-0 w-full h-40 bg-gradient-to-b from-white/10 via-white/5 to-transparent opacity-0 group-hover/card:opacity-100 group-hover/card:animate-shine transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
                       </div>
                     </motion.div>
                   ))}
@@ -614,64 +624,74 @@ const LatestWorksSection = () => {
                     >
                       {/* Professional Portfolio Card */}
                       <div
-                        className="relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/50 hover:shadow-2xl hover:shadow-[#C79D6D]/20 transition-all duration-500 cursor-pointer h-full flex flex-col"
+                        className="relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 cursor-pointer h-full flex flex-col group/card"
                         onClick={() => openImagePreview(work.image)}
                       >
+                        {/* Card Glow Effect */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
+
                         {/* Image Container */}
-                        <div className="relative h-64 w-full overflow-hidden">
+                        <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50">
                           <Image
                             src={work.image}
                             alt={work.title}
                             fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+                            className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
                             loading="lazy"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                           />
 
                           {/* Gradient Overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/90 via-[#08243A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/95 via-[#08243A]/30 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
 
                           {/* Active Tab Color Overlay */}
                           <div
-                            className={`absolute inset-0 bg-gradient-to-br ${tabColors[activeTab]} opacity-0 group-hover:opacity-50 transition-opacity duration-500`}
+                            className={`absolute inset-0 bg-gradient-to-br ${tabColors[activeTab]} opacity-0 group-hover/card:opacity-40 transition-opacity duration-500`}
                           ></div>
 
                           {/* Category Badge */}
                           <div className="absolute top-4 left-4 z-10">
-                            <span className="px-3 py-1.5 bg-black/50 backdrop-blur-sm text-white text-xs font-semibold rounded-full border border-white/20">
-                              {activeTab}
-                            </span>
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.8 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{ delay: idx * 0.1 + 0.3 }}
+                              className="px-3.5 py-1.5 bg-black/70 backdrop-blur-md text-white text-xs font-semibold rounded-full border border-white/30 shadow-lg"
+                            >
+                              <span className="bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
+                                {activeTab}
+                              </span>
+                            </motion.div>
                           </div>
 
                           {/* View Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10">
                             <motion.div
-                              className="bg-[#C79D6D]/90 backdrop-blur-sm rounded-full p-4 border-2 border-white/30 shadow-xl"
-                              whileHover={{ scale: 1.1, rotate: 360 }}
-                              transition={{ duration: 0.5 }}
+                              className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-4 border-2 border-white/40 shadow-2xl"
+                              whileHover={{ scale: 1.1, rotate: 5 }}
+                              transition={{ duration: 0.3 }}
                             >
                               <IconEye className="w-6 h-6 text-white" />
                             </motion.div>
                           </div>
 
                           {/* Top Accent Line */}
-                          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C79D6D] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"></div>
                         </div>
 
                         {/* Content */}
-                        <div className="p-6 flex-1 flex flex-col">
-                          <h3 className="text-xl font-bold text-white mb-2 group-hover:text-[#C79D6D] transition-colors duration-300 line-clamp-1">
+                        <div className="relative p-6 flex-1 flex flex-col bg-gradient-to-b from-transparent to-white/[0.02]">
+                          <h3 className="text-xl font-bold text-white mb-2.5 group-hover/card:text-[#C79D6D] transition-colors duration-300 line-clamp-1 tracking-tight">
                             {work.title}
                           </h3>
-                          <p className="text-gray-400 text-sm mb-4 line-clamp-2 flex-1">
+                          <p className="text-gray-300 text-sm mb-5 line-clamp-2 flex-1 leading-relaxed">
                             {work.desc}
                           </p>
-                          <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                            <span className="text-[#C79D6D] font-semibold text-sm">
+                          <div className="flex items-center justify-between pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
+                            <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
                               {work.client}
                             </span>
                             <motion.div
-                              className="text-[#C79D6D] group-hover:text-[#d4a574] transition-colors duration-300"
+                              className="text-[#C79D6D] group-hover/card:text-[#d4a574] transition-colors duration-300"
                               whileHover={{ x: 5 }}
                             >
                               <IconArrowRight className="w-5 h-5" />
@@ -680,7 +700,7 @@ const LatestWorksSection = () => {
                         </div>
 
                         {/* Shine Effect */}
-                        <div className="absolute inset-0 -top-32 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine transition-opacity duration-500 pointer-events-none"></div>
+                        <div className="absolute inset-0 -top-40 left-0 w-full h-40 bg-gradient-to-b from-white/10 via-white/5 to-transparent opacity-0 group-hover/card:opacity-100 group-hover/card:animate-shine transition-opacity duration-500 pointer-events-none rounded-3xl"></div>
                       </div>
                     </motion.div>
                   ))}
