@@ -129,20 +129,16 @@ const WhoWeAreSection = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="text-3xl font-bold gradient-text mb-2">
-                  500+
-                </div>
-                <div className="text-gray-300 text-sm">Projects Delivered</div>
+                <div className="text-3xl font-bold gradient-text mb-2">50+</div>
+                <div className="text-gray-300 text-sm">Projects</div>
               </motion.div>
               <motion.div
                 className="text-center p-4 glass-dark rounded-xl"
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
-                <div className="text-3xl font-bold gradient-text mb-2">
-                  150+
-                </div>
-                <div className="text-gray-300 text-sm">Happy Clients</div>
+                <div className="text-3xl font-bold gradient-text mb-2">10+</div>
+                <div className="text-gray-300 text-sm">Clients</div>
               </motion.div>
             </div>
           </motion.div>
