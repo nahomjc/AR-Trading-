@@ -45,6 +45,19 @@ const WhoWeAreSection = () => {
       id="about"
       className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
     >
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80"
+          alt="About section background"
+          fill
+          className="object-cover opacity-15"
+          priority
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#08243A]/98 via-[#0a2a42]/95 to-[#08243A]/98"></div>
+      </div>
+
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/5 rounded-full blur-3xl"></div>
