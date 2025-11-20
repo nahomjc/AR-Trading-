@@ -115,7 +115,7 @@ const HeroSection = () => {
             >
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-outfit leading-tight hero-headline">
                 <span className="block text-[#C79D6D] mb-4">
-                  AR Solutions — Digital Innovation for Ethiopian Brands
+                  Digital Innovation for Ethiopian Brands
                 </span>
                 <span className="block text-white text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium">
                   Ethiopia Meets Modern Marketing — Let&apos;s Transform Your
