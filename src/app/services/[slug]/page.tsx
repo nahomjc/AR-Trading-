@@ -365,6 +365,8 @@ const serviceData = {
         ],
       },
       {
+        name: "Advanced Development",
+        description: "Custom web applications with advanced functionality",
         price: "Starting from $2,500",
         features: [
           "Custom functionality",
@@ -840,51 +842,73 @@ export default function ServiceDetailPage() {
             >
               Service <span className="text-[#C79D6D]">Offerings</span>
             </motion.h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
               {service.services.map((item, index) => (
                 <motion.div
                   key={index}
-                  className="group relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8 hover:border-[#C79D6D]/50 hover:shadow-2xl hover:shadow-[#C79D6D]/20 transition-all duration-500 overflow-hidden"
+                  className="group relative mirror-card rounded-2xl p-8 lg:p-10 border border-[#C69c6c]/20 hover:border-[#C69c6c]/40 transition-all duration-500 overflow-hidden"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -8 }}
+                  whileHover={{ y: -5 }}
                 >
-                  {/* Hover Background Effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/5 to-[#d4a574]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  <div className="relative z-10">
-                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-[#C79D6D] transition-colors duration-300">
-                      {item.name}
-                    </h3>
-                    <p className="text-gray-300 mb-6 leading-relaxed">
+                  {/* Professional Header Section */}
+                  <div className="relative z-10 mb-6">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="text-2xl lg:text-3xl font-bold font-outfit text-white mb-2 group-hover:text-[#C79D6D] transition-colors duration-300">
+                          {item.name}
+                        </h3>
+                        <div className="h-1 w-16 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] rounded-full mb-4"></div>
+                      </div>
+                    </div>
+                    <p className="text-gray-300 text-base leading-relaxed font-growth">
                       {item.description}
                     </p>
-                    <div className="text-3xl font-bold bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent mb-6">
-                      {item.price}
+                  </div>
+
+                  {/* Price Section */}
+                  <div className="relative z-10 mb-6 pb-6 border-b border-white/10">
+                    <div className="inline-flex items-baseline">
+                      <span className="text-3xl lg:text-4xl font-bold font-outfit bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+                        {item.price}
+                      </span>
                     </div>
-                    <ul className="space-y-3 mb-8">
+                  </div>
+
+                  {/* Features List */}
+                  <div className="relative z-10 mb-8">
+                    <ul className="space-y-3">
                       {item.features.map((feature, featureIndex) => (
                         <motion.li
                           key={featureIndex}
-                          className="flex items-center text-gray-300 group-hover:text-gray-200 transition-colors duration-300"
-                          initial={{ opacity: 0, x: -20 }}
+                          className="flex items-start text-gray-300 group-hover:text-gray-200 transition-colors duration-300"
+                          initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{
                             duration: 0.4,
                             delay: index * 0.1 + featureIndex * 0.05,
                           }}
                         >
-                          <IconCheck className="w-5 h-5 text-[#C79D6D] mr-3 flex-shrink-0" />
-                          <span>{feature}</span>
+                          <div className="mt-1 mr-3 flex-shrink-0">
+                            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/30 flex items-center justify-center group-hover:border-[#C69c6c]/50 transition-colors duration-300">
+                              <IconCheck className="w-3 h-3 text-[#C79D6D]" />
+                            </div>
+                          </div>
+                          <span className="font-growth text-sm lg:text-base leading-relaxed">
+                            {feature}
+                          </span>
                         </motion.li>
                       ))}
                     </ul>
+                  </div>
+
+                  {/* CTA Button */}
+                  <div className="relative z-10">
                     <motion.button
-                      className="w-full bg-gradient-to-r cursor-pointer from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 shadow-lg shadow-[#C79D6D]/25"
+                      className="w-full btn-professional-primary py-4 px-6 rounded-xl font-growth text-base font-semibold"
                       whileHover={{
                         scale: 1.02,
-                        boxShadow: "0 10px 30px rgba(199, 157, 109, 0.4)",
                       }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setIsModalOpen(true)}
@@ -893,8 +917,9 @@ export default function ServiceDetailPage() {
                     </motion.button>
                   </div>
 
-                  {/* Shine Effect */}
-                  <div className="absolute inset-0 -top-32 left-0 w-full h-32 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine transition-opacity duration-500"></div>
+                  {/* Subtle Background Accent */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#C79D6D]/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#d4a574]/5 to-transparent rounded-tr-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </motion.div>
               ))}
             </div>
