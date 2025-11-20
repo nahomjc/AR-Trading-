@@ -262,20 +262,19 @@ const ContactSection = () => {
                 <h4 className="font-semibold text-white mb-4">Follow Us</h4>
                 <div className="flex space-x-4">
                   {[
-                    // TODO: Replace with actual social media URLs
                     {
                       icon: IconBrandFacebook,
-                      href: "https://www.facebook.com/yourpage",
+                      href: "https://www.facebook.com/arsolutionsethiopia",
                       label: "Facebook",
                     },
                     {
                       icon: IconBrandTwitter,
-                      href: "https://www.twitter.com/yourhandle",
+                      href: "https://www.twitter.com/arsolutionset",
                       label: "Twitter",
                     },
                     {
                       icon: IconBrandLinkedin,
-                      href: "https://www.linkedin.com/company/yourcompany",
+                      href: "https://www.linkedin.com/company/ar-solutions-ethiopia",
                       label: "LinkedIn",
                     },
                   ].map((social, index) => (

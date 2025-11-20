@@ -3,10 +3,20 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { IconCode, IconChartLine, IconPalette, IconPrinter, IconVideo, IconCalendarEvent, IconBook } from "@tabler/icons-react";
+import {
+  IconCode,
+  IconChartLine,
+  IconPalette,
+  IconPrinter,
+  IconVideo,
+  IconCalendarEvent,
+  IconBook,
+} from "@tabler/icons-react";
 import dynamic from "next/dynamic";
 
-const TestimonialsSection = dynamic(() => import("../TestimonialsSection"), { ssr: false });
+const TestimonialsSection = dynamic(() => import("../TestimonialsSection"), {
+  ssr: false,
+});
 
 // Latest Works Section with Tabs
 type WorkItem = {
@@ -23,7 +33,7 @@ const tabNames = [
   "Media Production",
   "Advertising & Printing",
   "Event Planning",
-  "Training"
+  "Training",
 ] as const;
 
 type TabName = (typeof tabNames)[number];
@@ -41,38 +51,38 @@ const tabIcons: Record<TabName, React.ComponentType<{ className?: string }>> = {
 const latestWorks: Record<TabName, WorkItem[]> = {
   "Digital Marketing": [
     {
-      title: "Social Media Campaign Design",
-      desc: "",
+      title: "Social Media Campaigns",
+      desc: "Engaging campaigns that drive results",
       image: "/img/social-media-post-designs/1.jpg",
       client: "EthioLearn Platform",
     },
     {
-      title: "Instagram Story Collection",
-      desc: "",
+      title: "Digital Ads",
+      desc: "High-converting ad creatives",
       image: "/img/social-media-post-designs/2.jpg",
       client: "EthioLearn Platform",
     },
     {
-      title: "Facebook Post Series",
-      desc: "",
+      title: "Diverse Content Series",
+      desc: "Multi-platform content strategies",
       image: "/img/social-media-post-designs/3.jpg",
       client: "EthioLearn Platform",
     },
     {
-      title: "LinkedIn Professional Posts",
-      desc: "",
+      title: "Posts and Story Series",
+      desc: "Consistent brand storytelling",
       image: "/img/social-media-post-designs/4.jpg",
       client: "EthioLearn Platform",
     },
     {
-      title: "Twitter Campaign Graphics",
-      desc: "",
+      title: "Instagram Story Collection",
+      desc: "Engaging visual narratives",
       image: "/img/social-media-post-designs/5.jpg",
       client: "EthioLearn Platform",
     },
     {
       title: "Social Media Brand Kit",
-      desc: "",
+      desc: "Unified brand presence",
       image: "/img/social-media-post-designs/6.jpg",
       client: "EthioLearn Platform",
     },
@@ -80,21 +90,21 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   "Web Development": [
     {
       title: "Websites & Portfolios",
-      desc: "Modern, responsive websites built to perform.",
+      desc: "Modern, responsive websites built to perform",
       image:
         "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
       client: "Ethiopian Corporations",
     },
     {
       title: "E-commerce Platforms",
-      desc: "Advanced e-commerce solutions for online businesses.",
+      desc: "Advanced e-commerce solutions for online businesses",
       image:
         "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
       client: "Ethiopian Businesses",
     },
     {
       title: "Web Applications",
-      desc: "Custom web applications for business operations.",
+      desc: "Custom web applications for business operations",
       image:
         "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
       client: "Ethiopian Business Organizations",
@@ -103,21 +113,21 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   Branding: [
     {
       title: "Logo Design",
-      desc: "Distinctive logos that represent your brand identity.",
+      desc: "Distinctive logos that represent your brand identity",
       image:
         "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
     },
     {
       title: "Brand Identity Systems",
-      desc: "Complete brand identity packages for businesses.",
+      desc: "Complete brand identity packages for businesses",
       image:
         "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80",
       client: "Ethiopian Businesses",
     },
     {
       title: "Rebranding Projects",
-      desc: "Comprehensive rebranding for established brands.",
+      desc: "Comprehensive rebranding for established brands",
       image:
         "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
       client: "Ethiopian Organizations",
@@ -126,21 +136,35 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   "Media Production": [
     {
       title: "Photography",
-      desc: "Professional photography services.",
+      desc: "Professional photography services",
       image:
         "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
     },
     {
       title: "Videography",
-      desc: "High-quality video production.",
+      desc: "High-quality video production",
       image:
         "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
     },
     {
       title: "TV & Social Ads",
-      desc: "Creative advertising content.",
+      desc: "Creative advertising content",
+      image:
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Animation & Motion Graphics",
+      desc: "Dynamic visual storytelling",
+      image:
+        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Studio Projects",
+      desc: "Professional studio productions",
       image:
         "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
@@ -149,14 +173,35 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   "Advertising & Printing": [
     {
       title: "Billboards & Banners",
-      desc: "Large format printing and design.",
+      desc: "Large format printing and design",
       image:
         "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
     },
     {
       title: "Flyers & Posters",
-      desc: "Print marketing materials.",
+      desc: "Print marketing materials",
+      image:
+        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Vehicle Branding",
+      desc: "Mobile advertising solutions",
+      image:
+        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Shop Signs",
+      desc: "Custom signage solutions",
+      image:
+        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Outdoor Campaigns",
+      desc: "Comprehensive outdoor marketing",
       image:
         "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
@@ -165,14 +210,21 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   "Event Planning": [
     {
       title: "Organized Events",
-      desc: "Professional event organization.",
+      desc: "Professional event organization",
       image:
         "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
     },
     {
-      title: "Corporate Events",
-      desc: "Corporate event planning and execution.",
+      title: "Coordinated Logistics",
+      desc: "Seamless event coordination",
+      image:
+        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Executed Setups",
+      desc: "Flawless event execution",
       image:
         "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
@@ -181,14 +233,21 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   Training: [
     {
       title: "Delivered Workshops",
-      desc: "Professional training workshops.",
+      desc: "Professional training workshops",
       image:
         "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",
     },
     {
-      title: "Skill Training Programs",
-      desc: "Comprehensive skill development programs.",
+      title: "Provided Skill Training",
+      desc: "Comprehensive skill development programs",
+      image:
+        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
+      client: "Various Clients",
+    },
+    {
+      title: "Empowered Teams",
+      desc: "Team-building and empowerment programs",
       image:
         "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
       client: "Various Clients",

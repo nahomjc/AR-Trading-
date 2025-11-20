@@ -6,21 +6,21 @@ const testimonials = [
     name: "Mr. Melkamu Mekonnen",
     role: "Group CEO at Haile Hospitality Group",
     content:
-      "AR Trading PLC has consistently delivered exceptional results in rebranding and website development. Their professional approach and attention to detail have exceeded our expectations.",
+      "AR Solutions consistently delivers exceptional results. Their professional approach and attention to detail exceed expectations.",
     rating: 5,
   },
   {
     name: "Mr. Bikila Hurisa",
     role: "Public & International Relations Director at Prosperity Party",
     content:
-      "AR Trading PLC provides exemplary quality services in rebranding solutions. The company has developed an outstanding reputation for excellence and reliability in the industry.",
+      "Exemplary quality services in rebranding solutions. Outstanding reputation for excellence and reliability in the industry.",
     rating: 5,
   },
   {
     name: "Mr. Fisseha Asress",
     role: "Senior Consultant & Advisor at Ethiopian Airlines",
     content:
-      "I confidently recommend AR Trading PLC for brand strategy, website development, digital marketing, and tech services. Their team manages projects exceptionally well with professionalism and expertise.",
+      "Confidently recommend AR Solutions for brand strategy, website development, digital marketing, and tech services. Exceptional project management with professionalism and expertise.",
     rating: 5,
   },
 ];
@@ -78,7 +78,7 @@ const TestimonialsSection = () => {
           viewport={{ once: true }}
         >
           <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
-            Testimonials
+            What Clients Say
           </span>
           <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
             What Our Clients Say

@@ -33,6 +33,7 @@ const ServicesSection = () => {
         "Office Branding",
         "Merchandise & Promotional Items",
       ],
+      subtitle: "Our Services:",
       buttonText: "Get a Quote",
       backgroundImage:
         "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80", // Printing press and paper textures
@@ -50,6 +51,7 @@ const ServicesSection = () => {
         "SEO Strategy",
         "Influencer Marketing",
       ],
+      subtitle: "Our Services:",
       buttonText: "Get a Quote",
       backgroundImage:
         "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80", // Digital marketing analytics and social media
@@ -67,6 +69,7 @@ const ServicesSection = () => {
         "Visual Strategy",
         "Creative Contents",
       ],
+      subtitle: "Our Services:",
       buttonText: "Start Your Brand Journey",
       backgroundImage:
         "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?auto=format&fit=crop&w=1200&q=80", // Brand design and creative workspace with design tools
@@ -84,6 +87,7 @@ const ServicesSection = () => {
         "Video Editing",
         "Post-Production",
       ],
+      subtitle: "Our Services:",
       buttonText: "Work with Our Media Team",
       backgroundImage:
         "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80", // Camera and video production equipment
@@ -96,10 +100,11 @@ const ServicesSection = () => {
       color: "from-cyan-500/20 to-blue-500/20",
       iconColor: "text-cyan-400",
       features: [
-        "Website Design & Development",
+        "Website Design and Development",
         "Maintenance & Updates",
         "SEO Optimization",
       ],
+      subtitle: "Our Services:",
       buttonText: "Build Your Website",
       backgroundImage:
         "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80", // Developer coding and team collaboration
@@ -117,6 +122,7 @@ const ServicesSection = () => {
         "Product Launches",
         "Exhibitions",
       ],
+      subtitle: "Our Services:",
       buttonText: "Plan Your Event",
       backgroundImage:
         "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80", // Event planning with people networking and stage lighting
@@ -133,6 +139,7 @@ const ServicesSection = () => {
         "Media Training",
         "Workshops",
       ],
+      subtitle: "Our Services:",
       buttonText: "Book a Training",
       backgroundImage:
         "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80", // Training workshop with people learning and collaborating
@@ -248,6 +255,13 @@ const ServicesSection = () => {
                   <p className="text-gray-300 leading-relaxed mb-4">
                     {service.description}
                   </p>
+
+                  {/* Subtitle */}
+                  {service.subtitle && (
+                    <p className="text-[#C69c6c] font-semibold mb-3">
+                      {service.subtitle}
+                    </p>
+                  )}
 
                   {/* Features List */}
                   <div className="space-y-2 mb-6">
