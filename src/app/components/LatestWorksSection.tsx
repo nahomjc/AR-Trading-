@@ -703,47 +703,111 @@ const LatestWorksSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-md"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-[99999] flex items-center justify-center"
             onClick={closeImagePreview}
-            style={{
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              paddingTop: "80px",
-              paddingBottom: "20px",
-              paddingLeft: "20px",
-              paddingRight: "20px",
-            }}
+            style={{ top: 0, left: 0, right: 0, bottom: 0 }}
           >
+            {/* Enhanced Backdrop */}
             <motion.div
-              initial={{ scale: 0.8, opacity: 0, y: 50 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.8, opacity: 0, y: 50 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative w-full h-full max-w-[95vw] max-h-[calc(100vh-100px)] rounded-3xl overflow-hidden shadow-2xl border border-white/20 bg-gradient-to-br from-[#08243A] to-[#0a2a42] flex flex-col"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close Button */}
-              <motion.button
-                onClick={closeImagePreview}
-                className="absolute top-4 right-4 z-[10000] w-12 h-12 bg-black/70 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-[#C79D6D] transition-all duration-300 border border-white/20 shadow-lg"
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <IconX className="w-6 h-6" />
-              </motion.button>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-gradient-to-br from-black/95 via-[#08243A]/95 to-black/95 backdrop-blur-2xl"
+              style={{ zIndex: 1 }}
+            />
+            {/* Backdrop Pattern Overlay */}
+            <div className="absolute inset-0 opacity-10" style={{ zIndex: 1 }}>
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(199,157,109,0.1),transparent_50%)]"></div>
+            </div>
 
-              {/* Image Container */}
-              <div className="relative w-full h-full flex items-center justify-center p-4 overflow-auto">
-                <Image
-                  src={selectedImage}
-                  alt="Preview"
-                  width={1200}
-                  height={800}
-                  className="w-auto h-auto max-w-full max-h-full object-contain rounded-2xl"
-                  priority
-                />
+            {/* Professional Modal Container */}
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0, y: 30 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.95, opacity: 0, y: 30 }}
+              transition={{
+                type: "spring",
+                stiffness: 400,
+                damping: 35,
+                duration: 0.35,
+              }}
+              className="relative w-full max-w-6xl max-h-[calc(100vh-6rem)] rounded-3xl overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] border border-white/20 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] backdrop-blur-3xl flex flex-col mx-4 sm:mx-6 lg:mx-8"
+              onClick={(e) => e.stopPropagation()}
+              style={{ zIndex: 2, position: "relative", marginTop: "5rem" }}
+            >
+              {/* Elegant Header Bar */}
+              <div className="relative flex items-center justify-between px-6 sm:px-8 py-5 border-b border-white/10 bg-gradient-to-r from-white/[0.03] via-white/[0.05] to-transparent backdrop-blur-sm">
+                {/* Left Section */}
+                <div className="flex items-center gap-4">
+                  <div className="relative">
+                    <div className="absolute inset-0 bg-[#C79D6D]/30 blur-md rounded-full"></div>
+                    <div className="relative w-3 h-3 rounded-full bg-gradient-to-br from-[#C79D6D] to-[#d4a574] shadow-lg shadow-[#C79D6D]/50"></div>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-base sm:text-lg font-semibold text-white tracking-tight">
+                      Image Preview
+                    </span>
+                    <span className="text-xs text-gray-400 font-medium">
+                      {activeTab}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Close Button */}
+                <motion.button
+                  onClick={closeImagePreview}
+                  className="relative group w-11 h-11 sm:w-12 sm:h-12 bg-white/[0.08] hover:bg-white/[0.15] backdrop-blur-md rounded-xl flex items-center justify-center text-white hover:text-[#C79D6D] transition-all duration-300 border border-white/10 hover:border-[#C79D6D]/40 shadow-lg hover:shadow-[#C79D6D]/20"
+                  whileHover={{ scale: 1.08, rotate: 90 }}
+                  whileTap={{ scale: 0.92 }}
+                  aria-label="Close modal"
+                >
+                  <IconX className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/20 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300"></div>
+                </motion.button>
+              </div>
+
+              {/* Premium Image Container */}
+              <div className="relative flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12 overflow-auto bg-gradient-to-br from-black/30 via-[#08243A]/40 to-black/30">
+                {/* Decorative Corner Accents */}
+                <div className="absolute top-4 left-4 w-20 h-20 border-t-2 border-l-2 border-[#C79D6D]/20 rounded-tl-2xl"></div>
+                <div className="absolute top-4 right-4 w-20 h-20 border-t-2 border-r-2 border-[#C79D6D]/20 rounded-tr-2xl"></div>
+                <div className="absolute bottom-4 left-4 w-20 h-20 border-b-2 border-l-2 border-[#C79D6D]/20 rounded-bl-2xl"></div>
+                <div className="absolute bottom-4 right-4 w-20 h-20 border-b-2 border-r-2 border-[#C79D6D]/20 rounded-br-2xl"></div>
+
+                <div className="relative w-full h-full flex items-center justify-center">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }}
+                    className="relative max-w-full max-h-full"
+                  >
+                    {/* Image Frame */}
+                    <div className="relative p-2 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 shadow-2xl">
+                      <div className="relative overflow-hidden rounded-xl">
+                        <Image
+                          src={selectedImage}
+                          alt="Preview"
+                          width={1600}
+                          height={1200}
+                          className="w-auto h-auto max-w-full max-h-[70vh] object-contain"
+                          priority
+                          quality={100}
+                        />
+                        {/* Subtle Image Border Glow */}
+                        <div className="absolute inset-0 border border-white/5 rounded-xl pointer-events-none"></div>
+                      </div>
+                    </div>
+
+                    {/* Enhanced Glow Effect */}
+                    <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#C79D6D]/15 via-[#d4a574]/10 to-[#C79D6D]/15 blur-3xl opacity-60"></div>
+                  </motion.div>
+                </div>
+              </div>
+
+              {/* Elegant Bottom Border */}
+              <div className="relative h-px bg-gradient-to-r from-transparent via-[#C79D6D]/40 to-transparent">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
               </div>
             </motion.div>
           </motion.div>
