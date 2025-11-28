@@ -372,7 +372,7 @@ const TeamSection = () => {
           </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {team.map((member, index) => (
             <motion.div
               key={index}
@@ -389,7 +389,7 @@ const TeamSection = () => {
             >
               {/* Premium Professional Card */}
               <div
-                className={`relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-xl border rounded-3xl p-8 transition-all duration-500 cursor-pointer overflow-hidden shadow-2xl group ${
+                className={`relative bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-xl border rounded-3xl p-5 sm:p-6 transition-all duration-500 cursor-pointer overflow-hidden shadow-2xl group ${
                   highlightedEmployee === member.name
                     ? "border-[#C79D6D] shadow-[#C79D6D]/50 ring-4 ring-[#C79D6D]/30"
                     : "border-white/20 hover:border-[#C79D6D]/50 hover:shadow-[#C79D6D]/30"
@@ -443,7 +443,7 @@ const TeamSection = () => {
                 ></motion.div>
 
                 {/* Profile Image Section */}
-                <div className="relative flex justify-center mb-6">
+                <div className="relative flex justify-center mb-4 sm:mb-5">
                   <div className="relative">
                     {/* Glow Effect */}
                     <motion.div
@@ -460,7 +460,7 @@ const TeamSection = () => {
 
                     {/* Main Image Container */}
                     <div
-                      className={`relative w-36 h-36 rounded-full overflow-hidden ring-4 transition-all duration-500 shadow-2xl ${
+                      className={`relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden ring-4 transition-all duration-500 shadow-2xl ${
                         highlightedEmployee === member.name
                           ? "ring-[#C79D6D] shadow-[#C79D6D]/50"
                           : "ring-[#C79D6D]/30 group-hover:ring-[#C79D6D]/60 group-hover:shadow-[#C79D6D]/40"
@@ -471,7 +471,7 @@ const TeamSection = () => {
                         alt={member.name}
                         fill
                         className="object-cover group-hover:scale-110 transition-all duration-700 grayscale group-hover:grayscale-0"
-                        sizes="(max-width: 768px) 144px, 144px"
+                        sizes="(max-width: 768px) 112px, 128px"
                       />
                       {/* Gradient Overlay */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/40 via-transparent to-transparent"></div>
@@ -497,7 +497,7 @@ const TeamSection = () => {
                 <div className="relative z-10 text-center">
                   {/* Name */}
                   <motion.h3
-                    className="text-xl lg:text-2xl font-bold text-white mb-3 group-hover:text-[#C79D6D] transition-colors duration-300 leading-tight"
+                    className="text-lg sm:text-xl font-bold text-white mb-2 group-hover:text-[#C79D6D] transition-colors duration-300 leading-tight"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.2 + 0.4, duration: 0.6 }}
@@ -508,13 +508,13 @@ const TeamSection = () => {
 
                   {/* Role Badge */}
                   <motion.div
-                    className="inline-block bg-gradient-to-r from-[#C79D6D]/20 via-[#d4a574]/20 to-[#C79D6D]/20 backdrop-blur-sm border border-[#C79D6D]/40 rounded-full px-5 py-2.5 mb-6 shadow-lg group-hover:border-[#C79D6D]/60 group-hover:shadow-[#C79D6D]/20 transition-all duration-300"
+                    className="inline-block bg-gradient-to-r from-[#C79D6D]/20 via-[#d4a574]/20 to-[#C79D6D]/20 backdrop-blur-sm border border-[#C79D6D]/40 rounded-full px-4 py-1.5 sm:px-5 sm:py-2 mb-4 shadow-lg group-hover:border-[#C79D6D]/60 group-hover:shadow-[#C79D6D]/20 transition-all duration-300"
                     initial={{ opacity: 0, scale: 0.9 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ delay: index * 0.2 + 0.5, duration: 0.5 }}
                     viewport={{ once: true }}
                   >
-                    <span className="text-[#C79D6D] font-semibold text-xs lg:text-sm tracking-wide">
+                    <span className="text-[#C79D6D] font-semibold text-xs tracking-wide">
                       {member.role}
                     </span>
                   </motion.div>

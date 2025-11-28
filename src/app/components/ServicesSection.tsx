@@ -35,8 +35,6 @@ const ServicesSection = () => {
       ],
       subtitle: "Our Services:",
       buttonText: "Get a Quote",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80", // Printing press and paper textures
     },
     {
       title: "Digital Marketing",
@@ -53,8 +51,6 @@ const ServicesSection = () => {
       ],
       subtitle: "Our Services:",
       buttonText: "Get a Quote",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80", // Digital marketing analytics and social media
     },
     {
       title: "Branding & Design",
@@ -71,8 +67,6 @@ const ServicesSection = () => {
       ],
       subtitle: "Our Services:",
       buttonText: "Start Your Brand Journey",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?auto=format&fit=crop&w=1200&q=80", // Brand design and creative workspace with design tools
     },
     {
       title: "Media Production",
@@ -89,8 +83,6 @@ const ServicesSection = () => {
       ],
       subtitle: "Our Services:",
       buttonText: "Work with Our Media Team",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=1200&q=80", // Camera and video production equipment
     },
     {
       title: "Web Development",
@@ -106,8 +98,6 @@ const ServicesSection = () => {
       ],
       subtitle: "Our Services:",
       buttonText: "Build Your Website",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1200&q=80", // Developer coding and team collaboration
     },
     {
       title: "Event Planning",
@@ -124,8 +114,6 @@ const ServicesSection = () => {
       ],
       subtitle: "Our Services:",
       buttonText: "Plan Your Event",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1200&q=80", // Event planning with people networking and stage lighting
     },
     {
       title: "Training & Development",
@@ -141,8 +129,6 @@ const ServicesSection = () => {
       ],
       subtitle: "Our Services:",
       buttonText: "Book a Training",
-      backgroundImage:
-        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80", // Training workshop with people learning and collaborating
     },
   ];
 
@@ -158,9 +144,71 @@ const ServicesSection = () => {
   return (
     <section
       id="services"
-      className="py-20 sm:py-32 px-2 sm:px-4 lg:px-8 relative"
+      className="py-20 sm:py-32 px-2 sm:px-4 lg:px-8 relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto">
+      {/* Creative Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Animated Gradient Orbs */}
+        <motion.div
+          className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, 100, 0],
+            y: [0, 50, 0],
+            scale: [1, 1.2, 1],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
+          animate={{
+            x: [0, -100, 0],
+            y: [0, -50, 0],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 25,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        <motion.div
+          className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
+          animate={{
+            scale: [1, 1.4, 1],
+            opacity: [0.3, 0.5, 0.3],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+        
+        {/* Geometric Pattern Overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(199,157,109,0.3) 1px, transparent 0)`,
+            backgroundSize: '40px 40px',
+          }} />
+        </div>
+        
+        {/* Grid Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `
+              linear-gradient(rgba(199,157,109,0.1) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(199,157,109,0.1) 1px, transparent 1px)
+            `,
+            backgroundSize: '50px 50px',
+          }} />
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 100 }}
@@ -202,27 +250,79 @@ const ServicesSection = () => {
                   transition: { type: "spring", stiffness: 300 },
                 }}
               >
-                {/* Background Image Overlay */}
-                {service.backgroundImage && (
-                  <div
-                    className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity duration-500"
-                    style={{
-                      backgroundImage: `url(${service.backgroundImage})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  />
-                )}
-
-                {/* Animated Background */}
+                {/* Creative Animated Background */}
                 <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`}
+                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-30 group-hover:opacity-50 transition-opacity duration-500`}
                   animate={{
                     scale: index === activeIndex ? [1, 1.1, 1] : 1,
                   }}
                   transition={{
                     duration: 3,
                     repeat: index === activeIndex ? Infinity : 0,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                {/* Animated Gradient Mesh */}
+                <motion.div
+                  className={`absolute inset-0 opacity-20 group-hover:opacity-30 bg-gradient-radial from-transparent via-transparent to-${service.color.split(' ')[0].replace('from-', '').replace('/20', '')}/20`}
+                  style={{
+                    background: `radial-gradient(circle at ${index % 2 === 0 ? '20%' : '80'}% ${index % 3 === 0 ? '30%' : '70%'}, rgba(199,157,109,0.2), transparent 60%)`,
+                  }}
+                  animate={{
+                    x: [0, 20, 0],
+                    y: [0, 15, 0],
+                  }}
+                  transition={{
+                    duration: 8 + index,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                />
+
+                {/* Floating Particles Effect */}
+                {[...Array(3)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute w-2 h-2 bg-[#C79D6D]/30 rounded-full blur-sm"
+                    style={{
+                      left: `${20 + i * 30}%`,
+                      top: `${30 + i * 20}%`,
+                    }}
+                    animate={{
+                      y: [0, -30, 0],
+                      opacity: [0.3, 0.6, 0.3],
+                      scale: [1, 1.5, 1],
+                    }}
+                    transition={{
+                      duration: 4 + i,
+                      repeat: Infinity,
+                      delay: i * 0.5,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+
+                {/* Geometric Shapes */}
+                <motion.div
+                  className="absolute top-4 right-4 w-20 h-20 border-2 border-[#C79D6D]/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{
+                    rotate: [0, 90, 0],
+                  }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                />
+                <motion.div
+                  className="absolute bottom-4 left-4 w-16 h-16 border-2 border-[#C79D6D]/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  animate={{
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
                     ease: "easeInOut",
                   }}
                 />

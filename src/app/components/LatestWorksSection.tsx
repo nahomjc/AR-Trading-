@@ -503,7 +503,10 @@ const LatestWorksSection = () => {
                               transition={{ duration: 0.3 }}
                             >
                               {work.video ? (
-                                <IconPlayerPlay className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                                <IconPlayerPlay
+                                  className="w-8 h-8 text-white ml-1"
+                                  fill="currentColor"
+                                />
                               ) : (
                                 <IconEye className="w-6 h-6 text-white" />
                               )}
@@ -627,6 +630,7 @@ const LatestWorksSection = () => {
                                 onMouseLeave={(e) => {
                                   const video = e.currentTarget;
                                   video.pause();
+                                  video.currentTime = 0;
                                 }}
                               />
                               {/* Professional Video Overlay */}
@@ -680,7 +684,10 @@ const LatestWorksSection = () => {
                                 <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/30 to-[#d4a574]/30 rounded-full blur-xl group-hover/play:blur-2xl transition-all duration-300"></div>
                                 {/* Play Button */}
                                 <div className="relative bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-full p-5 border-2 border-white/40 shadow-2xl shadow-[#C79D6D]/30">
-                                  <IconPlayerPlay className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                                  <IconPlayerPlay
+                                    className="w-8 h-8 text-white ml-1"
+                                    fill="currentColor"
+                                  />
                                 </div>
                                 {/* Pulse Animation */}
                                 <motion.div
@@ -865,8 +872,9 @@ const LatestWorksSection = () => {
                             autoPlay
                             className="w-full h-auto max-h-[70vh] object-contain"
                             playsInline
+                            preload="auto"
                             style={{
-                              filter: 'brightness(1.05) contrast(1.05)',
+                              filter: "brightness(1.05) contrast(1.05)",
                             }}
                           />
                           {/* Professional Video Border Glow */}

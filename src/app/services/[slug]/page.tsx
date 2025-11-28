@@ -791,7 +791,7 @@ export default function ServiceDetailPage() {
             className="absolute top-8 left-4 sm:left-8 z-20"
           >
             <motion.button
-              onClick={() => router.push("/services")}
+              onClick={() => router.push("/")}
               className="inline-flex items-center bg-black/30 backdrop-blur-sm px-4 py-2 rounded-xl text-white hover:text-[#C79D6D] transition-colors duration-300 group border border-white/20 hover:border-[#C79D6D]/50"
               whileHover={{ x: -5 }}
             >

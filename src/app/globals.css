@@ -23,6 +23,22 @@ html {
 
   html {
     scroll-behavior: smooth;
+    /* Responsive base font size - scales from 12px to 16px based on viewport width */
+    /* This ensures the site scales properly on older laptops and smaller screens */
+    font-size: clamp(12px, 0.75rem + 0.8vw, 16px);
+  }
+
+  /* Additional scaling for very small screens */
+  @media (max-width: 1024px) {
+    html {
+      font-size: clamp(12px, 0.75rem + 0.6vw, 15px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    html {
+      font-size: clamp(12px, 0.75rem + 0.5vw, 14px);
+    }
   }
 
   body {
