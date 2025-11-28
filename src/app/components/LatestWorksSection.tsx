@@ -9,13 +9,12 @@ import {
   IconPalette,
   IconPrinter,
   IconVideo,
-  IconCalendarEvent,
-  IconBook,
   IconEye,
   IconX,
   IconArrowRight,
   IconChevronLeft,
   IconChevronRight,
+  IconPlayerPlay,
 } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
 
@@ -28,6 +27,7 @@ type WorkItem = {
   title: string;
   desc: string;
   image: string;
+  video?: string;
   client: string;
 };
 
@@ -37,8 +37,6 @@ const tabNames = [
   "Branding",
   "Media Production",
   "Advertising & Printing",
-  "Event Planning",
-  "Training",
 ] as const;
 
 type TabName = (typeof tabNames)[number];
@@ -49,8 +47,6 @@ const tabIcons: Record<TabName, React.ComponentType<{ className?: string }>> = {
   Branding: IconPalette,
   "Media Production": IconVideo,
   "Advertising & Printing": IconPrinter,
-  "Event Planning": IconCalendarEvent,
-  Training: IconBook,
 };
 
 const tabColors: Record<TabName, string> = {
@@ -60,8 +56,6 @@ const tabColors: Record<TabName, string> = {
   "Media Production": "from-green-500/20 via-teal-500/20 to-green-500/20",
   "Advertising & Printing":
     "from-orange-500/20 via-red-500/20 to-orange-500/20",
-  "Event Planning": "from-purple-500/20 via-pink-500/20 to-purple-500/20",
-  Training: "from-indigo-500/20 via-purple-500/20 to-indigo-500/20",
 };
 
 const latestWorks: Record<TabName, WorkItem[]> = {
@@ -151,39 +145,25 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   ],
   "Media Production": [
     {
-      title: "Photography",
-      desc: "Professional photography services",
-      image:
-        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
+      title: "Professional Video Production",
+      desc: "High-quality video production showcasing our creative excellence",
+      image: "/video/1111(1).mp4",
+      video: "/video/1111(1).mp4",
+      client: "AR Solutions",
     },
     {
-      title: "Videography",
-      desc: "High-quality video production",
-      image:
-        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
+      title: "Creative Media Content",
+      desc: "Engaging visual content that captures your brand story",
+      image: "/video/1110(3).mp4",
+      video: "/video/1110(3).mp4",
+      client: "AR Solutions",
     },
     {
-      title: "TV & Social Ads",
-      desc: "Creative advertising content",
-      image:
-        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Animation & Motion Graphics",
-      desc: "Dynamic visual storytelling",
-      image:
-        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Studio Projects",
-      desc: "Professional studio productions",
-      image:
-        "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
+      title: "Professional Videography",
+      desc: "Cinematic video production with professional quality",
+      image: "/video/1119 (1).mp4",
+      video: "/video/1119 (1).mp4",
+      client: "AR Solutions",
     },
   ],
   "Advertising & Printing": [
@@ -223,60 +203,16 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       client: "Various Clients",
     },
   ],
-  "Event Planning": [
-    {
-      title: "Organized Events",
-      desc: "Professional event organization",
-      image:
-        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Coordinated Logistics",
-      desc: "Seamless event coordination",
-      image:
-        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Executed Setups",
-      desc: "Flawless event execution",
-      image:
-        "https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-  ],
-  Training: [
-    {
-      title: "Delivered Workshops",
-      desc: "Professional training workshops",
-      image:
-        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Provided Skill Training",
-      desc: "Comprehensive skill development programs",
-      image:
-        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Empowered Teams",
-      desc: "Team-building and empowerment programs",
-      image:
-        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-  ],
 };
 
 const LatestWorksSection = () => {
   const [activeTab, setActiveTab] = useState<TabName>("Digital Marketing");
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
   const [carouselRef, setCarouselRef] = useState<HTMLDivElement | null>(null);
+  const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
 
   // Handle latest works section highlighting from search
   useEffect(() => {
@@ -306,14 +242,21 @@ const LatestWorksSection = () => {
     };
   }, []);
 
-  const openImagePreview = (imageSrc: string) => {
-    setSelectedImage(imageSrc);
+  const openImagePreview = (imageSrc: string, videoSrc?: string) => {
+    if (videoSrc) {
+      setSelectedVideo(videoSrc);
+      setSelectedImage(null);
+    } else {
+      setSelectedImage(imageSrc);
+      setSelectedVideo(null);
+    }
     setIsModalOpen(true);
   };
 
   const closeImagePreview = () => {
     setIsModalOpen(false);
     setSelectedImage(null);
+    setSelectedVideo(null);
   };
 
   // Reset carousel scroll when tab changes
@@ -499,21 +442,36 @@ const LatestWorksSection = () => {
                       {/* Professional Portfolio Card */}
                       <div
                         className="relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 cursor-pointer h-full flex flex-col group/card"
-                        onClick={() => openImagePreview(work.image)}
+                        onClick={() => openImagePreview(work.image, work.video)}
                       >
                         {/* Card Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
 
-                        {/* Image Container */}
+                        {/* Media Container */}
                         <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50">
-                          <Image
-                            src={work.image}
-                            alt={work.title}
-                            fill
-                            className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
-                            loading="lazy"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                          />
+                          {work.video ? (
+                            <>
+                              <video
+                                src={work.video}
+                                className="w-full h-full object-cover"
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                              />
+                              {/* Video Overlay */}
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/60 via-[#08243A]/20 to-transparent"></div>
+                            </>
+                          ) : (
+                            <Image
+                              src={work.image}
+                              alt={work.title}
+                              fill
+                              className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
+                              loading="lazy"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                            />
+                          )}
 
                           {/* Gradient Overlay */}
                           <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/95 via-[#08243A]/30 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
@@ -537,16 +495,35 @@ const LatestWorksSection = () => {
                             </motion.div>
                           </div>
 
-                          {/* View Icon */}
+                          {/* Play/View Icon */}
                           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10">
                             <motion.div
                               className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-4 border-2 border-white/40 shadow-2xl"
                               whileHover={{ scale: 1.1, rotate: 5 }}
                               transition={{ duration: 0.3 }}
                             >
-                              <IconEye className="w-6 h-6 text-white" />
+                              {work.video ? (
+                                <IconPlayerPlay className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                              ) : (
+                                <IconEye className="w-6 h-6 text-white" />
+                              )}
                             </motion.div>
                           </div>
+
+                          {/* Video Badge */}
+                          {work.video && (
+                            <div className="absolute top-4 right-4 z-10">
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: idx * 0.1 + 0.3 }}
+                                className="px-3 py-1.5 bg-gradient-to-r from-green-500/80 to-teal-500/80 backdrop-blur-md text-white text-xs font-semibold rounded-full border border-white/30 shadow-lg flex items-center gap-1.5"
+                              >
+                                <IconVideo className="w-3.5 h-3.5" />
+                                <span>Video</span>
+                              </motion.div>
+                            </div>
+                          )}
 
                           {/* Top Accent Line */}
                           <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C79D6D] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"></div>
@@ -625,21 +602,48 @@ const LatestWorksSection = () => {
                       {/* Professional Portfolio Card */}
                       <div
                         className="relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 cursor-pointer h-full flex flex-col group/card"
-                        onClick={() => openImagePreview(work.image)}
+                        onClick={() => openImagePreview(work.image, work.video)}
                       >
                         {/* Card Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
 
-                        {/* Image Container */}
-                        <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50">
-                          <Image
-                            src={work.image}
-                            alt={work.title}
-                            fill
-                            className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
-                            loading="lazy"
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                          />
+                        {/* Media Container */}
+                        <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-t-3xl">
+                          {work.video ? (
+                            <>
+                              <video
+                                src={work.video}
+                                className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out"
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                onMouseEnter={(e) => {
+                                  const video = e.currentTarget;
+                                  if (video.paused) {
+                                    video.play().catch(() => {});
+                                  }
+                                }}
+                                onMouseLeave={(e) => {
+                                  const video = e.currentTarget;
+                                  video.pause();
+                                }}
+                              />
+                              {/* Professional Video Overlay */}
+                              <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/80 via-[#08243A]/30 to-transparent"></div>
+                              {/* Video Shimmer Effect */}
+                              <div className="absolute inset-0 bg-gradient-to-br from-green-500/0 via-teal-500/0 to-green-500/0 group-hover/card:via-teal-500/10 group-hover/card:to-green-500/5 transition-all duration-500"></div>
+                            </>
+                          ) : (
+                            <Image
+                              src={work.image}
+                              alt={work.title}
+                              fill
+                              className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
+                              loading="lazy"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                            />
+                          )}
 
                           {/* Gradient Overlay */}
                           <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/95 via-[#08243A]/30 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500"></div>
@@ -663,16 +667,65 @@ const LatestWorksSection = () => {
                             </motion.div>
                           </div>
 
-                          {/* View Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10">
-                            <motion.div
-                              className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-4 border-2 border-white/40 shadow-2xl"
-                              whileHover={{ scale: 1.1, rotate: 5 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              <IconEye className="w-6 h-6 text-white" />
-                            </motion.div>
-                          </div>
+                          {/* Professional Play Button - Always Visible for Videos */}
+                          {work.video && (
+                            <div className="absolute inset-0 flex items-center justify-center z-10">
+                              <motion.div
+                                className="relative group/play"
+                                initial={{ opacity: 0.9 }}
+                                whileHover={{ scale: 1.15 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                {/* Outer Glow Ring */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/30 to-[#d4a574]/30 rounded-full blur-xl group-hover/play:blur-2xl transition-all duration-300"></div>
+                                {/* Play Button */}
+                                <div className="relative bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-full p-5 border-2 border-white/40 shadow-2xl shadow-[#C79D6D]/30">
+                                  <IconPlayerPlay className="w-8 h-8 text-white ml-1" fill="currentColor" />
+                                </div>
+                                {/* Pulse Animation */}
+                                <motion.div
+                                  className="absolute inset-0 bg-gradient-to-br from-[#C79D6D] to-[#d4a574] rounded-full"
+                                  animate={{
+                                    scale: [1, 1.3, 1],
+                                    opacity: [0.5, 0, 0.5],
+                                  }}
+                                  transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    ease: "easeInOut",
+                                  }}
+                                />
+                              </motion.div>
+                            </div>
+                          )}
+
+                          {/* View Icon for Images */}
+                          {!work.video && (
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10">
+                              <motion.div
+                                className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-4 border-2 border-white/40 shadow-2xl"
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <IconEye className="w-6 h-6 text-white" />
+                              </motion.div>
+                            </div>
+                          )}
+
+                          {/* Professional Video Badge */}
+                          {work.video && (
+                            <div className="absolute top-4 right-4 z-10">
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: idx * 0.1 + 0.3 }}
+                                className="px-3 py-1.5 bg-gradient-to-r from-green-500/90 via-teal-500/90 to-green-500/90 backdrop-blur-md text-white text-xs font-semibold rounded-full border border-white/40 shadow-lg flex items-center gap-1.5 font-growth"
+                              >
+                                <IconVideo className="w-3.5 h-3.5" />
+                                <span>Video</span>
+                              </motion.div>
+                            </div>
+                          )}
 
                           {/* Top Accent Line */}
                           <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[#C79D6D] to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-300"></div>
@@ -716,9 +769,9 @@ const LatestWorksSection = () => {
         </div>
       </div>
 
-      {/* Image Preview Modal */}
+      {/* Image/Video Preview Modal */}
       <AnimatePresence>
-        {isModalOpen && selectedImage && (
+        {isModalOpen && (selectedImage || selectedVideo) && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -766,7 +819,7 @@ const LatestWorksSection = () => {
                   </div>
                   <div className="flex flex-col">
                     <span className="text-base sm:text-lg font-semibold text-white tracking-tight">
-                      Image Preview
+                      {selectedVideo ? "Video Preview" : "Image Preview"}
                     </span>
                     <span className="text-xs text-gray-400 font-medium">
                       {activeTab}
@@ -787,7 +840,7 @@ const LatestWorksSection = () => {
                 </motion.button>
               </div>
 
-              {/* Premium Image Container */}
+              {/* Premium Media Container */}
               <div className="relative flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12 overflow-auto bg-gradient-to-br from-black/30 via-[#08243A]/40 to-black/30">
                 {/* Decorative Corner Accents */}
                 <div className="absolute top-4 left-4 w-20 h-20 border-t-2 border-l-2 border-[#C79D6D]/20 rounded-tl-2xl"></div>
@@ -800,24 +853,52 @@ const LatestWorksSection = () => {
                     initial={{ opacity: 0, scale: 0.96 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }}
-                    className="relative max-w-full max-h-full"
+                    className="relative max-w-full max-h-full w-full"
                   >
-                    {/* Image Frame */}
-                    <div className="relative p-2 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 shadow-2xl">
-                      <div className="relative overflow-hidden rounded-xl">
-                        <Image
-                          src={selectedImage}
-                          alt="Preview"
-                          width={1600}
-                          height={1200}
-                          className="w-auto h-auto max-w-full max-h-[70vh] object-contain"
-                          priority
-                          quality={100}
-                        />
-                        {/* Subtle Image Border Glow */}
-                        <div className="absolute inset-0 border border-white/5 rounded-xl pointer-events-none"></div>
+                    {selectedVideo ? (
+                      /* Professional Video Player */
+                      <div className="relative p-3 bg-gradient-to-br from-white/10 via-white/5 to-white/[0.02] rounded-2xl border border-white/20 shadow-2xl backdrop-blur-sm">
+                        <div className="relative overflow-hidden rounded-xl bg-black/90">
+                          <video
+                            src={selectedVideo}
+                            controls
+                            autoPlay
+                            className="w-full h-auto max-h-[70vh] object-contain"
+                            playsInline
+                            style={{
+                              filter: 'brightness(1.05) contrast(1.05)',
+                            }}
+                          />
+                          {/* Professional Video Border Glow */}
+                          <div className="absolute inset-0 border-2 border-[#C79D6D]/30 rounded-xl pointer-events-none"></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-[#C79D6D]/20 via-[#d4a574]/20 to-[#C79D6D]/20 rounded-xl pointer-events-none opacity-50"></div>
+                          {/* Corner Accents */}
+                          <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-[#C79D6D]/40 rounded-tl-lg"></div>
+                          <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-[#C79D6D]/40 rounded-tr-lg"></div>
+                          <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-[#C79D6D]/40 rounded-bl-lg"></div>
+                          <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-[#C79D6D]/40 rounded-br-lg"></div>
+                        </div>
+                        {/* Video Player Glow Effect */}
+                        <div className="absolute -inset-2 bg-gradient-to-r from-green-500/10 via-teal-500/10 to-green-500/10 blur-2xl rounded-2xl -z-10"></div>
                       </div>
-                    </div>
+                    ) : (
+                      /* Image Frame */
+                      <div className="relative p-2 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 shadow-2xl">
+                        <div className="relative overflow-hidden rounded-xl">
+                          <Image
+                            src={selectedImage!}
+                            alt="Preview"
+                            width={1600}
+                            height={1200}
+                            className="w-auto h-auto max-w-full max-h-[70vh] object-contain"
+                            priority
+                            quality={100}
+                          />
+                          {/* Subtle Image Border Glow */}
+                          <div className="absolute inset-0 border border-white/5 rounded-xl pointer-events-none"></div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Enhanced Glow Effect */}
                     <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#C79D6D]/15 via-[#d4a574]/10 to-[#C79D6D]/15 blur-3xl opacity-60"></div>
