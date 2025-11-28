@@ -33,9 +33,9 @@ type WorkItem = {
 
 const tabNames = [
   "Digital Marketing",
+  "Media Production",
   "Web Development",
   "Branding",
-  "Media Production",
   "Advertising & Printing",
 ] as const;
 
@@ -496,19 +496,20 @@ const LatestWorksSection = () => {
                           </div>
 
                           {/* Play/View Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10">
+                          <div className="absolute inset-0 flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover/card:opacity-100 transition-opacity duration-300 z-10">
                             <motion.div
-                              className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-4 border-2 border-white/40 shadow-2xl"
+                              className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-3 sm:p-4 border-2 border-white/40 shadow-2xl"
                               whileHover={{ scale: 1.1, rotate: 5 }}
+                              whileTap={{ scale: 0.95 }}
                               transition={{ duration: 0.3 }}
                             >
                               {work.video ? (
                                 <IconPlayerPlay
-                                  className="w-8 h-8 text-white ml-1"
+                                  className="w-7 h-7 sm:w-8 sm:h-8 text-white ml-1"
                                   fill="currentColor"
                                 />
                               ) : (
-                                <IconEye className="w-6 h-6 text-white" />
+                                <IconEye className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                               )}
                             </motion.div>
                           </div>
@@ -812,23 +813,23 @@ const LatestWorksSection = () => {
                 damping: 35,
                 duration: 0.35,
               }}
-              className="relative w-full max-w-6xl max-h-[calc(100vh-6rem)] rounded-3xl overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] border border-white/20 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] backdrop-blur-3xl flex flex-col mx-4 sm:mx-6 lg:mx-8"
+              className="relative w-full max-w-6xl max-h-[calc(100vh-2rem)] sm:max-h-[calc(100vh-6rem)] rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_25px_50px_-12px_rgba(0,0,0,0.8)] border border-white/20 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] backdrop-blur-3xl flex flex-col mx-2 sm:mx-4 lg:mx-8"
               onClick={(e) => e.stopPropagation()}
-              style={{ zIndex: 2, position: "relative", marginTop: "5rem" }}
+              style={{ zIndex: 2, position: "relative", marginTop: "1rem" }}
             >
               {/* Elegant Header Bar */}
-              <div className="relative flex items-center justify-between px-6 sm:px-8 py-5 border-b border-white/10 bg-gradient-to-r from-white/[0.03] via-white/[0.05] to-transparent backdrop-blur-sm">
+              <div className="relative flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3 sm:py-4 lg:py-5 border-b border-white/10 bg-gradient-to-r from-white/[0.03] via-white/[0.05] to-transparent backdrop-blur-sm">
                 {/* Left Section */}
-                <div className="flex items-center gap-4">
-                  <div className="relative">
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <div className="relative hidden sm:block">
                     <div className="absolute inset-0 bg-[#C79D6D]/30 blur-md rounded-full"></div>
                     <div className="relative w-3 h-3 rounded-full bg-gradient-to-br from-[#C79D6D] to-[#d4a574] shadow-lg shadow-[#C79D6D]/50"></div>
                   </div>
                   <div className="flex flex-col">
-                    <span className="text-base sm:text-lg font-semibold text-white tracking-tight">
+                    <span className="text-sm sm:text-base lg:text-lg font-semibold text-white tracking-tight">
                       {selectedVideo ? "Video Preview" : "Image Preview"}
                     </span>
-                    <span className="text-xs text-gray-400 font-medium">
+                    <span className="text-xs text-gray-400 font-medium hidden sm:block">
                       {activeTab}
                     </span>
                   </div>
@@ -837,23 +838,23 @@ const LatestWorksSection = () => {
                 {/* Close Button */}
                 <motion.button
                   onClick={closeImagePreview}
-                  className="relative group w-11 h-11 sm:w-12 sm:h-12 bg-white/[0.08] hover:bg-white/[0.15] backdrop-blur-md rounded-xl flex items-center justify-center text-white hover:text-[#C79D6D] transition-all duration-300 border border-white/10 hover:border-[#C79D6D]/40 shadow-lg hover:shadow-[#C79D6D]/20"
+                  className="relative group w-9 h-9 sm:w-11 sm:h-11 lg:w-12 lg:h-12 bg-white/[0.08] hover:bg-white/[0.15] backdrop-blur-md rounded-lg sm:rounded-xl flex items-center justify-center text-white hover:text-[#C79D6D] transition-all duration-300 border border-white/10 hover:border-[#C79D6D]/40 shadow-lg hover:shadow-[#C79D6D]/20 flex-shrink-0"
                   whileHover={{ scale: 1.08, rotate: 90 }}
                   whileTap={{ scale: 0.92 }}
                   aria-label="Close modal"
                 >
-                  <IconX className="w-5 h-5 sm:w-6 sm:h-6 transition-all duration-300" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/20 to-transparent opacity-0 group-hover:opacity-100 rounded-xl transition-opacity duration-300"></div>
+                  <IconX className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/20 to-transparent opacity-0 group-hover:opacity-100 rounded-lg sm:rounded-xl transition-opacity duration-300"></div>
                 </motion.button>
               </div>
 
               {/* Premium Media Container */}
-              <div className="relative flex-1 flex items-center justify-center p-6 sm:p-8 lg:p-12 overflow-auto bg-gradient-to-br from-black/30 via-[#08243A]/40 to-black/30">
-                {/* Decorative Corner Accents */}
-                <div className="absolute top-4 left-4 w-20 h-20 border-t-2 border-l-2 border-[#C79D6D]/20 rounded-tl-2xl"></div>
-                <div className="absolute top-4 right-4 w-20 h-20 border-t-2 border-r-2 border-[#C79D6D]/20 rounded-tr-2xl"></div>
-                <div className="absolute bottom-4 left-4 w-20 h-20 border-b-2 border-l-2 border-[#C79D6D]/20 rounded-bl-2xl"></div>
-                <div className="absolute bottom-4 right-4 w-20 h-20 border-b-2 border-r-2 border-[#C79D6D]/20 rounded-br-2xl"></div>
+              <div className="relative flex-1 flex items-center justify-center p-3 sm:p-4 lg:p-8 xl:p-12 overflow-auto bg-gradient-to-br from-black/30 via-[#08243A]/40 to-black/30">
+                {/* Decorative Corner Accents - Hidden on mobile */}
+                <div className="absolute top-2 left-2 sm:top-4 sm:left-4 w-8 h-8 sm:w-16 sm:h-16 lg:w-20 lg:h-20 border-t-2 border-l-2 border-[#C79D6D]/20 rounded-tl-xl sm:rounded-tl-2xl opacity-50 sm:opacity-100"></div>
+                <div className="absolute top-2 right-2 sm:top-4 sm:right-4 w-8 h-8 sm:w-16 sm:h-16 lg:w-20 lg:h-20 border-t-2 border-r-2 border-[#C79D6D]/20 rounded-tr-xl sm:rounded-tr-2xl opacity-50 sm:opacity-100"></div>
+                <div className="absolute bottom-2 left-2 sm:bottom-4 sm:left-4 w-8 h-8 sm:w-16 sm:h-16 lg:w-20 lg:h-20 border-b-2 border-l-2 border-[#C79D6D]/20 rounded-bl-xl sm:rounded-bl-2xl opacity-50 sm:opacity-100"></div>
+                <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 w-8 h-8 sm:w-16 sm:h-16 lg:w-20 lg:h-20 border-b-2 border-r-2 border-[#C79D6D]/20 rounded-br-xl sm:rounded-br-2xl opacity-50 sm:opacity-100"></div>
 
                 <div className="relative w-full h-full flex items-center justify-center">
                   <motion.div
@@ -864,13 +865,13 @@ const LatestWorksSection = () => {
                   >
                     {selectedVideo ? (
                       /* Professional Video Player */
-                      <div className="relative p-3 bg-gradient-to-br from-white/10 via-white/5 to-white/[0.02] rounded-2xl border border-white/20 shadow-2xl backdrop-blur-sm">
-                        <div className="relative overflow-hidden rounded-xl bg-black/90">
+                      <div className="relative w-full p-2 sm:p-3 bg-gradient-to-br from-white/10 via-white/5 to-white/[0.02] rounded-xl sm:rounded-2xl border border-white/20 shadow-2xl backdrop-blur-sm">
+                        <div className="relative overflow-hidden rounded-lg sm:rounded-xl bg-black/90 aspect-video">
                           <video
                             src={selectedVideo}
                             controls
                             autoPlay
-                            className="w-full h-auto max-h-[70vh] object-contain"
+                            className="w-full h-full object-contain"
                             playsInline
                             preload="auto"
                             style={{
@@ -878,16 +879,16 @@ const LatestWorksSection = () => {
                             }}
                           />
                           {/* Professional Video Border Glow */}
-                          <div className="absolute inset-0 border-2 border-[#C79D6D]/30 rounded-xl pointer-events-none"></div>
-                          <div className="absolute inset-0 bg-gradient-to-r from-[#C79D6D]/20 via-[#d4a574]/20 to-[#C79D6D]/20 rounded-xl pointer-events-none opacity-50"></div>
-                          {/* Corner Accents */}
-                          <div className="absolute top-2 left-2 w-6 h-6 border-t-2 border-l-2 border-[#C79D6D]/40 rounded-tl-lg"></div>
-                          <div className="absolute top-2 right-2 w-6 h-6 border-t-2 border-r-2 border-[#C79D6D]/40 rounded-tr-lg"></div>
-                          <div className="absolute bottom-2 left-2 w-6 h-6 border-b-2 border-l-2 border-[#C79D6D]/40 rounded-bl-lg"></div>
-                          <div className="absolute bottom-2 right-2 w-6 h-6 border-b-2 border-r-2 border-[#C79D6D]/40 rounded-br-lg"></div>
+                          <div className="absolute inset-0 border-2 border-[#C79D6D]/30 rounded-lg sm:rounded-xl pointer-events-none"></div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-[#C79D6D]/20 via-[#d4a574]/20 to-[#C79D6D]/20 rounded-lg sm:rounded-xl pointer-events-none opacity-50"></div>
+                          {/* Corner Accents - Smaller on mobile */}
+                          <div className="absolute top-1 left-1 sm:top-2 sm:left-2 w-4 h-4 sm:w-6 sm:h-6 border-t-2 border-l-2 border-[#C79D6D]/40 rounded-tl-md sm:rounded-tl-lg opacity-60 sm:opacity-100"></div>
+                          <div className="absolute top-1 right-1 sm:top-2 sm:right-2 w-4 h-4 sm:w-6 sm:h-6 border-t-2 border-r-2 border-[#C79D6D]/40 rounded-tr-md sm:rounded-tr-lg opacity-60 sm:opacity-100"></div>
+                          <div className="absolute bottom-1 left-1 sm:bottom-2 sm:left-2 w-4 h-4 sm:w-6 sm:h-6 border-b-2 border-l-2 border-[#C79D6D]/40 rounded-bl-md sm:rounded-bl-lg opacity-60 sm:opacity-100"></div>
+                          <div className="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 w-4 h-4 sm:w-6 sm:h-6 border-b-2 border-r-2 border-[#C79D6D]/40 rounded-br-md sm:rounded-br-lg opacity-60 sm:opacity-100"></div>
                         </div>
                         {/* Video Player Glow Effect */}
-                        <div className="absolute -inset-2 bg-gradient-to-r from-green-500/10 via-teal-500/10 to-green-500/10 blur-2xl rounded-2xl -z-10"></div>
+                        <div className="absolute -inset-1 sm:-inset-2 bg-gradient-to-r from-green-500/10 via-teal-500/10 to-green-500/10 blur-xl sm:blur-2xl rounded-xl sm:rounded-2xl -z-10"></div>
                       </div>
                     ) : (
                       /* Image Frame */
