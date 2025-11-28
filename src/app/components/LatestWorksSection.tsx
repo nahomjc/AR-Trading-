@@ -97,8 +97,7 @@ const latestWorks: Record<TabName, WorkItem[]> = {
     {
       title: "Logo Design",
       desc: "Distinctive logos that represent your brand identity",
-      image:
-        "https://images.unsplash.com/photo-1465101178521-c1a9136a3b99?auto=format&fit=crop&w=600&q=80",
+      image: "/img/ars.png",
       client: "Various Clients",
     },
     {
@@ -417,7 +416,7 @@ const LatestWorksSection = () => {
                               src={work.image}
                               alt={work.title}
                               fill
-                              className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
+                              className="object-contain group-hover/card:scale-110 transition-transform duration-700 ease-out p-2"
                               loading="lazy"
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             />
@@ -594,7 +593,7 @@ const LatestWorksSection = () => {
                               src={work.image}
                               alt={work.title}
                               fill
-                              className="object-cover group-hover/card:scale-110 transition-transform duration-700 ease-out"
+                              className="object-contain group-hover/card:scale-110 transition-transform duration-700 ease-out p-2"
                               loading="lazy"
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             />
