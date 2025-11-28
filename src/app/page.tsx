@@ -17,9 +17,9 @@ const ChatBot = dynamic(() => import("./components/ChatBot"), {
 const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
   ssr: false,
 });
-const WhoWeAreSection = dynamic(() => import("./components/WhoWeAreSection"), {
-  ssr: false,
-});
+// const WhoWeAreSection = dynamic(() => import("./components/WhoWeAreSection"), {
+//   ssr: false,
+// });
 const LatestWorksSection = dynamic(
   () => import("./components/LatestWorksSection"),
   {
@@ -29,6 +29,12 @@ const LatestWorksSection = dynamic(
 const ContactSection = dynamic(() => import("./components/ContactSection"), {
   ssr: false,
 });
+const TrustedBySection = dynamic(
+  () => import("./components/TrustedBySection"),
+  {
+    ssr: false,
+  }
+);
 const CustomCursor = dynamic(() => import("./components/CustomCursor"), {
   ssr: false,
 });
@@ -87,8 +93,10 @@ export default function Home() {
       <main className="relative z-10">
         <HeroSection />
         <ServicesSection />
-        <WhoWeAreSection />
+        <TrustedBySection />
+        {/* <WhoWeAreSection /> */}
         <LatestWorksSection />
+
         <ContactSection />
       </main>
       <Footer />

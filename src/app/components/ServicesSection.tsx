@@ -11,7 +11,6 @@ import {
   IconVideo,
   IconWorld,
   IconCalendarEvent,
-  IconBook,
 } from "@tabler/icons-react";
 
 // Services Section
@@ -115,21 +114,6 @@ const ServicesSection = () => {
       subtitle: "Our Services:",
       buttonText: "Plan Your Event",
     },
-    {
-      title: "Training & Development",
-      description: "Empower your team with skills that drive success.",
-      icon: IconBook,
-      color: "from-indigo-500/20 to-purple-500/20",
-      iconColor: "text-indigo-400",
-      features: [
-        "Corporate & Media Trainings",
-        "Personal Development",
-        "Media Training",
-        "Workshops",
-      ],
-      subtitle: "Our Services:",
-      buttonText: "Book a Training",
-    },
   ];
 
   // Auto-play functionality
@@ -145,6 +129,7 @@ const ServicesSection = () => {
     <section
       id="services"
       className="py-20 sm:py-32 px-2 sm:px-4 lg:px-8 relative overflow-hidden"
+      style={{ touchAction: "pan-y" }}
     >
       {/* Creative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -187,24 +172,30 @@ const ServicesSection = () => {
             ease: "easeInOut",
           }}
         />
-        
+
         {/* Geometric Pattern Overlay */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(199,157,109,0.3) 1px, transparent 0)`,
-            backgroundSize: '40px 40px',
-          }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, rgba(199,157,109,0.3) 1px, transparent 0)`,
+              backgroundSize: "40px 40px",
+            }}
+          />
         </div>
-        
+
         {/* Grid Pattern */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `
               linear-gradient(rgba(199,157,109,0.1) 1px, transparent 1px),
               linear-gradient(90deg, rgba(199,157,109,0.1) 1px, transparent 1px)
             `,
-            backgroundSize: '50px 50px',
-          }} />
+              backgroundSize: "50px 50px",
+            }}
+          />
         </div>
       </div>
 
@@ -235,7 +226,7 @@ const ServicesSection = () => {
             {services.map((service, index) => (
               <motion.div
                 key={index}
-                className={`relative overflow-hidden rounded-2xl p-8 group transition-all duration-500 ${
+                className={`relative overflow-hidden rounded-2xl p-8 group transition-all duration-500 touch-pan-y ${
                   index === activeIndex
                     ? "bg-gradient-to-br from-[#C69c6c]/20 via-[#d4a574]/20 to-[#C69c6c]/20 border-2 border-[#C69c6c]/50 shadow-2xl shadow-[#C69c6c]/20"
                     : "bg-gradient-to-br from-white/5 via-white/10 to-white/5 border border-white/20 hover:border-[#C69c6c]/30"
@@ -247,12 +238,13 @@ const ServicesSection = () => {
                 whileHover={{
                   scale: 1.05,
                   y: -15,
-                  transition: { type: "spring", stiffness: 300 },
+                  transition: { type: "spring", stiffness: 300, damping: 20 },
                 }}
+                style={{ willChange: "transform" }}
               >
                 {/* Creative Animated Background */}
                 <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-30 group-hover:opacity-50 transition-opacity duration-500`}
+                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-30 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none`}
                   animate={{
                     scale: index === activeIndex ? [1, 1.1, 1] : 1,
                   }}
@@ -265,9 +257,16 @@ const ServicesSection = () => {
 
                 {/* Animated Gradient Mesh */}
                 <motion.div
-                  className={`absolute inset-0 opacity-20 group-hover:opacity-30 bg-gradient-radial from-transparent via-transparent to-${service.color.split(' ')[0].replace('from-', '').replace('/20', '')}/20`}
+                  className={`absolute inset-0 opacity-20 group-hover:opacity-30 bg-gradient-radial from-transparent via-transparent to-${service.color
+                    .split(" ")[0]
+                    .replace("from-", "")
+                    .replace("/20", "")}/20 pointer-events-none`}
                   style={{
-                    background: `radial-gradient(circle at ${index % 2 === 0 ? '20%' : '80'}% ${index % 3 === 0 ? '30%' : '70%'}, rgba(199,157,109,0.2), transparent 60%)`,
+                    background: `radial-gradient(circle at ${
+                      index % 2 === 0 ? "20%" : "80"
+                    }% ${
+                      index % 3 === 0 ? "30%" : "70%"
+                    }, rgba(199,157,109,0.2), transparent 60%)`,
                   }}
                   animate={{
                     x: [0, 20, 0],
@@ -284,7 +283,7 @@ const ServicesSection = () => {
                 {[...Array(3)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className="absolute w-2 h-2 bg-[#C79D6D]/30 rounded-full blur-sm"
+                    className="absolute w-2 h-2 bg-[#C79D6D]/30 rounded-full blur-sm pointer-events-none"
                     style={{
                       left: `${20 + i * 30}%`,
                       top: `${30 + i * 20}%`,
@@ -305,7 +304,7 @@ const ServicesSection = () => {
 
                 {/* Geometric Shapes */}
                 <motion.div
-                  className="absolute top-4 right-4 w-20 h-20 border-2 border-[#C79D6D]/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute top-4 right-4 w-20 h-20 border-2 border-[#C79D6D]/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   animate={{
                     rotate: [0, 90, 0],
                   }}
@@ -316,7 +315,7 @@ const ServicesSection = () => {
                   }}
                 />
                 <motion.div
-                  className="absolute bottom-4 left-4 w-16 h-16 border-2 border-[#C79D6D]/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="absolute bottom-4 left-4 w-16 h-16 border-2 border-[#C79D6D]/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   animate={{
                     scale: [1, 1.2, 1],
                   }}
@@ -409,7 +408,7 @@ const ServicesSection = () => {
 
                 {/* Hover Effect Overlay */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-[#C69c6c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+                  className="absolute inset-0 bg-gradient-to-t from-[#C69c6c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none touch-none"
                   initial={false}
                 />
               </motion.div>

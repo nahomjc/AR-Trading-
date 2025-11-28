@@ -368,7 +368,8 @@ const TeamSection = () => {
             transition={{ duration: 1, delay: 0.5 }}
             viewport={{ once: true }}
           >
-            Our success comes from a passionate team of professionals who blend creativity with technical skills to deliver outstanding results.
+            Our success comes from a passionate team of professionals who blend
+            creativity with technical skills to deliver outstanding results.
           </motion.p>
         </motion.div>
 
@@ -401,7 +402,7 @@ const TeamSection = () => {
               >
                 {/* Animated Background Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/5 via-transparent to-[#C79D6D]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                
+
                 {/* Radial Gradient Overlay */}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(199,157,109,0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 

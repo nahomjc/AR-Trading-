@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import {
-  IconCode,
   IconChartLine,
   IconPalette,
   IconPrinter,
@@ -34,7 +33,6 @@ type WorkItem = {
 const tabNames = [
   "Digital Marketing",
   "Media Production",
-  "Web Development",
   "Branding",
   "Advertising & Printing",
 ] as const;
@@ -42,7 +40,6 @@ const tabNames = [
 type TabName = (typeof tabNames)[number];
 
 const tabIcons: Record<TabName, React.ComponentType<{ className?: string }>> = {
-  "Web Development": IconCode,
   "Digital Marketing": IconChartLine,
   Branding: IconPalette,
   "Media Production": IconVideo,
@@ -51,7 +48,6 @@ const tabIcons: Record<TabName, React.ComponentType<{ className?: string }>> = {
 
 const tabColors: Record<TabName, string> = {
   "Digital Marketing": "from-blue-500/20 via-purple-500/20 to-blue-500/20",
-  "Web Development": "from-cyan-500/20 via-blue-500/20 to-cyan-500/20",
   Branding: "from-pink-500/20 via-purple-500/20 to-pink-500/20",
   "Media Production": "from-green-500/20 via-teal-500/20 to-green-500/20",
   "Advertising & Printing":
@@ -95,29 +91,6 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       desc: "Unified brand presence",
       image: "/img/social-media-post-designs/6.jpg",
       client: "EthioLearn Platform",
-    },
-  ],
-  "Web Development": [
-    {
-      title: "Websites & Portfolios",
-      desc: "Modern, responsive websites built to perform",
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Corporations",
-    },
-    {
-      title: "E-commerce Platforms",
-      desc: "Advanced e-commerce solutions for online businesses",
-      image:
-        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Businesses",
-    },
-    {
-      title: "Web Applications",
-      desc: "Custom web applications for business operations",
-      image:
-        "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Business Organizations",
     },
   ],
   Branding: [
@@ -168,39 +141,16 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   ],
   "Advertising & Printing": [
     {
-      title: "Billboards & Banners",
-      desc: "Large format printing and design",
-      image:
-        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
+      title: "Roll-up Banner Design",
+      desc: "Professional roll-up banner design for effective marketing",
+      image: "/img/advert/Free_Roll-up_Mockup_1.png",
+      client: "AR Solutions",
     },
     {
-      title: "Flyers & Posters",
-      desc: "Print marketing materials",
-      image:
-        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Vehicle Branding",
-      desc: "Mobile advertising solutions",
-      image:
-        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Shop Signs",
-      desc: "Custom signage solutions",
-      image:
-        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
-    },
-    {
-      title: "Outdoor Campaigns",
-      desc: "Comprehensive outdoor marketing",
-      image:
-        "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=600&q=80",
-      client: "Various Clients",
+      title: "Advertising & Printing Services",
+      desc: "High-quality advertising and printing solutions",
+      image: "/img/advert/photo_2025-11-28_16-12-28.jpg",
+      client: "AR Solutions",
     },
   ],
 };
@@ -861,7 +811,7 @@ const LatestWorksSection = () => {
                     initial={{ opacity: 0, scale: 0.96 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.15, duration: 0.5, ease: "easeOut" }}
-                    className="relative max-w-full max-h-full w-full"
+                    className="relative max-w-full max-h-full w-full flex items-center justify-center"
                   >
                     {selectedVideo ? (
                       /* Professional Video Player */
@@ -892,14 +842,14 @@ const LatestWorksSection = () => {
                       </div>
                     ) : (
                       /* Image Frame */
-                      <div className="relative p-2 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 shadow-2xl">
-                        <div className="relative overflow-hidden rounded-xl">
+                      <div className="relative p-2 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 shadow-2xl mx-auto">
+                        <div className="relative overflow-hidden rounded-xl flex items-center justify-center">
                           <Image
                             src={selectedImage!}
                             alt="Preview"
                             width={1600}
                             height={1200}
-                            className="w-auto h-auto max-w-full max-h-[70vh] object-contain"
+                            className="w-auto h-auto max-w-full max-h-[70vh] object-contain mx-auto"
                             priority
                             quality={100}
                           />
