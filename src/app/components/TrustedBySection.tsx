@@ -9,17 +9,17 @@ const TrustedBySection = () => {
     {
       name: "Olfine",
       logo: "/img/client/Olfine-Logo-White.png",
-      width: 140,
+      width: 180,
     },
     {
       name: "Happiness",
       logo: "/img/client/happiness_logo.png",
-      width: 120,
+      width: 160,
     },
     {
       name: "Partner",
       logo: "/img/client/image-removebg-preview.png",
-      width: 130,
+      width: 170,
     },
   ];
 
@@ -99,13 +99,13 @@ const TrustedBySection = () => {
               whileHover={{ scale: 1.05, y: -5 }}
             >
               {/* Client Logo Card */}
-              <div className="relative h-28 w-48 sm:h-32 sm:w-56 flex items-center justify-center p-6 bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-md rounded-2xl border border-white/10 group-hover/logo:border-[#C79D6D]/40 group-hover/logo:bg-white/10 transition-all duration-500 shadow-lg group-hover/logo:shadow-xl group-hover/logo:shadow-[#C79D6D]/20">
+              <div className="relative h-36 w-56 sm:h-40 sm:w-64 lg:h-44 lg:w-72 flex items-center justify-center p-6 bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-md rounded-2xl border border-white/10 group-hover/logo:border-[#C79D6D]/40 group-hover/logo:bg-white/10 transition-all duration-500 shadow-lg group-hover/logo:shadow-xl group-hover/logo:shadow-[#C79D6D]/20">
                 <Image
                   src={client.logo}
                   alt={`${client.name} Logo`}
                   width={client.width}
-                  height={80}
-                  className="object-contain max-h-16 sm:max-h-20 w-auto opacity-70 group-hover/logo:opacity-100 transition-opacity duration-300 filter brightness-0 invert group-hover/logo:brightness-100 group-hover/logo:invert-0"
+                  height={100}
+                  className="object-contain max-h-24 sm:max-h-28 lg:max-h-32 w-auto opacity-70 group-hover/logo:opacity-100 transition-opacity duration-300 filter brightness-0 invert group-hover/logo:brightness-100 group-hover/logo:invert-0"
                 />
 
                 {/* Glow Effect */}
@@ -157,4 +157,3 @@ const TrustedBySection = () => {
 };
 
 export default TrustedBySection;
-
