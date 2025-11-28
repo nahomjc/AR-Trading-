@@ -235,12 +235,6 @@ const ServicesSection = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{
-                  scale: 1.05,
-                  y: -15,
-                  transition: { type: "spring", stiffness: 300, damping: 20 },
-                }}
-                style={{ willChange: "transform" }}
               >
                 {/* Creative Animated Background */}
                 <motion.div
@@ -327,11 +321,7 @@ const ServicesSection = () => {
                 />
 
                 {/* Icon Container */}
-                <motion.div
-                  className="relative mb-6 group-hover:scale-110 transition-transform duration-300"
-                  whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }}
-                  transition={{ duration: 0.5 }}
-                >
+                <div className="relative mb-6 group-hover:scale-110 transition-transform duration-300">
                   <div
                     className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center backdrop-blur-sm border border-white/20`}
                   >
@@ -344,7 +334,7 @@ const ServicesSection = () => {
                       );
                     })()}
                   </div>
-                </motion.div>
+                </div>
 
                 {/* Content */}
                 <div className="relative">
@@ -381,10 +371,8 @@ const ServicesSection = () => {
                   </div>
 
                   {/* Service Button */}
-                  <motion.button
+                  <button
                     className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#C79D6D]/25"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
@@ -403,7 +391,7 @@ const ServicesSection = () => {
                     }}
                   >
                     {service.buttonText || "Get a Free Quote"}
-                  </motion.button>
+                  </button>
                 </div>
 
                 {/* Hover Effect Overlay */}
