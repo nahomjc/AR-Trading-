@@ -151,7 +151,7 @@ const latestWorks: Record<TabName, WorkItem[]> = {
     {
       title: "Advertising & Printing Services",
       desc: "High-quality advertising and printing solutions",
-      image: "/img/advert/photo_2025-11-28_16-12-28.jpg",
+      image: "/img/advert/banner1.jpg",
       client: "AR Solutions",
     },
   ],
