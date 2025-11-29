@@ -152,6 +152,19 @@ const ServicesSection = () => {
     return () => clearInterval(interval);
   }, [services.length]);
 
+  // Scroll modal into view when it opens
+  useEffect(() => {
+    if (isModalOpen) {
+      // Small delay to ensure modal is rendered
+      setTimeout(() => {
+        const modal = document.querySelector("[data-modal-content]");
+        if (modal) {
+          modal.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 100);
+    }
+  }, [isModalOpen]);
+
   return (
     <section
       id="services"
@@ -424,19 +437,21 @@ const ServicesSection = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 overflow-y-auto"
             onClick={() => setIsModalOpen(false)}
+            style={{ scrollBehavior: "smooth" }}
           >
             {/* Backdrop */}
             <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
 
             {/* Modal Content */}
             <motion.div
+              data-modal-content
               initial={{ scale: 0.9, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.9, opacity: 0, y: 50 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden backdrop-blur-xl"
+              className="relative bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden backdrop-blur-xl my-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
