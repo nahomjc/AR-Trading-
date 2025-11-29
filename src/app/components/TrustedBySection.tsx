@@ -10,6 +10,21 @@ const TrustedBySection = () => {
     (typeof clients)[0] | null
   >(null);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(
+        typeof window !== "undefined" &&
+          /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+            navigator.userAgent
+          )
+      );
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   const clients = [
     {
@@ -176,7 +191,7 @@ const TrustedBySection = () => {
       </div>
 
       {/* Confetti Component */}
-      {showConfetti && <ConfettiExplosion />}
+      {showConfetti && <ConfettiExplosion isMobile={isMobile} />}
 
       {/* Partner Modal */}
       <AnimatePresence>
@@ -189,63 +204,77 @@ const TrustedBySection = () => {
             onClick={handleCloseModal}
             style={{ scrollBehavior: "smooth" }}
           >
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+            {/* Backdrop - Reduced blur on mobile */}
+            <div
+              className={`absolute inset-0 bg-black/80 ${
+                isMobile ? "backdrop-blur-none" : "backdrop-blur-sm"
+              }`}
+            />
 
             {/* Modal Content */}
             <motion.div
               initial={{ scale: 0.8, opacity: 0, y: 50 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.8, opacity: 0, y: 50 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              transition={{
+                type: isMobile ? "tween" : "spring",
+                damping: isMobile ? 30 : 25,
+                stiffness: isMobile ? 200 : 300,
+                duration: isMobile ? 0.3 : undefined,
+              }}
               className="relative bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden backdrop-blur-xl my-auto"
               onClick={(e) => e.stopPropagation()}
+              style={{ willChange: "transform" }}
             >
-              {/* Animated Background Particles */}
-              <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                {[...Array(15)].map((_, i) => (
-                  <motion.div
-                    key={`particle-${i}`}
-                    className="absolute w-1 h-1 bg-[#C79D6D] rounded-full"
-                    style={{
-                      left: `${Math.random() * 100}%`,
-                      top: `${Math.random() * 100}%`,
-                    }}
-                    animate={{
-                      y: [0, -30, 0],
-                      opacity: [0.3, 0.8, 0.3],
-                      scale: [1, 1.5, 1],
-                    }}
-                    transition={{
-                      duration: 3 + Math.random() * 2,
-                      repeat: Number.POSITIVE_INFINITY,
-                      delay: Math.random() * 2,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
-              </div>
+              {/* Animated Background Particles - Reduced on mobile */}
+              {!isMobile && (
+                <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                  {[...Array(15)].map((_, i) => (
+                    <motion.div
+                      key={`particle-${i}`}
+                      className="absolute w-1 h-1 bg-[#C79D6D] rounded-full"
+                      style={{
+                        left: `${Math.random() * 100}%`,
+                        top: `${Math.random() * 100}%`,
+                      }}
+                      animate={{
+                        y: [0, -30, 0],
+                        opacity: [0.3, 0.8, 0.3],
+                        scale: [1, 1.5, 1],
+                      }}
+                      transition={{
+                        duration: 3 + Math.random() * 2,
+                        repeat: Number.POSITIVE_INFINITY,
+                        delay: Math.random() * 2,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
 
-              {/* Animated Border Glow */}
-              <motion.div
-                className="absolute inset-0 rounded-3xl"
-                style={{
-                  background:
-                    "linear-gradient(45deg, #C79D6D, #d4a574, #C79D6D)",
-                  backgroundSize: "200% 200%",
-                  opacity: 0.3,
-                  filter: "blur(20px)",
-                  zIndex: -1,
-                }}
-                animate={{
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "linear",
-                }}
-              />
+              {/* Animated Border Glow - Simplified on mobile */}
+              {!isMobile && (
+                <motion.div
+                  className="absolute inset-0 rounded-3xl"
+                  style={{
+                    background:
+                      "linear-gradient(45deg, #C79D6D, #d4a574, #C79D6D)",
+                    backgroundSize: "200% 200%",
+                    opacity: 0.3,
+                    filter: "blur(20px)",
+                    zIndex: -1,
+                  }}
+                  animate={{
+                    backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Number.POSITIVE_INFINITY,
+                    ease: "linear",
+                  }}
+                />
+              )}
 
               {/* Close Button */}
               <motion.button
@@ -295,27 +324,33 @@ const TrustedBySection = () => {
 
                 {/* Company Logo with Enhanced Effects */}
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.3, rotate: -180 }}
+                  initial={{
+                    opacity: 0,
+                    scale: 0.3,
+                    rotate: isMobile ? 0 : -180,
+                  }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
                   transition={{
                     delay: 0.4,
                     type: "spring",
-                    stiffness: 200,
-                    damping: 15,
+                    stiffness: isMobile ? 100 : 200,
+                    damping: isMobile ? 20 : 15,
                   }}
                   className="flex justify-center"
                 >
                   <div className="relative p-10 bg-gradient-to-br from-white/15 via-white/8 to-white/15 rounded-3xl border-2 border-[#C79D6D]/30 backdrop-blur-sm shadow-2xl">
-                    {/* Rotating Ring */}
-                    <motion.div
-                      className="absolute inset-0 rounded-3xl border-2 border-[#C79D6D]/20"
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 20,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: "linear",
-                      }}
-                    />
+                    {/* Rotating Ring - Disabled on mobile */}
+                    {!isMobile && (
+                      <motion.div
+                        className="absolute inset-0 rounded-3xl border-2 border-[#C79D6D]/20"
+                        animate={{ rotate: 360 }}
+                        transition={{
+                          duration: 20,
+                          repeat: Number.POSITIVE_INFINITY,
+                          ease: "linear",
+                        }}
+                      />
+                    )}
                     <Image
                       src={selectedClient.logo}
                       alt={`${selectedClient.name} Logo`}
@@ -323,19 +358,23 @@ const TrustedBySection = () => {
                       height={180}
                       className="object-contain max-h-40 sm:max-h-48 w-auto relative z-10"
                     />
-                    {/* Enhanced Glow Effect */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/30 via-[#d4a574]/30 to-[#C79D6D]/30 blur-3xl opacity-60 -z-10 rounded-3xl"
-                      animate={{
-                        opacity: [0.4, 0.7, 0.4],
-                        scale: [1, 1.1, 1],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: "easeInOut",
-                      }}
-                    />
+                    {/* Enhanced Glow Effect - Static on mobile */}
+                    {isMobile ? (
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/30 via-[#d4a574]/30 to-[#C79D6D]/30 blur-3xl opacity-50 -z-10 rounded-3xl" />
+                    ) : (
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/30 via-[#d4a574]/30 to-[#C79D6D]/30 blur-3xl opacity-60 -z-10 rounded-3xl"
+                        animate={{
+                          opacity: [0.4, 0.7, 0.4],
+                          scale: [1, 1.1, 1],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Number.POSITIVE_INFINITY,
+                          ease: "easeInOut",
+                        }}
+                      />
+                    )}
                   </div>
                 </motion.div>
 
@@ -345,22 +384,28 @@ const TrustedBySection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 }}
                 >
-                  <motion.h4
-                    className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#C79D6D] via-[#FFD700] to-[#d4a574] bg-clip-text text-transparent font-outfit"
-                    animate={{
-                      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-                    }}
-                    transition={{
-                      duration: 3,
-                      repeat: Number.POSITIVE_INFINITY,
-                      ease: "linear",
-                    }}
-                    style={{
-                      backgroundSize: "200% 200%",
-                    }}
-                  >
-                    {selectedClient.name}
-                  </motion.h4>
+                  {isMobile ? (
+                    <h4 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#C79D6D] via-[#FFD700] to-[#d4a574] bg-clip-text text-transparent font-outfit">
+                      {selectedClient.name}
+                    </h4>
+                  ) : (
+                    <motion.h4
+                      className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#C79D6D] via-[#FFD700] to-[#d4a574] bg-clip-text text-transparent font-outfit"
+                      animate={{
+                        backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "linear",
+                      }}
+                      style={{
+                        backgroundSize: "200% 200%",
+                      }}
+                    >
+                      {selectedClient.name}
+                    </motion.h4>
+                  )}
                 </motion.div>
 
                 {/* Enhanced Decorative Elements */}
@@ -401,7 +446,7 @@ const TrustedBySection = () => {
 };
 
 // Confetti Explosion Component
-const ConfettiExplosion = () => {
+const ConfettiExplosion = ({ isMobile }: { isMobile: boolean }) => {
   const [windowHeight, setWindowHeight] = useState(1000);
   const [windowWidth, setWindowWidth] = useState(1000);
 
@@ -426,15 +471,19 @@ const ConfettiExplosion = () => {
     "#5F27CD",
   ];
 
-  // Create multiple types of confetti pieces
+  // Create multiple types of confetti pieces - Reduced on mobile
   const createConfetti = () => {
     const pieces = [];
     const centerX = windowWidth / 2;
     const centerY = windowHeight / 2;
 
+    // Reduced particle count on mobile
+    const burstCount = isMobile ? 20 : 100;
+    const fallCount = isMobile ? 15 : 80;
+
     // Burst from center
-    for (let i = 0; i < 100; i++) {
-      const angle = (Math.PI * 2 * i) / 100;
+    for (let i = 0; i < burstCount; i++) {
+      const angle = (Math.PI * 2 * i) / burstCount;
       const velocity = 300 + Math.random() * 200;
       const distance = velocity * (1.5 + Math.random());
 
@@ -442,31 +491,33 @@ const ConfettiExplosion = () => {
         id: `burst-${i}`,
         type: Math.random() > 0.5 ? "circle" : "rect",
         color: colors[Math.floor(Math.random() * colors.length)],
-        size: 6 + Math.random() * 8,
+        size: isMobile ? 4 + Math.random() * 4 : 6 + Math.random() * 8,
         startX: centerX,
         startY: centerY,
         endX: centerX + Math.cos(angle) * distance,
         endY: centerY + Math.sin(angle) * distance + Math.random() * 200,
-        rotation: Math.random() * 720 - 360,
+        rotation:
+          Math.random() * (isMobile ? 180 : 720) - (isMobile ? 90 : 360),
         delay: Math.random() * 0.2,
-        duration: 1.5 + Math.random() * 1,
+        duration: isMobile ? 1 + Math.random() * 0.5 : 1.5 + Math.random() * 1,
       });
     }
 
     // Falling confetti from top
-    for (let i = 0; i < 80; i++) {
+    for (let i = 0; i < fallCount; i++) {
       pieces.push({
         id: `fall-${i}`,
         type: Math.random() > 0.6 ? "circle" : "rect",
         color: colors[Math.floor(Math.random() * colors.length)],
-        size: 5 + Math.random() * 6,
+        size: isMobile ? 3 + Math.random() * 3 : 5 + Math.random() * 6,
         startX: Math.random() * windowWidth,
         startY: -20,
-        endX: (Math.random() - 0.5) * 300,
+        endX: (Math.random() - 0.5) * (isMobile ? 150 : 300),
         endY: windowHeight + 100,
-        rotation: Math.random() * 720 - 360,
+        rotation:
+          Math.random() * (isMobile ? 180 : 720) - (isMobile ? 90 : 360),
         delay: 0.3 + Math.random() * 0.5,
-        duration: 2 + Math.random() * 1.5,
+        duration: isMobile ? 1.5 + Math.random() * 1 : 2 + Math.random() * 1.5,
       });
     }
 
@@ -491,7 +542,9 @@ const ConfettiExplosion = () => {
                 ? `${piece.size}px`
                 : `${piece.size * 0.6}px`,
             borderRadius: piece.type === "circle" ? "50%" : "2px",
-            boxShadow: `0 0 ${piece.size}px ${piece.color}`,
+            boxShadow: isMobile ? "none" : `0 0 ${piece.size}px ${piece.color}`,
+            willChange: "transform",
+            transform: "translateZ(0)",
           }}
           initial={{
             x: 0,
@@ -515,31 +568,32 @@ const ConfettiExplosion = () => {
         />
       ))}
 
-      {/* Sparkle effects */}
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={`sparkle-${i}`}
-          className="absolute w-2 h-2"
-          style={{
-            left: `${50 + (Math.random() - 0.5) * 20}%`,
-            top: `${50 + (Math.random() - 0.5) * 20}%`,
-          }}
-          initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: [0, 1, 0],
-            scale: [0, 1.5, 0],
-            rotate: 360,
-          }}
-          transition={{
-            duration: 1.5,
-            delay: i * 0.1,
-            repeat: 2,
-            ease: "easeOut",
-          }}
-        >
-          <div className="w-full h-full bg-gradient-to-br from-[#C79D6D] to-[#FFD700] rounded-full blur-sm"></div>
-        </motion.div>
-      ))}
+      {/* Sparkle effects - Reduced on mobile */}
+      {!isMobile &&
+        [...Array(20)].map((_, i) => (
+          <motion.div
+            key={`sparkle-${i}`}
+            className="absolute w-2 h-2"
+            style={{
+              left: `${50 + (Math.random() - 0.5) * 20}%`,
+              top: `${50 + (Math.random() - 0.5) * 20}%`,
+            }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: [0, 1, 0],
+              scale: [0, 1.5, 0],
+              rotate: 360,
+            }}
+            transition={{
+              duration: 1.5,
+              delay: i * 0.1,
+              repeat: 2,
+              ease: "easeOut",
+            }}
+          >
+            <div className="w-full h-full bg-gradient-to-br from-[#C79D6D] to-[#FFD700] rounded-full blur-sm"></div>
+          </motion.div>
+        ))}
     </div>
   );
 };
