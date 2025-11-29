@@ -44,6 +44,12 @@ const CustomCursor = dynamic(() => import("./components/CustomCursor"), {
 const ScrollToTop = dynamic(() => import("./components/ScrollToTop"), {
   ssr: false,
 });
+const SocialMediaModal = dynamic(
+  () => import("./components/SocialMediaModal"),
+  {
+    ssr: false,
+  }
+);
 
 // Utility to detect mobile devices
 const isMobile = () =>
@@ -106,6 +112,7 @@ export default function Home() {
       <Footer />
       <ChatBot />
       <ScrollToTop />
+      <SocialMediaModal />
       {isDesktop && <CustomCursor />}
     </div>
   );

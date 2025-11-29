@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 // Custom Creative Cursor Component
 const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
+  const [isOverModal, setIsOverModal] = useState(false);
   const rafId = useRef<number | null>(null);
   const cursorRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -41,6 +42,8 @@ const CustomCursor = () => {
       
       throttleTimeout = setTimeout(() => {
         const target = e.target as HTMLElement;
+        const isModal = !!target.closest('[data-modal-content], [class*="z-[10000]"], [class*="z-[9999]"]');
+        setIsOverModal(isModal);
         setIsHovering(
           target.tagName === "A" ||
             target.tagName === "BUTTON" ||
@@ -70,21 +73,27 @@ const CustomCursor = () => {
       {/* Main cursor dot - optimized with direct CSS transforms */}
       <motion.div
         ref={cursorRef}
-        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[9999] mix-blend-difference will-change-transform"
+        className="fixed top-0 left-0 w-4 h-4 pointer-events-none z-[10001] will-change-transform"
+        style={{ mixBlendMode: isOverModal ? "normal" : "difference" }}
         animate={{
           scale: isHovering ? 1.5 : 1,
-          opacity: isHovering ? 0.8 : 0.6,
+          opacity: isOverModal ? 1 : isHovering ? 0.9 : 0.7,
         }}
         transition={{ duration: 0.2, ease: "easeOut" }}
       >
         <div
           className="w-full h-full rounded-full shadow-lg"
           style={{
-            background: `
-              radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.3) 0%, transparent 50%),
-              radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
-              linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%)
-            `,
+            background: isOverModal
+              ? `
+                radial-gradient(circle at 25% 25%, rgba(199, 157, 109, 0.9) 0%, rgba(199, 157, 109, 0.7) 50%, transparent 100%),
+                linear-gradient(135deg, rgba(199, 157, 109, 0.95) 0%, rgba(212, 165, 116, 0.85) 100%)
+              `
+              : `
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
+                radial-gradient(circle at 75% 75%, rgba(199, 157, 109, 0.8) 0%, rgba(199, 157, 109, 0.6) 50%, transparent 100%),
+                linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%)
+              `,
           }}
         />
       </motion.div>
@@ -92,20 +101,29 @@ const CustomCursor = () => {
       {/* Outer ring - simplified animation */}
       <motion.div
         ref={ringRef}
-        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[9998] will-change-transform"
+        className="fixed top-0 left-0 w-8 h-8 pointer-events-none z-[10000] will-change-transform"
+        style={{ mixBlendMode: isOverModal ? "normal" : "difference" }}
         animate={{
           scale: isHovering ? 1.2 : 1,
+          opacity: isOverModal ? 0.9 : isHovering ? 0.8 : 0.6,
         }}
         transition={{ duration: 0.3, ease: "easeOut" }}
       >
         <div
           className="w-full h-full rounded-full border-2"
           style={{
-            borderColor: "rgba(59, 130, 246, 0.5)",
-            background: `
-              radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.1) 0%, transparent 50%)
-            `,
+            borderColor: isOverModal
+              ? "rgba(199, 157, 109, 0.8)"
+              : "rgba(255, 255, 255, 0.8)",
+            background: isOverModal
+              ? `
+                radial-gradient(circle at 25% 25%, rgba(199, 157, 109, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(212, 165, 116, 0.2) 0%, transparent 50%)
+              `
+              : `
+                radial-gradient(circle at 25% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(199, 157, 109, 0.3) 0%, transparent 50%)
+              `,
           }}
         />
       </motion.div>
@@ -113,7 +131,7 @@ const CustomCursor = () => {
       {/* Ethiopian star cursor for special elements - only animate when hovering */}
       {isHovering && (
         <motion.div
-          className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[9996] will-change-transform"
+          className="fixed top-0 left-0 w-6 h-6 pointer-events-none z-[9999] will-change-transform"
           style={{
             x: lastPosRef.current.x - 12,
             y: lastPosRef.current.y - 12,
