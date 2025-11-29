@@ -17,10 +17,6 @@ import {
 } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
 
-const TestimonialsSection = dynamic(() => import("../TestimonialsSection"), {
-  ssr: false,
-});
-
 // Latest Works Section with Tabs
 type WorkItem = {
   title: string;
@@ -762,11 +758,6 @@ const LatestWorksSection = () => {
               </div>
             </motion.div>
           </AnimatePresence>
-        </div>
-
-        {/* Testimonials Section */}
-        <div className="mt-20">
-          <TestimonialsSection />
         </div>
       </div>
 

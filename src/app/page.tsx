@@ -35,14 +35,15 @@ const TrustedBySection = dynamic(
     ssr: false,
   }
 );
+const TestimonialsSection = dynamic(() => import("./TestimonialsSection"), {
+  ssr: false,
+});
 const CustomCursor = dynamic(() => import("./components/CustomCursor"), {
   ssr: false,
 });
 const ScrollToTop = dynamic(() => import("./components/ScrollToTop"), {
   ssr: false,
 });
-
-// Testimonials moved to LatestWorksSection
 
 // Utility to detect mobile devices
 const isMobile = () =>
@@ -97,6 +98,8 @@ export default function Home() {
         <TrustedBySection />
 
         <LatestWorksSection />
+
+        <TestimonialsSection />
 
         <ContactSection />
       </main>
