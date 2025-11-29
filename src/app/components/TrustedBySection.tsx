@@ -1,10 +1,16 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { IconX } from "@tabler/icons-react";
 
 const TrustedBySection = () => {
+  const [selectedClient, setSelectedClient] = useState<
+    (typeof clients)[0] | null
+  >(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+
   const clients = [
     {
       name: "Olfine",
@@ -22,6 +28,20 @@ const TrustedBySection = () => {
       width: 170,
     },
   ];
+
+  const handleCardClick = (
+    client: (typeof clients)[0],
+    event: React.MouseEvent
+  ) => {
+    setSelectedClient(client);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 4000);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedClient(null);
+    setShowConfetti(false);
+  };
 
   return (
     <section className="py-20 sm:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -85,8 +105,8 @@ const TrustedBySection = () => {
         <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12 lg:gap-16">
           {clients.map((client, index) => (
             <motion.div
-              key={index}
-              className="relative group/logo"
+              key={client.name}
+              className="relative group/logo cursor-pointer"
               initial={{ opacity: 0, scale: 0.8, y: 30 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               transition={{
@@ -97,6 +117,8 @@ const TrustedBySection = () => {
               }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={(e) => handleCardClick(client, e)}
             >
               {/* Client Logo Card */}
               <div className="relative h-36 w-56 sm:h-40 sm:w-64 lg:h-44 lg:w-72 flex items-center justify-center p-6 bg-gradient-to-br from-white/5 via-white/10 to-white/5 backdrop-blur-md rounded-2xl border border-white/10 group-hover/logo:border-[#C79D6D]/40 group-hover/logo:bg-white/10 transition-all duration-500 shadow-lg group-hover/logo:shadow-xl group-hover/logo:shadow-[#C79D6D]/20">
@@ -152,7 +174,373 @@ const TrustedBySection = () => {
           </div>
         </motion.div>
       </div>
+
+      {/* Confetti Component */}
+      {showConfetti && <ConfettiExplosion />}
+
+      {/* Partner Modal */}
+      <AnimatePresence>
+        {selectedClient && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 overflow-y-auto"
+            onClick={handleCloseModal}
+            style={{ scrollBehavior: "smooth" }}
+          >
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+            {/* Modal Content */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-3xl shadow-2xl max-w-2xl w-full overflow-hidden backdrop-blur-xl my-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Animated Background Particles */}
+              <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                {[...Array(15)].map((_, i) => (
+                  <motion.div
+                    key={`particle-${i}`}
+                    className="absolute w-1 h-1 bg-[#C79D6D] rounded-full"
+                    style={{
+                      left: `${Math.random() * 100}%`,
+                      top: `${Math.random() * 100}%`,
+                    }}
+                    animate={{
+                      y: [0, -30, 0],
+                      opacity: [0.3, 0.8, 0.3],
+                      scale: [1, 1.5, 1],
+                    }}
+                    transition={{
+                      duration: 3 + Math.random() * 2,
+                      repeat: Number.POSITIVE_INFINITY,
+                      delay: Math.random() * 2,
+                      ease: "easeInOut",
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Animated Border Glow */}
+              <motion.div
+                className="absolute inset-0 rounded-3xl"
+                style={{
+                  background:
+                    "linear-gradient(45deg, #C79D6D, #d4a574, #C79D6D)",
+                  backgroundSize: "200% 200%",
+                  opacity: 0.3,
+                  filter: "blur(20px)",
+                  zIndex: -1,
+                }}
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{
+                  duration: 3,
+                  repeat: Number.POSITIVE_INFINITY,
+                  ease: "linear",
+                }}
+              />
+
+              {/* Close Button */}
+              <motion.button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleCloseModal();
+                }}
+                className="absolute top-4 right-4 w-10 h-10 bg-white/[0.08] hover:bg-white/[0.15] backdrop-blur-md rounded-xl flex items-center justify-center text-white hover:text-[#C79D6D] transition-all duration-300 border border-white/10 hover:border-[#C79D6D]/40 z-50 cursor-pointer"
+                whileHover={{ scale: 1.1, rotate: 90 }}
+                whileTap={{ scale: 0.9 }}
+                style={{ pointerEvents: "auto" }}
+              >
+                <IconX className="w-5 h-5 pointer-events-none" />
+              </motion.button>
+
+              {/* Modal Content */}
+              <div className="p-8 sm:p-12 text-center space-y-8 relative z-0">
+                {/* Proud Message with Celebration Icon */}
+                <motion.div
+                  initial={{ opacity: 0, y: -20, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring" }}
+                >
+                  <motion.div
+                    className="text-5xl mb-4"
+                    animate={{
+                      rotate: [0, 10, -10, 0],
+                      scale: [1, 1.1, 1],
+                    }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0.4,
+                    }}
+                  >
+                    🎉
+                  </motion.div>
+                  <h3 className="text-3xl sm:text-4xl font-bold text-white mb-3 font-outfit">
+                    Proud to Work With
+                  </h3>
+                  <motion.div
+                    className="w-32 h-1 bg-gradient-to-r from-transparent via-[#C79D6D] to-transparent mx-auto"
+                    initial={{ width: 0 }}
+                    animate={{ width: "8rem" }}
+                    transition={{ delay: 0.5, duration: 0.5 }}
+                  />
+                </motion.div>
+
+                {/* Company Logo with Enhanced Effects */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.3, rotate: -180 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  transition={{
+                    delay: 0.4,
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 15,
+                  }}
+                  className="flex justify-center"
+                >
+                  <div className="relative p-10 bg-gradient-to-br from-white/15 via-white/8 to-white/15 rounded-3xl border-2 border-[#C79D6D]/30 backdrop-blur-sm shadow-2xl">
+                    {/* Rotating Ring */}
+                    <motion.div
+                      className="absolute inset-0 rounded-3xl border-2 border-[#C79D6D]/20"
+                      animate={{ rotate: 360 }}
+                      transition={{
+                        duration: 20,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "linear",
+                      }}
+                    />
+                    <Image
+                      src={selectedClient.logo}
+                      alt={`${selectedClient.name} Logo`}
+                      width={selectedClient.width * 1.8}
+                      height={180}
+                      className="object-contain max-h-40 sm:max-h-48 w-auto relative z-10"
+                    />
+                    {/* Enhanced Glow Effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/30 via-[#d4a574]/30 to-[#C79D6D]/30 blur-3xl opacity-60 -z-10 rounded-3xl"
+                      animate={{
+                        opacity: [0.4, 0.7, 0.4],
+                        scale: [1, 1.1, 1],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </div>
+                </motion.div>
+
+                {/* Company Name with Animation */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <motion.h4
+                    className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-[#C79D6D] via-[#FFD700] to-[#d4a574] bg-clip-text text-transparent font-outfit"
+                    animate={{
+                      backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                    }}
+                    transition={{
+                      duration: 3,
+                      repeat: Number.POSITIVE_INFINITY,
+                      ease: "linear",
+                    }}
+                    style={{
+                      backgroundSize: "200% 200%",
+                    }}
+                  >
+                    {selectedClient.name}
+                  </motion.h4>
+                </motion.div>
+
+                {/* Enhanced Decorative Elements */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.7, type: "spring" }}
+                  className="flex justify-center gap-3 items-center"
+                >
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={`star-${i}`}
+                      className="text-2xl"
+                      initial={{ scale: 0, rotate: 0 }}
+                      animate={{
+                        scale: [1, 1.3, 1],
+                        rotate: [0, 180, 360],
+                        opacity: [0.6, 1, 0.6],
+                      }}
+                      transition={{
+                        duration: 2,
+                        repeat: Number.POSITIVE_INFINITY,
+                        delay: i * 0.2,
+                        ease: "easeInOut",
+                      }}
+                    >
+                      ⭐
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
+  );
+};
+
+// Confetti Explosion Component
+const ConfettiExplosion = () => {
+  const [windowHeight, setWindowHeight] = useState(1000);
+  const [windowWidth, setWindowWidth] = useState(1000);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setWindowHeight(window.innerHeight);
+      setWindowWidth(window.innerWidth);
+    }
+  }, []);
+
+  const colors = [
+    "#C79D6D",
+    "#d4a574",
+    "#FFD700",
+    "#FF6B6B",
+    "#4ECDC4",
+    "#45B7D1",
+    "#96CEB4",
+    "#FFEAA7",
+    "#FF9FF3",
+    "#54A0FF",
+    "#5F27CD",
+  ];
+
+  // Create multiple types of confetti pieces
+  const createConfetti = () => {
+    const pieces = [];
+    const centerX = windowWidth / 2;
+    const centerY = windowHeight / 2;
+
+    // Burst from center
+    for (let i = 0; i < 100; i++) {
+      const angle = (Math.PI * 2 * i) / 100;
+      const velocity = 300 + Math.random() * 200;
+      const distance = velocity * (1.5 + Math.random());
+
+      pieces.push({
+        id: `burst-${i}`,
+        type: Math.random() > 0.5 ? "circle" : "rect",
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: 6 + Math.random() * 8,
+        startX: centerX,
+        startY: centerY,
+        endX: centerX + Math.cos(angle) * distance,
+        endY: centerY + Math.sin(angle) * distance + Math.random() * 200,
+        rotation: Math.random() * 720 - 360,
+        delay: Math.random() * 0.2,
+        duration: 1.5 + Math.random() * 1,
+      });
+    }
+
+    // Falling confetti from top
+    for (let i = 0; i < 80; i++) {
+      pieces.push({
+        id: `fall-${i}`,
+        type: Math.random() > 0.6 ? "circle" : "rect",
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: 5 + Math.random() * 6,
+        startX: Math.random() * windowWidth,
+        startY: -20,
+        endX: (Math.random() - 0.5) * 300,
+        endY: windowHeight + 100,
+        rotation: Math.random() * 720 - 360,
+        delay: 0.3 + Math.random() * 0.5,
+        duration: 2 + Math.random() * 1.5,
+      });
+    }
+
+    return pieces;
+  };
+
+  const confettiPieces = createConfetti();
+
+  return (
+    <div className="fixed inset-0 pointer-events-none z-[10001] overflow-hidden">
+      {confettiPieces.map((piece) => (
+        <motion.div
+          key={piece.id}
+          className="absolute"
+          style={{
+            left: `${piece.startX}px`,
+            top: `${piece.startY}px`,
+            backgroundColor: piece.color,
+            width: `${piece.size}px`,
+            height:
+              piece.type === "circle"
+                ? `${piece.size}px`
+                : `${piece.size * 0.6}px`,
+            borderRadius: piece.type === "circle" ? "50%" : "2px",
+            boxShadow: `0 0 ${piece.size}px ${piece.color}`,
+          }}
+          initial={{
+            x: 0,
+            y: 0,
+            rotate: 0,
+            opacity: 1,
+            scale: 1,
+          }}
+          animate={{
+            x: piece.endX,
+            y: piece.endY,
+            rotate: piece.rotation,
+            opacity: [1, 1, 0.8, 0],
+            scale: [1, 1.2, 0.8, 0],
+          }}
+          transition={{
+            duration: piece.duration,
+            delay: piece.delay,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          }}
+        />
+      ))}
+
+      {/* Sparkle effects */}
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={`sparkle-${i}`}
+          className="absolute w-2 h-2"
+          style={{
+            left: `${50 + (Math.random() - 0.5) * 20}%`,
+            top: `${50 + (Math.random() - 0.5) * 20}%`,
+          }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{
+            opacity: [0, 1, 0],
+            scale: [0, 1.5, 0],
+            rotate: 360,
+          }}
+          transition={{
+            duration: 1.5,
+            delay: i * 0.1,
+            repeat: 2,
+            ease: "easeOut",
+          }}
+        >
+          <div className="w-full h-full bg-gradient-to-br from-[#C79D6D] to-[#FFD700] rounded-full blur-sm"></div>
+        </motion.div>
+      ))}
+    </div>
   );
 };
 
