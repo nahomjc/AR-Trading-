@@ -74,12 +74,60 @@ const FAQS = [
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [fullScreen, setFullScreen] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
   const [messages, setMessages] = useState([
     { from: "bot", text: "Hello! How can I help you today?" },
   ]);
   const [input, setInput] = useState("");
   const [botTyping, setBotTyping] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatStateRef = useRef({ open, fullScreen });
+
+  // Auto-hide popup after 5 seconds
+  useEffect(() => {
+    if (showPopup && !open && !fullScreen) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup, open, fullScreen]);
+
+  // Update ref when state changes
+  useEffect(() => {
+    chatStateRef.current = { open, fullScreen };
+  }, [open, fullScreen]);
+
+  // Show popup at intervals (5-10 minutes)
+  useEffect(() => {
+    if (open || fullScreen) return;
+
+    let timer: NodeJS.Timeout | null = null;
+
+    const scheduleNextPopup = () => {
+      // Clear any existing timer
+      if (timer) clearTimeout(timer);
+
+      // Random time between 5-10 minutes (300000ms to 600000ms)
+      const interval = 300000 + Math.random() * 300000;
+
+      timer = setTimeout(() => {
+        // Check if chat is still closed using ref
+        if (!chatStateRef.current.open && !chatStateRef.current.fullScreen) {
+          setShowPopup(true);
+          // Schedule next popup
+          scheduleNextPopup();
+        }
+      }, interval);
+    };
+
+    // Initial delay before first popup (5-10 minutes)
+    scheduleNextPopup();
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
+  }, [open, fullScreen]);
 
   useEffect(() => {
     if ((open || fullScreen) && messagesEndRef.current) {
@@ -202,30 +250,114 @@ export default function ChatBot() {
       {/* Floating Button */}
       <AnimatePresence>
         {!open && !fullScreen && (
-          <motion.button
-            key="chatbot-btn"
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            className="bg-[#08243A] text-white rounded-full shadow-2xl w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center text-3xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#08243A]/40 border-2 border-[#08243A]/30 animate-pulse cursor-pointer"
-            aria-label="Open chat bot"
-            onClick={() => setOpen(true)}
-            style={{ cursor: "pointer" }}
-          >
-            <motion.div
-              initial={{ rotate: 0 }}
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 2 }}
-              className="w-14 h-14 sm:w-16 sm:h-16"
+          <div className="relative">
+            {/* Chat Popup */}
+            <AnimatePresence>
+              {showPopup && (
+                <motion.div
+                  initial={{ opacity: 0, x: 20, scale: 0.8, y: 0 }}
+                  animate={{ opacity: 1, x: 0, scale: 1, y: 0 }}
+                  exit={{ opacity: 0, x: 20, scale: 0.8, y: 0 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap z-50 hidden sm:block"
+                  onMouseEnter={() => setShowPopup(true)}
+                  onMouseLeave={() => setShowPopup(false)}
+                >
+                  <div className="relative bg-gradient-to-r from-[#C79D6D] to-[#d4a574] text-white px-4 py-2 rounded-xl shadow-2xl border border-white/20 backdrop-blur-sm">
+                    <p className="text-sm font-semibold font-outfit">
+                      Chat with me
+                    </p>
+                    {/* Arrow pointing to button */}
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-full">
+                      <div className="w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-l-8 border-l-[#d4a574]"></div>
+                    </div>
+                    {/* Animated dots */}
+                    <motion.div
+                      className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full"
+                      animate={{
+                        scale: [1, 1.3, 1],
+                        opacity: [0.8, 1, 0.8],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            
+            {/* Mobile Popup - Above button */}
+            <AnimatePresence>
+              {showPopup && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 10, scale: 0.8 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="absolute bottom-full mb-3 left-1/2 -translate-x-1/2 whitespace-nowrap z-50 sm:hidden"
+                >
+                  <div className="relative bg-gradient-to-r from-[#C79D6D] to-[#d4a574] text-white px-3 py-2 rounded-xl shadow-2xl border border-white/20 backdrop-blur-sm">
+                    <p className="text-xs font-semibold font-outfit">
+                      Chat with me
+                    </p>
+                    {/* Arrow pointing down to button */}
+                    <div className="absolute left-1/2 -translate-x-1/2 top-full">
+                      <div className="w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent border-t-8 border-t-[#d4a574]"></div>
+                    </div>
+                    {/* Animated dots */}
+                    <motion.div
+                      className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full"
+                      animate={{
+                        scale: [1, 1.3, 1],
+                        opacity: [0.8, 1, 0.8],
+                      }}
+                      transition={{
+                        duration: 1.5,
+                        repeat: Number.POSITIVE_INFINITY,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <motion.button
+              key="chatbot-btn"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              className="bg-[#08243A] text-white rounded-full shadow-2xl w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center text-3xl hover:scale-110 focus:outline-none focus:ring-4 focus:ring-[#08243A]/40 border-2 border-[#08243A]/30 animate-pulse cursor-pointer relative z-10"
+              aria-label="Open chat bot"
+              onClick={() => {
+                setOpen(true);
+                setShowPopup(false);
+              }}
+              onMouseEnter={() => setShowPopup(true)}
+              onMouseLeave={() => {
+                // Delay hiding to allow moving to popup
+                setTimeout(() => setShowPopup(false), 200);
+              }}
+              style={{ cursor: "pointer" }}
             >
-              <img
-                src="/img/Ai-icon.png"
-                alt="AI Chatbot"
-                className="w-full h-full object-contain"
-              />
-            </motion.div>
-          </motion.button>
+              <motion.div
+                initial={{ rotate: 0 }}
+                animate={{ rotate: [0, 10, -10, 0] }}
+                transition={{ repeat: Number.POSITIVE_INFINITY, duration: 2 }}
+                className="w-14 h-14 sm:w-16 sm:h-16"
+              >
+                <img
+                  src="/img/Ai-icon.png"
+                  alt="AI Chatbot"
+                  className="w-full h-full object-contain"
+                />
+              </motion.div>
+            </motion.button>
+          </div>
         )}
       </AnimatePresence>
       {/* Chat Window */}
