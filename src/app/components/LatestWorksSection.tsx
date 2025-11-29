@@ -145,7 +145,7 @@ const latestWorks: Record<TabName, WorkItem[]> = {
     {
       title: "Roll-up Banner Design",
       desc: "Professional roll-up banner design for effective marketing",
-      image: "/img/advert/Free_Roll-up_Mockup_1.png",
+      image: "/img/advert/Free_Roll-up_Mockup_1.jpg",
       client: "AR Solutions",
     },
     {
