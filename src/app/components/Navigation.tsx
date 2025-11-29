@@ -17,21 +17,32 @@ const Navigation = () => {
       setScrolled(window.scrollY > 20);
 
       const sections = ["home", "about", "services", "testimonials", "contact"];
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY + 150; // Offset for better detection
+      let currentSection = "home";
 
-      for (const section of sections) {
+      // Find the section that's most visible in the viewport
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
         const element = document.getElementById(section);
         if (element) {
           const { offsetTop, offsetHeight } = element;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
-            setActiveSection(section);
+          const sectionTop = offsetTop;
+          const sectionBottom = offsetTop + offsetHeight;
+
+          // Check if scroll position is within this section
+          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            currentSection = section;
+            break;
+          }
+          // Also check if we're past the top of this section but before the next
+          if (scrollPosition >= sectionTop) {
+            currentSection = section;
             break;
           }
         }
       }
+
+      setActiveSection(currentSection);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -39,8 +50,11 @@ const Navigation = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close menu on navigation
-  const handleNavClick = () => setMenuOpen(false);
+  // Close menu on navigation and set active section
+  const handleNavClick = (section: string) => {
+    setMenuOpen(false);
+    setActiveSection(section.toLowerCase());
+  };
 
   const navLinks = ["Home", "About", "Services", "Testimonials", "Contact"];
 
@@ -85,6 +99,19 @@ const Navigation = () => {
                 <motion.a
                   key={item}
                   href={`#${item.toLowerCase()}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item);
+                    const element = document.getElementById(item.toLowerCase());
+                    if (element) {
+                      const headerHeight = 80;
+                      const elementPosition = element.offsetTop - headerHeight;
+                      window.scrollTo({
+                        top: elementPosition,
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
                   className={`relative px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 font-growth ${
                     isActive
                       ? "text-[#C69c6c]"
@@ -162,17 +189,17 @@ const Navigation = () => {
                   className={`block h-0.5 w-5 bg-white mb-1.5 transition-all duration-300 ${
                     menuOpen ? "rotate-45 translate-y-2" : ""
                   }`}
-                ></span>
+                />
                 <span
                   className={`block h-0.5 w-5 bg-white mb-1.5 transition-all duration-300 ${
                     menuOpen ? "opacity-0" : ""
                   }`}
-                ></span>
+                />
                 <span
                   className={`block h-0.5 w-5 bg-white transition-all duration-300 ${
                     menuOpen ? "-rotate-45 -translate-y-2" : ""
                   }`}
-                ></span>
+                />
               </motion.div>
             </motion.button>
           </div>
@@ -193,7 +220,7 @@ const Navigation = () => {
         }}
       >
         {/* Decorative Top Border */}
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C69c6c]/60 to-transparent"></div>
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C69c6c]/60 to-transparent" />
 
         <div className="px-4 pt-3 pb-5 flex flex-col space-y-1">
           {navLinks.map((item, index) => {
@@ -220,8 +247,9 @@ const Navigation = () => {
                       ? "text-[#C69c6c] bg-[#C69c6c]/10 border border-[#C69c6c]/20"
                       : "text-gray-200 hover:text-white hover:bg-white/10 border border-transparent hover:border-white/10"
                   }`}
-                  onClick={() => {
-                    handleNavClick();
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item);
                     setTimeout(() => {
                       const element = document.getElementById(
                         item.toLowerCase()
@@ -278,7 +306,7 @@ const Navigation = () => {
         </div>
 
         {/* Decorative Bottom Border */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C69c6c]/40 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C69c6c]/40 to-transparent" />
       </motion.div>
     </motion.nav>
   );
