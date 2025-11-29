@@ -12,6 +12,9 @@ const CustomCursor = () => {
   const lastPosRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
+    let throttleTimeout: NodeJS.Timeout | null = null;
+    const throttleDelay = 16; // ~60fps
+
     const updateCursor = () => {
       const { x, y } = lastPosRef.current;
       if (cursorRef.current && ringRef.current) {
@@ -33,12 +36,18 @@ const CustomCursor = () => {
     };
 
     const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      setIsHovering(
-        target.tagName === "A" ||
-          target.tagName === "BUTTON" ||
-          !!target.closest("a, button, .hover-lift, .mirror-card")
-      );
+      // Throttle hover detection to reduce re-renders
+      if (throttleTimeout) return;
+      
+      throttleTimeout = setTimeout(() => {
+        const target = e.target as HTMLElement;
+        setIsHovering(
+          target.tagName === "A" ||
+            target.tagName === "BUTTON" ||
+            !!target.closest("a, button, .hover-lift, .mirror-card")
+        );
+        throttleTimeout = null;
+      }, throttleDelay);
     };
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true });
@@ -49,6 +58,9 @@ const CustomCursor = () => {
       document.removeEventListener("mouseover", handleMouseOver);
       if (rafId.current) {
         cancelAnimationFrame(rafId.current);
+      }
+      if (throttleTimeout) {
+        clearTimeout(throttleTimeout);
       }
     };
   }, []);

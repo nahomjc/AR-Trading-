@@ -156,13 +156,13 @@ const ServicesSection = () => {
     <section
       id="services"
       className="py-20 sm:py-32 px-2 sm:px-4 lg:px-8 relative overflow-hidden"
-      style={{ touchAction: "pan-y" }}
+      style={{ touchAction: "pan-y", contain: "layout style paint" }}
     >
-      {/* Creative Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Animated Gradient Orbs */}
+      {/* Creative Background Elements - Optimized */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none will-change-contents">
+        {/* Animated Gradient Orbs - Reduced blur and optimized */}
         <motion.div
-          className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/20 rounded-full blur-3xl"
+          className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/20 rounded-full blur-2xl will-change-transform"
           animate={{
             x: [0, 100, 0],
             y: [0, 50, 0],
@@ -170,12 +170,13 @@ const ServicesSection = () => {
           }}
           transition={{
             duration: 20,
-            repeat: Infinity,
+            repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
           }}
+          style={{ transform: "translateZ(0)" }}
         />
         <motion.div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
+          className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-2xl will-change-transform"
           animate={{
             x: [0, -100, 0],
             y: [0, -50, 0],
@@ -183,21 +184,10 @@ const ServicesSection = () => {
           }}
           transition={{
             duration: 25,
-            repeat: Infinity,
+            repeat: Number.POSITIVE_INFINITY,
             ease: "easeInOut",
           }}
-        />
-        <motion.div
-          className="absolute top-1/2 left-1/2 w-96 h-96 bg-purple-500/15 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
-          animate={{
-            scale: [1, 1.4, 1],
-            opacity: [0.3, 0.5, 0.3],
-          }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          style={{ transform: "translateZ(0)" }}
         />
 
         {/* Geometric Pattern Overlay */}
@@ -205,7 +195,8 @@ const ServicesSection = () => {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, rgba(199,157,109,0.3) 1px, transparent 0)`,
+              backgroundImage:
+                "radial-gradient(circle at 2px 2px, rgba(199,157,109,0.3) 1px, transparent 0)",
               backgroundSize: "40px 40px",
             }}
           />
@@ -252,7 +243,7 @@ const ServicesSection = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {services.map((service, index) => (
               <motion.div
-                key={index}
+                key={service.title}
                 className={`relative overflow-hidden rounded-2xl p-8 group transition-all duration-500 touch-pan-y ${
                   index === activeIndex
                     ? "bg-gradient-to-br from-[#C69c6c]/20 via-[#d4a574]/20 to-[#C69c6c]/20 border-2 border-[#C69c6c]/50 shadow-2xl shadow-[#C69c6c]/20"
@@ -263,31 +254,31 @@ const ServicesSection = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 viewport={{ once: true }}
               >
-                {/* Creative Animated Background */}
+                {/* Creative Animated Background - Optimized */}
                 <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-30 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none`}
+                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-30 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none will-change-transform`}
+                  style={{ transform: "translateZ(0)" }}
                   animate={{
                     scale: index === activeIndex ? [1, 1.1, 1] : 1,
                   }}
                   transition={{
                     duration: 3,
-                    repeat: index === activeIndex ? Infinity : 0,
+                    repeat:
+                      index === activeIndex ? Number.POSITIVE_INFINITY : 0,
                     ease: "easeInOut",
                   }}
                 />
 
-                {/* Animated Gradient Mesh */}
+                {/* Animated Gradient Mesh - Optimized */}
                 <motion.div
-                  className={`absolute inset-0 opacity-20 group-hover:opacity-30 bg-gradient-radial from-transparent via-transparent to-${service.color
-                    .split(" ")[0]
-                    .replace("from-", "")
-                    .replace("/20", "")}/20 pointer-events-none`}
+                  className="absolute inset-0 opacity-20 group-hover:opacity-30 pointer-events-none will-change-transform"
                   style={{
                     background: `radial-gradient(circle at ${
                       index % 2 === 0 ? "20%" : "80"
                     }% ${
                       index % 3 === 0 ? "30%" : "70%"
                     }, rgba(199,157,109,0.2), transparent 60%)`,
+                    transform: "translateZ(0)",
                   }}
                   animate={{
                     x: [0, 20, 0],
@@ -295,54 +286,58 @@ const ServicesSection = () => {
                   }}
                   transition={{
                     duration: 8 + index,
-                    repeat: Infinity,
+                    repeat: Number.POSITIVE_INFINITY,
                     ease: "easeInOut",
                   }}
                 />
 
-                {/* Floating Particles Effect */}
-                {[...Array(3)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="absolute w-2 h-2 bg-[#C79D6D]/30 rounded-full blur-sm pointer-events-none"
-                    style={{
-                      left: `${20 + i * 30}%`,
-                      top: `${30 + i * 20}%`,
-                    }}
-                    animate={{
-                      y: [0, -30, 0],
-                      opacity: [0.3, 0.6, 0.3],
-                      scale: [1, 1.5, 1],
-                    }}
-                    transition={{
-                      duration: 4 + i,
-                      repeat: Infinity,
-                      delay: i * 0.5,
-                      ease: "easeInOut",
-                    }}
-                  />
-                ))}
+                {/* Floating Particles Effect - Reduced for performance */}
+                {index === activeIndex &&
+                  [...Array(2)].map((particle, particleIdx) => (
+                    <motion.div
+                      key={`particle-${service.title}-${particleIdx}`}
+                      className="absolute w-2 h-2 bg-[#C79D6D]/30 rounded-full blur-sm pointer-events-none will-change-transform"
+                      style={{
+                        left: `${20 + particleIdx * 30}%`,
+                        top: `${30 + particleIdx * 20}%`,
+                        transform: "translateZ(0)",
+                      }}
+                      animate={{
+                        y: [0, -30, 0],
+                        opacity: [0.3, 0.6, 0.3],
+                        scale: [1, 1.5, 1],
+                      }}
+                      transition={{
+                        duration: 4 + particleIdx,
+                        repeat: Number.POSITIVE_INFINITY,
+                        delay: particleIdx * 0.5,
+                        ease: "easeInOut",
+                      }}
+                    />
+                  ))}
 
-                {/* Geometric Shapes */}
+                {/* Geometric Shapes - Only animate on hover for performance */}
                 <motion.div
-                  className="absolute top-4 right-4 w-20 h-20 border-2 border-[#C79D6D]/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  className="absolute top-4 right-4 w-20 h-20 border-2 border-[#C79D6D]/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none will-change-transform"
+                  style={{ transform: "translateZ(0)" }}
                   animate={{
                     rotate: [0, 90, 0],
                   }}
                   transition={{
                     duration: 10,
-                    repeat: Infinity,
+                    repeat: Number.POSITIVE_INFINITY,
                     ease: "linear",
                   }}
                 />
                 <motion.div
-                  className="absolute bottom-4 left-4 w-16 h-16 border-2 border-[#C79D6D]/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  className="absolute bottom-4 left-4 w-16 h-16 border-2 border-[#C79D6D]/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none will-change-transform"
+                  style={{ transform: "translateZ(0)" }}
                   animate={{
                     scale: [1, 1.2, 1],
                   }}
                   transition={{
                     duration: 3,
-                    repeat: Infinity,
+                    repeat: Number.POSITIVE_INFINITY,
                     ease: "easeInOut",
                   }}
                 />
@@ -383,13 +378,13 @@ const ServicesSection = () => {
                   <div className="space-y-2 mb-6">
                     {service.features.map((feature, featureIndex) => (
                       <motion.div
-                        key={featureIndex}
+                        key={feature}
                         className="flex items-center space-x-2"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: featureIndex * 0.1 }}
                       >
-                        <div className="w-2 h-2 bg-[#C69c6c] rounded-full"></div>
+                        <div className="w-2 h-2 bg-[#C69c6c] rounded-full" />
                         <span className="text-sm text-gray-300 font-medium">
                           {feature}
                         </span>
@@ -399,6 +394,7 @@ const ServicesSection = () => {
 
                   {/* Service Button */}
                   <button
+                    type="button"
                     className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#C79D6D]/25"
                     onClick={(e) => {
                       e.preventDefault();
@@ -448,8 +444,8 @@ const ServicesSection = () => {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-[#C79D6D]/30 blur-md rounded-full"></div>
-                      <div className="relative w-3 h-3 rounded-full bg-gradient-to-br from-[#C79D6D] to-[#d4a574] shadow-lg shadow-[#C79D6D]/50"></div>
+                      <div className="absolute inset-0 bg-[#C79D6D]/30 blur-md rounded-full" />
+                      <div className="relative w-3 h-3 rounded-full bg-gradient-to-br from-[#C79D6D] to-[#d4a574] shadow-lg shadow-[#C79D6D]/50" />
                     </div>
                     <div>
                       <h3 className="text-lg font-semibold text-white">
