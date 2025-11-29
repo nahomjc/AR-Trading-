@@ -17,9 +17,9 @@ const ChatBot = dynamic(() => import("./components/ChatBot"), {
 const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
   ssr: false,
 });
-// const WhoWeAreSection = dynamic(() => import("./components/WhoWeAreSection"), {
-//   ssr: false,
-// });
+const WhoWeAreSection = dynamic(() => import("./components/WhoWeAreSection"), {
+  ssr: false,
+});
 const LatestWorksSection = dynamic(
   () => import("./components/LatestWorksSection"),
   {
@@ -92,9 +92,10 @@ export default function Home() {
       <Navigation />
       <main className="relative z-10">
         <HeroSection />
+        <WhoWeAreSection />
         <ServicesSection />
         <TrustedBySection />
-        {/* <WhoWeAreSection /> */}
+
         <LatestWorksSection />
 
         <ContactSection />

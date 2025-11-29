@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
-const TeamSection = dynamic(() => import("../TeamSection"), { ssr: false });
+// const TeamSection = dynamic(() => import("../TeamSection"), { ssr: false });
 
 // Who We Are Section
 const WhoWeAreSection = () => {
@@ -206,9 +206,7 @@ const WhoWeAreSection = () => {
         </div>
 
         {/* Team Section */}
-        <div className="mt-20">
-          <TeamSection />
-        </div>
+        <div className="mt-20">{/* <TeamSection /> */}</div>
       </div>
     </section>
   );
