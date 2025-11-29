@@ -26,9 +26,9 @@ const Footer = () => {
               <Image
                 src="/img/White-with-background-removebg-preview.png"
                 alt="AR Solutions Logo"
-                width={190}
-                height={70}
-                className="h-20 w-auto"
+                width={150}
+                height={60}
+                className="h-28 w-auto"
                 priority
               />
             </motion.div>
@@ -40,23 +40,18 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {[
-                "Home",
-                "Services",
-                "About",
-                "Team",
-                "Testimonials",
-                "Contact",
-              ].map((link, index) => (
-                <motion.li key={link} whileHover={{ x: 5 }}>
-                  <a
-                    href={`#${link.toLowerCase()}`}
-                    className="text-gray-300 hover:text-white transition-colors"
-                  >
-                    {link}
-                  </a>
-                </motion.li>
-              ))}
+              {["Home", "Services", "About", "Testimonials", "Contact"].map(
+                (link, index) => (
+                  <motion.li key={link} whileHover={{ x: 5 }}>
+                    <a
+                      href={`#${link.toLowerCase()}`}
+                      className="text-gray-300 hover:text-white transition-colors"
+                    >
+                      {link}
+                    </a>
+                  </motion.li>
+                )
+              )}
             </ul>
           </div>
           <div>
@@ -68,7 +63,7 @@ const Footer = () => {
                 "SEO & Analytics",
                 "Social Media",
                 "Content Marketing",
-                "E-commerce",
+                "Web Development",
               ].map((service, index) => (
                 <motion.li key={service} whileHover={{ x: 5 }}>
                   <span className="text-gray-300">{service}</span>
