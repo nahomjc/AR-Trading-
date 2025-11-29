@@ -7,8 +7,8 @@ import {
   IconPhone,
   IconMapPin,
   IconBrandFacebook,
-  IconBrandTwitter,
-  IconBrandLinkedin,
+  IconBrandInstagram,
+  IconBrandTiktok,
 } from "@tabler/icons-react";
 
 // Contact Section with Google Map
@@ -225,7 +225,7 @@ const ContactSection = () => {
                   title: "Email",
                   info: "artradingplc@gmail.com",
                 },
-                { icon: IconPhone, title: "Phone", info: "0988175550" },
+                { icon: IconPhone, title: "Phone", info: "+251 981668976" },
                 {
                   icon: IconMapPin,
                   title: "Address",
@@ -264,18 +264,18 @@ const ContactSection = () => {
                   {[
                     {
                       icon: IconBrandFacebook,
-                      href: "https://www.facebook.com/arsolutionsethiopia",
+                      href: "https://www.facebook.com/profile.php?id=61584322344315",
                       label: "Facebook",
                     },
                     {
-                      icon: IconBrandTwitter,
-                      href: "https://www.twitter.com/arsolutionset",
-                      label: "Twitter",
+                      icon: IconBrandInstagram,
+                      href: "https://www.instagram.com/ar_solutions1?igsh=dnJ4OXRicTVieG44",
+                      label: "Instagram",
                     },
                     {
-                      icon: IconBrandLinkedin,
-                      href: "https://www.linkedin.com/company/ar-solutions-ethiopia",
-                      label: "LinkedIn",
+                      icon: IconBrandTiktok,
+                      href: "https://www.tiktok.com/@ar_solutions?_r=1&_t=ZM-91beinQ70uq",
+                      label: "TikTok",
                     },
                   ].map((social, index) => (
                     <motion.a
@@ -327,7 +327,7 @@ const ContactSection = () => {
                 9th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia
               </p>
               <motion.a
-                href="https://www.google.com/maps/place/Betopia+site/@9.0122241,38.7725403,119m/data=!3m1!1e3!4m6!3m5!1s0x164b851aa37d610d:0x53b55e8e74640bdf!8m2!3d9.0122241!4d38.7731438!16s%2Fg%2F11sckb3__w?entry=ttu&g_ep=EgoyMDI1MDcxNi4wIKXMDSoASAFQAw%3D%3D"
+                href="https://www.google.com/maps/place/AR+Solutions+Trading+PLC/@9.0122241,38.7725403,215m/data=!3m1!1e3!4m14!1m7!3m6!1s0x164b851aa37d610d:0x53b55e8e74640bdf!2sBetopia+site!8m2!3d9.0121304!4d38.7731487!16s%2Fg%2F11sckb3__w!3m5!1s0x164b852ce1410c23:0xe500072b801f3134!8m2!3d9.0118544!4d38.7729559!16s%2Fg%2F11yhgl3d2l?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block mt-2 px-6 py-2 btn-secondary"

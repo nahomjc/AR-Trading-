@@ -16,14 +16,7 @@ const Navigation = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = [
-        "home",
-        "services",
-        "about",
-        "team",
-        "testimonials",
-        "contact",
-      ];
+      const sections = ["home", "services", "about", "testimonials", "contact"];
       const scrollPosition = window.scrollY + 100;
 
       for (const section of sections) {
@@ -49,14 +42,7 @@ const Navigation = () => {
   // Close menu on navigation
   const handleNavClick = () => setMenuOpen(false);
 
-  const navLinks = [
-    "Home",
-    "Services",
-    "About",
-    "Team",
-    "Testimonials",
-    "Contact",
-  ];
+  const navLinks = ["Home", "Services", "About", "Testimonials", "Contact"];
 
   return (
     <motion.nav

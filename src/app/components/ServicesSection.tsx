@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   IconCode,
   IconChartLine,
@@ -11,12 +10,40 @@ import {
   IconVideo,
   IconWorld,
   IconCalendarEvent,
+  IconPhone,
+  IconCopy,
+  IconBrandWhatsapp,
+  IconMail,
+  IconCheck,
+  IconX,
 } from "@tabler/icons-react";
 
 // Services Section
 const ServicesSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const companyPhone = "+251 981668976";
+  const companyEmail = "artradingplc@gmail.com";
+
+  const handleCopyPhone = async () => {
+    try {
+      await navigator.clipboard.writeText(companyPhone);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy phone number:", err);
+    }
+  };
+
+  const handleWhatsAppClick = () => {
+    const message = `Hello! I'm interested in your services. Could you please provide more information?`;
+    const whatsappUrl = `https://wa.me/251981668976?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
 
   const services = [
     {
@@ -376,18 +403,7 @@ const ServicesSection = () => {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      // Navigate to service detail page
-                      const slug = service.title
-                        .toLowerCase()
-                        .replace(/[&\s]+/g, "-")
-                        .replace(/[^a-z0-9-]/g, "");
-                      try {
-                        router.push(`/services/${slug}`);
-                      } catch (error) {
-                        console.error("Router push failed:", error);
-                        // Fallback to window.location
-                        window.location.href = `/services/${slug}`;
-                      }
+                      setIsModalOpen(true);
                     }}
                   >
                     {service.buttonText || "Get a Free Quote"}
@@ -404,6 +420,133 @@ const ServicesSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Contact Modal */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
+            onClick={() => setIsModalOpen(false)}
+          >
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+
+            {/* Modal Content */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.9, opacity: 0, y: 50 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden backdrop-blur-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="relative px-6 py-5 border-b border-white/10 bg-gradient-to-r from-white/[0.03] via-white/[0.05] to-transparent backdrop-blur-sm">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-[#C79D6D]/30 blur-md rounded-full"></div>
+                      <div className="relative w-3 h-3 rounded-full bg-gradient-to-br from-[#C79D6D] to-[#d4a574] shadow-lg shadow-[#C79D6D]/50"></div>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-white">
+                        Get in Touch
+                      </h3>
+                      <p className="text-xs text-gray-400">
+                        Contact us for more information
+                      </p>
+                    </div>
+                  </div>
+                  <motion.button
+                    onClick={() => setIsModalOpen(false)}
+                    className="w-10 h-10 bg-white/[0.08] hover:bg-white/[0.15] backdrop-blur-md rounded-xl flex items-center justify-center text-white hover:text-[#C79D6D] transition-all duration-300 border border-white/10 hover:border-[#C79D6D]/40"
+                    whileHover={{ scale: 1.1, rotate: 90 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <IconX className="w-5 h-5" />
+                  </motion.button>
+                </div>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-4">
+                {/* Phone Number */}
+                <div className="bg-gradient-to-r from-white/5 to-white/10 border border-white/20 rounded-xl p-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/20 rounded-full flex items-center justify-center">
+                        <IconPhone className="w-5 h-5 text-[#C79D6D]" />
+                      </div>
+                      <div>
+                        <p className="text-white font-semibold">Call Us</p>
+                        <p className="text-[#C79D6D] font-mono text-lg">
+                          {companyPhone}
+                        </p>
+                      </div>
+                    </div>
+                    <motion.button
+                      onClick={handleCopyPhone}
+                      className="p-2 bg-[#C79D6D]/20 hover:bg-[#C79D6D]/30 rounded-lg transition-colors duration-300"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      <IconCopy className="w-4 h-4 text-[#C79D6D]" />
+                    </motion.button>
+                  </div>
+                  {copied && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="mt-2 text-green-400 text-sm flex items-center"
+                    >
+                      <IconCheck className="w-4 h-4 mr-1" />
+                      Phone number copied!
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Call Now Button */}
+                <motion.a
+                  href={`tel:${companyPhone.replace(/\s/g, "")}`}
+                  className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <IconPhone className="w-5 h-5" />
+                  <span>Call Now</span>
+                </motion.a>
+
+                {/* WhatsApp */}
+                <motion.button
+                  onClick={handleWhatsAppClick}
+                  className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                >
+                  <IconBrandWhatsapp className="w-5 h-5" />
+                  <span>Chat on WhatsApp</span>
+                </motion.button>
+
+                {/* Email */}
+                <div className="bg-gradient-to-r from-white/5 to-white/10 border border-white/20 rounded-xl p-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/20 rounded-full flex items-center justify-center">
+                      <IconMail className="w-5 h-5 text-[#C79D6D]" />
+                    </div>
+                    <div>
+                      <p className="text-white font-semibold">Email Us</p>
+                      <p className="text-[#C79D6D] text-sm">{companyEmail}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };

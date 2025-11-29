@@ -3,6 +3,11 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import {
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconBrandTiktok,
+} from "@tabler/icons-react";
 
 // Footer Component
 const Footer = () => {
@@ -73,8 +78,41 @@ const Footer = () => {
           </div>
         </div>
         <div className="section-divider"></div>
-        <div className="text-center">
-          <p className="text-gray-300">
+        <div className="flex flex-col items-center space-y-4">
+          {/* Social Media Links */}
+          <div className="flex items-center justify-center space-x-4">
+            {[
+              {
+                icon: IconBrandFacebook,
+                href: "https://www.facebook.com/profile.php?id=61584322344315",
+                label: "Facebook",
+              },
+              {
+                icon: IconBrandInstagram,
+                href: "https://www.instagram.com/ar_solutions1?igsh=dnJ4OXRicTVieG44",
+                label: "Instagram",
+              },
+              {
+                icon: IconBrandTiktok,
+                href: "https://www.tiktok.com/@ar_solutions?_r=1&_t=ZM-91beinQ70uq",
+                label: "TikTok",
+              },
+            ].map((social, index) => (
+              <motion.a
+                key={index}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                className="w-10 h-10 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C79D6D]/40 rounded-full flex items-center justify-center text-[#C79D6D] hover:bg-gradient-to-br hover:from-[#C79D6D]/30 hover:to-[#d4a574]/30 transition-all duration-300"
+                whileHover={{ scale: 1.2, rotate: 360 }}
+                transition={{ duration: 0.3 }}
+              >
+                <social.icon className="w-5 h-5" />
+              </motion.a>
+            ))}
+          </div>
+          <p className="text-gray-300 text-center">
             © {new Date().getFullYear()} AR Solutions. All rights reserved.
             Built with innovation and passion.
           </p>
