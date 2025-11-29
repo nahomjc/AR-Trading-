@@ -117,6 +117,13 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   ],
   "Media Production": [
     {
+      title: "Advertising Video",
+      desc: "Creative advertising video showcasing our marketing expertise",
+      image: "https://img.youtube.com/vi/kYnRISjDx1M/maxresdefault.jpg",
+      video: "https://www.youtube.com/shorts/kYnRISjDx1M?si=Ubw7Yf1908_-HYnK",
+      client: "AR Solutions",
+    },
+    {
       title: "Professional Video Production",
       desc: "High-quality video production showcasing our creative excellence",
       image: "/video/1111(1).mp4",
@@ -190,6 +197,26 @@ const LatestWorksSection = () => {
       );
     };
   }, []);
+
+  // Helper function to check if URL is YouTube and convert to embed format
+  const getYouTubeEmbedUrl = (url: string): string | null => {
+    if (!url) return null;
+
+    // Match YouTube URLs (including shorts)
+    const youtubeRegex =
+      /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/\s]{11})/;
+    const match = url.match(youtubeRegex);
+
+    if (match?.[1]) {
+      return `https://www.youtube.com/embed/${match[1]}`;
+    }
+
+    return null;
+  };
+
+  const isYouTubeUrl = (url: string): boolean => {
+    return /youtube\.com|youtu\.be/.test(url);
+  };
 
   const openImagePreview = (imageSrc: string, videoSrc?: string) => {
     if (videoSrc) {
@@ -398,7 +425,7 @@ const LatestWorksSection = () => {
 
                         {/* Media Container */}
                         <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50">
-                          {work.video ? (
+                          {work.video && !isYouTubeUrl(work.video) ? (
                             <>
                               <video
                                 src={work.video}
@@ -406,7 +433,12 @@ const LatestWorksSection = () => {
                                 muted
                                 loop
                                 playsInline
-                                preload="metadata"
+                                preload="auto"
+                                poster={work.image}
+                                onLoadedData={(e) => {
+                                  const video = e.currentTarget;
+                                  video.currentTime = 0;
+                                }}
                               />
                               {/* Video Overlay */}
                               <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/60 via-[#08243A]/20 to-transparent"></div>
@@ -562,7 +594,7 @@ const LatestWorksSection = () => {
 
                         {/* Media Container */}
                         <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-t-3xl">
-                          {work.video ? (
+                          {work.video && !isYouTubeUrl(work.video) ? (
                             <>
                               <video
                                 src={work.video}
@@ -570,10 +602,22 @@ const LatestWorksSection = () => {
                                 muted
                                 loop
                                 playsInline
-                                preload="metadata"
+                                preload="auto"
+                                poster={work.image}
+                                onLoadedData={(e) => {
+                                  const video = e.currentTarget;
+                                  video.currentTime = 0;
+                                }}
+                                onCanPlay={(e) => {
+                                  const video = e.currentTarget;
+                                  // Ensure video is ready to play
+                                  if (video.readyState >= 3) {
+                                    video.currentTime = 0;
+                                  }
+                                }}
                                 onMouseEnter={(e) => {
                                   const video = e.currentTarget;
-                                  if (video.paused) {
+                                  if (video.paused && video.readyState >= 3) {
                                     video.play().catch(() => {});
                                   }
                                 }}
@@ -816,17 +860,33 @@ const LatestWorksSection = () => {
                       /* Professional Video Player */
                       <div className="relative w-full p-2 sm:p-3 bg-gradient-to-br from-white/10 via-white/5 to-white/[0.02] rounded-xl sm:rounded-2xl border border-white/20 shadow-2xl backdrop-blur-sm">
                         <div className="relative overflow-hidden rounded-lg sm:rounded-xl bg-black/90 aspect-video">
-                          <video
-                            src={selectedVideo}
-                            controls
-                            autoPlay
-                            className="w-full h-full object-contain"
-                            playsInline
-                            preload="auto"
-                            style={{
-                              filter: "brightness(1.05) contrast(1.05)",
-                            }}
-                          />
+                          {isYouTubeUrl(selectedVideo) ? (
+                            /* YouTube Embed */
+                            <iframe
+                              src={
+                                getYouTubeEmbedUrl(selectedVideo) ||
+                                selectedVideo
+                              }
+                              title="YouTube video player"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                              allowFullScreen
+                              className="w-full h-full"
+                              style={{ border: 0 }}
+                            />
+                          ) : (
+                            /* Regular Video Player */
+                            <video
+                              src={selectedVideo}
+                              controls
+                              autoPlay
+                              className="w-full h-full object-contain"
+                              playsInline
+                              preload="auto"
+                              style={{
+                                filter: "brightness(1.05) contrast(1.05)",
+                              }}
+                            />
+                          )}
                           {/* Professional Video Border Glow */}
                           <div className="absolute inset-0 border-2 border-[#C79D6D]/30 rounded-lg sm:rounded-xl pointer-events-none"></div>
                           <div className="absolute inset-0 bg-gradient-to-r from-[#C79D6D]/20 via-[#d4a574]/20 to-[#C79D6D]/20 rounded-lg sm:rounded-xl pointer-events-none opacity-50"></div>

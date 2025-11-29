@@ -121,7 +121,7 @@ const HeroSection = () => {
                   Ethiopia Meets Modern Marketing — Let&apos;s Transform Your
                   Brand
                 </span> */}
-                <span className="block text-[#C79D6D] text-lg sm:text-xl lg:text-2xl font-medium mt-4">
+                <span className="block text-white text-lg sm:text-xl lg:text-2xl font-medium mt-4">
                   With Strategy, Creativity, and Excellence
                 </span>
               </h1>
