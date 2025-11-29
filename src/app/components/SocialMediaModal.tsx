@@ -18,12 +18,12 @@ const SocialMediaModal = () => {
   useEffect(() => {
     // Check if modal has been shown before
     const hasSeenModal = localStorage.getItem("ar-social-modal-shown");
-    
+
     if (!hasSeenModal) {
-      // Show modal after 3 seconds
+      // Show modal after 5 seconds
       const timer = setTimeout(() => {
         setIsOpen(true);
-      }, 3000);
+      }, 7000);
 
       return () => clearTimeout(timer);
     }
@@ -31,7 +31,7 @@ const SocialMediaModal = () => {
 
   const handleClose = () => {
     setIsOpen(false);
-    
+
     if (dontShowAgain) {
       localStorage.setItem("ar-social-modal-shown", "true");
     }
@@ -50,7 +50,8 @@ const SocialMediaModal = () => {
       href: "https://www.instagram.com/ar_solutions1?igsh=dnJ4OXRicTVieG44",
       label: "Instagram",
       color: "from-pink-500 via-purple-500 to-orange-500",
-      hoverColor: "hover:from-pink-600 hover:via-purple-600 hover:to-orange-600",
+      hoverColor:
+        "hover:from-pink-600 hover:via-purple-600 hover:to-orange-600",
     },
     {
       icon: IconBrandTiktok,
@@ -89,13 +90,17 @@ const SocialMediaModal = () => {
             <div className="relative px-6 py-8 border-b border-white/10 bg-gradient-to-r from-[#C79D6D]/10 via-[#C79D6D]/5 to-transparent">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#C79D6D]/10 rounded-full blur-3xl" />
               <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
-              
+
               <div className="relative flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <motion.div
                     className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#C79D6D] to-[#d4a574] flex items-center justify-center shadow-lg shadow-[#C79D6D]/50"
                     animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      repeatDelay: 3,
+                    }}
                   >
                     <IconRocket className="w-7 h-7 text-white" />
                   </motion.div>
@@ -133,9 +138,9 @@ const SocialMediaModal = () => {
                   <span className="text-sm font-semibold">Follow Us</span>
                 </motion.div>
                 <p className="text-gray-300 leading-relaxed">
-                  Get the latest updates, tips, and exclusive content by following
-                  us on social media. Join thousands of businesses growing with AR
-                  Solutions!
+                  Get the latest updates, tips, and exclusive content by
+                  following us on social media. Join thousands of businesses
+                  growing with AR Solutions!
                 </p>
               </div>
 
@@ -202,4 +207,3 @@ const SocialMediaModal = () => {
 };
 
 export default SocialMediaModal;
-
