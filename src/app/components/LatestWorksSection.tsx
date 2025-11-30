@@ -154,6 +154,18 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       image: "/img/advert/banner1.jpg",
       client: "AR Solutions",
     },
+    {
+      title: "Digital Billboard Design",
+      desc: "Eye-catching digital billboard design for outdoor advertising",
+      image: "/img/advert/Mockup-01.jpg",
+      client: "AR Solutions",
+    },
+    {
+      title: "Professional Banner Design",
+      desc: "Premium banner design for impactful brand promotion",
+      image: "/img/advert/Mockup-002.jpg",
+      client: "AR Solutions",
+    },
   ],
 };
 
