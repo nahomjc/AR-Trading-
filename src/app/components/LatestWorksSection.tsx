@@ -459,7 +459,8 @@ const LatestWorksSection = () => {
                                     alt={work.title}
                                     fill
                                     className="object-contain"
-                                    loading="lazy"
+                                    loading="eager"
+                                    priority
                                   />
                                 </div>
                                 <div className="flex items-center gap-2 text-white">
@@ -494,7 +495,8 @@ const LatestWorksSection = () => {
                               alt={work.title}
                               fill
                               className="object-contain group-hover/card:scale-110 transition-transform duration-700 ease-out p-2"
-                              loading="lazy"
+                              loading={idx < 2 ? "eager" : "lazy"}
+                              priority={idx < 2}
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             />
                           )}
@@ -695,7 +697,8 @@ const LatestWorksSection = () => {
                                     alt={work.title}
                                     fill
                                     className="object-contain"
-                                    loading="lazy"
+                                    loading="eager"
+                                    priority
                                   />
                                 </div>
                                 <div className="flex items-center gap-2 text-white">
@@ -750,7 +753,8 @@ const LatestWorksSection = () => {
                               alt={work.title}
                               fill
                               className="object-contain group-hover/card:scale-110 transition-transform duration-700 ease-out p-2"
-                              loading="lazy"
+                              loading={idx < 2 ? "eager" : "lazy"}
+                              priority={idx < 2}
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                             />
                           )}
