@@ -14,6 +14,8 @@ import {
   IconChevronLeft,
   IconChevronRight,
   IconPlayerPlay,
+  IconFileText,
+  IconDownload,
 } from "@tabler/icons-react";
 import dynamic from "next/dynamic";
 
@@ -23,6 +25,7 @@ type WorkItem = {
   desc: string;
   image: string;
   video?: string;
+  pdf?: string;
   client: string;
 };
 
@@ -91,24 +94,11 @@ const latestWorks: Record<TabName, WorkItem[]> = {
   ],
   Branding: [
     {
-      title: "Logo Design",
-      desc: "Distinctive logos that represent your brand identity",
-      image: "/img/ars.png",
-      client: "Various Clients",
-    },
-    {
-      title: "Brand Identity Systems",
-      desc: "Complete brand identity packages for businesses",
-      image:
-        "https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Businesses",
-    },
-    {
-      title: "Rebranding Projects",
-      desc: "Comprehensive rebranding for established brands",
-      image:
-        "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80",
-      client: "Ethiopian Organizations",
+      title: "Olfine Brand Guidelines",
+      desc: "Complete brand identity guidelines and design system",
+      image: "/img/client/Olfine-Logo-White.png",
+      pdf: "/pdf/Olfine Brand guideline final.pdf",
+      client: "Olfine",
     },
   ],
   "Media Production": [
@@ -235,6 +225,26 @@ const LatestWorksSection = () => {
       setSelectedVideo(null);
     }
     setIsModalOpen(true);
+  };
+
+  const handleDownloadPDF = (
+    pdfPath: string | undefined,
+    e: React.MouseEvent
+  ) => {
+    if (!pdfPath) return;
+    e.stopPropagation();
+    const link = document.createElement("a");
+    link.href = pdfPath;
+    link.download = pdfPath.split("/").pop() || "document.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleViewPDF = (pdfPath: string | undefined, e: React.MouseEvent) => {
+    if (!pdfPath) return;
+    e.stopPropagation();
+    window.open(pdfPath, "_blank");
   };
 
   const closeImagePreview = () => {
@@ -425,15 +435,42 @@ const LatestWorksSection = () => {
                     >
                       {/* Professional Portfolio Card */}
                       <div
-                        className="relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 cursor-pointer h-full flex flex-col group/card"
-                        onClick={() => openImagePreview(work.image, work.video)}
+                        className={`relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 h-full flex flex-col group/card ${
+                          work.pdf ? "" : "cursor-pointer"
+                        }`}
+                        onClick={
+                          work.pdf
+                            ? undefined
+                            : () => openImagePreview(work.image, work.video)
+                        }
                       >
                         {/* Card Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
 
                         {/* Media Container */}
                         <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50">
-                          {work.video && !isYouTubeUrl(work.video) ? (
+                          {work.pdf ? (
+                            <>
+                              {/* PDF Card - Logo and PDF Icon */}
+                              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
+                                <div className="relative w-32 h-32 flex items-center justify-center">
+                                  <Image
+                                    src={work.image}
+                                    alt={work.title}
+                                    fill
+                                    className="object-contain"
+                                    loading="lazy"
+                                  />
+                                </div>
+                                <div className="flex items-center gap-2 text-white">
+                                  <IconFileText className="w-8 h-8 text-[#C79D6D]" />
+                                  <span className="text-sm font-semibold">
+                                    PDF Document
+                                  </span>
+                                </div>
+                              </div>
+                            </>
+                          ) : work.video && !isYouTubeUrl(work.video) ? (
                             <>
                               <video
                                 src={work.video}
@@ -484,24 +521,26 @@ const LatestWorksSection = () => {
                             </motion.div>
                           </div>
 
-                          {/* Play/View Icon */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover/card:opacity-100 transition-opacity duration-300 z-10">
-                            <motion.div
-                              className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-3 sm:p-4 border-2 border-white/40 shadow-2xl"
-                              whileHover={{ scale: 1.1, rotate: 5 }}
-                              whileTap={{ scale: 0.95 }}
-                              transition={{ duration: 0.3 }}
-                            >
-                              {work.video ? (
-                                <IconPlayerPlay
-                                  className="w-7 h-7 sm:w-8 sm:h-8 text-white ml-1"
-                                  fill="currentColor"
-                                />
-                              ) : (
-                                <IconEye className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                              )}
-                            </motion.div>
-                          </div>
+                          {/* Play/View Icon - Only for non-PDF items */}
+                          {!work.pdf && (
+                            <div className="absolute inset-0 flex items-center justify-center opacity-100 sm:opacity-0 sm:group-hover/card:opacity-100 transition-opacity duration-300 z-10">
+                              <motion.div
+                                className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-3 sm:p-4 border-2 border-white/40 shadow-2xl"
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                {work.video ? (
+                                  <IconPlayerPlay
+                                    className="w-7 h-7 sm:w-8 sm:h-8 text-white ml-1"
+                                    fill="currentColor"
+                                  />
+                                ) : (
+                                  <IconEye className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                                )}
+                              </motion.div>
+                            </div>
+                          )}
 
                           {/* Video Badge */}
                           {work.video && (
@@ -530,17 +569,55 @@ const LatestWorksSection = () => {
                           <p className="text-gray-300 text-sm mb-5 line-clamp-2 flex-1 leading-relaxed">
                             {work.desc}
                           </p>
-                          <div className="flex items-center justify-between pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
-                            <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
-                              {work.client}
-                            </span>
-                            <motion.div
-                              className="text-[#C79D6D] group-hover/card:text-[#d4a574] transition-colors duration-300"
-                              whileHover={{ x: 5 }}
-                            >
-                              <IconArrowRight className="w-5 h-5" />
-                            </motion.div>
-                          </div>
+                          {work.pdf ? (
+                            <div className="flex flex-col gap-3 pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
+                                  {work.client}
+                                </span>
+                              </div>
+                              <div className="flex gap-2">
+                                {work.pdf && (
+                                  <>
+                                    <motion.button
+                                      onClick={(e) =>
+                                        handleDownloadPDF(work.pdf, e)
+                                      }
+                                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] text-white rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-[#C79D6D]/30 transition-all duration-300"
+                                      whileHover={{ scale: 1.05 }}
+                                      whileTap={{ scale: 0.95 }}
+                                    >
+                                      <IconDownload className="w-4 h-4" />
+                                      <span>Download</span>
+                                    </motion.button>
+                                    <motion.button
+                                      onClick={(e) =>
+                                        handleViewPDF(work.pdf, e)
+                                      }
+                                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold text-sm border border-white/20 hover:border-[#C79D6D]/40 transition-all duration-300"
+                                      whileHover={{ scale: 1.05 }}
+                                      whileTap={{ scale: 0.95 }}
+                                    >
+                                      <IconEye className="w-4 h-4" />
+                                      <span>View</span>
+                                    </motion.button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-between pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
+                              <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
+                                {work.client}
+                              </span>
+                              <motion.div
+                                className="text-[#C79D6D] group-hover/card:text-[#d4a574] transition-colors duration-300"
+                                whileHover={{ x: 5 }}
+                              >
+                                <IconArrowRight className="w-5 h-5" />
+                              </motion.div>
+                            </div>
+                          )}
                         </div>
 
                         {/* Shine Effect */}
@@ -594,15 +671,42 @@ const LatestWorksSection = () => {
                     >
                       {/* Professional Portfolio Card */}
                       <div
-                        className="relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 cursor-pointer h-full flex flex-col group/card"
-                        onClick={() => openImagePreview(work.image, work.video)}
+                        className={`relative bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] backdrop-blur-md border border-white/20 rounded-3xl overflow-hidden hover:border-[#C79D6D]/60 hover:shadow-[0_20px_40px_-12px_rgba(199,157,109,0.3)] transition-all duration-500 h-full flex flex-col group/card ${
+                          work.pdf ? "" : "cursor-pointer"
+                        }`}
+                        onClick={
+                          work.pdf
+                            ? undefined
+                            : () => openImagePreview(work.image, work.video)
+                        }
                       >
                         {/* Card Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
 
                         {/* Media Container */}
                         <div className="relative h-64 w-full overflow-hidden bg-gradient-to-br from-gray-900/50 to-gray-800/50 rounded-t-3xl">
-                          {work.video && !isYouTubeUrl(work.video) ? (
+                          {work.pdf ? (
+                            <>
+                              {/* PDF Card - Logo and PDF Icon */}
+                              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
+                                <div className="relative w-32 h-32 flex items-center justify-center">
+                                  <Image
+                                    src={work.image}
+                                    alt={work.title}
+                                    fill
+                                    className="object-contain"
+                                    loading="lazy"
+                                  />
+                                </div>
+                                <div className="flex items-center gap-2 text-white">
+                                  <IconFileText className="w-8 h-8 text-[#C79D6D]" />
+                                  <span className="text-sm font-semibold">
+                                    PDF Document
+                                  </span>
+                                </div>
+                              </div>
+                            </>
+                          ) : work.video && !isYouTubeUrl(work.video) ? (
                             <>
                               <video
                                 src={work.video}
@@ -708,8 +812,8 @@ const LatestWorksSection = () => {
                             </div>
                           )}
 
-                          {/* View Icon for Images */}
-                          {!work.video && (
+                          {/* View Icon for Images - Only for non-PDF items */}
+                          {!work.video && !work.pdf && (
                             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover/card:opacity-100 transition-opacity duration-300 z-10">
                               <motion.div
                                 className="bg-gradient-to-br from-[#C79D6D] to-[#d4a574] backdrop-blur-sm rounded-2xl p-4 border-2 border-white/40 shadow-2xl"
@@ -748,17 +852,55 @@ const LatestWorksSection = () => {
                           <p className="text-gray-300 text-sm mb-5 line-clamp-2 flex-1 leading-relaxed">
                             {work.desc}
                           </p>
-                          <div className="flex items-center justify-between pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
-                            <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
-                              {work.client}
-                            </span>
-                            <motion.div
-                              className="text-[#C79D6D] group-hover/card:text-[#d4a574] transition-colors duration-300"
-                              whileHover={{ x: 5 }}
-                            >
-                              <IconArrowRight className="w-5 h-5" />
-                            </motion.div>
-                          </div>
+                          {work.pdf ? (
+                            <div className="flex flex-col gap-3 pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
+                              <div className="flex items-center justify-between mb-2">
+                                <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
+                                  {work.client}
+                                </span>
+                              </div>
+                              <div className="flex gap-2">
+                                {work.pdf && (
+                                  <>
+                                    <motion.button
+                                      onClick={(e) =>
+                                        handleDownloadPDF(work.pdf, e)
+                                      }
+                                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] text-white rounded-xl font-semibold text-sm hover:shadow-lg hover:shadow-[#C79D6D]/30 transition-all duration-300"
+                                      whileHover={{ scale: 1.05 }}
+                                      whileTap={{ scale: 0.95 }}
+                                    >
+                                      <IconDownload className="w-4 h-4" />
+                                      <span>Download</span>
+                                    </motion.button>
+                                    <motion.button
+                                      onClick={(e) =>
+                                        handleViewPDF(work.pdf, e)
+                                      }
+                                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl font-semibold text-sm border border-white/20 hover:border-[#C79D6D]/40 transition-all duration-300"
+                                      whileHover={{ scale: 1.05 }}
+                                      whileTap={{ scale: 0.95 }}
+                                    >
+                                      <IconEye className="w-4 h-4" />
+                                      <span>View</span>
+                                    </motion.button>
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="flex items-center justify-between pt-4 border-t border-white/10 group-hover/card:border-[#C79D6D]/30 transition-colors duration-300">
+                              <span className="text-[#C79D6D] font-semibold text-sm tracking-wide">
+                                {work.client}
+                              </span>
+                              <motion.div
+                                className="text-[#C79D6D] group-hover/card:text-[#d4a574] transition-colors duration-300"
+                                whileHover={{ x: 5 }}
+                              >
+                                <IconArrowRight className="w-5 h-5" />
+                              </motion.div>
+                            </div>
+                          )}
                         </div>
 
                         {/* Shine Effect */}
