@@ -114,15 +114,10 @@ const HeroSection = () => {
               className="space-y-4"
             >
               <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-outfit leading-tight hero-headline">
-                <span className="block text-[#C79D6D] mb-4">
-                  Digital Innovation for Ethiopian Brands
-                </span>
-                {/* <span className="block text-white text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-medium">
-                  Ethiopia Meets Modern Marketing — Let&apos;s Transform Your
-                  Brand
-                </span> */}
-                <span className="block text-white text-lg sm:text-xl lg:text-2xl font-medium mt-4">
-                  With Strategy, Creativity, and Excellence
+                <span className="block text-white mb-2">Visions Designed.</span>
+                <span className="block text-white mb-2">Stories Told.</span>
+                <span className="block text-[#C79D6D] mt-2">
+                  Brands TRANSFORMED.
                 </span>
               </h1>
             </motion.div>
