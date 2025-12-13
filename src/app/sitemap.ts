@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://ar-solutions-plc.com";
+  const baseUrl = "https://www.ar-solutions-plc.com";
 
   // Service slugs from the services page
   const serviceSlugs = [
