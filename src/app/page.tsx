@@ -89,11 +89,59 @@ export default function Home() {
     setIsMobileClient(isMobile());
   }, []);
 
+  // SEO Structured Data for Home Page
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "AR Solutions PLC - Digital Marketing & Trading Solutions",
+    description:
+      "AR Solutions PLC offers comprehensive digital marketing, advertising, branding, web development, media production, event planning, and trading solutions. Leading provider of AR Solution Trading services.",
+    url: "https://www.ar-solutions-plc.com",
+    inLanguage: "en-US",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "AR Solutions PLC",
+      url: "https://www.ar-solutions-plc.com",
+    },
+    about: {
+      "@type": "Thing",
+      name: "AR Solution Trading",
+      description: "Professional trading solutions and business services",
+    },
+    mainEntity: {
+      "@type": "Organization",
+      name: "AR Solutions PLC",
+    },
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.ar-solutions-plc.com",
+      },
+    ],
+  };
+
   return (
     <div
       className="relative min-h-screen overflow-x-hidden"
       style={{ cursor: isDesktop ? "none" : undefined }}
     >
+      {/* SEO Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+
       <IntroLoader />
       <GalaxyBackground />
       <Navigation />

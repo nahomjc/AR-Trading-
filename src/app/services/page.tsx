@@ -147,8 +147,54 @@ const services = [
 export default function ServicesPage() {
   const router = useRouter();
 
+  // SEO Structured Data for Services Page
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Digital Marketing, Advertising, Branding, Web Development, Trading Solutions",
+    provider: {
+      "@type": "Organization",
+      name: "AR Solutions PLC",
+      url: "https://www.ar-solutions-plc.com",
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "Ethiopia",
+    },
+    description:
+      "AR Solutions PLC provides comprehensive digital marketing, advertising, branding, web development, media production, event planning, training, and AR Solution Trading services.",
+  };
+
+  const collectionPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Services - AR Solutions PLC",
+    description:
+      "Browse our comprehensive range of services including digital marketing, advertising, branding, web development, and AR Solution Trading.",
+    url: "https://www.ar-solutions-plc.com/services",
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: services.map((service, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: service.title,
+        url: `https://www.ar-solutions-plc.com/services/${service.slug}`,
+      })),
+    },
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]">
+      {/* SEO Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionPageSchema) }}
+      />
+
       <Navigation />
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden">

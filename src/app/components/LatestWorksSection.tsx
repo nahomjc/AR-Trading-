@@ -167,6 +167,9 @@ const LatestWorksSection = () => {
   const [isHighlighted, setIsHighlighted] = useState(false);
   const [carouselRef, setCarouselRef] = useState<HTMLDivElement | null>(null);
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
+  const [preloadedImages, setPreloadedImages] = useState<Set<string>>(
+    new Set()
+  );
 
   // Handle latest works section highlighting from search
   useEffect(() => {
@@ -220,11 +223,38 @@ const LatestWorksSection = () => {
     if (videoSrc) {
       setSelectedVideo(videoSrc);
       setSelectedImage(null);
+      setIsModalOpen(true);
     } else {
-      setSelectedImage(imageSrc);
-      setSelectedVideo(null);
+      // If image is already preloaded, open immediately
+      if (preloadedImages.has(imageSrc)) {
+        setSelectedImage(imageSrc);
+        setSelectedVideo(null);
+        setIsModalOpen(true);
+      } else {
+        // Preload image before opening modal
+        const img = document.createElement("img");
+        img.src = imageSrc;
+        img.onload = () => {
+          setPreloadedImages((prev) => new Set(prev).add(imageSrc));
+          setSelectedImage(imageSrc);
+          setSelectedVideo(null);
+          setIsModalOpen(true);
+        };
+        img.onerror = () => {
+          // If preload fails, still open modal
+          setSelectedImage(imageSrc);
+          setSelectedVideo(null);
+          setIsModalOpen(true);
+        };
+        // Check if image is already cached
+        if (img.complete && img.naturalWidth > 0) {
+          setPreloadedImages((prev) => new Set(prev).add(imageSrc));
+          setSelectedImage(imageSrc);
+          setSelectedVideo(null);
+          setIsModalOpen(true);
+        }
+      }
     }
-    setIsModalOpen(true);
   };
 
   const handleDownloadPDF = (
@@ -252,6 +282,32 @@ const LatestWorksSection = () => {
     setSelectedImage(null);
     setSelectedVideo(null);
   };
+
+  // Preload images when tab changes (especially for Advertising & Printing)
+  useEffect(() => {
+    const currentWorks = latestWorks[activeTab];
+    const imagesToPreload = currentWorks
+      .filter((work) => !work.video && !work.pdf)
+      .map((work) => work.image);
+
+    for (const imageSrc of imagesToPreload) {
+      if (!preloadedImages.has(imageSrc)) {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = imageSrc;
+        document.head.appendChild(link);
+
+        // Also preload using Image object for better browser support
+        const img = document.createElement("img");
+        img.src = imageSrc;
+        img.onload = () => {
+          setPreloadedImages((prev) => new Set(prev).add(imageSrc));
+        };
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTab]);
 
   // Reset carousel scroll when tab changes
   useEffect(() => {
@@ -443,6 +499,22 @@ const LatestWorksSection = () => {
                             ? undefined
                             : () => openImagePreview(work.image, work.video)
                         }
+                        onMouseEnter={() => {
+                          // Preload image on hover for faster preview
+                          if (
+                            !work.video &&
+                            !work.pdf &&
+                            !preloadedImages.has(work.image)
+                          ) {
+                            const img = document.createElement("img");
+                            img.src = work.image;
+                            img.onload = () => {
+                              setPreloadedImages((prev) =>
+                                new Set(prev).add(work.image)
+                              );
+                            };
+                          }
+                        }}
                       >
                         {/* Card Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
@@ -495,9 +567,18 @@ const LatestWorksSection = () => {
                               alt={work.title}
                               fill
                               className="object-contain group-hover/card:scale-110 transition-transform duration-700 ease-out p-2"
-                              loading={idx < 2 ? "eager" : "lazy"}
-                              priority={idx < 2}
+                              loading={
+                                activeTab === "Advertising & Printing" ||
+                                idx < 3
+                                  ? "eager"
+                                  : "lazy"
+                              }
+                              priority={
+                                activeTab === "Advertising & Printing" ||
+                                idx < 3
+                              }
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                              quality={90}
                             />
                           )}
 
@@ -681,6 +762,22 @@ const LatestWorksSection = () => {
                             ? undefined
                             : () => openImagePreview(work.image, work.video)
                         }
+                        onMouseEnter={() => {
+                          // Preload image on hover for faster preview
+                          if (
+                            !work.video &&
+                            !work.pdf &&
+                            !preloadedImages.has(work.image)
+                          ) {
+                            const img = document.createElement("img");
+                            img.src = work.image;
+                            img.onload = () => {
+                              setPreloadedImages((prev) =>
+                                new Set(prev).add(work.image)
+                              );
+                            };
+                          }
+                        }}
                       >
                         {/* Card Glow Effect */}
                         <div className="absolute inset-0 bg-gradient-to-br from-[#C79D6D]/0 via-[#C79D6D]/0 to-[#C79D6D]/0 group-hover/card:via-[#C79D6D]/5 group-hover/card:to-[#C79D6D]/10 transition-all duration-500 rounded-3xl pointer-events-none"></div>
@@ -753,9 +850,18 @@ const LatestWorksSection = () => {
                               alt={work.title}
                               fill
                               className="object-contain group-hover/card:scale-110 transition-transform duration-700 ease-out p-2"
-                              loading={idx < 2 ? "eager" : "lazy"}
-                              priority={idx < 2}
+                              loading={
+                                activeTab === "Advertising & Printing" ||
+                                idx < 3
+                                  ? "eager"
+                                  : "lazy"
+                              }
+                              priority={
+                                activeTab === "Advertising & Printing" ||
+                                idx < 3
+                              }
                               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                              quality={90}
                             />
                           )}
 
@@ -1051,7 +1157,7 @@ const LatestWorksSection = () => {
                     ) : (
                       /* Image Frame */
                       <div className="relative p-2 bg-gradient-to-br from-white/5 to-white/[0.02] rounded-2xl border border-white/10 shadow-2xl mx-auto">
-                        <div className="relative overflow-hidden rounded-xl flex items-center justify-center">
+                        <div className="relative overflow-hidden rounded-xl flex items-center justify-center min-h-[400px]">
                           <Image
                             src={selectedImage!}
                             alt="Preview"
@@ -1059,7 +1165,7 @@ const LatestWorksSection = () => {
                             height={1200}
                             className="w-auto h-auto max-w-full max-h-[70vh] object-contain mx-auto"
                             priority
-                            quality={100}
+                            quality={95}
                           />
                           {/* Subtle Image Border Glow */}
                           <div className="absolute inset-0 border border-white/5 rounded-xl pointer-events-none"></div>
