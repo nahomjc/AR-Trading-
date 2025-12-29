@@ -7,6 +7,17 @@ export const metadata: Metadata = {
   keywords: [
     "AR Solutions services",
     "AR Solution Trading",
+    "AR Solution Printing",
+    "AR Solution Branding",
+    "AR Solution Media Production",
+    "AR Solution Event Planning",
+    "AR Solution Training",
+    "AR Solution Web Development",
+    "AR Solution Digital Marketing",
+    "AR Solution Advertising",
+    "AR Solution Branding",
+    "AR Solution Training",
+    "AR Solution Training PLC",
     "digital marketing services",
     "advertising services Ethiopia",
     "branding design",
@@ -34,4 +45,3 @@ export default function ServicesLayout({
 }) {
   return <>{children}</>;
 }
-

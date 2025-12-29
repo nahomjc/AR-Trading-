@@ -105,7 +105,7 @@ export default function Home() {
     },
     about: {
       "@type": "Thing",
-      name: "AR Solution Trading",
+      name: "AR Solutions PLC - Digital Marketing & Trading Solutions",
       description: "Professional trading solutions and business services",
     },
     mainEntity: {
