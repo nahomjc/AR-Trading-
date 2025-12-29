@@ -14,13 +14,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "training-development",
   ];
 
-  // Static routes
+  // Static routes - Index page has highest priority for SEO
   const staticRoutes: MetadataRoute.Sitemap = [
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
+      changeFrequency: "daily",
+      priority: 1.0,
     },
     {
       url: `${baseUrl}/services`,

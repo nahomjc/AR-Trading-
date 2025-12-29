@@ -1,0 +1,28 @@
+{
+  "name": "AR Solutions PLC - Digital Marketing & Trading Solutions",
+  "short_name": "AR Solutions",
+  "description": "Ethiopia's premier provider of digital marketing, advertising, branding, web development, and trading solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/img/White-with-background-removebg-preview.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/White-with-background-removebg-preview.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "marketing", "trading"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
+

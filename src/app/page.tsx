@@ -93,30 +93,42 @@ export default function Home() {
   const webPageSchema = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    name: "AR Solutions PLC - Digital Marketing & Trading Solutions",
+    "@id": "https://www.ar-solutions-plc.com/#webpage",
+    name: "AR Solutions PLC - Digital Marketing & Trading Solutions | Ethiopia",
     description:
-      "AR Solutions PLC offers comprehensive digital marketing, advertising, branding, web development, media production, event planning, and trading solutions. Leading provider of AR Solution Trading services.",
+      "AR Solutions PLC offers comprehensive digital marketing, advertising, branding, web development, media production, event planning, and trading solutions. Leading provider of AR Solution Trading services in Ethiopia.",
     url: "https://www.ar-solutions-plc.com",
-    inLanguage: "en-US",
+    inLanguage: ["en-US", "am-ET"],
     isPartOf: {
-      "@type": "WebSite",
-      name: "AR Solutions PLC",
-      url: "https://www.ar-solutions-plc.com",
+      "@id": "https://www.ar-solutions-plc.com/#website",
     },
     about: {
-      "@type": "Thing",
-      name: "AR Solutions PLC - Digital Marketing & Trading Solutions",
-      description: "Professional trading solutions and business services",
+      "@id": "https://www.ar-solutions-plc.com/#organization",
+    },
+    primaryImageOfPage: {
+      "@type": "ImageObject",
+      url: "https://www.ar-solutions-plc.com/img/White-with-background-removebg-preview.png",
+      width: 1200,
+      height: 630,
     },
     mainEntity: {
-      "@type": "Organization",
-      name: "AR Solutions PLC",
+      "@id": "https://www.ar-solutions-plc.com/#organization",
+    },
+    breadcrumb: {
+      "@id": "https://www.ar-solutions-plc.com/#breadcrumb",
+    },
+    datePublished: "2020-01-01",
+    dateModified: new Date().toISOString().split("T")[0],
+    speakable: {
+      "@type": "SpeakableSpecification",
+      cssSelector: ["h1", "h2"],
     },
   };
 
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
+    "@id": "https://www.ar-solutions-plc.com/#breadcrumb",
     itemListElement: [
       {
         "@type": "ListItem",
@@ -127,12 +139,135 @@ export default function Home() {
     ],
   };
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    serviceType: "Digital Marketing & Trading Solutions",
+    provider: {
+      "@id": "https://www.ar-solutions-plc.com/#organization",
+    },
+    areaServed: {
+      "@type": "Country",
+      name: "Ethiopia",
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "AR Solutions PLC Services",
+      itemListElement: [
+        {
+          "@type": "OfferCatalog",
+          name: "Digital Marketing",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Digital Marketing Services",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Advertising & Printing",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Advertising & Printing Services",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Branding & Design",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Branding & Design Services",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Web Development",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Web Development Services",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Media Production",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Media Production Services",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Event Planning",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Event Planning Services",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Training & Development",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "Training & Development Services",
+              },
+            },
+          ],
+        },
+        {
+          "@type": "OfferCatalog",
+          name: "Trading Solutions",
+          itemListElement: [
+            {
+              "@type": "Offer",
+              itemOffered: {
+                "@type": "Service",
+                name: "AR Solution Trading Services",
+              },
+            },
+          ],
+        },
+      ],
+    },
+  };
+
   return (
     <div
       className="relative min-h-screen overflow-x-hidden"
       style={{ cursor: isDesktop ? "none" : undefined }}
     >
-      {/* SEO Structured Data */}
+      {/* SEO Structured Data - Enhanced for Top Rankings */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(webPageSchema) }}
@@ -140,6 +275,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
       <IntroLoader />
