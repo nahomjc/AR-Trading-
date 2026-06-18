@@ -33,6 +33,10 @@ const TrustedBySection = dynamic(
 const TestimonialsSection = dynamic(() => import("./TestimonialsSection"), {
   ssr: false,
 });
+const PhoneMarketingSection = dynamic(
+  () => import("./components/PhoneMarketingSection"),
+  { ssr: false },
+);
 const CustomCursor = dynamic(() => import("./components/CustomCursor"), {
   ssr: false,
 });
@@ -93,6 +97,7 @@ export default function HomePageClient({ children }: HomePageClientProps) {
         <HeroSection />
         <WhoWeAreSection />
         <ServicesSection />
+        <PhoneMarketingSection />
         <TrustedBySection />
         <LatestWorksSection />
         <TestimonialsSection />
