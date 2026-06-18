@@ -22,13 +22,13 @@ import {
 } from "@react-three/drei";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import {
-  Box3,
   ClampToEdgeWrapping,
   DoubleSide,
   MeshBasicMaterial,
   MeshStandardMaterial,
   SRGBColorSpace,
   Vector3,
+  type BufferGeometry,
   type Group,
   type Mesh,
   type Texture,
@@ -51,7 +51,9 @@ const PHONE_UPRIGHT_ROTATION: [number, number, number] = [
   Math.PI,
 ];
 const PHONE_SCALE = 1.88;
-const SCREEN_INSET = 0.9;
+/** How much of the display opening the screenshot fills (bezels stay visible) */
+const SCREEN_INSET = 0.97;
+const SCREEN_SURFACE_OFFSET = 0.0025;
 
 type ScreenPlacement = {
   position: [number, number, number];
@@ -74,37 +76,67 @@ function prepareScreenTexture(texture: Texture) {
   texture.needsUpdate = true;
 }
 
-function getImageAspect(texture: Texture) {
+function applyCoverTexture(texture: Texture, planeAspect: number) {
   const img = texture.image as HTMLImageElement | undefined;
-  if (!img?.width || !img?.height) return null;
-  return img.width / img.height;
+  if (!img?.width || !img?.height) return;
+
+  const imageAspect = img.width / img.height;
+  texture.wrapS = ClampToEdgeWrapping;
+  texture.wrapT = ClampToEdgeWrapping;
+  texture.center.set(0.5, 0.5);
+
+  if (imageAspect > planeAspect) {
+    texture.repeat.set(planeAspect / imageAspect, 1);
+  } else {
+    texture.repeat.set(1, imageAspect / planeAspect);
+  }
+
+  texture.offset.set(
+    (1 - texture.repeat.x) / 2,
+    (1 - texture.repeat.y) / 2,
+  );
+  texture.needsUpdate = true;
+}
+
+function getPhoneGeometry(object: Group): BufferGeometry | null {
+  let geometry: BufferGeometry | null = null;
+  object.traverse((child) => {
+    const mesh = child as Mesh;
+    if (mesh.isMesh && !geometry) {
+      geometry = mesh.geometry;
+    }
+  });
+  return geometry;
 }
 
 function computeScreenPlacement(
-  box: Box3,
-  imageAspect: number | null,
+  geometry: BufferGeometry,
 ): ScreenPlacement {
+  geometry.computeBoundingBox();
+  const box = geometry.boundingBox;
+  if (!box) {
+    return {
+      position: [0, 0.08, 0],
+      rotation: [-Math.PI / 2, 0, 0],
+      width: 0.9,
+      height: 1.65,
+    };
+  }
+
   const size = new Vector3();
   const center = new Vector3();
   box.getSize(size);
   box.getCenter(center);
 
-  let planeW = size.x * SCREEN_INSET;
-  let planeH = size.z * SCREEN_INSET;
-
-  if (imageAspect) {
-    const openingAspect = planeW / planeH;
-    if (imageAspect > openingAspect) {
-      planeH = planeW / imageAspect;
-    } else {
-      planeW = planeH * imageAspect;
-    }
-  }
-
-  const offset = Math.max(size.y * 0.45, 0.008);
+  const planeW = size.x * SCREEN_INSET;
+  const planeH = size.z * SCREEN_INSET;
 
   return {
-    position: [center.x, box.max.y + offset, center.z],
+    position: [
+      center.x,
+      box.max.y + SCREEN_SURFACE_OFFSET,
+      center.z,
+    ],
     rotation: [-Math.PI / 2, 0, 0],
     width: planeW,
     height: planeH,
@@ -134,7 +166,6 @@ function PhoneScreen({
   screenTexture: Texture;
 }) {
   const material = useMemo(() => {
-    prepareScreenTexture(screenTexture);
     return new MeshBasicMaterial({
       map: screenTexture,
       transparent: true,
@@ -144,6 +175,14 @@ function PhoneScreen({
       toneMapped: false,
     });
   }, [screenTexture]);
+
+  useLayoutEffect(() => {
+    prepareScreenTexture(screenTexture);
+    applyCoverTexture(
+      screenTexture,
+      placement.width / placement.height,
+    );
+  }, [screenTexture, placement.width, placement.height]);
 
   return (
     <mesh
@@ -160,6 +199,7 @@ function PhoneScreen({
 function PhoneAssembly() {
   const object = useLoader(OBJLoader, PHONE_MODEL_PATH);
   const screenTexture = useTexture(PHONE_SCREEN_IMAGE);
+  const phoneGeometry = useMemo(() => getPhoneGeometry(object), [object]);
   const [screenPlacement, setScreenPlacement] = useState<ScreenPlacement | null>(
     null,
   );
@@ -181,18 +221,16 @@ function PhoneAssembly() {
       });
     });
 
-    object.scale.setScalar(PHONE_SCALE);
     object.updateMatrixWorld(true);
   }, [object]);
 
   const placeScreen = () => {
-    const imageAspect = getImageAspect(screenTexture);
-    if (!imageAspect) return;
+    if (!phoneGeometry) return;
 
-    prepareScreenTexture(screenTexture);
-    object.updateMatrixWorld(true);
-    const box = new Box3().setFromObject(object);
-    setScreenPlacement(computeScreenPlacement(box, imageAspect));
+    const img = screenTexture.image as HTMLImageElement | undefined;
+    if (!img?.width || !img?.height) return;
+
+    setScreenPlacement(computeScreenPlacement(phoneGeometry));
   };
 
   useEffect(() => {
@@ -203,7 +241,7 @@ function PhoneAssembly() {
       img.addEventListener("load", placeScreen);
       return () => img.removeEventListener("load", placeScreen);
     }
-  }, [object, screenTexture]);
+  }, [phoneGeometry, screenTexture]);
 
   useFrame(() => {
     if (screenPlacement) return;
@@ -211,7 +249,7 @@ function PhoneAssembly() {
   });
 
   return (
-    <group>
+    <group scale={PHONE_SCALE}>
       <primitive object={object} />
       {screenPlacement && (
         <PhoneScreen
