@@ -249,7 +249,7 @@ const TrustedBySection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
           viewport={{ once: true }}
-          className="relative"
+          className="latest-works-marquee-viewport relative overflow-hidden"
           onMouseEnter={() => setIsMarqueePaused(true)}
           onMouseLeave={() => setIsMarqueePaused(false)}
         >

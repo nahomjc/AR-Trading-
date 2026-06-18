@@ -144,6 +144,8 @@ export default function AboutModel3D() {
   }, []);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (window.matchMedia("(max-width: 1023px)").matches) return;
+
     isDragging.current = true;
     lastPointerX.current = event.clientX;
     event.currentTarget.setPointerCapture(event.pointerId);
@@ -178,7 +180,7 @@ export default function AboutModel3D() {
 
   return (
     <div
-      className="relative aspect-square min-h-[280px] w-full cursor-grab touch-none active:cursor-grabbing sm:min-h-[360px] lg:min-h-[400px]"
+      className="relative aspect-square min-h-[280px] w-full cursor-grab touch-pan-y active:cursor-grabbing sm:min-h-[360px] lg:min-h-[400px]"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={endDrag}

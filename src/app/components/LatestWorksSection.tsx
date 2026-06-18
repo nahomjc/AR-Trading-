@@ -680,7 +680,7 @@ const LatestWorksSection = () => {
 
       {/* Full-width auto-scrolling marquee */}
       <div
-        className="relative z-10 w-full overflow-hidden mt-2"
+        className="latest-works-marquee-viewport relative z-10 mt-2 w-full overflow-hidden"
         onMouseEnter={() => setIsMarqueePaused(true)}
         onMouseLeave={() => setIsMarqueePaused(false)}
         onFocus={() => setIsMarqueePaused(true)}

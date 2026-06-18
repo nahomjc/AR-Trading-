@@ -621,14 +621,39 @@ section {
   }
 }
 
+.latest-works-marquee-viewport {
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
 .latest-works-marquee {
   width: max-content;
   animation: latest-works-marquee var(--marquee-duration, 40s) linear infinite;
   will-change: transform;
+  touch-action: pan-y;
 }
 
 .latest-works-marquee.paused {
   animation-play-state: paused;
+}
+
+/* Mobile: manual horizontal swipe — don't trap vertical page scroll */
+@media (max-width: 1023px) {
+  .latest-works-marquee-viewport {
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    scrollbar-width: none;
+  }
+
+  .latest-works-marquee-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .latest-works-marquee {
+    animation: none;
+    will-change: auto;
+    transform: none !important;
+  }
 }
 
 /* Intro loader — aurora reveal */
