@@ -1,212 +1,425 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import dynamic from "next/dynamic";
+import {
+  IconTarget,
+  IconEye,
+  IconBulb,
+  IconAward,
+  IconRocket,
+  IconHeartHandshake,
+  IconTrendingUp,
+} from "@tabler/icons-react";
 
-// const TeamSection = dynamic(() => import("../TeamSection"), { ssr: false });
+const ROTATE_MS = 6000;
 
-// Who We Are Section
+const pillars = [
+  {
+    id: "mission",
+    label: "Mission",
+    title: "Our Mission",
+    icon: IconTarget,
+    text: "To lead Ethiopia's digital transformation by delivering creative, practical, and measurable marketing solutions for every business size — from startups to established brands.",
+  },
+  {
+    id: "vision",
+    label: "Vision",
+    title: "Our Vision",
+    icon: IconEye,
+    text: "To be the most trusted creative and commercial partner in East Africa — setting the standard for innovation, quality, and results-driven brand experiences.",
+  },
+  {
+    id: "purpose",
+    label: "Purpose",
+    title: "Our Purpose",
+    icon: IconBulb,
+    text: "We exist to elevate Ethiopian brands with strategy, creativity, and heart. Whether you're launching a new brand or refreshing your digital presence, we design solutions that align with your goals — and exceed expectations.",
+  },
+];
+
+const stats = [
+  { value: "50+", label: "Projects Delivered" },
+  { value: "10+", label: "Trusted Clients" },
+  { value: "2016", label: "Founded" },
+  { value: "8+", label: "Years of Impact" },
+];
+
+const values = [
+  {
+    icon: IconAward,
+    title: "Excellence",
+    text: "Every deliverable meets the highest standard of craft and care.",
+  },
+  {
+    icon: IconRocket,
+    title: "Innovation",
+    text: "We don't follow trends — we create experiences that stand out.",
+  },
+  {
+    icon: IconTrendingUp,
+    title: "Results",
+    text: "Strategy backed by data, creativity driven by measurable outcomes.",
+  },
+  {
+    icon: IconHeartHandshake,
+    title: "Partnership",
+    text: "We grow alongside our clients as a true extension of their team.",
+  },
+];
+
 const WhoWeAreSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
 
-  // Handle about section highlighting from search
+  const active = pillars[activeIndex];
+  const ActiveIcon = active.icon;
+
+  const goTo = useCallback((index: number) => {
+    setActiveIndex((index + pillars.length) % pillars.length);
+  }, []);
+
   useEffect(() => {
-    // Check if there's a highlighted about from search
     const storedAbout = sessionStorage.getItem("highlightAbout");
     if (storedAbout) {
       setIsHighlighted(true);
-      // Clear the stored value after a delay
-      setTimeout(() => {
+      const t = setTimeout(() => {
         setIsHighlighted(false);
         sessionStorage.removeItem("highlightAbout");
-      }, 3000); // Highlight for 3 seconds
-    }
-
-    // Listen for highlight events from search
-    const handleHighlightAbout = () => {
-      setIsHighlighted(true);
-      // Clear highlight after 3 seconds
-      setTimeout(() => {
-        setIsHighlighted(false);
       }, 3000);
-    };
-
-    window.addEventListener("highlightAbout", handleHighlightAbout);
-
-    return () => {
-      window.removeEventListener("highlightAbout", handleHighlightAbout);
-    };
+      return () => clearTimeout(t);
+    }
   }, []);
+
+  useEffect(() => {
+    const onHighlight = () => {
+      setIsHighlighted(true);
+      setTimeout(() => setIsHighlighted(false), 3000);
+    };
+    window.addEventListener("highlightAbout", onHighlight);
+    return () => window.removeEventListener("highlightAbout", onHighlight);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || isMobile) return;
+    const timer = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % pillars.length);
+    }, ROTATE_MS);
+    return () => clearInterval(timer);
+  }, [isPaused, isMobile]);
 
   return (
     <section
       id="about"
-      className="py-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
+      className="relative overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] px-4 py-16 sm:px-6 sm:py-32 lg:px-8"
     >
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80"
-          alt="About section background"
-          fill
-          className="object-cover opacity-15"
-          priority
-          sizes="100vw"
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/4 top-0 h-[28rem] w-[28rem] rounded-full bg-[#C79D6D]/5 blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 h-[28rem] w-[28rem] rounded-full bg-blue-500/5 blur-3xl" />
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, rgba(199,157,109,0.8) 1px, transparent 0)",
+            backgroundSize: "40px 40px",
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#08243A]/98 via-[#0a2a42]/95 to-[#08243A]/98"></div>
       </div>
 
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-7xl">
+        {/* Header */}
         <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 100 }}
+          className={`mb-12 text-center transition-all duration-500 sm:mb-16 ${
+            isHighlighted
+              ? "rounded-3xl border border-[#C79D6D]/50 bg-gradient-to-r from-[#C79D6D]/15 to-[#d4a574]/15 p-6 shadow-lg shadow-[#C79D6D]/20 sm:p-8"
+              : ""
+          }`}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
+          <motion.span
+            className="mb-6 inline-block rounded-full border border-[#C79D6D]/30 bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#C79D6D] backdrop-blur-sm"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            viewport={{ once: true }}
+          >
             About Our Company
-          </span>
-          <h2 className="text-4xl sm:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
-            Excellence. Innovation. Results.
-          </h2>
-          <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Founded in 2016, Addis Reality is a premier digital marketing and
-            creative agency transforming Ethiopian businesses through strategic
-            innovation and exceptional execution. We don't just follow trends —
-            we create trends, build digital experiences that connect
-            emotionally, perform technically, and deliver measurable results. We
-            are a full-service agency trusted to help brands stand out and
-            succeed online and offline.
-          </p>
+          </motion.span>
+
+          <motion.h2
+            className="mb-6 text-3xl font-bold sm:text-5xl lg:text-6xl"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+              Building Brands{" "}
+            </span>
+            <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+              That Matter
+            </span>
+          </motion.h2>
+
+          <motion.p
+            className="mx-auto max-w-3xl text-base leading-relaxed text-gray-300 sm:text-xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            Founded in 2016, Addis Reality is a premier creative and commercial
+            agency transforming Ethiopian businesses through strategic innovation
+            and exceptional execution — online and offline.
+          </motion.p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div
-            className={`mirror-card p-8 lg:p-12 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border transition-all duration-500 ${
-              isHighlighted
-                ? "border-[#C69c6c] shadow-lg shadow-[#C69c6c]/30 animate-pulse"
-                : "border-[#C69c6c]/30"
-            }`}
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-3xl font-bold font-outfit mb-6 text-white">
-              Our Mission & Vision
-            </h3>
-            <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-              To lead Ethiopia's digital transformation by delivering creative,
-              practical, and measurable marketing solutions for every business
-              size — from startups to established brands.
-            </p>
-            <div className="mb-8">
-              <span className="inline-block text-2xl mr-2 align-middle">
-                💡
-              </span>
-              <span className="font-bold text-white text-lg align-middle">
-                Our Purpose
-              </span>
-              <p className="text-lg text-gray-300 mt-2 leading-relaxed">
-                We exist to elevate Ethiopian brands with strategy, creativity,
-                and heart. Whether you're launching a new brand or refreshing
-                your digital presence, we design solutions that align with your
-                goals — and exceed expectations.
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-6">
-              <motion.div
-                className="text-center p-4 glass-dark rounded-xl"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="text-3xl font-bold gradient-text mb-2">50+</div>
-                <div className="text-gray-300 text-sm">Projects</div>
-              </motion.div>
-              <motion.div
-                className="text-center p-4 glass-dark rounded-xl"
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <div className="text-3xl font-bold gradient-text mb-2">10+</div>
-                <div className="text-gray-300 text-sm">Clients</div>
-              </motion.div>
-            </div>
-          </motion.div>
+        {/* Main panel */}
+        <motion.div
+          className="relative mb-10 overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] shadow-2xl shadow-black/20 backdrop-blur-md sm:mb-12 sm:rounded-3xl"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          viewport={{ once: true }}
+          onMouseEnter={() => !isMobile && setIsPaused(true)}
+          onMouseLeave={() => !isMobile && setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+        >
+          <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/60 to-transparent" />
 
-          <motion.div
-            className="relative"
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative">
-              {/* Professional Image Container */}
-              <div className="mirror-card p-4 bg-gradient-to-br from-[#C69c6c]/10 via-[#d4a574]/10 to-[#C69c6c]/10 border border-[#C69c6c]/30 rounded-2xl overflow-hidden">
+          <div className="grid lg:grid-cols-2">
+            {/* Image column */}
+            <div className="relative border-b border-white/10 p-5 sm:p-8 lg:border-b-0 lg:border-r lg:p-10">
+              <div className="relative overflow-hidden rounded-2xl border border-[#C79D6D]/20 bg-gradient-to-br from-[#C79D6D]/10 via-transparent to-[#d4a574]/5">
+                <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/60 via-transparent to-transparent" />
                 <Image
                   src="/img/about-us-11.png"
-                  alt="Professional team collaboration and digital excellence"
+                  alt="Addis Reality team — creative excellence and collaboration"
                   width={600}
                   height={600}
-                  className="w-full h-auto object-contain rounded-xl"
-                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 500px"
+                  className="relative z-0 w-full object-contain p-4 sm:p-6"
+                  sizes="(max-width: 1024px) 90vw, 500px"
+                  priority
                 />
+
+                <motion.div
+                  className="absolute left-4 top-4 z-10 rounded-full border border-white/20 bg-[#08243A]/80 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md sm:text-sm"
+                  initial={{ opacity: 0, y: -10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  viewport={{ once: true }}
+                >
+                  Est. 2016
+                </motion.div>
+
+                <motion.div
+                  className="absolute bottom-4 right-4 z-10 rounded-2xl border border-[#C79D6D]/30 bg-[#08243A]/85 px-4 py-3 backdrop-blur-md"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.5 }}
+                  viewport={{ once: true }}
+                >
+                  <p className="text-2xl font-bold bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+                    50+
+                  </p>
+                  <p className="text-xs text-gray-400">Projects delivered</p>
+                </motion.div>
               </div>
 
-              {/* Floating Decorative Elements */}
-              <motion.div
-                className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 rounded-full blur-xl"
-                animate={{
-                  scale: [1, 1.2, 1],
-                  opacity: [0.3, 0.6, 0.3],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-
-              <motion.div
-                className="absolute -bottom-4 -left-4 w-12 h-12 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-full blur-xl"
-                animate={{
-                  scale: [1.2, 1, 1.2],
-                  opacity: [0.6, 0.3, 0.6],
-                }}
-                transition={{
-                  duration: 5,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
-              />
-
-              {/* Professional Badge */}
-              <motion.div
-                className="absolute top-4 left-4 bg-gradient-to-r from-[#C69c6c] to-[#d4a574] text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                viewport={{ once: true }}
-              >
-                Professional Excellence
-              </motion.div>
+              {/* Stats strip — desktop inline under image area on lg, hidden on mobile (shown below) */}
+              <div className="mt-5 hidden gap-3 lg:grid lg:grid-cols-4">
+                {stats.map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-3 text-center"
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 + i * 0.08 }}
+                    viewport={{ once: true }}
+                  >
+                    <p className="text-lg font-bold text-[#C79D6D] sm:text-xl">
+                      {stat.value}
+                    </p>
+                    <p className="text-[10px] uppercase tracking-wider text-gray-500 sm:text-xs">
+                      {stat.label}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </motion.div>
+
+            {/* Content column */}
+            <div className="flex flex-col justify-center p-5 sm:p-8 lg:p-10">
+              {/* Mobile pillar tabs */}
+              <div className="mb-5 lg:hidden">
+                <div
+                  className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 scrollbar-hide"
+                  style={{ WebkitOverflowScrolling: "touch" }}
+                >
+                  {pillars.map((pillar, index) => {
+                    const isActive = index === activeIndex;
+                    const Icon = pillar.icon;
+                    return (
+                      <button
+                        key={pillar.id}
+                        type="button"
+                        onClick={() => goTo(index)}
+                        className={`flex flex-shrink-0 items-center gap-2 rounded-full border px-4 py-2.5 transition-all duration-300 ${
+                          isActive
+                            ? "border-[#C79D6D]/40 bg-[#C79D6D]/15 text-white"
+                            : "border-white/10 bg-white/[0.04] text-gray-400"
+                        }`}
+                      >
+                        <Icon className="h-4 w-4" />
+                        <span className="text-sm font-semibold">
+                          {pillar.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Desktop pillar tabs */}
+              <div className="mb-8 hidden gap-2 lg:flex">
+                {pillars.map((pillar, index) => {
+                  const isActive = index === activeIndex;
+                  const Icon = pillar.icon;
+                  return (
+                    <button
+                      key={pillar.id}
+                      type="button"
+                      onClick={() => goTo(index)}
+                      className={`flex items-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                        isActive
+                          ? "border-[#C79D6D]/40 bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/15 text-white shadow-md shadow-[#C79D6D]/10"
+                          : "border-white/10 text-gray-400 hover:border-white/20 hover:text-gray-200"
+                      }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {pillar.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active.id}
+                  initial={{ opacity: 0, y: isMobile ? 10 : 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: isMobile ? -8 : -12 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div className="mb-5 flex items-center gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/10">
+                      <ActiveIcon className="h-7 w-7 text-[#C79D6D]" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white sm:text-3xl">
+                      {active.title}
+                    </h3>
+                  </div>
+
+                  <p className="mb-6 text-sm leading-relaxed text-gray-300 sm:text-base sm:leading-relaxed">
+                    {active.text}
+                  </p>
+
+                  <div className="h-1 w-12 rounded-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574]" />
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Progress dots */}
+              <div className="mt-8 flex gap-2">
+                {pillars.map((pillar, i) => (
+                  <button
+                    key={pillar.id}
+                    type="button"
+                    onClick={() => goTo(i)}
+                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                      i === activeIndex
+                        ? "w-8 bg-gradient-to-r from-[#C79D6D] to-[#d4a574]"
+                        : "w-1.5 bg-white/20 hover:bg-white/35"
+                    }`}
+                    aria-label={`View ${pillar.title}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="pointer-events-none absolute bottom-3 left-3 h-6 w-6 border-b border-l border-[#C79D6D]/20 sm:bottom-4 sm:left-4 sm:h-8 sm:w-8" />
+          <div className="pointer-events-none absolute bottom-3 right-3 h-6 w-6 border-b border-r border-[#C79D6D]/20 sm:bottom-4 sm:right-4 sm:h-8 sm:w-8" />
+        </motion.div>
+
+        {/* Mobile stats */}
+        <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:hidden">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              className="rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-4 text-center backdrop-blur-sm"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+              viewport={{ once: true }}
+            >
+              <p className="text-xl font-bold text-[#C79D6D]">{stat.value}</p>
+              <p className="mt-1 text-[10px] uppercase tracking-wider text-gray-500 sm:text-xs">
+                {stat.label}
+              </p>
+            </motion.div>
+          ))}
         </div>
 
-        {/* Team Section */}
-        <div className="mt-20">{/* <TeamSection /> */}</div>
+        {/* Core values */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[#C79D6D]">
+            What drives us
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {values.map((value, i) => {
+              const Icon = value.icon;
+              return (
+                <motion.div
+                  key={value.title}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-sm transition-colors hover:border-[#C79D6D]/25 sm:p-6"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -4 }}
+                >
+                  <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#C79D6D]/15 text-[#C79D6D] transition-colors group-hover:bg-[#C79D6D]/25">
+                    <Icon className="h-5 w-5" />
+                  </div>
+                  <h4 className="mb-2 font-bold text-white">{value.title}</h4>
+                  <p className="text-sm leading-relaxed text-gray-400">
+                    {value.text}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
