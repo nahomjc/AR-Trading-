@@ -87,7 +87,7 @@ const SocialMediaModal = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100000] flex items-end justify-center bg-[#08243A]/35 p-0 backdrop-blur-md sm:items-center sm:p-4"
+          className="fixed inset-0 z-[100000] flex items-center justify-center bg-[#08243A]/35 p-4 backdrop-blur-md"
           onClick={handleClose}
         >
           <motion.div
@@ -95,15 +95,10 @@ const SocialMediaModal = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 48 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-md overflow-hidden rounded-t-3xl border border-white/15 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] shadow-2xl sm:rounded-3xl sm:border-[#C79D6D]/30"
+            className="relative w-full max-w-md overflow-hidden rounded-3xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/70 to-transparent" />
-
-            {/* Mobile drag handle */}
-            <div className="flex justify-center pt-3 sm:hidden">
-              <div className="h-1 w-10 rounded-full bg-white/20" />
-            </div>
 
             {/* Header */}
             <div className="relative overflow-hidden px-5 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6">
