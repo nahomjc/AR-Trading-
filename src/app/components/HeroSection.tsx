@@ -3,6 +3,7 @@
 import { memo, useCallback, useEffect, useState } from "react";
 import {
   motion,
+  AnimatePresence,
   useReducedMotion,
   useScroll,
   useTransform,
@@ -90,9 +91,297 @@ const floatingIcons = [
   },
 ] as const;
 
+const staticHeadlineLines = [
+  { text: "Visions Designed.", variant: "white" as const },
+  { text: "Stories Told.", variant: "white" as const },
+] as const;
+
+const BRAND_PREFIX = "Brands ";
+const ROTATING_WORDS = [
+  "Transformed.",
+  "Elevated.",
+  "Amplified.",
+  "Reimagined.",
+  "Empowered.",
+] as const;
+const ROTATE_MS = 2500;
+const LINE3_TYPED = `${BRAND_PREFIX}${ROTATING_WORDS[0]}`;
+const LINE3_MEASURE = `${BRAND_PREFIX}${ROTATING_WORDS.reduce((a, b) =>
+  a.length > b.length ? a : b
+)}`;
+
+const CHAR_MS = 48;
+const LINE_PAUSE_MS = 450;
+const START_DELAY_MS = 300;
+
+function charDelay(char: string) {
+  if (char === " ") return 28;
+  if (char === "." || char === ",") return 220;
+  return CHAR_MS;
+}
+
+type TypewriterHeadlineProps = {
+  ready: boolean;
+  reducedMotion: boolean | null;
+  onComplete?: () => void;
+};
+
+function lineClass(variant: "white" | "gold") {
+  return variant === "gold"
+    ? "bg-gradient-to-r from-[#C79D6D] via-[#e8c9a8] to-[#d4a574] bg-clip-text text-transparent"
+    : "text-white";
+}
+
+function lineText(lineIndex: number) {
+  if (lineIndex < staticHeadlineLines.length) {
+    return staticHeadlineLines[lineIndex].text;
+  }
+  return LINE3_TYPED;
+}
+
+function RotatingBrandWord({
+  active,
+  wordIndex,
+}: {
+  active: boolean;
+  wordIndex: number;
+}) {
+  const longest = ROTATING_WORDS.reduce((a, b) =>
+    a.length > b.length ? a : b
+  );
+
+  return (
+    <span className="relative ml-1 inline-flex align-bottom">
+      <span
+        className="invisible whitespace-nowrap px-2.5 py-0.5 sm:px-3"
+        aria-hidden
+      >
+        {longest}
+      </span>
+
+      <span className="absolute inset-0 overflow-hidden rounded-lg border border-[#C79D6D]/25 bg-gradient-to-br from-[#C79D6D]/14 via-white/[0.04] to-[#d4a574]/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+        <span className="absolute left-0 top-1 bottom-1 w-0.5 rounded-full bg-gradient-to-b from-[#C79D6D] to-[#d4a574]" />
+
+        <span className="relative flex h-full items-center px-2.5 py-0.5 sm:px-3">
+          <AnimatePresence mode="wait">
+            {active && (
+              <motion.span
+                key={ROTATING_WORDS[wordIndex]}
+                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
+                transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                className="whitespace-nowrap bg-gradient-to-r from-[#e8c9a8] via-white to-[#d4a574] bg-clip-text text-transparent"
+              >
+                {ROTATING_WORDS[wordIndex]}
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </span>
+
+        <motion.span
+          key={`accent-${wordIndex}`}
+          aria-hidden
+          className="absolute bottom-0 left-2 right-2 h-px origin-center bg-gradient-to-r from-transparent via-[#C79D6D] to-transparent"
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+        />
+      </span>
+    </span>
+  );
+}
+
+function TypewriterHeadline({
+  ready,
+  reducedMotion,
+  onComplete,
+}: TypewriterHeadlineProps) {
+  const [lineIndex, setLineIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [started, setStarted] = useState(false);
+  const [finished, setFinished] = useState(false);
+  const [wordIndex, setWordIndex] = useState(0);
+
+  const totalLines = staticHeadlineLines.length + 1;
+
+  useEffect(() => {
+    if (!ready) return;
+
+    if (reducedMotion) {
+      setFinished(true);
+      onComplete?.();
+      return;
+    }
+
+    const startTimer = window.setTimeout(() => setStarted(true), START_DELAY_MS);
+    return () => window.clearTimeout(startTimer);
+  }, [ready, reducedMotion, onComplete]);
+
+  useEffect(() => {
+    if (!started || reducedMotion || finished) return;
+
+    const currentText = lineText(lineIndex);
+
+    if (charIndex < currentText.length) {
+      const nextChar = currentText[charIndex];
+      const timer = window.setTimeout(
+        () => setCharIndex((c) => c + 1),
+        charDelay(nextChar ?? "")
+      );
+      return () => window.clearTimeout(timer);
+    }
+
+    if (lineIndex < totalLines - 1) {
+      const timer = window.setTimeout(() => {
+        setLineIndex((l) => l + 1);
+        setCharIndex(0);
+      }, LINE_PAUSE_MS);
+      return () => window.clearTimeout(timer);
+    }
+
+    setFinished(true);
+    onComplete?.();
+  }, [started, lineIndex, charIndex, reducedMotion, finished, onComplete, totalLines]);
+
+  useEffect(() => {
+    if (!finished || reducedMotion) return;
+
+    const timer = window.setInterval(() => {
+      setWordIndex((i) => (i + 1) % ROTATING_WORDS.length);
+    }, ROTATE_MS);
+
+    return () => window.clearInterval(timer);
+  }, [finished, reducedMotion]);
+
+  if (reducedMotion) {
+    return (
+      <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
+        {staticHeadlineLines.map((line) => (
+          <span key={line.text} className="block">
+            <span className={lineClass(line.variant)}>{line.text}</span>
+          </span>
+        ))}
+        <span className="block">
+          <span className={lineClass("gold")}>
+            {BRAND_PREFIX}
+            {ROTATING_WORDS[0]}
+          </span>
+        </span>
+      </h1>
+    );
+  }
+
+  const renderStaticLine = (
+    line: (typeof staticHeadlineLines)[number],
+    li: number
+  ) => {
+    const isPast = li < lineIndex;
+    const isCurrent = li === lineIndex && started;
+    const visible = isPast
+      ? line.text
+      : isCurrent
+        ? line.text.slice(0, charIndex)
+        : "";
+    const showCursor = isCurrent && !finished;
+    const progress = isCurrent ? charIndex / line.text.length : isPast ? 1 : 0;
+
+    return (
+      <span key={line.text} className="relative block">
+        <span className="invisible block select-none" aria-hidden>
+          {line.text}
+        </span>
+        <span className={`absolute left-0 top-0 ${lineClass(line.variant)}`}>
+          {visible}
+          {showCursor && (
+            <motion.span
+              aria-hidden
+              className="ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[0.05em] bg-[#C79D6D] align-middle shadow-[0_0_8px_rgba(199,157,109,0.6)]"
+              animate={{ opacity: [1, 1, 0, 0] }}
+              transition={{
+                duration: 0.9,
+                repeat: Number.POSITIVE_INFINITY,
+                times: [0, 0.45, 0.45, 1],
+                ease: "linear",
+              }}
+            />
+          )}
+        </span>
+        {isCurrent && progress > 0 && !finished && (
+          <motion.span
+            aria-hidden
+            className="absolute -bottom-1 left-0 h-px bg-gradient-to-r from-[#C79D6D]/70 to-transparent"
+            initial={{ width: 0 }}
+            animate={{ width: `${progress * 100}%` }}
+            transition={{ duration: 0.08, ease: "linear" }}
+          />
+        )}
+      </span>
+    );
+  };
+
+  const line3Index = staticHeadlineLines.length;
+  const isLine3Current = line3Index === lineIndex && started;
+  const line3Visible = isLine3Current ? LINE3_TYPED.slice(0, charIndex) : line3Index < lineIndex ? LINE3_TYPED : "";
+  const line3PrefixDone =
+    line3Index < lineIndex ||
+    (isLine3Current && charIndex >= BRAND_PREFIX.length);
+  const showLine3Cursor = isLine3Current && !finished;
+  const line3Progress = isLine3Current ? charIndex / LINE3_TYPED.length : line3Index < lineIndex ? 1 : 0;
+
+  return (
+    <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
+      {staticHeadlineLines.map((line, li) => renderStaticLine(line, li))}
+
+      <span className="relative block">
+        <span className="invisible block select-none" aria-hidden>
+          {LINE3_MEASURE}
+        </span>
+        <span className="absolute left-0 top-0">
+          {!line3PrefixDone ? (
+            <span className={lineClass("gold")}>{line3Visible}</span>
+          ) : (
+            <span className={lineClass("gold")}>
+              {BRAND_PREFIX}
+              {finished ? (
+                <RotatingBrandWord active wordIndex={wordIndex} />
+              ) : (
+                line3Visible.slice(BRAND_PREFIX.length)
+              )}
+            </span>
+          )}
+          {showLine3Cursor && (
+            <motion.span
+              aria-hidden
+              className="ml-0.5 inline-block h-[0.85em] w-[2px] translate-y-[0.05em] bg-[#C79D6D] align-middle shadow-[0_0_8px_rgba(199,157,109,0.6)]"
+              animate={{ opacity: [1, 1, 0, 0] }}
+              transition={{
+                duration: 0.9,
+                repeat: Number.POSITIVE_INFINITY,
+                times: [0, 0.45, 0.45, 1],
+                ease: "linear",
+              }}
+            />
+          )}
+        </span>
+        {isLine3Current && line3Progress > 0 && !finished && (
+          <motion.span
+            aria-hidden
+            className="absolute -bottom-1 left-0 h-px bg-gradient-to-r from-[#C79D6D]/70 to-transparent"
+            initial={{ width: 0 }}
+            animate={{ width: `${line3Progress * 100}%` }}
+            transition={{ duration: 0.08, ease: "linear" }}
+          />
+        )}
+      </span>
+    </h1>
+  );
+}
+
 const HeroSection = () => {
   const prefersReducedMotion = useReducedMotion();
   const [ready, setReady] = useState(false);
+  const [headlineDone, setHeadlineDone] = useState(false);
   const { scrollY } = useScroll();
   const imageY = useTransform(scrollY, [0, 500], [0, prefersReducedMotion ? 0 : 48]);
 
@@ -171,21 +460,20 @@ const HeroSection = () => {
               <span>Creative agency based in Ethiopia</span>
             </motion.div>
 
-            <motion.h1
-              variants={fadeUp}
-              className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight text-white"
-            >
-              Visions Designed.
-              <br />
-              Stories Told.
-              <br />
-              <span className="bg-gradient-to-r from-[#C79D6D] via-[#e8c9a8] to-[#d4a574] bg-clip-text text-transparent">
-                Brands Transformed.
-              </span>
-            </motion.h1>
+            <TypewriterHeadline
+              ready={ready}
+              reducedMotion={prefersReducedMotion}
+              onComplete={() => setHeadlineDone(true)}
+            />
 
             <motion.p
-              variants={fadeUp}
+              initial={{ opacity: 0, y: 20 }}
+              animate={
+                headlineDone || prefersReducedMotion
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 0, y: 20 }
+              }
+              transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               className="hero-subtitle mt-6 max-w-lg text-base leading-relaxed text-gray-400 sm:text-lg"
             >
               Full-service advertising, branding, digital marketing, and media
