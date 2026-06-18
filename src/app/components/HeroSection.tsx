@@ -107,7 +107,7 @@ const ROTATING_WORDS = [
 const ROTATE_MS = 2500;
 const LINE3_TYPED = `${BRAND_PREFIX}${ROTATING_WORDS[0]}`;
 const LINE3_MEASURE = `${BRAND_PREFIX}${ROTATING_WORDS.reduce((a, b) =>
-  a.length > b.length ? a : b
+  a.length > b.length ? a : b,
 )}`;
 
 const CHAR_MS = 48;
@@ -147,7 +147,7 @@ function RotatingBrandWord({
   wordIndex: number;
 }) {
   const longest = ROTATING_WORDS.reduce((a, b) =>
-    a.length > b.length ? a : b
+    a.length > b.length ? a : b,
   );
 
   return (
@@ -214,7 +214,10 @@ function TypewriterHeadline({
       return;
     }
 
-    const startTimer = window.setTimeout(() => setStarted(true), START_DELAY_MS);
+    const startTimer = window.setTimeout(
+      () => setStarted(true),
+      START_DELAY_MS,
+    );
     return () => window.clearTimeout(startTimer);
   }, [ready, reducedMotion, onComplete]);
 
@@ -227,7 +230,7 @@ function TypewriterHeadline({
       const nextChar = currentText[charIndex];
       const timer = window.setTimeout(
         () => setCharIndex((c) => c + 1),
-        charDelay(nextChar ?? "")
+        charDelay(nextChar ?? ""),
       );
       return () => window.clearTimeout(timer);
     }
@@ -242,7 +245,15 @@ function TypewriterHeadline({
 
     setFinished(true);
     onComplete?.();
-  }, [started, lineIndex, charIndex, reducedMotion, finished, onComplete, totalLines]);
+  }, [
+    started,
+    lineIndex,
+    charIndex,
+    reducedMotion,
+    finished,
+    onComplete,
+    totalLines,
+  ]);
 
   useEffect(() => {
     if (!finished || reducedMotion) return;
@@ -274,7 +285,7 @@ function TypewriterHeadline({
 
   const renderStaticLine = (
     line: (typeof staticHeadlineLines)[number],
-    li: number
+    li: number,
   ) => {
     const isPast = li < lineIndex;
     const isCurrent = li === lineIndex && started;
@@ -322,12 +333,20 @@ function TypewriterHeadline({
 
   const line3Index = staticHeadlineLines.length;
   const isLine3Current = line3Index === lineIndex && started;
-  const line3Visible = isLine3Current ? LINE3_TYPED.slice(0, charIndex) : line3Index < lineIndex ? LINE3_TYPED : "";
+  const line3Visible = isLine3Current
+    ? LINE3_TYPED.slice(0, charIndex)
+    : line3Index < lineIndex
+      ? LINE3_TYPED
+      : "";
   const line3PrefixDone =
     line3Index < lineIndex ||
     (isLine3Current && charIndex >= BRAND_PREFIX.length);
   const showLine3Cursor = isLine3Current && !finished;
-  const line3Progress = isLine3Current ? charIndex / LINE3_TYPED.length : line3Index < lineIndex ? 1 : 0;
+  const line3Progress = isLine3Current
+    ? charIndex / LINE3_TYPED.length
+    : line3Index < lineIndex
+      ? 1
+      : 0;
 
   return (
     <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
@@ -383,7 +402,11 @@ const HeroSection = () => {
   const [ready, setReady] = useState(false);
   const [headlineDone, setHeadlineDone] = useState(false);
   const { scrollY } = useScroll();
-  const imageY = useTransform(scrollY, [0, 500], [0, prefersReducedMotion ? 0 : 48]);
+  const imageY = useTransform(
+    scrollY,
+    [0, 500],
+    [0, prefersReducedMotion ? 0 : 48],
+  );
 
   useEffect(() => {
     const onIntro = () => setReady(true);
@@ -477,7 +500,7 @@ const HeroSection = () => {
               className="hero-subtitle mt-6 max-w-lg text-base leading-relaxed text-gray-400 sm:text-lg"
             >
               Full-service advertising, branding, digital marketing, and media
-              production — built to help your business stand out and grow.
+              production ,built to help your business stand out and grow.
             </motion.p>
 
             <motion.div
@@ -526,7 +549,11 @@ const HeroSection = () => {
           {/* Visual — classic right column */}
           <motion.div
             className="order-1 lg:order-2"
-            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 40, scale: 0.96 }}
+            initial={{
+              opacity: 0,
+              y: prefersReducedMotion ? 0 : 40,
+              scale: 0.96,
+            }}
             animate={
               ready
                 ? { opacity: 1, y: 0, scale: 1 }
