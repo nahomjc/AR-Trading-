@@ -10,6 +10,7 @@ import {
   IconTarget,
   IconVideo,
 } from "@tabler/icons-react";
+import { PhoneCallModal } from "./PhoneCallModal";
 import { PhoneModel3D } from "./PhoneModel3D";
 
 const marketingFeatures = [
@@ -156,6 +157,7 @@ function PhoneStage() {
 export default function PhoneMarketingSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [isCallModalOpen, setIsCallModalOpen] = useState(false);
 
   useEffect(() => {
     if (isPaused) return;
@@ -217,9 +219,20 @@ export default function PhoneMarketingSection() {
 
           <div className="relative mx-auto h-[480px] w-full overflow-visible pt-4 pb-10 sm:h-[540px] sm:pt-5 sm:pb-12 lg:h-[600px] xl:h-[640px]">
             <PhoneStage />
-            <PhoneModel3D className="relative z-10 h-full w-full" />
+            <PhoneModel3D
+              className="relative z-10 h-full w-full"
+              onPhoneClick={() => setIsCallModalOpen(true)}
+            />
           </div>
+          <p className="mt-2 text-center text-xs text-gray-500">
+            Tap the phone to call us
+          </p>
         </div>
+
+        <PhoneCallModal
+          isOpen={isCallModalOpen}
+          onClose={() => setIsCallModalOpen(false)}
+        />
 
         {/* Progress dots */}
         <div className="mt-6 flex items-center justify-center gap-2">

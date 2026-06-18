@@ -89,9 +89,7 @@ function getPhoneGeometry(object: Group): BufferGeometry | null {
   return geometry;
 }
 
-function computeScreenPlacement(
-  geometry: BufferGeometry,
-): ScreenPlacement {
+function computeScreenPlacement(geometry: BufferGeometry): ScreenPlacement {
   geometry.computeBoundingBox();
   const box = geometry.boundingBox;
   if (!box) {
@@ -176,9 +174,8 @@ function PhoneAssembly() {
   const object = useLoader(OBJLoader, PHONE_MODEL_PATH);
   const screenTexture = useTexture(PHONE_SCREEN_IMAGE);
   const phoneGeometry = useMemo(() => getPhoneGeometry(object), [object]);
-  const [screenPlacement, setScreenPlacement] = useState<ScreenPlacement | null>(
-    null,
-  );
+  const [screenPlacement, setScreenPlacement] =
+    useState<ScreenPlacement | null>(null);
 
   useLayoutEffect(() => {
     object.traverse((child) => {
@@ -281,17 +278,26 @@ function PhoneModel({
   );
 }
 
+const TAP_MOVE_THRESHOLD_PX = 10;
+
 type PhoneModel3DProps = {
   className?: string;
+  onPhoneClick?: () => void;
 };
 
-export function PhoneModel3D({ className = "" }: PhoneModel3DProps) {
+export function PhoneModel3D({
+  className = "",
+  onPhoneClick,
+}: PhoneModel3DProps) {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const rotationY = useRef(FRONT_FACING_Y);
   const targetRotationY = useRef(FRONT_FACING_Y);
   const isDragging = useRef(false);
   const lastPointerX = useRef(0);
+  const pointerStartX = useRef(0);
+  const pointerStartY = useRef(0);
+  const didDrag = useRef(false);
 
   useEffect(() => {
     setMounted(true);
@@ -320,12 +326,22 @@ export function PhoneModel3D({ className = "" }: PhoneModel3DProps) {
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     isDragging.current = true;
+    didDrag.current = false;
     lastPointerX.current = event.clientX;
+    pointerStartX.current = event.clientX;
+    pointerStartY.current = event.clientY;
     event.currentTarget.setPointerCapture(event.pointerId);
   };
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging.current) return;
+
+    const deltaFromStartX = event.clientX - pointerStartX.current;
+    const deltaFromStartY = event.clientY - pointerStartY.current;
+    if (Math.hypot(deltaFromStartX, deltaFromStartY) > TAP_MOVE_THRESHOLD_PX) {
+      didDrag.current = true;
+    }
+
     const deltaX = event.clientX - lastPointerX.current;
     lastPointerX.current = event.clientX;
     applyRotationDelta(deltaX * DRAG_SENSITIVITY);
@@ -333,9 +349,19 @@ export function PhoneModel3D({ className = "" }: PhoneModel3DProps) {
 
   const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!isDragging.current) return;
+
+    const moved = Math.hypot(
+      event.clientX - pointerStartX.current,
+      event.clientY - pointerStartY.current,
+    );
+
     isDragging.current = false;
     if (event.currentTarget.hasPointerCapture(event.pointerId)) {
       event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+
+    if (!didDrag.current && moved < TAP_MOVE_THRESHOLD_PX) {
+      onPhoneClick?.();
     }
   };
 
@@ -352,7 +378,8 @@ export function PhoneModel3D({ className = "" }: PhoneModel3DProps) {
   return (
     <div
       ref={containerRef}
-      className={`relative h-full w-full cursor-grab touch-pan-y active:cursor-grabbing ${className}`}
+      className={`relative h-full w-full cursor-pointer touch-pan-y active:cursor-grabbing ${className}`}
+      aria-label="Tap to call Addis Reality"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={endDrag}
