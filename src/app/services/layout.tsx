@@ -1,23 +1,23 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Services - Digital Marketing, Advertising & Trading Solutions",
   description:
-    "Explore AR Solutions PLC's comprehensive services: Digital Marketing, Advertising & Printing, Branding & Design, Media Production, Web Development, Event Planning, and Training. AR Solution Trading services available.",
+    "Explore Addis Reality's comprehensive services: Digital Marketing, Advertising & Printing, Branding & Design, Media Production, Web Development, Event Planning, and Training. Addis Reality Trading services available.",
   keywords: [
-    "AR Solutions services",
-    "AR Solution Trading",
-    "AR Solution Printing",
-    "AR Solution Branding",
-    "AR Solution Media Production",
-    "AR Solution Event Planning",
-    "AR Solution Training",
-    "AR Solution Web Development",
-    "AR Solution Digital Marketing",
-    "AR Solution Advertising",
-    "AR Solution Branding",
-    "AR Solution Training",
-    "AR Solution Training PLC",
+    "Addis Reality services",
+    "Addis Reality Trading",
+    "Addis Reality Printing",
+    "Addis Reality Branding",
+    "Addis Reality Media Production",
+    "Addis Reality Event Planning",
+    "Addis Reality Training",
+    "Addis Reality Web Development",
+    "Addis Reality Digital Marketing",
+    "Addis Reality Advertising",
+    "Addis Reality Branding",
+    "Addis Reality Training",
+    "Addis Reality Training",
     "digital marketing services",
     "advertising services Ethiopia",
     "branding design",
@@ -25,10 +25,10 @@ export const metadata: Metadata = {
     "media production",
     "event planning",
     "training services",
-    "AR Solutions PLC services",
+    "Addis Reality services",
   ],
   openGraph: {
-    title: "Services - AR Solutions PLC",
+    title: "Services - Addis Reality",
     description:
       "Comprehensive digital marketing, advertising, branding, web development, and trading solutions.",
     url: "https://www.ar-solutions-plc.com/services",

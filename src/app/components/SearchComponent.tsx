@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -124,7 +124,7 @@ const SearchComponent = () => {
     // Company Info
     {
       type: "company",
-      title: "AR Solutions",
+      title: "Addis Reality",
       description: "Premier digital marketing and creative agency",
     },
     {
@@ -351,7 +351,7 @@ const SearchComponent = () => {
         Team: "team",
         Testimonials: "testimonials",
         "Latest Works": "latest-works",
-        "AR Solutions": "home",
+        "Addis Reality": "home",
         Phone: "contact",
         Email: "contact",
         Address: "contact",
@@ -664,7 +664,7 @@ const SearchComponent = () => {
                   <div className="p-6 sm:p-8 text-center">
                     <IconSearch className="w-8 h-8 sm:w-12 sm:h-12 text-[#C79D6D] mx-auto mb-3 sm:mb-4" />
                     <p className="text-white font-semibold mb-2 text-sm sm:text-base">
-                      Search AR Solutions
+                      Search Addis Reality
                     </p>
                     <p className="text-gray-400 text-xs sm:text-sm">
                       Find services, features, and information

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -82,7 +82,7 @@ const Navigation = () => {
             >
               <Image
                 src="/img/White-with-background-removebg-preview.png"
-                alt="AR Solutions Logo"
+                alt="ADDIS REALITY Logo"
                 width={120}
                 height={70}
                 className="w-auto h-24 object-contain"

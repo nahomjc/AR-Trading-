@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
@@ -9,7 +9,7 @@ const testimonials = [
     name: "Mr. Melkamu Mekonnen",
     role: "Group CEO at Haile Hospitality Group",
     content:
-      "AR Solutions consistently delivers exceptional results. Their professional approach and attention to detail exceed expectations.",
+      "Addis Reality consistently delivers exceptional results. Their professional approach and attention to detail exceed expectations.",
     rating: 5,
   },
   {
@@ -23,7 +23,7 @@ const testimonials = [
     name: "Mr. Fisseha Asress",
     role: "Senior Consultant & Advisor at Ethiopian Airlines",
     content:
-      "Confidently recommend AR Solutions for brand strategy, website development, digital marketing, and tech services. Exceptional project management with professionalism and expertise.",
+      "Confidently recommend Addis Reality for brand strategy, website development, digital marketing, and tech services. Exceptional project management with professionalism and expertise.",
     rating: 5,
   },
 ];

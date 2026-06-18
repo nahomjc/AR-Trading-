@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -264,12 +264,12 @@ const ContactSection = () => {
                   {[
                     {
                       icon: IconBrandFacebook,
-                      href: "https://www.facebook.com/profile.php?id=61584322344315",
+                      href: "https://www.facebook.com/profile.php?id=61584982463040",
                       label: "Facebook",
                     },
                     {
                       icon: IconBrandInstagram,
-                      href: "https://www.instagram.com/ar_solutions1?igsh=dnJ4OXRicTVieG44",
+                      href: "https://www.instagram.com/addis_reality?igsh=NXVqYXhzbm1xZ2M1",
                       label: "Instagram",
                     },
                     {
@@ -308,7 +308,7 @@ const ContactSection = () => {
           <div className="relative h-96 rounded-2xl overflow-hidden bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 flex items-center justify-center shadow-2xl">
             {/* Embedded Google Map */}
             <iframe
-              title="AR Solutions Location"
+              title="Addis Reality Location"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4248.424677904093!2d38.77295590000001!3d9.011854399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b852ce1410c23%3A0xe500072b801f3134!2sAR%20Solutions%20Trading%20PLC!5e1!3m2!1sen!2set!4v1754757264346!5m2!1sen!2set"
               width="100%"
               height="100%"

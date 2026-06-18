@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+﻿import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import React from "react";
 import Image from "next/image";
@@ -250,7 +250,7 @@ const TeamSection = () => {
       name: "Robson Habtamu",
       role: "General Manager and Co-founder",
       image: "/img/image-ceo.jpg",
-      description: "General manager and co-founder of AR Trading PLC",
+      description: "General manager and co-founder of Addis Reality",
     },
     {
       name: "Abenezer Samuel",

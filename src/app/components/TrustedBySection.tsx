@@ -28,19 +28,34 @@ const TrustedBySection = () => {
 
   const clients = [
     {
-      name: "Olfine",
-      logo: "/img/client/Olfine-Logo-White.png",
+      name: "Adona Spa Lodge",
+      logo: "/img/trusted-company/adona%20logo.png",
       width: 180,
+      colored: true,
     },
     {
-      name: "Happiness",
-      logo: "/img/client/happiness_logo.png",
+      name: "CareDent",
+      logo: "/img/trusted-company/caredent%20logo.png",
+      width: 200,
+      colored: true,
+    },
+    {
+      name: "EPL Fans Association",
+      logo: "/img/trusted-company/sport.png",
+      width: 140,
+      colored: true,
+    },
+    {
+      name: "Ministry of Water and Energy",
+      logo: "/img/trusted-company/Untitled-1.png",
+      width: 220,
+      colored: true,
+    },
+    {
+      name: "Yewenet",
+      logo: "/img/trusted-company/yewenet%20logo.png",
       width: 160,
-    },
-    {
-      name: "Partner",
-      logo: "/img/client/image-removebg-preview.png",
-      width: 170,
+      colored: true,
     },
   ];
 
@@ -142,7 +157,11 @@ const TrustedBySection = () => {
                   alt={`${client.name} Logo`}
                   width={client.width}
                   height={100}
-                  className="object-contain max-h-24 sm:max-h-28 lg:max-h-32 w-auto opacity-70 group-hover/logo:opacity-100 transition-opacity duration-300 filter brightness-0 invert group-hover/logo:brightness-100 group-hover/logo:invert-0"
+                  className={`object-contain max-h-24 sm:max-h-28 lg:max-h-32 w-auto transition-opacity duration-300 ${
+                    client.colored
+                      ? "opacity-90 group-hover/logo:opacity-100"
+                      : "opacity-70 group-hover/logo:opacity-100 filter brightness-0 invert group-hover/logo:brightness-100 group-hover/logo:invert-0"
+                  }`}
                 />
 
                 {/* Glow Effect */}

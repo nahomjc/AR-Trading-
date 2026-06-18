@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -25,7 +25,7 @@ const Footer = () => {
             <motion.div className="mb-4" whileHover={{ scale: 1.05 }}>
               <Image
                 src="/img/White-with-background-removebg-preview.png"
-                alt="AR Solutions Logo"
+                alt="ADDIS REALITY Logo"
                 width={150}
                 height={60}
                 className="h-28 w-auto"
@@ -79,12 +79,12 @@ const Footer = () => {
             {[
               {
                 icon: IconBrandFacebook,
-                href: "https://www.facebook.com/profile.php?id=61584322344315",
+                href: "https://www.facebook.com/profile.php?id=61584982463040",
                 label: "Facebook",
               },
               {
                 icon: IconBrandInstagram,
-                href: "https://www.instagram.com/ar_solutions1?igsh=dnJ4OXRicTVieG44",
+                href: "https://www.instagram.com/addis_reality?igsh=NXVqYXhzbm1xZ2M1",
                 label: "Instagram",
               },
               {
@@ -108,7 +108,7 @@ const Footer = () => {
             ))}
           </div>
           <p className="text-gray-300 text-center">
-            © {new Date().getFullYear()} AR Solutions. All rights reserved.
+            © {new Date().getFullYear()} ADDIS REALITY. All rights reserved.
             Built with innovation and passion.
           </p>
         </div>

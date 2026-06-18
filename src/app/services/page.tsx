@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
@@ -154,7 +154,7 @@ export default function ServicesPage() {
     serviceType: "Digital Marketing, Advertising, Branding, Web Development, Trading Solutions",
     provider: {
       "@type": "Organization",
-      name: "AR Solutions PLC",
+      name: "Addis Reality",
       url: "https://www.ar-solutions-plc.com",
     },
     areaServed: {
@@ -162,15 +162,15 @@ export default function ServicesPage() {
       name: "Ethiopia",
     },
     description:
-      "AR Solutions PLC provides comprehensive digital marketing, advertising, branding, web development, media production, event planning, training, and AR Solution Trading services.",
+      "Addis Reality provides comprehensive digital marketing, advertising, branding, web development, media production, event planning, training, and Addis Reality Trading services.",
   };
 
   const collectionPageSchema = {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
-    name: "Services - AR Solutions PLC",
+    name: "Services - Addis Reality",
     description:
-      "Browse our comprehensive range of services including digital marketing, advertising, branding, web development, and AR Solution Trading.",
+      "Browse our comprehensive range of services including digital marketing, advertising, branding, web development, and Addis Reality Trading.",
     url: "https://www.ar-solutions-plc.com/services",
     mainEntity: {
       "@type": "ItemList",

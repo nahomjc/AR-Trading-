@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -40,14 +40,14 @@ const SocialMediaModal = () => {
   const socialLinks = [
     {
       icon: IconBrandFacebook,
-      href: "https://www.facebook.com/profile.php?id=61584322344315",
+      href: "https://www.facebook.com/profile.php?id=61584982463040",
       label: "Facebook",
       color: "from-blue-500 to-blue-600",
       hoverColor: "hover:from-blue-600 hover:to-blue-700",
     },
     {
       icon: IconBrandInstagram,
-      href: "https://www.instagram.com/ar_solutions1?igsh=dnJ4OXRicTVieG44",
+      href: "https://www.instagram.com/addis_reality?igsh=NXVqYXhzbm1xZ2M1",
       label: "Instagram",
       color: "from-pink-500 via-purple-500 to-orange-500",
       hoverColor:
@@ -109,7 +109,7 @@ const SocialMediaModal = () => {
                       Join Our Community
                     </h3>
                     <p className="text-sm text-gray-400 mt-1">
-                      Stay connected with AR Solutions
+                      Stay connected with ADDIS REALITY
                     </p>
                   </div>
                 </div>
@@ -140,7 +140,7 @@ const SocialMediaModal = () => {
                 <p className="text-gray-300 leading-relaxed">
                   Get the latest updates, tips, and exclusive content by
                   following us on social media. Join thousands of businesses
-                  growing with AR Solutions!
+                  growing with ADDIS REALITY!
                 </p>
               </div>
 

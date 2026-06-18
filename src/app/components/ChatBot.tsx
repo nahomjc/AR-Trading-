@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -32,7 +32,7 @@ function TypingIndicator() {
 
 // Website info context
 const websiteInfo = {
-  about: `AR Solutions is a multi-service creative and commercial agency committed to delivering advertising, branding, printing, media production, and business solutions — all under one roof. We combine innovative ideas with practical execution, helping our clients grow, connect, and stand out in today’s competitive world.`,
+  about: `Addis Reality is a multi-service creative and commercial agency committed to delivering advertising, branding, printing, media production, and business solutions — all under one roof. We combine innovative ideas with practical execution, helping our clients grow, connect, and stand out in today’s competitive world.`,
   services: [
     "Advertising & Printing: Banners, stickers, office & vehicle branding, merchandise",
     "Digital Marketing: Social media management, paid ads, SEO, strategy, influencer marketing",
@@ -66,7 +66,7 @@ const FAQS = [
   { q: "What services do you offer?" },
   { q: "Where are you located?" },
   { q: "How can I contact you?" },
-  { q: "Tell me about AR Solutions." },
+  { q: "Tell me about Addis Reality." },
   { q: "Who are your clients?" },
   { q: "What is your mission?" },
 ];
@@ -162,6 +162,7 @@ export default function ChatBot() {
     // About/company
     if (
       lower.includes("about") ||
+      lower.includes("what is addis reality") ||
       lower.includes("what is ar trading") ||
       lower.includes("company")
     )
@@ -236,7 +237,7 @@ export default function ChatBot() {
     if (lower.includes("bye") || lower.includes("goodbye"))
       return "Goodbye! Have a great day!";
     // Fallback
-    return "Thank you for your message! If you have questions about AR Solutions, our services, or how we can help your business, just ask! (This is a demo bot.)";
+    return "Thank you for your message! If you have questions about Addis Reality, our services, or how we can help your business, just ask! (This is a demo bot.)";
   }
 
   return (
@@ -385,7 +386,7 @@ export default function ChatBot() {
             <div className="flex items-center justify-between px-4 py-3 bg-[#08243A]/80 border-b border-[#08243A]/30 backdrop-blur-md">
               <div className="flex items-center gap-2">
                 <span className="text-lg font-bold text-white tracking-wide drop-shadow">
-                  AR ChatBot
+                  ADDIS REALITY ChatBot
                 </span>
                 <span className="ml-2 text-xs text-white bg-[#08243A]/40 px-2 py-0.5 rounded-full animate-pulse">
                   ● Online

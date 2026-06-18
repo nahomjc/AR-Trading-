@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -14,27 +14,27 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.ar-solutions-plc.com"),
   title: {
     default:
-      "AR Solutions PLC - Leading Digital Marketing & Trading Solutions | Ethiopia",
-    template: "%s | AR Solutions PLC",
+      "Addis Reality - Leading Digital Marketing & Trading Solutions | Ethiopia",
+    template: "%s | Addis Reality",
   },
   description:
-    "AR Solutions PLC - Ethiopia's premier provider of digital marketing, advertising, branding, web development, and trading solutions. Transform your business with AR Solution's innovative services including AR Solution Trading, media production, event planning, and professional training. Trusted by leading businesses across Ethiopia.",
+    "Addis Reality - Ethiopia's premier provider of digital marketing, advertising, branding, web development, and trading solutions. Transform your business with Addis Reality's innovative services including Addis Reality Trading, media production, event planning, and professional training. Trusted by leading businesses across Ethiopia.",
   keywords: [
-    "AR Solutions",
-    "AR Solution",
-    "AR Solution Trading",
-    "AR Solution Printing",
-    "AR Solution Branding",
-    "AR Solution Media Production",
-    "AR Solution Event Planning",
-    "AR Solution Training",
-    "AR Solution Web Development",
-    "AR Solution Digital Marketing",
-    "AR Solution Advertising",
-    "AR Solution Branding",
-    "AR Solution Training",
-    "AR Solution Training PLC",
-    "AR Solutions PLC",
+    "Addis Reality",
+    "Addis Reality",
+    "Addis Reality Trading",
+    "Addis Reality Printing",
+    "Addis Reality Branding",
+    "Addis Reality Media Production",
+    "Addis Reality Event Planning",
+    "Addis Reality Training",
+    "Addis Reality Web Development",
+    "Addis Reality Digital Marketing",
+    "Addis Reality Advertising",
+    "Addis Reality Branding",
+    "Addis Reality Training",
+    "Addis Reality Training",
+    "Addis Reality",
     "digital marketing Ethiopia",
     "advertising services Ethiopia",
     "branding design Ethiopia",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     "business solutions Ethiopia",
     "marketing agency Ethiopia",
     "creative agency Ethiopia",
-    "AR trading",
+    "Addis Reality",
     "best digital marketing company Ethiopia",
     "top advertising agency Ethiopia",
     "professional branding services",
@@ -57,9 +57,9 @@ export const metadata: Metadata = {
     "video production Ethiopia",
     "corporate training Ethiopia",
   ],
-  authors: [{ name: "AR Solutions PLC" }],
-  creator: "AR Solutions PLC",
-  publisher: "AR Solutions PLC",
+  authors: [{ name: "Addis Reality" }],
+  creator: "Addis Reality",
+  publisher: "Addis Reality",
   category: "Business Services",
   classification: "Digital Marketing, Advertising, Trading Solutions",
   robots: {
@@ -80,17 +80,17 @@ export const metadata: Metadata = {
     locale: "en_US",
     alternateLocale: ["am_ET"],
     url: "https://www.ar-solutions-plc.com",
-    siteName: "AR Solutions PLC",
+    siteName: "Addis Reality",
     title:
-      "AR Solutions PLC - Leading Digital Marketing & Trading Solutions | Ethiopia",
+      "Addis Reality - Leading Digital Marketing & Trading Solutions | Ethiopia",
     description:
-      "Ethiopia's premier provider of digital marketing, advertising, branding, web development, and trading solutions. Transform your business with AR Solution's innovative services including AR Solution Trading, media production, event planning, and professional training.",
+      "Ethiopia's premier provider of digital marketing, advertising, branding, web development, and trading solutions. Transform your business with Addis Reality's innovative services including Addis Reality Trading, media production, event planning, and professional training.",
     images: [
       {
         url: "/img/White-with-background-removebg-preview.png",
         width: 1200,
         height: 630,
-        alt: "AR Solutions PLC - Digital Marketing & Trading Solutions",
+        alt: "Addis Reality - Digital Marketing & Trading Solutions",
         type: "image/png",
       },
     ],
@@ -98,12 +98,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "AR Solutions PLC - Digital Marketing & Trading Solutions | Ethiopia",
+      "Addis Reality - Digital Marketing & Trading Solutions | Ethiopia",
     description:
       "Ethiopia's premier provider of digital marketing, advertising, branding, web development, and trading solutions. Transform your business today.",
     images: ["/img/White-with-background-removebg-preview.png"],
-    creator: "@ARSolutionsPLC",
-    site: "@ARSolutionsPLC",
+    creator: "@addis_reality",
+    site: "@addis_reality",
   },
   alternates: {
     canonical: "https://www.ar-solutions-plc.com",
@@ -160,8 +160,8 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": "https://www.ar-solutions-plc.com/#organization",
-    name: "AR Solutions PLC",
-    alternateName: ["AR Solution", "AR Solution Trading", "AR Solutions"],
+    name: "Addis Reality",
+    alternateName: ["Addis Reality", "Addis Reality Trading", "Addis Reality"],
     url: "https://www.ar-solutions-plc.com",
     logo: {
       "@type": "ImageObject",
@@ -172,7 +172,7 @@ export default function RootLayout({
     image:
       "https://www.ar-solutions-plc.com/img/White-with-background-removebg-preview.png",
     description:
-      "AR Solutions PLC - Ethiopia's premier provider of digital marketing, advertising, branding, web development, media production, event planning, training, and trading solutions. Transforming businesses across Ethiopia with innovative digital solutions.",
+      "Addis Reality - Ethiopia's premier provider of digital marketing, advertising, branding, web development, media production, event planning, training, and trading solutions. Transforming businesses across Ethiopia with innovative digital solutions.",
     foundingDate: "2020",
     address: {
       "@type": "PostalAddress",
@@ -201,11 +201,8 @@ export default function RootLayout({
       },
     ],
     sameAs: [
-      // Add your social media URLs here when available
-      // "https://www.facebook.com/arsolutions",
-      // "https://www.linkedin.com/company/ar-solutions",
-      // "https://twitter.com/ARSolutionsPLC",
-      // "https://www.instagram.com/arsolutions",
+      "https://www.facebook.com/profile.php?id=61584982463040",
+      "https://www.instagram.com/addis_reality?igsh=NXVqYXhzbm1xZ2M1",
     ],
     aggregateRating: {
       "@type": "AggregateRating",
@@ -230,11 +227,11 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": "https://www.ar-solutions-plc.com/#website",
-    name: "AR Solutions PLC",
-    alternateName: ["AR Solution Trading", "AR Solutions"],
+    name: "Addis Reality",
+    alternateName: ["Addis Reality Trading", "Addis Reality"],
     url: "https://www.ar-solutions-plc.com",
     description:
-      "AR Solutions PLC - Ethiopia's leading digital marketing, advertising, branding, web development, and trading solutions provider.",
+      "Addis Reality - Ethiopia's leading digital marketing, advertising, branding, web development, and trading solutions provider.",
     inLanguage: ["en-US", "am-ET"],
     publisher: {
       "@id": "https://www.ar-solutions-plc.com/#organization",

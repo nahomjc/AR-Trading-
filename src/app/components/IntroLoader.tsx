@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -148,7 +148,7 @@ export default function IntroLoader() {
                 <div className="relative bg-white/10 backdrop-blur-md rounded-2xl p-8 border border-white/20">
                   <Image
                     src="/img/White-with-background-removebg-preview.png"
-                    alt="AR Solutions Logo"
+                    alt="ADDIS REALITY Logo"
                     width={280}
                     height={112}
                     className="drop-shadow-lg"
@@ -171,8 +171,8 @@ export default function IntroLoader() {
                 animate={{ letterSpacing: "0.05em" }}
                 transition={{ duration: 1, delay: 0.6 }}
               >
-                <span className="text-white">AR</span>
-                <span className="text-[#C79D6D] ml-3">Solutions</span>
+                <span className="text-white">ADDIS</span>
+                <span className="text-[#C79D6D] ml-3">REALITY</span>
               </motion.h1>
               <motion.div
                 className="h-px w-32 bg-gradient-to-r from-transparent via-[#C79D6D] to-transparent mx-auto"

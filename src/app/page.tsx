@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -94,9 +94,9 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": "https://www.ar-solutions-plc.com/#webpage",
-    name: "AR Solutions PLC - Digital Marketing & Trading Solutions | Ethiopia",
+    name: "Addis Reality - Digital Marketing & Trading Solutions | Ethiopia",
     description:
-      "AR Solutions PLC offers comprehensive digital marketing, advertising, branding, web development, media production, event planning, and trading solutions. Leading provider of AR Solution Trading services in Ethiopia.",
+      "Addis Reality offers comprehensive digital marketing, advertising, branding, web development, media production, event planning, and trading solutions. Leading provider of Addis Reality Trading services in Ethiopia.",
     url: "https://www.ar-solutions-plc.com",
     inLanguage: ["en-US", "am-ET"],
     isPartOf: {
@@ -152,7 +152,7 @@ export default function Home() {
     },
     hasOfferCatalog: {
       "@type": "OfferCatalog",
-      name: "AR Solutions PLC Services",
+      name: "Addis Reality Services",
       itemListElement: [
         {
           "@type": "OfferCatalog",
@@ -253,7 +253,7 @@ export default function Home() {
               "@type": "Offer",
               itemOffered: {
                 "@type": "Service",
-                name: "AR Solution Trading Services",
+                name: "Addis Reality Trading Services",
               },
             },
           ],

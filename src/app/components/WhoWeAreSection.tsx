@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
@@ -79,7 +79,7 @@ const WhoWeAreSection = () => {
             Excellence. Innovation. Results.
           </h2>
           <p className="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Founded in 2016, AR Solutions is a premier digital marketing and
+            Founded in 2016, Addis Reality is a premier digital marketing and
             creative agency transforming Ethiopian businesses through strategic
             innovation and exceptional execution. We don't just follow trends —
             we create trends, build digital experiences that connect
