@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  IconCode,
   IconChartLine,
   IconPalette,
   IconPrinter,
@@ -16,16 +16,154 @@ import {
   IconMail,
   IconCheck,
   IconX,
+  IconArrowRight,
 } from "@tabler/icons-react";
 
-// Services Section
+const ROTATE_MS = 5000;
+
+type Service = {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  features: string[];
+  buttonText: string;
+};
+
+const services: Service[] = [
+  {
+    id: "printing",
+    title: "Advertising & Printing",
+    description:
+      "From banners to merchandise, we design and print materials that capture attention and strengthen your brand presence.",
+    icon: IconPrinter,
+    features: [
+      "Banner & Sticker Design",
+      "Vehicle Branding",
+      "Office Branding",
+      "Merchandise & Promotional Items",
+    ],
+    buttonText: "Get a Quote",
+  },
+  {
+    id: "digital",
+    title: "Digital Marketing",
+    description:
+      "Connect with your audience through data-driven campaigns that deliver measurable growth and lasting engagement.",
+    icon: IconChartLine,
+    features: [
+      "Social Media Management",
+      "Paid Advertising",
+      "SEO Strategy",
+      "Influencer Marketing",
+    ],
+    buttonText: "Get a Quote",
+  },
+  {
+    id: "branding",
+    title: "Branding & Design",
+    description:
+      "Distinct brand identities with compelling logos, clear strategy, and visual systems that set you apart.",
+    icon: IconPalette,
+    features: [
+      "Logo Design",
+      "Brand Identity & Strategy",
+      "Visual Strategy",
+      "Creative Content",
+    ],
+    buttonText: "Start Your Brand Journey",
+  },
+  {
+    id: "media",
+    title: "Media Production",
+    description:
+      "Bring your story to life through professional visuals and video content that inspires action.",
+    icon: IconVideo,
+    features: [
+      "Videography & Photography",
+      "Promotional Content",
+      "Video Editing",
+      "Post-Production",
+    ],
+    buttonText: "Work with Our Media Team",
+  },
+  {
+    id: "web",
+    title: "Web Development",
+    description:
+      "Modern, responsive, and SEO-friendly websites engineered to perform and convert.",
+    icon: IconWorld,
+    features: [
+      "Website Design & Development",
+      "Maintenance & Updates",
+      "SEO Optimization",
+    ],
+    buttonText: "Build Your Website",
+  },
+  {
+    id: "events",
+    title: "Event Planning",
+    description:
+      "Memorable brand experiences — from corporate gatherings to product launches and exhibitions.",
+    icon: IconCalendarEvent,
+    features: [
+      "Corporate Events",
+      "Conferences",
+      "Product Launches",
+      "Exhibitions",
+    ],
+    buttonText: "Plan Your Event",
+  },
+];
+
 const ServicesSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
 
   const companyPhone = "+251 981668976";
   const companyEmail = "artradingplc@gmail.com";
+  const active = services[activeIndex];
+
+  const goTo = useCallback((index: number) => {
+    setActiveIndex((index + services.length) % services.length);
+  }, []);
+
+  useEffect(() => {
+    setPortalReady(true);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 1023px)");
+    const update = () => setIsMobile(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || isMobile) return;
+    const timer = setInterval(() => {
+      setActiveIndex((i) => (i + 1) % services.length);
+    }, ROTATE_MS);
+    return () => clearInterval(timer);
+  }, [isPaused, isMobile]);
+
+  useEffect(() => {
+    if (!isModalOpen) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsModalOpen(false);
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [isModalOpen]);
 
   const handleCopyPhone = async () => {
     try {
@@ -38,518 +176,109 @@ const ServicesSection = () => {
   };
 
   const handleWhatsAppClick = () => {
-    const message = `Hello! I'm interested in your services. Could you please provide more information?`;
-    const whatsappUrl = `https://wa.me/251981668976?text=${encodeURIComponent(
-      message
-    )}`;
-    window.open(whatsappUrl, "_blank");
+    const message =
+      "Hello! I'm interested in your services. Could you please provide more information?";
+    window.open(
+      `https://wa.me/251981668976?text=${encodeURIComponent(message)}`,
+      "_blank"
+    );
   };
 
-  const services = [
-    {
-      title: "Advertising & Printing",
-      description:
-        "From banners to merchandise, we design and print with impact.",
-      icon: IconPrinter,
-      color: "from-orange-500/20 to-red-500/20",
-      iconColor: "text-orange-400",
-      features: [
-        "Banner & Sticker Design",
-        "Vehicle Branding",
-        "Office Branding",
-        "Merchandise & Promotional Items",
-      ],
-      subtitle: "Our Services:",
-      buttonText: "Get a Quote",
-    },
-    {
-      title: "Digital Marketing",
-      description:
-        "Connect with your audience through data-driven marketing that delivers measurable results.",
-      icon: IconChartLine,
-      color: "from-blue-500/20 to-purple-500/20",
-      iconColor: "text-blue-400",
-      features: [
-        "Social Media Management",
-        "Paid Advertising",
-        "SEO Strategy",
-        "Influencer Marketing",
-      ],
-      subtitle: "Our Services:",
-      buttonText: "Get a Quote",
-    },
-    {
-      title: "Branding & Design",
-      description:
-        "Creating unique brand identities with attractive logos, clear strategy, and visual content that set you apart.",
-      icon: IconPalette,
-      color: "from-pink-500/20 to-purple-500/20",
-      iconColor: "text-pink-400",
-      features: [
-        "Logo Design",
-        "Brand Identity & Strategy",
-        "Visual Strategy",
-        "Creative Contents",
-      ],
-      subtitle: "Our Services:",
-      buttonText: "Start Your Brand Journey",
-    },
-    {
-      title: "Media Production",
-      description:
-        "Bring your story to life through visuals that inspire action.",
-      icon: IconVideo,
-      color: "from-green-500/20 to-teal-500/20",
-      iconColor: "text-green-400",
-      features: [
-        "Videography & Photography",
-        "Promotional Contents & Videos",
-        "Video Editing",
-        "Post-Production",
-      ],
-      subtitle: "Our Services:",
-      buttonText: "Work with Our Media Team",
-    },
-    {
-      title: "Web Development",
-      description:
-        "Modern, responsive, and SEO-friendly websites built to perform.",
-      icon: IconWorld,
-      color: "from-cyan-500/20 to-blue-500/20",
-      iconColor: "text-cyan-400",
-      features: [
-        "Website Design and Development",
-        "Maintenance & Updates",
-        "SEO Optimization",
-      ],
-      subtitle: "Our Services:",
-      buttonText: "Build Your Website",
-    },
-    {
-      title: "Event Planning",
-      description:
-        "We create unforgettable experiences for your brand and clients.",
-      icon: IconCalendarEvent,
-      color: "from-yellow-500/20 to-orange-500/20",
-      iconColor: "text-yellow-400",
-      features: [
-        "Corporate Events",
-        "Conferences",
-        "Product Launches",
-        "Exhibitions",
-      ],
-      subtitle: "Our Services:",
-      buttonText: "Plan Your Event",
-    },
-  ];
-
-  // Auto-play functionality
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % services.length);
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [services.length]);
-
-  // Scroll modal into view when it opens
-  useEffect(() => {
-    if (isModalOpen) {
-      // Small delay to ensure modal is rendered
-      setTimeout(() => {
-        const modal = document.querySelector("[data-modal-content]");
-        if (modal) {
-          modal.scrollIntoView({ behavior: "smooth", block: "center" });
-        }
-      }, 100);
-    }
-  }, [isModalOpen]);
-
-  return (
-    <section
-      id="services"
-      className="py-20 sm:py-32 px-2 sm:px-4 lg:px-8 relative overflow-hidden"
-      style={{ touchAction: "pan-y", contain: "layout style paint" }}
-    >
-      {/* Creative Background Elements - Optimized */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none will-change-contents">
-        {/* Animated Gradient Orbs - Reduced blur and optimized */}
-        <motion.div
-          className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/20 rounded-full blur-2xl will-change-transform"
-          animate={{
-            x: [0, 100, 0],
-            y: [0, 50, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{
-            duration: 20,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-          style={{ transform: "translateZ(0)" }}
-        />
-        <motion.div
-          className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-2xl will-change-transform"
-          animate={{
-            x: [0, -100, 0],
-            y: [0, -50, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 25,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
-          }}
-          style={{ transform: "translateZ(0)" }}
-        />
-
-        {/* Geometric Pattern Overlay */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 2px 2px, rgba(199,157,109,0.3) 1px, transparent 0)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-        </div>
-
-        {/* Grid Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `
-              linear-gradient(rgba(199,157,109,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(199,157,109,0.1) 1px, transparent 1px)
-            `,
-              backgroundSize: "50px 50px",
-            }}
-          />
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 100 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#C69c6c]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C69c6c]/30 rounded-full text-[#C69c6c] text-sm font-medium mb-6">
-            Services & Offerings
-          </span>
-          <h2 className="text-2xl sm:text-4xl md:text-6xl font-bold font-outfit mb-6 text-[#C79D6D]">
-            What We Offer
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Explore our full range of creative and digital solutions — designed
-            to grow your business and help your brand stand out.
-          </p>
-        </motion.div>
-
-        {/* Enhanced Services Display with Slideshow */}
-        <div className="relative">
-          {/* Main Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {services.map((service, index) => (
-              <motion.div
-                key={service.title}
-                className={`relative overflow-hidden rounded-2xl p-8 group transition-all duration-500 touch-pan-y ${
-                  index === activeIndex
-                    ? "bg-gradient-to-br from-[#C69c6c]/20 via-[#d4a574]/20 to-[#C69c6c]/20 border-2 border-[#C69c6c]/50 shadow-2xl shadow-[#C69c6c]/20"
-                    : "bg-gradient-to-br from-white/5 via-white/10 to-white/5 border border-white/20 hover:border-[#C69c6c]/30"
-                }`}
-                initial={{ opacity: 0, y: 100 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                {/* Creative Animated Background - Optimized */}
-                <motion.div
-                  className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-30 group-hover:opacity-50 transition-opacity duration-500 pointer-events-none will-change-transform`}
-                  style={{ transform: "translateZ(0)" }}
-                  animate={{
-                    scale: index === activeIndex ? [1, 1.1, 1] : 1,
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat:
-                      index === activeIndex ? Number.POSITIVE_INFINITY : 0,
-                    ease: "easeInOut",
-                  }}
-                />
-
-                {/* Animated Gradient Mesh - Optimized */}
-                <motion.div
-                  className="absolute inset-0 opacity-20 group-hover:opacity-30 pointer-events-none will-change-transform"
-                  style={{
-                    background: `radial-gradient(circle at ${
-                      index % 2 === 0 ? "20%" : "80"
-                    }% ${
-                      index % 3 === 0 ? "30%" : "70%"
-                    }, rgba(199,157,109,0.2), transparent 60%)`,
-                    transform: "translateZ(0)",
-                  }}
-                  animate={{
-                    x: [0, 20, 0],
-                    y: [0, 15, 0],
-                  }}
-                  transition={{
-                    duration: 8 + index,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                  }}
-                />
-
-                {/* Floating Particles Effect - Reduced for performance */}
-                {index === activeIndex &&
-                  [...Array(2)].map((particle, particleIdx) => (
-                    <motion.div
-                      key={`particle-${service.title}-${particleIdx}`}
-                      className="absolute w-2 h-2 bg-[#C79D6D]/30 rounded-full blur-sm pointer-events-none will-change-transform"
-                      style={{
-                        left: `${20 + particleIdx * 30}%`,
-                        top: `${30 + particleIdx * 20}%`,
-                        transform: "translateZ(0)",
-                      }}
-                      animate={{
-                        y: [0, -30, 0],
-                        opacity: [0.3, 0.6, 0.3],
-                        scale: [1, 1.5, 1],
-                      }}
-                      transition={{
-                        duration: 4 + particleIdx,
-                        repeat: Number.POSITIVE_INFINITY,
-                        delay: particleIdx * 0.5,
-                        ease: "easeInOut",
-                      }}
-                    />
-                  ))}
-
-                {/* Geometric Shapes - Only animate on hover for performance */}
-                <motion.div
-                  className="absolute top-4 right-4 w-20 h-20 border-2 border-[#C79D6D]/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none will-change-transform"
-                  style={{ transform: "translateZ(0)" }}
-                  animate={{
-                    rotate: [0, 90, 0],
-                  }}
-                  transition={{
-                    duration: 10,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "linear",
-                  }}
-                />
-                <motion.div
-                  className="absolute bottom-4 left-4 w-16 h-16 border-2 border-[#C79D6D]/20 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none will-change-transform"
-                  style={{ transform: "translateZ(0)" }}
-                  animate={{
-                    scale: [1, 1.2, 1],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Number.POSITIVE_INFINITY,
-                    ease: "easeInOut",
-                  }}
-                />
-
-                {/* Icon Container */}
-                <div className="relative mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <div
-                    className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${service.color} flex items-center justify-center backdrop-blur-sm border border-white/20`}
-                  >
-                    {(() => {
-                      const IconComponent = service.icon;
-                      return (
-                        <IconComponent
-                          className={`w-8 h-8 ${service.iconColor}`}
-                        />
-                      );
-                    })()}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="relative">
-                  <h3 className="text-2xl font-bold font-outfit mb-4 text-white group-hover:text-[#C69c6c] transition-colors duration-300">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-300 leading-relaxed mb-4">
-                    {service.description}
-                  </p>
-
-                  {/* Subtitle */}
-                  {service.subtitle && (
-                    <p className="text-[#C69c6c] font-semibold mb-3">
-                      {service.subtitle}
-                    </p>
-                  )}
-
-                  {/* Features List */}
-                  <div className="space-y-2 mb-6">
-                    {service.features.map((feature, featureIndex) => (
-                      <motion.div
-                        key={feature}
-                        className="flex items-center space-x-2"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: featureIndex * 0.1 }}
-                      >
-                        <div className="w-2 h-2 bg-[#C69c6c] rounded-full" />
-                        <span className="text-sm text-gray-300 font-medium">
-                          {feature}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Service Button */}
-                  <button
-                    type="button"
-                    className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-[#C79D6D]/25"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setIsModalOpen(true);
-                    }}
-                  >
-                    {service.buttonText || "Get a Free Quote"}
-                  </button>
-                </div>
-
-                {/* Hover Effect Overlay */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-t from-[#C69c6c]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none touch-none"
-                  initial={false}
-                />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Contact Modal */}
+  const contactModal =
+    portalReady &&
+    createPortal(
       <AnimatePresence>
         {isModalOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 overflow-y-auto"
+            className="fixed inset-0 z-[100000] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
             onClick={() => setIsModalOpen(false)}
-            style={{ scrollBehavior: "smooth" }}
           >
-            {/* Backdrop */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-
-            {/* Modal Content */}
             <motion.div
-              data-modal-content
-              initial={{ scale: 0.9, opacity: 0, y: 50 }}
+              initial={{ scale: 0.95, opacity: 0, y: 20 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 50 }}
-              transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="relative bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden backdrop-blur-xl my-auto"
+              exit={{ scale: 0.95, opacity: 0, y: 20 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full max-w-md overflow-hidden rounded-3xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Header */}
-              <div className="relative px-6 py-5 border-b border-white/10 bg-gradient-to-r from-white/[0.03] via-white/[0.05] to-transparent backdrop-blur-sm">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="relative">
-                      <div className="absolute inset-0 bg-[#C79D6D]/30 blur-md rounded-full" />
-                      <div className="relative w-3 h-3 rounded-full bg-gradient-to-br from-[#C79D6D] to-[#d4a574] shadow-lg shadow-[#C79D6D]/50" />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-semibold text-white">
-                        Get in Touch
-                      </h3>
-                      <p className="text-xs text-gray-400">
-                        Contact us for more information
-                      </p>
-                    </div>
-                  </div>
-                  <motion.button
-                    onClick={() => setIsModalOpen(false)}
-                    className="w-10 h-10 bg-white/[0.08] hover:bg-white/[0.15] backdrop-blur-md rounded-xl flex items-center justify-center text-white hover:text-[#C79D6D] transition-all duration-300 border border-white/10 hover:border-[#C79D6D]/40"
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                  >
-                    <IconX className="w-5 h-5" />
-                  </motion.button>
+              <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
+                <div>
+                  <h3 className="text-lg font-semibold text-white">
+                    Get in Touch
+                  </h3>
+                  <p className="text-xs text-gray-400">
+                    Contact us for more information
+                  </p>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.08] text-white transition-colors hover:border-[#C79D6D]/40 hover:text-[#C79D6D]"
+                  aria-label="Close"
+                >
+                  <IconX className="h-5 w-5" />
+                </button>
               </div>
 
-              {/* Modal Body */}
-              <div className="p-6 space-y-4">
-                {/* Phone Number */}
-                <div className="bg-gradient-to-r from-white/5 to-white/10 border border-white/20 rounded-xl p-4">
+              <div className="space-y-4 p-6">
+                <div className="rounded-xl border border-white/15 bg-white/[0.05] p-4">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/20 rounded-full flex items-center justify-center">
-                        <IconPhone className="w-5 h-5 text-[#C79D6D]" />
+                    <div className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#C79D6D]/20">
+                        <IconPhone className="h-5 w-5 text-[#C79D6D]" />
                       </div>
                       <div>
-                        <p className="text-white font-semibold">Call Us</p>
-                        <p className="text-[#C79D6D] font-mono text-lg">
+                        <p className="font-semibold text-white">Call Us</p>
+                        <p className="font-mono text-lg text-[#C79D6D]">
                           {companyPhone}
                         </p>
                       </div>
                     </div>
-                    <motion.button
+                    <button
+                      type="button"
                       onClick={handleCopyPhone}
-                      className="p-2 bg-[#C79D6D]/20 hover:bg-[#C79D6D]/30 rounded-lg transition-colors duration-300"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
+                      className="rounded-lg bg-[#C79D6D]/20 p-2 transition-colors hover:bg-[#C79D6D]/30"
+                      aria-label="Copy phone number"
                     >
-                      <IconCopy className="w-4 h-4 text-[#C79D6D]" />
-                    </motion.button>
+                      <IconCopy className="h-4 w-4 text-[#C79D6D]" />
+                    </button>
                   </div>
                   {copied && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="mt-2 text-green-400 text-sm flex items-center"
-                    >
-                      <IconCheck className="w-4 h-4 mr-1" />
+                    <p className="mt-2 flex items-center text-sm text-green-400">
+                      <IconCheck className="mr-1 h-4 w-4" />
                       Phone number copied!
-                    </motion.div>
+                    </p>
                   )}
                 </div>
 
-                {/* Call Now Button */}
-                <motion.a
+                <a
                   href={`tel:${companyPhone.replace(/\s/g, "")}`}
-                  className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#C79D6D] to-[#d4a574] py-3 font-semibold text-white transition-opacity hover:opacity-90"
                 >
-                  <IconPhone className="w-5 h-5" />
-                  <span>Call Now</span>
-                </motion.a>
+                  <IconPhone className="h-5 w-5" />
+                  Call Now
+                </a>
 
-                {/* WhatsApp */}
-                <motion.button
+                <button
+                  type="button"
                   onClick={handleWhatsAppClick}
-                  className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3"
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-green-600 py-3 font-semibold text-white transition-colors hover:bg-green-700"
                 >
-                  <IconBrandWhatsapp className="w-5 h-5" />
-                  <span>Chat on WhatsApp</span>
-                </motion.button>
+                  <IconBrandWhatsapp className="h-5 w-5" />
+                  Chat on WhatsApp
+                </button>
 
-                {/* Email */}
-                <div className="bg-gradient-to-r from-white/5 to-white/10 border border-white/20 rounded-xl p-4">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/20 rounded-full flex items-center justify-center">
-                      <IconMail className="w-5 h-5 text-[#C79D6D]" />
+                <div className="rounded-xl border border-white/15 bg-white/[0.05] p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#C79D6D]/20">
+                      <IconMail className="h-5 w-5 text-[#C79D6D]" />
                     </div>
                     <div>
-                      <p className="text-white font-semibold">Email Us</p>
-                      <p className="text-[#C79D6D] text-sm">{companyEmail}</p>
+                      <p className="font-semibold text-white">Email Us</p>
+                      <p className="text-sm text-[#C79D6D]">{companyEmail}</p>
                     </div>
                   </div>
                 </div>
@@ -557,7 +286,259 @@ const ServicesSection = () => {
             </motion.div>
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+    );
+
+  const ActiveIcon = active.icon;
+
+  return (
+    <section
+      id="services"
+      className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-32 lg:px-8"
+    >
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-[#C79D6D]/5 blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <motion.div
+          className="mb-12 text-center sm:mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <motion.span
+            className="mb-6 inline-block rounded-full border border-[#C79D6D]/30 bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 px-6 py-3 text-sm font-semibold uppercase tracking-wider text-[#C79D6D] backdrop-blur-sm"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Services &amp; Offerings
+          </motion.span>
+
+          <motion.h2
+            className="mb-6 text-3xl font-bold sm:text-5xl lg:text-6xl"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+              What We{" "}
+            </span>
+            <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+              Offer
+            </span>
+          </motion.h2>
+
+          <motion.p
+            className="mx-auto max-w-3xl text-base leading-relaxed text-gray-300 sm:text-xl"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            Explore our full range of creative and digital solutions — designed
+            to grow your business and help your brand stand out.
+          </motion.p>
+        </motion.div>
+
+        <motion.div
+          className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] shadow-2xl shadow-black/20 backdrop-blur-md sm:rounded-3xl"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+          viewport={{ once: true }}
+          onMouseEnter={() => !isMobile && setIsPaused(true)}
+          onMouseLeave={() => !isMobile && setIsPaused(false)}
+          onTouchStart={() => setIsPaused(true)}
+        >
+          <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/60 to-transparent" />
+
+          <div className="flex flex-col lg:grid lg:grid-cols-[minmax(280px,360px)_1fr]">
+            {/* Featured service */}
+            <div className="order-2 flex flex-col justify-center border-b border-white/10 p-5 sm:p-8 lg:order-2 lg:border-b-0 lg:p-12">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active.id}
+                  initial={{ opacity: 0, y: isMobile ? 12 : 0, x: isMobile ? 0 : 20 }}
+                  animate={{ opacity: 1, y: 0, x: 0 }}
+                  exit={{ opacity: 0, y: isMobile ? -8 : 0, x: isMobile ? 0 : -16 }}
+                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  <div className="mb-4 flex items-center gap-4 sm:mb-6">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/10 sm:h-16 sm:w-16">
+                      <ActiveIcon className="h-7 w-7 text-[#C79D6D] sm:h-8 sm:w-8" />
+                    </div>
+                    <h3 className="text-xl font-bold leading-tight text-white sm:text-3xl">
+                      {active.title}
+                    </h3>
+                  </div>
+
+                  <p className="mb-6 max-w-xl text-sm leading-relaxed text-gray-300 sm:mb-8 sm:text-base">
+                    {active.description}
+                  </p>
+
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#C79D6D]">
+                    Includes
+                  </p>
+                  <ul className="mb-6 grid gap-2.5 sm:mb-8 sm:grid-cols-2 sm:gap-3">
+                    {active.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-start gap-2.5 text-sm text-gray-300"
+                      >
+                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#C79D6D]/20">
+                          <IconCheck className="h-3 w-3 text-[#C79D6D]" />
+                        </span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsModalOpen(true)}
+                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#C79D6D]/20 transition-all hover:shadow-[#C79D6D]/35 sm:inline-flex sm:w-auto sm:px-8"
+                  >
+                    {active.buttonText}
+                    <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* Mobile — horizontal service picker */}
+            <div className="order-1 border-b border-white/10 p-4 sm:p-5 lg:hidden">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
+                Browse services
+              </p>
+              <div
+                className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 scrollbar-hide snap-x snap-mandatory"
+                style={{ WebkitOverflowScrolling: "touch" }}
+              >
+                {services.map((service, index) => {
+                  const isActive = index === activeIndex;
+                  const Icon = service.icon;
+                  return (
+                    <button
+                      key={service.id}
+                      type="button"
+                      onClick={() => goTo(index)}
+                      className={`flex w-[108px] flex-shrink-0 snap-center flex-col items-center gap-2 rounded-2xl border px-3 py-3 transition-all duration-300 ${
+                        isActive
+                          ? "border-[#C79D6D]/40 bg-white/[0.1] shadow-md shadow-[#C79D6D]/15"
+                          : "border-white/10 bg-white/[0.03] opacity-70"
+                      }`}
+                    >
+                      <div
+                        className={`flex h-10 w-10 items-center justify-center rounded-xl ${
+                          isActive
+                            ? "bg-gradient-to-br from-[#C79D6D] to-[#d4a574] text-white"
+                            : "bg-white/10 text-gray-400"
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span
+                        className={`line-clamp-2 text-center text-[11px] font-semibold leading-tight ${
+                          isActive ? "text-white" : "text-gray-400"
+                        }`}
+                      >
+                        {service.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="mt-4 flex justify-center gap-1.5">
+                {services.map((service, i) => (
+                  <button
+                    key={`m-dot-${service.id}`}
+                    type="button"
+                    onClick={() => goTo(i)}
+                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                      i === activeIndex
+                        ? "w-6 bg-gradient-to-r from-[#C79D6D] to-[#d4a574]"
+                        : "w-1.5 bg-white/25"
+                    }`}
+                    aria-label={`View ${service.title}`}
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Desktop — vertical service list */}
+            <div className="order-3 hidden border-white/10 p-6 sm:p-8 lg:block lg:border-r">
+              <div className="mb-6 h-1 w-10 rounded-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574]" />
+              <h3 className="mb-6 text-lg font-bold text-white sm:text-xl">
+                Our Services
+              </h3>
+
+              <div className="space-y-1">
+                {services.map((service, index) => {
+                  const isActive = index === activeIndex;
+                  const Icon = service.icon;
+                  return (
+                    <button
+                      key={service.id}
+                      type="button"
+                      onClick={() => goTo(index)}
+                      className={`flex w-full items-center gap-3 rounded-2xl px-3 py-3.5 text-left transition-all duration-300 ${
+                        isActive
+                          ? "border border-[#C79D6D]/30 bg-white/[0.08] shadow-lg shadow-[#C79D6D]/10"
+                          : "border border-transparent opacity-45 hover:opacity-70"
+                      }`}
+                    >
+                      <div
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
+                          isActive
+                            ? "bg-gradient-to-br from-[#C79D6D] to-[#d4a574] text-white shadow-md shadow-[#C79D6D]/25"
+                            : "bg-white/10 text-gray-400"
+                        }`}
+                      >
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span
+                        className={`text-sm font-semibold sm:text-base ${
+                          isActive ? "text-white" : "text-gray-400"
+                        }`}
+                      >
+                        {service.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+
+              <div className="mt-6 flex gap-2">
+                {services.map((service, i) => (
+                  <button
+                    key={service.id}
+                    type="button"
+                    onClick={() => goTo(i)}
+                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                      i === activeIndex
+                        ? "w-8 bg-gradient-to-r from-[#C79D6D] to-[#d4a574]"
+                        : "w-1.5 bg-white/20 hover:bg-white/35"
+                    }`}
+                    aria-label={`View ${service.title}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="pointer-events-none absolute bottom-3 left-3 h-6 w-6 border-b border-l border-[#C79D6D]/20 sm:bottom-4 sm:left-4 sm:h-8 sm:w-8" />
+          <div className="pointer-events-none absolute bottom-3 right-3 h-6 w-6 border-b border-r border-[#C79D6D]/20 sm:bottom-4 sm:right-4 sm:h-8 sm:w-8" />
+        </motion.div>
+      </div>
+
+      {contactModal}
     </section>
   );
 };
