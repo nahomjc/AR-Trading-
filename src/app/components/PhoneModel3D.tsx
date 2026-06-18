@@ -51,9 +51,11 @@ const PHONE_UPRIGHT_ROTATION: [number, number, number] = [
   Math.PI,
 ];
 const PHONE_SCALE = 1.88;
-/** How much of the display opening the screenshot fills (bezels stay visible) */
-const SCREEN_INSET = 0.97;
-const SCREEN_SURFACE_OFFSET = 0.0025;
+/** Horizontal inset — keeps side bezels visible */
+const SCREEN_INSET_X = 0.98;
+/** Vertical fill — use full display height so the dock isn't clipped */
+const SCREEN_INSET_Z = 1.02;
+const SCREEN_SURFACE_OFFSET = 0.003;
 
 type ScreenPlacement = {
   position: [number, number, number];
@@ -73,28 +75,6 @@ function prepareScreenTexture(texture: Texture) {
   texture.repeat.set(1, 1);
   texture.offset.set(0, 0);
   texture.center.set(0.5, 0.5);
-  texture.needsUpdate = true;
-}
-
-function applyCoverTexture(texture: Texture, planeAspect: number) {
-  const img = texture.image as HTMLImageElement | undefined;
-  if (!img?.width || !img?.height) return;
-
-  const imageAspect = img.width / img.height;
-  texture.wrapS = ClampToEdgeWrapping;
-  texture.wrapT = ClampToEdgeWrapping;
-  texture.center.set(0.5, 0.5);
-
-  if (imageAspect > planeAspect) {
-    texture.repeat.set(planeAspect / imageAspect, 1);
-  } else {
-    texture.repeat.set(1, imageAspect / planeAspect);
-  }
-
-  texture.offset.set(
-    (1 - texture.repeat.x) / 2,
-    (1 - texture.repeat.y) / 2,
-  );
   texture.needsUpdate = true;
 }
 
@@ -128,14 +108,14 @@ function computeScreenPlacement(
   box.getSize(size);
   box.getCenter(center);
 
-  const planeW = size.x * SCREEN_INSET;
-  const planeH = size.z * SCREEN_INSET;
+  const planeW = size.x * SCREEN_INSET_X;
+  const planeH = size.z * SCREEN_INSET_Z;
 
   return {
     position: [
       center.x,
       box.max.y + SCREEN_SURFACE_OFFSET,
-      center.z,
+      box.min.z + planeH / 2,
     ],
     rotation: [-Math.PI / 2, 0, 0],
     width: planeW,
@@ -178,11 +158,7 @@ function PhoneScreen({
 
   useLayoutEffect(() => {
     prepareScreenTexture(screenTexture);
-    applyCoverTexture(
-      screenTexture,
-      placement.width / placement.height,
-    );
-  }, [screenTexture, placement.width, placement.height]);
+  }, [screenTexture]);
 
   return (
     <mesh
