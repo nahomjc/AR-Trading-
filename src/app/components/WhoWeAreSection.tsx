@@ -1,8 +1,8 @@
 ﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
 import {
   IconTarget,
   IconEye,
@@ -12,6 +12,15 @@ import {
   IconHeartHandshake,
   IconTrendingUp,
 } from "@tabler/icons-react";
+
+const AboutModel3D = dynamic(() => import("./AboutModel3D"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex aspect-square min-h-[280px] w-full items-center justify-center sm:min-h-[360px] lg:min-h-[400px]">
+      <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D] border-t-transparent" />
+    </div>
+  ),
+});
 
 const ROTATE_MS = 6000;
 
@@ -202,19 +211,11 @@ const WhoWeAreSection = () => {
           <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/60 to-transparent" />
 
           <div className="grid lg:grid-cols-2">
-            {/* Image column */}
+            {/* 3D model column */}
             <div className="relative border-b border-white/10 p-5 sm:p-8 lg:border-b-0 lg:border-r lg:p-10">
               <div className="relative overflow-hidden rounded-2xl border border-[#C79D6D]/20 bg-gradient-to-br from-[#C79D6D]/10 via-transparent to-[#d4a574]/5">
-                <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/60 via-transparent to-transparent" />
-                <Image
-                  src="/img/about-us-11.png"
-                  alt="Addis Reality team — creative excellence and collaboration"
-                  width={600}
-                  height={600}
-                  className="relative z-0 w-full object-contain p-4 sm:p-6"
-                  sizes="(max-width: 1024px) 90vw, 500px"
-                  priority
-                />
+                <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-[#08243A]/50 via-transparent to-transparent" />
+                <AboutModel3D />
 
                 <motion.div
                   className="absolute left-4 top-4 z-10 rounded-full border border-white/20 bg-[#08243A]/80 px-4 py-2 text-xs font-semibold text-white backdrop-blur-md sm:text-sm"
