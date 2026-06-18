@@ -1,208 +1,226 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandTiktok,
   IconX,
-  IconHeart,
-  IconRocket,
+  IconArrowRight,
+  IconUsers,
 } from "@tabler/icons-react";
+
+const socialLinks = [
+  {
+    icon: IconBrandFacebook,
+    href: "https://www.facebook.com/profile.php?id=61584982463040",
+    label: "Facebook",
+    handle: "Addis Reality",
+    iconBg: "bg-blue-500/15 text-blue-400 group-hover:bg-blue-500/25",
+    borderHover: "group-hover:border-blue-500/30",
+  },
+  {
+    icon: IconBrandInstagram,
+    href: "https://www.instagram.com/addis_reality?igsh=NXVqYXhzbm1xZ2M1",
+    label: "Instagram",
+    handle: "@addis_reality",
+    iconBg:
+      "bg-gradient-to-br from-pink-500/20 via-purple-500/15 to-orange-500/20 text-pink-400 group-hover:from-pink-500/30 group-hover:via-purple-500/25 group-hover:to-orange-500/30",
+    borderHover: "group-hover:border-pink-500/30",
+  },
+  {
+    icon: IconBrandTiktok,
+    href: "https://www.tiktok.com/@ar_solutions?_r=1&_t=ZM-91beinQ70uq",
+    label: "TikTok",
+    handle: "@ar_solutions",
+    iconBg: "bg-white/10 text-white group-hover:bg-white/15",
+    borderHover: "group-hover:border-white/25",
+  },
+];
 
 const SocialMediaModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [dontShowAgain, setDontShowAgain] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
 
   useEffect(() => {
-    // Check if modal has been shown before
+    setPortalReady(true);
+  }, []);
+
+  useEffect(() => {
     const hasSeenModal = localStorage.getItem("ar-social-modal-shown");
-
     if (!hasSeenModal) {
-      // Show modal after 5 seconds
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 7000);
-
+      const timer = setTimeout(() => setIsOpen(true), 7000);
       return () => clearTimeout(timer);
     }
   }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsOpen(false);
-
     if (dontShowAgain) {
       localStorage.setItem("ar-social-modal-shown", "true");
     }
-  };
+  }, [dontShowAgain]);
 
-  const socialLinks = [
-    {
-      icon: IconBrandFacebook,
-      href: "https://www.facebook.com/profile.php?id=61584982463040",
-      label: "Facebook",
-      color: "from-blue-500 to-blue-600",
-      hoverColor: "hover:from-blue-600 hover:to-blue-700",
-    },
-    {
-      icon: IconBrandInstagram,
-      href: "https://www.instagram.com/addis_reality?igsh=NXVqYXhzbm1xZ2M1",
-      label: "Instagram",
-      color: "from-pink-500 via-purple-500 to-orange-500",
-      hoverColor:
-        "hover:from-pink-600 hover:via-purple-600 hover:to-orange-600",
-    },
-    {
-      icon: IconBrandTiktok,
-      href: "https://www.tiktok.com/@ar_solutions?_r=1&_t=ZM-91beinQ70uq",
-      label: "TikTok",
-      color: "from-black to-gray-800",
-      hoverColor: "hover:from-gray-800 hover:to-gray-900",
-    },
-  ];
+  useEffect(() => {
+    if (!isOpen) return;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleClose();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [isOpen, handleClose]);
 
-  return (
+  if (!portalReady) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[10000] flex items-center justify-center p-4 overflow-y-auto"
+          className="fixed inset-0 z-[100000] flex items-end justify-center bg-[#08243A]/35 p-0 backdrop-blur-md sm:items-center sm:p-4"
           onClick={handleClose}
-          style={{ scrollBehavior: "smooth" }}
         >
-          {/* Backdrop */}
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-
-          {/* Modal Content */}
           <motion.div
-            data-modal-content
-            initial={{ scale: 0.9, opacity: 0, y: 50 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 50 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-3xl shadow-2xl max-w-md w-full overflow-hidden backdrop-blur-xl my-auto"
+            initial={{ opacity: 0, y: 48 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 48 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full max-w-md overflow-hidden rounded-t-3xl border border-white/15 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] shadow-2xl sm:rounded-3xl sm:border-[#C79D6D]/30"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Decorative Header */}
-            <div className="relative px-6 py-8 border-b border-white/10 bg-gradient-to-r from-[#C79D6D]/10 via-[#C79D6D]/5 to-transparent">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#C79D6D]/10 rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-24 h-24 bg-blue-500/10 rounded-full blur-2xl" />
+            <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/70 to-transparent" />
 
-              <div className="relative flex items-center justify-between">
+            {/* Mobile drag handle */}
+            <div className="flex justify-center pt-3 sm:hidden">
+              <div className="h-1 w-10 rounded-full bg-white/20" />
+            </div>
+
+            {/* Header */}
+            <div className="relative overflow-hidden px-5 pb-5 pt-4 sm:px-6 sm:pb-6 sm:pt-6">
+              <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[#C79D6D]/10 blur-3xl" />
+              <div className="pointer-events-none absolute -bottom-6 -left-6 h-24 w-24 rounded-full bg-blue-500/10 blur-2xl" />
+
+              <div className="relative flex items-start justify-between gap-4">
                 <div className="flex items-center gap-4">
-                  <motion.div
-                    className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#C79D6D] to-[#d4a574] flex items-center justify-center shadow-lg shadow-[#C79D6D]/50"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                    }}
-                  >
-                    <IconRocket className="w-7 h-7 text-white" />
-                  </motion.div>
+                  <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/10 p-2">
+                    <Image
+                      src="/img/White-with-background-removebg-preview.png"
+                      alt="ADDIS REALITY"
+                      width={48}
+                      height={48}
+                      className="h-auto w-full object-contain"
+                    />
+                  </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-white font-outfit">
+                    <div className="mb-1 flex items-center gap-2">
+                      <IconUsers className="h-4 w-4 text-[#C79D6D]" />
+                      <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#C79D6D] sm:text-xs">
+                        Community
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold leading-tight text-white sm:text-2xl">
                       Join Our Community
                     </h3>
-                    <p className="text-sm text-gray-400 mt-1">
-                      Stay connected with ADDIS REALITY
+                    <p className="mt-1 text-sm text-gray-400">
+                      Stay connected with{" "}
+                      <span className="font-semibold text-[#C79D6D]">
+                        ADDIS REALITY
+                      </span>
                     </p>
                   </div>
                 </div>
-                <motion.button
+
+                <button
+                  type="button"
                   onClick={handleClose}
-                  className="w-10 h-10 bg-white/[0.08] hover:bg-white/[0.15] backdrop-blur-md rounded-xl flex items-center justify-center text-white hover:text-[#C79D6D] transition-all duration-300 border border-white/10 hover:border-[#C79D6D]/40"
-                  whileHover={{ scale: 1.1, rotate: 90 }}
-                  whileTap={{ scale: 0.9 }}
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/[0.08] text-white transition-colors hover:border-[#C79D6D]/40 hover:text-[#C79D6D]"
+                  aria-label="Close"
                 >
-                  <IconX className="w-5 h-5" />
-                </motion.button>
+                  <IconX className="h-5 w-5" />
+                </button>
               </div>
             </div>
 
-            {/* Modal Body */}
-            <div className="p-6 space-y-6">
-              {/* Message */}
-              <div className="text-center space-y-2">
-                <motion.div
-                  className="inline-flex items-center gap-2 text-[#C79D6D] mb-2"
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                >
-                  <IconHeart className="w-5 h-5" />
-                  <span className="text-sm font-semibold">Follow Us</span>
-                </motion.div>
-                <p className="text-gray-300 leading-relaxed">
-                  Get the latest updates, tips, and exclusive content by
-                  following us on social media. Join thousands of businesses
-                  growing with ADDIS REALITY!
-                </p>
-              </div>
+            <div className="border-t border-white/10 px-5 pb-6 sm:px-6 sm:pb-6">
+              <p className="mb-5 text-center text-sm leading-relaxed text-gray-300 sm:text-base">
+                Get the latest updates, creative insights, and exclusive
+                content. Follow us and grow with Ethiopia&apos;s leading creative
+                agency.
+              </p>
 
-              {/* Social Media Links */}
-              <div className="space-y-3">
+              {/* Social links */}
+              <div className="mb-5 space-y-2.5">
                 {socialLinks.map((social, index) => {
-                  const IconComponent = social.icon;
+                  const Icon = social.icon;
                   return (
                     <motion.a
                       key={social.label}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`flex items-center gap-4 p-4 rounded-xl bg-gradient-to-r ${social.color} ${social.hoverColor} text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-xl group`}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 + index * 0.1 }}
-                      whileHover={{ scale: 1.02, x: 5 }}
-                      whileTap={{ scale: 0.98 }}
+                      className={`group flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-3.5 transition-all duration-300 hover:bg-white/[0.07] sm:p-4 ${social.borderHover}`}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 + index * 0.08 }}
                     >
-                      <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center group-hover:bg-white/30 transition-all duration-300">
-                        <IconComponent className="w-6 h-6" />
+                      <div
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-colors ${social.iconBg}`}
+                      >
+                        <Icon className="h-5 w-5" />
                       </div>
-                      <div className="flex-1">
-                        <p className="text-lg font-semibold">{social.label}</p>
-                        <p className="text-sm text-white/80">
-                          Follow us on {social.label}
+                      <div className="min-w-0 flex-1">
+                        <p className="font-semibold text-white">
+                          {social.label}
+                        </p>
+                        <p className="truncate text-xs text-gray-500">
+                          {social.handle}
                         </p>
                       </div>
-                      <motion.div
-                        className="opacity-0 group-hover:opacity-100 transition-opacity"
-                        animate={{ x: [0, 5, 0] }}
-                        transition={{ duration: 1, repeat: Infinity }}
-                      >
-                        <span className="text-2xl">→</span>
-                      </motion.div>
+                      <IconArrowRight className="h-4 w-4 shrink-0 text-gray-500 transition-all group-hover:translate-x-0.5 group-hover:text-[#C79D6D]" />
                     </motion.a>
                   );
                 })}
               </div>
 
-              {/* Don't Show Again Checkbox */}
-              <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+              {/* Don't show again */}
+              <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-colors hover:bg-white/[0.05]">
                 <input
                   type="checkbox"
-                  id="dont-show-again"
                   checked={dontShowAgain}
                   onChange={(e) => setDontShowAgain(e.target.checked)}
-                  className="w-5 h-5 rounded border-white/20 bg-white/5 text-[#C79D6D] focus:ring-2 focus:ring-[#C79D6D]/50 cursor-pointer"
+                  className="h-4 w-4 cursor-pointer rounded border-white/20 bg-white/5 accent-[#C79D6D]"
                 />
-                <label
-                  htmlFor="dont-show-again"
-                  className="text-sm text-gray-400 cursor-pointer select-none"
-                >
-                  Don't show this again
-                </label>
-              </div>
+                <span className="text-sm text-gray-400 select-none">
+                  Don&apos;t show this again
+                </span>
+              </label>
+
+              <button
+                type="button"
+                onClick={handleClose}
+                className="mt-3 w-full rounded-xl border border-white/10 py-3 text-sm font-medium text-gray-400 transition-colors hover:border-white/20 hover:text-white"
+              >
+                Maybe later
+              </button>
             </div>
+
+            <div className="pointer-events-none absolute bottom-3 left-3 h-5 w-5 border-b border-l border-[#C79D6D]/20 sm:h-6 sm:w-6" />
+            <div className="pointer-events-none absolute bottom-3 right-3 h-5 w-5 border-b border-r border-[#C79D6D]/20 sm:h-6 sm:w-6" />
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };
 

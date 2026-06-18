@@ -295,7 +295,7 @@ const ServicesSection = () => {
   return (
     <section
       id="services"
-      className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-32 lg:px-8"
+      className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-20 lg:py-32 lg:px-8"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-[#C79D6D]/5 blur-3xl" />
@@ -336,7 +336,7 @@ const ServicesSection = () => {
           </motion.h2>
 
           <motion.p
-            className="mx-auto max-w-3xl text-base leading-relaxed text-gray-300 sm:text-xl"
+            className="mx-auto max-w-3xl text-base leading-relaxed text-gray-300 sm:text-lg lg:text-xl"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
@@ -348,72 +348,80 @@ const ServicesSection = () => {
         </motion.div>
 
         <motion.div
-          className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] shadow-2xl shadow-black/20 backdrop-blur-md sm:rounded-3xl"
+          className="relative overflow-hidden rounded-2xl border border-white/15 bg-gradient-to-br from-white/[0.06] via-white/[0.08] to-white/[0.04] shadow-2xl shadow-black/20 backdrop-blur-md lg:rounded-3xl"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15 }}
           viewport={{ once: true }}
-          onMouseEnter={() => !isMobile && setIsPaused(true)}
-          onMouseLeave={() => !isMobile && setIsPaused(false)}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
           onTouchStart={() => setIsPaused(true)}
         >
           <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/60 to-transparent" />
 
           <div className="flex flex-col lg:grid lg:grid-cols-[minmax(280px,360px)_1fr]">
-            {/* Featured service */}
-            <div className="order-2 flex flex-col justify-center border-b border-white/10 p-5 sm:p-8 lg:order-2 lg:border-b-0 lg:p-12">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={active.id}
-                  initial={{ opacity: 0, y: isMobile ? 12 : 0, x: isMobile ? 0 : 20 }}
-                  animate={{ opacity: 1, y: 0, x: 0 }}
-                  exit={{ opacity: 0, y: isMobile ? -8 : 0, x: isMobile ? 0 : -16 }}
-                  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-                >
-                  <div className="mb-4 flex items-center gap-4 sm:mb-6">
-                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/10 sm:h-16 sm:w-16">
-                      <ActiveIcon className="h-7 w-7 text-[#C79D6D] sm:h-8 sm:w-8" />
-                    </div>
-                    <h3 className="text-xl font-bold leading-tight text-white sm:text-3xl">
-                      {active.title}
-                    </h3>
-                  </div>
+            {/* Desktop — vertical service list (left column) */}
+            <div className="hidden border-white/10 p-6 sm:p-8 lg:block lg:border-r">
+              <div className="mb-6 h-1 w-10 rounded-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574]" />
+              <h3 className="mb-6 text-lg font-bold text-white sm:text-xl">
+                Our Services
+              </h3>
 
-                  <p className="mb-6 max-w-xl text-sm leading-relaxed text-gray-300 sm:mb-8 sm:text-base">
-                    {active.description}
-                  </p>
-
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#C79D6D]">
-                    Includes
-                  </p>
-                  <ul className="mb-6 grid gap-2.5 sm:mb-8 sm:grid-cols-2 sm:gap-3">
-                    {active.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-start gap-2.5 text-sm text-gray-300"
+              <div className="space-y-1">
+                {services.map((service, index) => {
+                  const isActive = index === activeIndex;
+                  const Icon = service.icon;
+                  return (
+                    <button
+                      key={service.id}
+                      type="button"
+                      onClick={() => goTo(index)}
+                      className={`flex w-full items-center gap-3 rounded-2xl px-3 py-3.5 text-left transition-all duration-400 ${
+                        isActive
+                          ? "border border-[#C79D6D]/30 bg-white/[0.08] shadow-lg shadow-[#C79D6D]/10"
+                          : "border border-transparent opacity-45 hover:opacity-70"
+                      }`}
+                    >
+                      <div
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
+                          isActive
+                            ? "bg-gradient-to-br from-[#C79D6D] to-[#d4a574] text-white shadow-md shadow-[#C79D6D]/25"
+                            : "bg-white/10 text-gray-400"
+                        }`}
                       >
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#C79D6D]/20">
-                          <IconCheck className="h-3 w-3 text-[#C79D6D]" />
-                        </span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span
+                        className={`text-sm font-semibold sm:text-base ${
+                          isActive ? "text-white" : "text-gray-400"
+                        }`}
+                      >
+                        {service.title}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
 
+              <div className="mt-6 flex gap-2">
+                {services.map((service, i) => (
                   <button
+                    key={service.id}
                     type="button"
-                    onClick={() => setIsModalOpen(true)}
-                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#C79D6D]/20 transition-all hover:shadow-[#C79D6D]/35 sm:inline-flex sm:w-auto sm:px-8"
-                  >
-                    {active.buttonText}
-                    <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </button>
-                </motion.div>
-              </AnimatePresence>
+                    onClick={() => goTo(i)}
+                    className={`h-1.5 rounded-full transition-all duration-500 ${
+                      i === activeIndex
+                        ? "w-8 bg-gradient-to-r from-[#C79D6D] to-[#d4a574]"
+                        : "w-1.5 bg-white/20 hover:bg-white/35"
+                    }`}
+                    aria-label={`View ${service.title}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* Mobile — horizontal service picker */}
-            <div className="order-1 border-b border-white/10 p-4 sm:p-5 lg:hidden">
+            <div className="border-b border-white/10 p-4 sm:p-5 lg:hidden">
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-gray-500">
                 Browse services
               </p>
@@ -472,64 +480,73 @@ const ServicesSection = () => {
               </div>
             </div>
 
-            {/* Desktop — vertical service list */}
-            <div className="order-3 hidden border-white/10 p-6 sm:p-8 lg:block lg:border-r">
-              <div className="mb-6 h-1 w-10 rounded-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574]" />
-              <h3 className="mb-6 text-lg font-bold text-white sm:text-xl">
-                Our Services
-              </h3>
+            {/* Featured service */}
+            <div className="flex flex-col justify-center p-5 sm:p-8 lg:p-12">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={active.id}
+                  initial={{
+                    opacity: 0,
+                    y: isMobile ? 12 : 0,
+                    x: isMobile ? 0 : 20,
+                  }}
+                  animate={{ opacity: 1, y: 0, x: 0 }}
+                  exit={{
+                    opacity: 0,
+                    y: isMobile ? -8 : 0,
+                    x: isMobile ? 0 : -16,
+                  }}
+                  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {/* Mobile: icon + title inline */}
+                  <div className="mb-4 flex items-center gap-4 lg:hidden">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/10">
+                      <ActiveIcon className="h-7 w-7 text-[#C79D6D]" />
+                    </div>
+                    <h3 className="text-xl font-bold leading-tight text-white">
+                      {active.title}
+                    </h3>
+                  </div>
 
-              <div className="space-y-1">
-                {services.map((service, index) => {
-                  const isActive = index === activeIndex;
-                  const Icon = service.icon;
-                  return (
-                    <button
-                      key={service.id}
-                      type="button"
-                      onClick={() => goTo(index)}
-                      className={`flex w-full items-center gap-3 rounded-2xl px-3 py-3.5 text-left transition-all duration-300 ${
-                        isActive
-                          ? "border border-[#C79D6D]/30 bg-white/[0.08] shadow-lg shadow-[#C79D6D]/10"
-                          : "border border-transparent opacity-45 hover:opacity-70"
-                      }`}
-                    >
-                      <div
-                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
-                          isActive
-                            ? "bg-gradient-to-br from-[#C79D6D] to-[#d4a574] text-white shadow-md shadow-[#C79D6D]/25"
-                            : "bg-white/10 text-gray-400"
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <span
-                        className={`text-sm font-semibold sm:text-base ${
-                          isActive ? "text-white" : "text-gray-400"
-                        }`}
-                      >
-                        {service.title}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+                  {/* Desktop: stacked icon + title */}
+                  <div className="mb-6 hidden h-16 w-16 items-center justify-center rounded-2xl border border-[#C79D6D]/30 bg-gradient-to-br from-[#C79D6D]/20 to-[#d4a574]/10 lg:flex">
+                    <ActiveIcon className="h-8 w-8 text-[#C79D6D]" />
+                  </div>
+                  <h3 className="mb-4 hidden text-2xl font-bold text-white lg:block sm:text-3xl">
+                    {active.title}
+                  </h3>
 
-              <div className="mt-6 flex gap-2">
-                {services.map((service, i) => (
+                  <p className="mb-6 max-w-xl text-sm leading-relaxed text-gray-300 sm:mb-8 lg:text-base lg:leading-relaxed">
+                    {active.description}
+                  </p>
+
+                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[#C79D6D] lg:mb-4">
+                    Includes
+                  </p>
+                  <ul className="mb-6 grid gap-2.5 sm:mb-8 sm:grid-cols-2 sm:gap-3 lg:mb-8 lg:gap-3">
+                    {active.features.map((feature) => (
+                      <li
+                        key={feature}
+                        className="flex items-center gap-2.5 text-sm text-gray-300 lg:items-center"
+                      >
+                        <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#C79D6D]/20">
+                          <IconCheck className="h-3 w-3 text-[#C79D6D]" />
+                        </span>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
                   <button
-                    key={service.id}
                     type="button"
-                    onClick={() => goTo(i)}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      i === activeIndex
-                        ? "w-8 bg-gradient-to-r from-[#C79D6D] to-[#d4a574]"
-                        : "w-1.5 bg-white/20 hover:bg-white/35"
-                    }`}
-                    aria-label={`View ${service.title}`}
-                  />
-                ))}
-              </div>
+                    onClick={() => setIsModalOpen(true)}
+                    className="group flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#C79D6D]/20 transition-all hover:shadow-[#C79D6D]/35 lg:inline-flex lg:w-auto lg:px-8"
+                  >
+                    {active.buttonText}
+                    <IconArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
 
