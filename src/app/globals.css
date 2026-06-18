@@ -621,39 +621,37 @@ section {
   }
 }
 
-.latest-works-marquee-viewport {
-  touch-action: pan-y;
-  -webkit-overflow-scrolling: touch;
+@keyframes infinite-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
-.latest-works-marquee {
-  width: max-content;
-  animation: latest-works-marquee var(--marquee-duration, 40s) linear infinite;
+.infinite-marquee-track {
+  animation: infinite-marquee var(--marquee-duration, 40s) linear infinite;
   will-change: transform;
   touch-action: pan-y;
 }
 
-.latest-works-marquee.paused {
+.infinite-marquee-track.paused {
   animation-play-state: paused;
 }
 
-/* Mobile: manual horizontal swipe — don't trap vertical page scroll */
-@media (max-width: 1023px) {
-  .latest-works-marquee-viewport {
-    overflow-x: auto !important;
-    overflow-y: visible !important;
-    scrollbar-width: none;
-  }
+.infinite-marquee-track.reverse {
+  animation-direction: reverse;
+}
 
-  .latest-works-marquee-viewport::-webkit-scrollbar {
-    display: none;
-  }
+.horizontal-scroll-row {
+  touch-action: pan-x pan-y;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
 
-  .latest-works-marquee {
-    animation: none;
-    will-change: auto;
-    transform: none !important;
-  }
+.horizontal-scroll-row::-webkit-scrollbar {
+  display: none;
 }
 
 /* Intro loader — aurora reveal */

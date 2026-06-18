@@ -12,6 +12,7 @@ import {
   IconFileText,
   IconDownload,
 } from "@tabler/icons-react";
+import HorizontalScrollRow from "./HorizontalScrollRow";
 
 // Latest Works Section with Tabs
 type WorkItem = {
@@ -136,13 +137,6 @@ const latestWorks: Record<TabName, WorkItem[]> = {
       client: "Addis Reality",
     },
   ],
-};
-
-const buildMarqueeTrack = (works: WorkItem[]) => {
-  const minPerHalf = 5;
-  const repeat = Math.max(1, Math.ceil(minPerHalf / works.length));
-  const half = Array.from({ length: repeat }, () => works).flat();
-  return [...half, ...half];
 };
 
 type WorkScreenCardProps = {
@@ -299,7 +293,6 @@ const LatestWorksSection = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
-  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
   const [preloadedImages, setPreloadedImages] = useState<Set<string>>(
     new Set()
   );
@@ -447,10 +440,6 @@ const LatestWorksSection = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
-  useEffect(() => {
-    setIsMarqueePaused(false);
-  }, [activeTab]);
-
   const handlePreloadImage = (imageSrc: string) => {
     const img = document.createElement("img");
     img.src = imageSrc;
@@ -460,8 +449,6 @@ const LatestWorksSection = () => {
   };
 
   const activeWorks = latestWorks[activeTab];
-  const marqueeItems = buildMarqueeTrack(activeWorks);
-  const marqueeDuration = Math.max(24, Math.ceil(marqueeItems.length / 2) * 5);
 
   const previewModal =
     portalReady &&
@@ -678,18 +665,8 @@ const LatestWorksSection = () => {
         </div>
       </div>
 
-      {/* Full-width auto-scrolling marquee */}
-      <div
-        className="latest-works-marquee-viewport relative z-10 mt-2 w-full overflow-hidden"
-        onMouseEnter={() => setIsMarqueePaused(true)}
-        onMouseLeave={() => setIsMarqueePaused(false)}
-        onFocus={() => setIsMarqueePaused(true)}
-        onBlur={(e) => {
-          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-            setIsMarqueePaused(false);
-          }
-        }}
-      >
+      {/* Horizontal scroll — arrows on desktop & mobile */}
+      <div className="relative z-10 mt-2 w-full">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
@@ -700,19 +677,15 @@ const LatestWorksSection = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            <div
-              className={`latest-works-marquee flex gap-6 sm:gap-8 lg:gap-10 py-6 ${isMarqueePaused ? "paused" : ""}`}
-              style={
-                {
-                  "--marquee-duration": `${marqueeDuration}s`,
-                } as React.CSSProperties
-              }
+            <HorizontalScrollRow
+              ariaLabel={`${activeTab} portfolio works`}
+              minLoopItems={12}
             >
-              {marqueeItems.map((work, idx) => (
+              {activeWorks.map((work, idx) => (
                 <WorkScreenCard
                   key={`${work.title}-${idx}`}
                   work={work}
-                  idx={idx % activeWorks.length}
+                  idx={idx}
                   activeTab={activeTab}
                   preloadedImages={preloadedImages}
                   onOpen={openImagePreview}
@@ -722,7 +695,7 @@ const LatestWorksSection = () => {
                   isYouTubeUrl={isYouTubeUrl}
                 />
               ))}
-            </div>
+            </HorizontalScrollRow>
           </motion.div>
         </AnimatePresence>
       </div>

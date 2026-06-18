@@ -40,11 +40,15 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["Home", "Services", "About", "Testimonials", "Contact"].map(
+              {["Home", "Services", "About", "FAQ", "Testimonials", "Contact"].map(
                 (link, index) => (
                   <motion.li key={link} whileHover={{ x: 5 }}>
                     <a
-                      href={`#${link.toLowerCase()}`}
+                      href={
+                        link === "FAQ"
+                          ? "#faq"
+                          : `#${link.toLowerCase()}`
+                      }
                       className="text-gray-300 hover:text-white transition-colors"
                     >
                       {link}

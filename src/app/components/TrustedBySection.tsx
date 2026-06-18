@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { IconX } from "@tabler/icons-react";
+import HorizontalScrollRow from "./HorizontalScrollRow";
 
 type Client = {
   id: string;
@@ -50,12 +51,6 @@ const clients: Client[] = [
   },
 ];
 
-const buildMarqueeTrack = (items: Client[]) => {
-  const repeat = Math.max(2, Math.ceil(6 / items.length));
-  const half = Array.from({ length: repeat }, () => items).flat();
-  return [...half, ...half];
-};
-
 type PartnerCardProps = {
   client: Client;
   onSelect: (client: Client) => void;
@@ -99,11 +94,7 @@ function PartnerCard({ client, onSelect }: PartnerCardProps) {
 
 const TrustedBySection = () => {
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
-  const [isMarqueePaused, setIsMarqueePaused] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
-
-  const marqueeItems = buildMarqueeTrack(clients);
-  const marqueeDuration = Math.max(28, marqueeItems.length * 4);
 
   useEffect(() => {
     setPortalReady(true);
@@ -190,13 +181,13 @@ const TrustedBySection = () => {
     );
 
   return (
-    <section className="relative overflow-hidden px-4 py-20 sm:px-6 sm:py-32 lg:px-8">
+    <section className="relative overflow-hidden py-20 sm:py-32">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-[#C79D6D]/5 blur-3xl" />
         <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />
       </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           className="mb-12 text-center sm:mb-16"
           initial={{ opacity: 0, y: 50 }}
@@ -242,40 +233,35 @@ const TrustedBySection = () => {
             results.
           </motion.p>
         </motion.div>
+      </div>
 
-        {/* Auto-scrolling partner marquee */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          viewport={{ once: true }}
-          className="latest-works-marquee-viewport relative overflow-hidden"
-          onMouseEnter={() => setIsMarqueePaused(true)}
-          onMouseLeave={() => setIsMarqueePaused(false)}
+      {/* Full-width infinite partner scroll */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, delay: 0.2 }}
+        viewport={{ once: true }}
+        className="relative z-10"
+      >
+        <HorizontalScrollRow
+          fullBleed
+          ariaLabel="Trusted partner logos"
+          minLoopItems={16}
+          marqueeDuration={32}
         >
-          <div
-            className={`latest-works-marquee flex gap-8 py-4 sm:gap-10 ${isMarqueePaused ? "paused" : ""}`}
-            style={
-              {
-                "--marquee-duration": `${marqueeDuration}s`,
-              } as React.CSSProperties
-            }
-          >
-            {marqueeItems.map((client, index) => (
-              <PartnerCard
-                key={`${client.id}-${index}`}
-                client={client}
-                onSelect={setSelectedClient}
-              />
-            ))}
-          </div>
+          {clients.map((client) => (
+            <PartnerCard
+              key={client.id}
+              client={client}
+              onSelect={setSelectedClient}
+            />
+          ))}
+        </HorizontalScrollRow>
+      </motion.div>
 
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#08243A] to-transparent sm:w-24" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#08243A] to-transparent sm:w-24" />
-        </motion.div>
-
+      <div className="relative z-10 mx-auto mt-14 max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
-          className="mt-14 flex justify-center"
+          className="flex justify-center"
           initial={{ opacity: 0, scaleX: 0 }}
           whileInView={{ opacity: 1, scaleX: 1 }}
           transition={{ duration: 1, delay: 0.4 }}
