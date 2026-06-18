@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 const LOADER_DURATION_MS = 4200;
+const NAV_OFFSET = 80;
 const RING_SIZE = 320;
 const RING_R = 138;
 const PROGRESS_R = RING_R + 8;
@@ -45,6 +46,31 @@ export default function IntroLoader() {
       clearInterval(progressInterval);
     };
   }, []);
+
+  useEffect(() => {
+    if (show) {
+      document.body.style.overflow = "hidden";
+      window.scrollTo(0, 0);
+      return () => {
+        document.body.style.overflow = "";
+      };
+    }
+
+    document.body.style.overflow = "";
+
+    window.dispatchEvent(new CustomEvent("introComplete"));
+
+    const scrollToHero = () => {
+      const hero = document.getElementById("home");
+      if (!hero) return;
+
+      const top = Math.max(0, hero.offsetTop - NAV_OFFSET);
+      window.scrollTo({ top, behavior: "smooth" });
+    };
+
+    const frame = requestAnimationFrame(scrollToHero);
+    return () => cancelAnimationFrame(frame);
+  }, [show]);
 
   return (
     <AnimatePresence>
