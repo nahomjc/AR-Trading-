@@ -178,7 +178,7 @@ const phoneFloat = {
   transition: {
     duration: 5,
     repeat: Number.POSITIVE_INFINITY,
-    ease: "easeInOut",
+    ease: "easeInOut" as const,
   },
 };
 
