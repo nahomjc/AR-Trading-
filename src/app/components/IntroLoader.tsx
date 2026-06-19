@@ -1,11 +1,10 @@
 ﻿"use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
 const LOADER_DURATION_MS = 2400;
-const INTRO_SEEN_KEY = "ar-intro-seen";
 const NAV_OFFSET = 80;
 const RING_SIZE = 320;
 const RING_R = 138;
@@ -26,6 +25,7 @@ const STARS = Array.from({ length: 28 }, (_, i) => {
 export default function IntroLoader() {
   const [show, setShow] = useState(false);
   const [progress, setProgress] = useState(0);
+  const wasVisibleRef = useRef(false);
 
   const strokeOffset = useMemo(
     () => PROGRESS_C - (progress / 100) * PROGRESS_C,
@@ -33,9 +33,9 @@ export default function IntroLoader() {
   );
 
   useEffect(() => {
-    const skipIntro =
-      sessionStorage.getItem(INTRO_SEEN_KEY) === "1" ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const skipIntro = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
     if (skipIntro) {
       window.dispatchEvent(new CustomEvent("introComplete"));
@@ -49,7 +49,6 @@ export default function IntroLoader() {
     }, LOADER_DURATION_MS / 25);
 
     const timer = setTimeout(() => {
-      sessionStorage.setItem(INTRO_SEEN_KEY, "1");
       setShow(false);
       clearInterval(progressInterval);
     }, LOADER_DURATION_MS);
@@ -62,6 +61,7 @@ export default function IntroLoader() {
 
   useEffect(() => {
     if (show) {
+      wasVisibleRef.current = true;
       document.body.style.overflow = "hidden";
       window.scrollTo(0, 0);
       return () => {
@@ -69,8 +69,10 @@ export default function IntroLoader() {
       };
     }
 
-    document.body.style.overflow = "";
+    if (!wasVisibleRef.current) return;
 
+    wasVisibleRef.current = false;
+    document.body.style.overflow = "";
     window.dispatchEvent(new CustomEvent("introComplete"));
 
     const scrollToHero = () => {

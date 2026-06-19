@@ -22,8 +22,6 @@ import {
   IconTrendingUp,
 } from "@tabler/icons-react";
 
-const INTRO_SEEN_KEY = "ar-intro-seen";
-
 const NAV_OFFSET = 80;
 
 const trustItems = [
@@ -422,11 +420,7 @@ const HeroSection = () => {
     const onIntro = () => setReady(true);
     window.addEventListener("introComplete", onIntro);
 
-    if (sessionStorage.getItem(INTRO_SEEN_KEY) === "1") {
-      onIntro();
-    }
-
-    const fallback = window.setTimeout(() => setReady(true), 2800);
+    const fallback = window.setTimeout(() => setReady(true), 3200);
     return () => {
       window.removeEventListener("introComplete", onIntro);
       window.clearTimeout(fallback);
