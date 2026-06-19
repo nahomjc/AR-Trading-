@@ -22,6 +22,8 @@ import {
   IconTrendingUp,
 } from "@tabler/icons-react";
 
+const INTRO_SEEN_KEY = "ar-intro-seen";
+
 const NAV_OFFSET = 80;
 
 const trustItems = [
@@ -52,7 +54,7 @@ const floatingIcons = [
   {
     icon: IconSpeakerphone,
     label: "Advertising",
-    className: "left-[4%] bottom-[24%]",
+    className: "left-[4%] bottom-[24%] hidden sm:flex",
     delay: 0.6,
     duration: 4.8,
     offset: -8,
@@ -60,7 +62,7 @@ const floatingIcons = [
   {
     icon: IconVideo,
     label: "Media Production",
-    className: "right-[2%] bottom-[34%]",
+    className: "right-[2%] bottom-[34%] hidden sm:flex",
     delay: 0.65,
     duration: 5.2,
     offset: 10,
@@ -68,7 +70,7 @@ const floatingIcons = [
   {
     icon: IconPrinter,
     label: "Printing",
-    className: "left-[14%] top-[44%]",
+    className: "left-[14%] top-[44%] hidden md:flex",
     delay: 0.7,
     duration: 4.6,
     offset: -7,
@@ -84,7 +86,7 @@ const floatingIcons = [
   {
     icon: IconTrendingUp,
     label: "Growth Strategy",
-    className: "right-[18%] top-[8%] hidden lg:flex",
+    className: "right-[18%] top-[8%] hidden xl:flex",
     delay: 0.8,
     duration: 5.4,
     offset: -9,
@@ -167,9 +169,9 @@ function RotatingBrandWord({
             {active && (
               <motion.span
                 key={ROTATING_WORDS[wordIndex]}
-                initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{ opacity: 0, y: -8, filter: "blur(3px)" }}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
                 className="whitespace-nowrap bg-gradient-to-r from-[#e8c9a8] via-white to-[#d4a574] bg-clip-text text-transparent"
               >
@@ -411,7 +413,12 @@ const HeroSection = () => {
   useEffect(() => {
     const onIntro = () => setReady(true);
     window.addEventListener("introComplete", onIntro);
-    const fallback = window.setTimeout(() => setReady(true), 5200);
+
+    if (sessionStorage.getItem(INTRO_SEEN_KEY) === "1") {
+      onIntro();
+    }
+
+    const fallback = window.setTimeout(() => setReady(true), 2800);
     return () => {
       window.removeEventListener("introComplete", onIntro);
       window.clearTimeout(fallback);

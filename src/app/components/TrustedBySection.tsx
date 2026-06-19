@@ -58,7 +58,7 @@ type PartnerCardProps = {
 
 function PartnerCard({ client, onSelect }: PartnerCardProps) {
   return (
-    <div className="w-[200px] flex-shrink-0 sm:w-[220px]">
+    <div className="carousel-focus-card w-[200px] sm:w-[220px]">
       <p
         className="mb-3 truncate px-1 text-center text-xs font-medium text-gray-400"
         title={client.name}
@@ -68,13 +68,13 @@ function PartnerCard({ client, onSelect }: PartnerCardProps) {
       <button
         type="button"
         onClick={() => onSelect(client)}
-        className="group relative w-full text-left transition-transform duration-300 hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C79D6D] rounded-2xl"
+        className="group relative w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C79D6D] rounded-2xl"
       >
         <div
-          className={`flex h-32 items-center justify-center rounded-2xl border p-5 transition-all duration-300 sm:h-36 ${
+          className={`flex h-32 items-center justify-center rounded-2xl border p-5 sm:h-36 ${
             client.lightLogo
-              ? "border-white/15 bg-white/[0.92] group-hover:border-[#C79D6D]/40 group-hover:shadow-lg group-hover:shadow-[#C79D6D]/15"
-              : "border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.04] group-hover:border-[#C79D6D]/35 group-hover:bg-white/[0.1]"
+              ? "border-white/15 bg-white/[0.92] group-hover:border-[#C79D6D]/50"
+              : "border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.04] group-hover:border-[#C79D6D]/40 group-hover:bg-white/[0.1]"
           }`}
         >
           <Image
@@ -181,7 +181,7 @@ const TrustedBySection = () => {
     );
 
   return (
-    <section className="relative overflow-hidden py-20 sm:py-32">
+    <section className="relative overflow-x-hidden py-20 sm:py-32">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-[#C79D6D]/5 blur-3xl" />
         <div className="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-blue-500/5 blur-3xl" />

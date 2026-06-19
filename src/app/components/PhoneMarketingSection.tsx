@@ -217,7 +217,7 @@ export default function PhoneMarketingSection() {
             <NotificationStack activeIndex={activeIndex} />
           </div>
 
-          <div className="relative mx-auto h-[480px] w-full overflow-visible pt-4 pb-10 sm:h-[540px] sm:pt-5 sm:pb-12 lg:h-[600px] xl:h-[640px]">
+          <div className="relative mx-auto h-[500px] w-full overflow-visible pt-4 pb-14 sm:h-[560px] sm:pt-5 sm:pb-16 lg:h-[620px] xl:h-[660px]">
             <PhoneStage />
             <PhoneModel3D
               className="relative z-10 h-full w-full"

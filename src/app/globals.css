@@ -53,6 +53,11 @@ html {
     overflow-x: hidden;
     min-height: 100vh;
   }
+
+  main > section:not(#home):not(#about):not(#marketing-experience) {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 500px;
+  }
 }
 
 /* Growth font-face declarations */
@@ -89,7 +94,14 @@ html {
       radial-gradient(ellipse 600px 800px at 60% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
       radial-gradient(circle at center, rgba(8, 36, 58, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
     z-index: -1;
+    will-change: transform;
     animation: galaxy-float 25s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .galaxy-bg {
+      animation: none;
+    }
   }
 
   /* Stars Animation */
@@ -230,6 +242,37 @@ html {
   .hover-lift:hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Carousel card — zoom + bring to front on hover */
+  .carousel-focus-row:has(.carousel-focus-card:hover) .carousel-focus-card:not(:hover) {
+    opacity: 0.55;
+    transform: scale(0.94);
+    filter: saturate(0.75);
+  }
+
+  .carousel-focus-card {
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition:
+      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.38s ease,
+      filter 0.38s ease,
+      box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .carousel-focus-card:hover {
+      z-index: 60;
+      transform: translateY(-16px) scale(1.12);
+      opacity: 1;
+      filter: saturate(1.05) brightness(1.04);
+      box-shadow:
+        0 32px 64px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(199, 157, 109, 0.4),
+        0 12px 40px rgba(199, 157, 109, 0.22);
+    }
   }
 
   /* Enhanced Button Styles */

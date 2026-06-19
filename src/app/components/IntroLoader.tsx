@@ -4,7 +4,8 @@ import { useEffect, useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-const LOADER_DURATION_MS = 4200;
+const LOADER_DURATION_MS = 2400;
+const INTRO_SEEN_KEY = "ar-intro-seen";
 const NAV_OFFSET = 80;
 const RING_SIZE = 320;
 const RING_R = 138;
@@ -23,7 +24,7 @@ const STARS = Array.from({ length: 28 }, (_, i) => {
 });
 
 export default function IntroLoader() {
-  const [show, setShow] = useState(true);
+  const [show, setShow] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const strokeOffset = useMemo(
@@ -32,11 +33,23 @@ export default function IntroLoader() {
   );
 
   useEffect(() => {
+    const skipIntro =
+      sessionStorage.getItem(INTRO_SEEN_KEY) === "1" ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (skipIntro) {
+      window.dispatchEvent(new CustomEvent("introComplete"));
+      return;
+    }
+
+    setShow(true);
+
     const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 100 : prev + 2));
-    }, LOADER_DURATION_MS / 50);
+      setProgress((prev) => (prev >= 100 ? 100 : prev + 4));
+    }, LOADER_DURATION_MS / 25);
 
     const timer = setTimeout(() => {
+      sessionStorage.setItem(INTRO_SEEN_KEY, "1");
       setShow(false);
       clearInterval(progressInterval);
     }, LOADER_DURATION_MS);
@@ -80,8 +93,7 @@ export default function IntroLoader() {
           initial={{ opacity: 1 }}
           exit={{
             opacity: 0,
-            scale: 1.12,
-            filter: "blur(16px)",
+            scale: 1.04,
           }}
           transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
           className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"

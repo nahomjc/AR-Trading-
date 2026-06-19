@@ -36,15 +36,15 @@ import {
 
 const PHONE_MODEL_PATH = "/3D/white_mesh%20(1).obj";
 const PHONE_SCREEN_IMAGE = "/img/advert/images__2_-removebg-preview.png";
-const DRAG_SENSITIVITY = 0.007;
-const WHEEL_SENSITIVITY = 0.0025;
+const DRAG_SENSITIVITY = 0.018;
+const WHEEL_SENSITIVITY = 0.0065;
 const ROTATION_LERP_DRAG = 22;
 const ROTATION_LERP_IDLE = 12;
-const SWAY_SPEED = 0.75;
-const SWAY_AMPLITUDE = 0.24;
+const SWAY_SPEED = 1.55;
+const SWAY_AMPLITUDE = 0.85;
 const FRONT_FACING_Y = Math.PI;
-const MIN_ROTATION_Y = FRONT_FACING_Y - 0.52;
-const MAX_ROTATION_Y = FRONT_FACING_Y + 0.52;
+const MIN_ROTATION_Y = FRONT_FACING_Y - 1.2;
+const MAX_ROTATION_Y = FRONT_FACING_Y + 1.2;
 const PHONE_UPRIGHT_ROTATION: [number, number, number] = [
   Math.PI / 2,
   0,
@@ -52,9 +52,12 @@ const PHONE_UPRIGHT_ROTATION: [number, number, number] = [
 ];
 const PHONE_SCALE = 1.88;
 /** Horizontal inset — keeps side bezels visible */
-const SCREEN_INSET_X = 0.98;
-/** Vertical fill — use full display height so the dock isn't clipped */
-const SCREEN_INSET_Z = 1.02;
+const SCREEN_INSET_X = 0.975;
+/** Vertical insets — top/bottom bezel clearance on the mesh */
+const SCREEN_TOP_INSET_RATIO = 0.034;
+const SCREEN_BOTTOM_INSET_RATIO = 0.062;
+/** Shrink cover-fit plane so edges stay inside the glass */
+const SCREEN_FILL_SCALE = 0.94;
 const SCREEN_SURFACE_OFFSET = 0.003;
 
 type ScreenPlacement = {
@@ -89,7 +92,11 @@ function getPhoneGeometry(object: Group): BufferGeometry | null {
   return geometry;
 }
 
-function computeScreenPlacement(geometry: BufferGeometry): ScreenPlacement {
+function computeScreenPlacement(
+  geometry: BufferGeometry,
+  imageWidth: number,
+  imageHeight: number,
+): ScreenPlacement {
   geometry.computeBoundingBox();
   const box = geometry.boundingBox;
   if (!box) {
@@ -106,15 +113,28 @@ function computeScreenPlacement(geometry: BufferGeometry): ScreenPlacement {
   box.getSize(size);
   box.getCenter(center);
 
-  const planeW = size.x * SCREEN_INSET_X;
-  const planeH = size.z * SCREEN_INSET_Z;
+  const topInset = size.z * SCREEN_TOP_INSET_RATIO;
+  const bottomInset = size.z * SCREEN_BOTTOM_INSET_RATIO;
+  const maxW = size.x * SCREEN_INSET_X;
+  const maxH = size.z - topInset - bottomInset;
+  const imageAspect = imageWidth / imageHeight;
+
+  // Cover fit — fill the display opening (slight edge crop vs letterboxing)
+  let planeW = maxW;
+  let planeH = maxW / imageAspect;
+
+  if (planeH < maxH) {
+    planeH = maxH;
+    planeW = maxH * imageAspect;
+  }
+
+  planeW *= SCREEN_FILL_SCALE;
+  planeH *= SCREEN_FILL_SCALE;
+
+  const screenCenterZ = box.max.z - topInset - maxH / 2;
 
   return {
-    position: [
-      center.x,
-      box.max.y + SCREEN_SURFACE_OFFSET,
-      box.min.z + planeH / 2,
-    ],
+    position: [center.x, box.max.y + SCREEN_SURFACE_OFFSET, screenCenterZ],
     rotation: [-Math.PI / 2, 0, 0],
     width: planeW,
     height: planeH,
@@ -203,7 +223,9 @@ function PhoneAssembly() {
     const img = screenTexture.image as HTMLImageElement | undefined;
     if (!img?.width || !img?.height) return;
 
-    setScreenPlacement(computeScreenPlacement(phoneGeometry));
+    setScreenPlacement(
+      computeScreenPlacement(phoneGeometry, img.width, img.height),
+    );
   };
 
   useEffect(() => {
@@ -386,9 +408,9 @@ export function PhoneModel3D({
       onPointerCancel={endDrag}
       onPointerLeave={endDrag}
     >
-      <div className="absolute inset-0">
+      <div className="absolute inset-x-0 top-0 bottom-[-28px] sm:bottom-[-32px]">
         <Canvas
-          camera={{ position: [0, 0.02, 2.98], fov: 30 }}
+          camera={{ position: [0, 0.12, 3.22], fov: 30 }}
           gl={{ antialias: true, alpha: true }}
           dpr={[1, 1.75]}
           className="h-full w-full"
@@ -420,7 +442,7 @@ export function PhoneModel3D({
           />
 
           <Suspense fallback={<Loader />}>
-            <Bounds fit margin={0.88}>
+            <Bounds fit margin={1.05}>
               <PhoneModel
                 rotationY={rotationY}
                 targetRotationY={targetRotationY}

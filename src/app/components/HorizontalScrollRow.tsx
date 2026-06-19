@@ -99,7 +99,7 @@ export default function HorizontalScrollRow({
 
   return (
     <div
-      className={`relative overflow-hidden ${bleedClass} ${className}`}
+      className={`relative overflow-x-hidden overflow-y-visible ${bleedClass} ${className}`}
       aria-label={ariaLabel}
       onMouseEnter={() => {
         if (finePointer) setIsPaused(true);
@@ -126,10 +126,10 @@ export default function HorizontalScrollRow({
         <IconChevronRight className="h-5 w-5 sm:h-6 sm:w-6" stroke={2} />
       </button>
 
-      <div className="overflow-hidden px-12 sm:px-16">
+      <div className="overflow-x-hidden overflow-y-visible px-12 sm:px-16">
         <div
           ref={trackRef}
-          className={`infinite-marquee-track flex w-max gap-6 py-4 sm:gap-8 sm:py-6 lg:gap-10 ${isPaused ? "paused" : ""} ${reverse ? "reverse" : ""} ${trackClassName}`}
+          className={`carousel-focus-row infinite-marquee-track flex w-max items-center gap-6 py-8 sm:gap-8 sm:py-10 lg:gap-10 ${isPaused ? "paused" : ""} ${reverse ? "reverse" : ""} ${trackClassName}`}
           style={trackStyle}
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}

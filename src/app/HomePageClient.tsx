@@ -6,13 +6,9 @@ import IntroLoader from "./components/IntroLoader";
 import Navigation from "./components/Navigation";
 import HeroSection from "./components/HeroSection";
 import Footer from "./components/Footer";
+import LazyMount from "./components/LazyMount";
 
-const ScrollStars = dynamic(() => import("./components/ScrollStars"), {
-  ssr: false,
-});
-const ChatBot = dynamic(() => import("./components/ChatBot"), {
-  ssr: false,
-});
+const ChatBot = dynamic(() => import("./components/ChatBot"), { ssr: false });
 const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
   ssr: false,
 });
@@ -48,26 +44,36 @@ const SocialMediaModal = dynamic(
   { ssr: false },
 );
 
-const isMobile = () =>
-  typeof window !== "undefined" &&
-  /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+function isMobileDevice() {
+  if (typeof window === "undefined") return true;
+  return /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent,
   );
+}
 
-const GalaxyBackground = () => {
-  if (typeof window !== "undefined" && isMobile()) return null;
+function GalaxyBackground() {
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    setShow(!isMobileDevice() && !reducedMotion);
+  }, []);
+
+  if (!show) return null;
+
   return (
     <>
       <div className="galaxy-bg" />
-      <ScrollStars />
       <div className="stars">
-        {[...Array(18)].map((_, i) => (
+        {[...Array(12)].map((_, i) => (
           <div key={i} className="star" />
         ))}
       </div>
     </>
   );
-};
+}
 
 type HomePageClientProps = {
   children?: React.ReactNode;
@@ -77,12 +83,7 @@ export default function HomePageClient({ children }: HomePageClientProps) {
   const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    setIsDesktop(
-      window.innerWidth >= 1024 &&
-        !/Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent,
-        ),
-    );
+    setIsDesktop(window.innerWidth >= 1024 && !isMobileDevice());
   }, []);
 
   return (
@@ -96,13 +97,23 @@ export default function HomePageClient({ children }: HomePageClientProps) {
       <main className="relative z-10">
         <HeroSection />
         <WhoWeAreSection />
-        <ServicesSection />
+        <LazyMount minHeight="500px">
+          <ServicesSection />
+        </LazyMount>
         <PhoneMarketingSection />
-        <TrustedBySection />
-        <LatestWorksSection />
-        <TestimonialsSection />
+        <LazyMount minHeight="300px">
+          <TrustedBySection />
+        </LazyMount>
+        <LazyMount minHeight="500px">
+          <LatestWorksSection />
+        </LazyMount>
+        <LazyMount minHeight="400px">
+          <TestimonialsSection />
+        </LazyMount>
         {children}
-        <ContactSection />
+        <LazyMount minHeight="400px">
+          <ContactSection />
+        </LazyMount>
       </main>
       <Footer />
       <ChatBot />

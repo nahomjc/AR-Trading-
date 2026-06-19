@@ -13,40 +13,54 @@ const Navigation = () => {
 
   // Track scroll position and active section
   useEffect(() => {
+    let ticking = false;
+
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (ticking) return;
+      ticking = true;
 
-      const sections = ["home", "about", "services", "testimonials", "contact"];
-      const scrollPosition = window.scrollY + 150; // Offset for better detection
-      let currentSection = "home";
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20);
 
-      // Find the section that's most visible in the viewport
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        const element = document.getElementById(section);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          const sectionTop = offsetTop;
-          const sectionBottom = offsetTop + offsetHeight;
+        const sections = [
+          "home",
+          "about",
+          "services",
+          "testimonials",
+          "contact",
+        ];
+        const scrollPosition = window.scrollY + 150;
+        let currentSection = "home";
 
-          // Check if scroll position is within this section
-          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-            currentSection = section;
-            break;
-          }
-          // Also check if we're past the top of this section but before the next
-          if (scrollPosition >= sectionTop) {
-            currentSection = section;
-            break;
+        for (let i = sections.length - 1; i >= 0; i--) {
+          const section = sections[i];
+          const element = document.getElementById(section);
+          if (element) {
+            const { offsetTop, offsetHeight } = element;
+            const sectionTop = offsetTop;
+            const sectionBottom = offsetTop + offsetHeight;
+
+            if (
+              scrollPosition >= sectionTop &&
+              scrollPosition < sectionBottom
+            ) {
+              currentSection = section;
+              break;
+            }
+            if (scrollPosition >= sectionTop) {
+              currentSection = section;
+              break;
+            }
           }
         }
-      }
 
-      setActiveSection(currentSection);
+        setActiveSection(currentSection);
+        ticking = false;
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial check
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

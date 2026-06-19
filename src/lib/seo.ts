@@ -18,6 +18,7 @@ export const siteConfig = {
   shortDescription:
     "Ethiopia's premier digital marketing agency and trading solutions provider in Addis Ababa.",
   ogImage: "/img/White-with-background-removebg-preview.png",
+  siteIcon: "/img/White-with-background-removebg-preview.png",
   twitterHandle: "@addis_reality",
   contact: {
     email: "artradingplc@gmail.com",
@@ -217,9 +218,11 @@ export function getBaseMetadata(): Metadata {
       },
     },
     icons: {
-      icon: [{ url: ogImage, sizes: "any" }],
-      apple: [{ url: ogImage, sizes: "180x180", type: "image/png" }],
-      shortcut: ogImage,
+      icon: [{ url: siteConfig.siteIcon, sizes: "any", type: "image/png" }],
+      apple: [
+        { url: siteConfig.siteIcon, sizes: "180x180", type: "image/png" },
+      ],
+      shortcut: siteConfig.siteIcon,
     },
     manifest: "/manifest.json",
     verification: {

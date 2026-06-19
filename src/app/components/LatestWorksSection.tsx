@@ -166,7 +166,7 @@ function WorkScreenCard({
   const isLocalVideo = Boolean(work.video && !isYouTubeUrl(work.video));
 
   return (
-    <div className="flex-shrink-0 w-[200px] sm:w-[240px] lg:w-[260px]">
+    <div className="carousel-focus-card w-[200px] sm:w-[240px] lg:w-[260px]">
       <p
         className="text-center text-sm font-medium text-gray-300 mb-4 px-1 truncate"
         title={work.title}
@@ -185,7 +185,7 @@ function WorkScreenCard({
           }
         }}
       >
-        <div className="relative aspect-[9/16] rounded-[1.75rem] overflow-hidden border border-white/15 bg-gradient-to-b from-white/[0.1] to-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition-all duration-300 group-hover:border-[#C79D6D]/45 group-hover:shadow-[0_16px_48px_rgba(199,157,109,0.18)] group-hover:-translate-y-1">
+        <div className="relative aspect-[9/16] rounded-[1.75rem] overflow-hidden border border-white/15 bg-gradient-to-b from-white/[0.1] to-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.35)] group-hover:border-[#C79D6D]/55">
           {isPdf ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
               <div className="relative w-24 h-24">
@@ -224,7 +224,7 @@ function WorkScreenCard({
               src={work.image}
               alt={work.title}
               fill
-              className="object-cover group-hover:scale-[1.03] transition-transform duration-500"
+              className="object-cover group-hover:scale-105 transition-transform duration-500"
               loading={
                 activeTab === "Advertising & Printing" || idx < 4
                   ? "eager"
@@ -557,7 +557,7 @@ const LatestWorksSection = () => {
     <>
     <section
       id="latest-works"
-      className="relative py-20 sm:py-32 overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
+      className="relative py-20 sm:py-32 overflow-x-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
     >
       {/* Background Image */}
       <div className="absolute inset-0">
