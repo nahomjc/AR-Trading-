@@ -1048,8 +1048,8 @@ section {
 .dm-dock {
 	position: relative;
 	overflow: visible;
-	max-width: calc(100vw - 1rem);
-	/* transparent air above the glass — icons magnify into this space */
+	width: auto;
+	max-width: calc(100vw - 1.5rem);
 	padding-top: 0.5rem;
 	isolation: isolate;
 }
@@ -1059,11 +1059,11 @@ section {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	height: 58px;
-	border-radius: 22px;
+	height: max(52px, calc(var(--dock-icon-size, 46px) + 12px));
+	border-radius: 18px;
 	pointer-events: none;
 	z-index: 0;
-	overflow: visible;
+	overflow: hidden;
 	background: linear-gradient(
 		180deg,
 		rgba(255, 255, 255, 0.22) 0%,
@@ -1079,14 +1079,63 @@ section {
 		0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
+@media (min-width: 640px) {
+	.dm-dock-glass {
+		border-radius: 22px;
+	}
+}
+
+@media (min-width: 1024px) {
+	.dm-dock {
+		max-width: none;
+	}
+}
+
 .dm-dock-track {
 	position: relative;
 	z-index: 10;
 	display: flex;
 	align-items: flex-end;
-	gap: 0.25rem;
-	padding: 0 0.65rem 0.45rem;
+	justify-content: center;
+	gap: 0.35rem;
+	padding: 0 0.5rem 0.4rem;
 	overflow: visible;
+}
+
+@media (min-width: 1024px) {
+	.dm-dock-track {
+		gap: 0.25rem;
+		padding: 0 0.65rem 0.45rem;
+		justify-content: flex-start;
+	}
+}
+
+.dm-dock-scroll {
+	display: flex;
+	align-items: flex-end;
+	flex: 0 0 auto;
+	overflow: visible;
+}
+
+/* Fallback scroll only when items overflow on very small screens */
+@media (max-width: 359px) {
+	.dm-dock-scroll {
+		max-width: calc(100vw - 5.5rem);
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+		mask-image: linear-gradient(
+			90deg,
+			transparent 0,
+			black 6px,
+			black calc(100% - 6px),
+			transparent 100%
+		);
+	}
+
+	.dm-dock-scroll::-webkit-scrollbar {
+		display: none;
+	}
 }
 
 .dm-dock-track-scroll {
@@ -1128,8 +1177,9 @@ section {
 
 .dm-dock-divider {
 	width: 1px;
-	height: 36px;
-	margin-bottom: 6px;
+	height: calc(var(--dock-icon-size, 46px) - 10px);
+	min-height: 24px;
+	margin-bottom: 4px;
 	flex-shrink: 0;
 	align-self: flex-end;
 	background: linear-gradient(
@@ -1144,12 +1194,21 @@ section {
 	transform-origin: center bottom;
 	will-change: transform, width, height;
 	transition: width 0.12s ease-out, height 0.12s ease-out;
+	border-radius: 12px;
+}
+
+@media (min-width: 640px) {
+	.dm-dock-icon {
+		border-radius: 14px;
+	}
 }
 
 .dm-dock-item,
-.dm-dock-logo {
+.dm-dock-logo,
+.dm-dock-chat {
 	overflow: visible;
 	transition: transform 0.12s ease-out;
+	flex-shrink: 0;
 }
 
 .dm-dock-reflection {

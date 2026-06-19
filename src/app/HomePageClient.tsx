@@ -86,7 +86,7 @@ export default function HomePageClient({ children }: HomePageClientProps) {
   return (
     <ChatBotProvider>
       <div
-        className="relative min-h-screen overflow-x-hidden pb-28 sm:pb-32"
+        className="relative min-h-screen overflow-x-hidden pb-[6.5rem] sm:pb-32"
         style={{ cursor: isDesktop ? "none" : undefined }}
       >
         <IntroLoader />
@@ -94,21 +94,21 @@ export default function HomePageClient({ children }: HomePageClientProps) {
         <main className="relative z-10">
           <HeroSection />
           <WhoWeAreSection />
-          <LazyMount minHeight="500px">
+          <LazyMount minHeight="500px" anchorId="services">
             <ServicesSection />
           </LazyMount>
           <PhoneMarketingSection />
           <LazyMount minHeight="300px">
             <TrustedBySection />
           </LazyMount>
-          <LazyMount minHeight="500px">
+          <LazyMount minHeight="500px" anchorId="latest-works">
             <LatestWorksSection />
           </LazyMount>
-          <LazyMount minHeight="400px">
+          <LazyMount minHeight="400px" anchorId="testimonials">
             <TestimonialsSection />
           </LazyMount>
           {children}
-          <LazyMount minHeight="400px">
+          <LazyMount minHeight="400px" anchorId="contact">
             <ContactSection />
           </LazyMount>
         </main>

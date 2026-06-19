@@ -131,7 +131,7 @@ const WhoWeAreSection = () => {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] px-4 py-16 sm:px-6 sm:py-32 lg:px-8"
+      className="relative scroll-mt-24 overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] px-4 py-16 sm:px-6 sm:py-32 lg:px-8"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/4 top-0 h-[28rem] w-[28rem] rounded-full bg-[#C79D6D]/5 blur-3xl" />

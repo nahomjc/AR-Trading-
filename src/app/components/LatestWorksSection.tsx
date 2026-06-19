@@ -555,7 +555,7 @@ const LatestWorksSection = () => {
     <>
       <section
         id="latest-works"
-        className="relative py-20 sm:py-32 overflow-x-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
+        className="relative scroll-mt-24 overflow-x-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] py-20 sm:py-32"
       >
         {/* Background Image */}
         <div className="absolute inset-0">

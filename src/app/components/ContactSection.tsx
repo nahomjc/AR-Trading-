@@ -55,7 +55,7 @@ const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="py-20 px-4 sm:px-6 lg:px-8 relative"
+      className="relative scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
       style={{
         backgroundImage:
           "url(https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=80)",

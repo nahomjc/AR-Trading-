@@ -83,7 +83,7 @@ const TestimonialsSection = () => {
   return (
     <section
       id="testimonials"
-      className="relative overflow-hidden py-20 sm:py-32 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-[#08243A]/50 via-transparent to-[#08243A]/50"
+      className="relative scroll-mt-24 overflow-hidden bg-gradient-to-br from-[#08243A]/50 via-transparent to-[#08243A]/50 px-4 py-20 sm:px-6 sm:py-32 lg:px-8"
     >
       {/* Background elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">

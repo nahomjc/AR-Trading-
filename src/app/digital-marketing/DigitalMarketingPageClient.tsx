@@ -8,7 +8,7 @@ import { ChatBotProvider } from "../components/ChatBot";
 export default function DigitalMarketingPageClient() {
   return (
     <ChatBotProvider>
-      <div className="relative min-h-screen overflow-x-hidden bg-[#08243A] pb-28 sm:pb-32">
+      <div className="relative min-h-screen overflow-x-hidden bg-[#08243A] pb-[6.5rem] sm:pb-32">
         <div
           className="pointer-events-none absolute inset-0 galaxy-bg opacity-50"
           aria-hidden

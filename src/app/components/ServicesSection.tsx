@@ -296,7 +296,7 @@ const ServicesSection = () => {
   return (
     <section
       id="services"
-      className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-20 lg:py-32 lg:px-8"
+      className="relative overflow-hidden scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:py-32 lg:px-8"
     >
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <div className="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-[#C79D6D]/5 blur-3xl" />
