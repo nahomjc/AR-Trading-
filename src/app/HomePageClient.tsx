@@ -64,7 +64,7 @@ function GalaxyBackground() {
     <>
       <div className="galaxy-bg" />
       <div className="stars">
-        {[...Array(12)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <div key={i} className="star" />
         ))}
       </div>
@@ -78,9 +78,20 @@ type HomePageClientProps = {
 
 export default function HomePageClient({ children }: HomePageClientProps) {
   const [isDesktop, setIsDesktop] = useState(false);
+  const [cursorReady, setCursorReady] = useState(false);
 
   useEffect(() => {
     setIsDesktop(window.innerWidth >= 1024 && !isMobileDevice());
+  }, []);
+
+  useEffect(() => {
+    const enableCursor = () => setCursorReady(true);
+    window.addEventListener("introComplete", enableCursor);
+    const fallback = window.setTimeout(enableCursor, 3200);
+    return () => {
+      window.removeEventListener("introComplete", enableCursor);
+      window.clearTimeout(fallback);
+    };
   }, []);
 
   return (
@@ -97,7 +108,9 @@ export default function HomePageClient({ children }: HomePageClientProps) {
           <LazyMount minHeight="500px" anchorId="services">
             <ServicesSection />
           </LazyMount>
-          <PhoneMarketingSection />
+          <LazyMount minHeight="620px">
+            <PhoneMarketingSection />
+          </LazyMount>
           <LazyMount minHeight="300px">
             <TrustedBySection />
           </LazyMount>
@@ -114,7 +127,7 @@ export default function HomePageClient({ children }: HomePageClientProps) {
         </main>
         <Footer />
         <SocialMediaModal />
-        {isDesktop && <CustomCursor />}
+        {cursorReady && isDesktop && <CustomCursor />}
       </div>
       <DockNavigation variant="home" />
     </ChatBotProvider>

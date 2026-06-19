@@ -515,6 +515,37 @@ html {
 		background: linear-gradient(90deg, #3b82f6, #8b5cf6, #06b6d4);
 	}
 
+	/* Hero performance — CSS animations instead of JS scroll/loop */
+	@keyframes hero-icon-drift {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(var(--drift, -8px));
+		}
+	}
+
+	.hero-icon-drift {
+		animation: hero-icon-drift var(--duration, 5s) ease-in-out infinite;
+		animation-delay: var(--delay, 0s);
+		will-change: transform;
+	}
+
+	@keyframes hero-ring-pulse {
+		0%,
+		100% {
+			opacity: 0.35;
+		}
+		50% {
+			opacity: 0.55;
+		}
+	}
+
+	.hero-ring-pulse {
+		animation: hero-ring-pulse 5s ease-in-out infinite;
+	}
+
 	/* Fade in animation */
 	.fade-in {
 		animation: fade-in 1s ease-out;

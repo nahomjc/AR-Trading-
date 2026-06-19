@@ -1,12 +1,10 @@
 "use client";
 
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useEffect, useState, type CSSProperties } from "react";
 import {
   motion,
   AnimatePresence,
   useReducedMotion,
-  useScroll,
-  useTransform,
   type Variants,
 } from "framer-motion";
 import Image from "next/image";
@@ -409,12 +407,6 @@ const HeroSection = () => {
   const prefersReducedMotion = useReducedMotion();
   const [ready, setReady] = useState(false);
   const [headlineDone, setHeadlineDone] = useState(false);
-  const { scrollY } = useScroll();
-  const imageY = useTransform(
-    scrollY,
-    [0, 500],
-    [0, prefersReducedMotion ? 0 : 48],
-  );
 
   useEffect(() => {
     const onIntro = () => setReady(true);
@@ -594,30 +586,32 @@ const HeroSection = () => {
                     }}
                     aria-hidden
                   >
-                    <motion.div
-                      className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-[#08243A]/75 shadow-lg shadow-black/25 backdrop-blur-md sm:h-11 sm:w-11"
-                      animate={
+                    <div
+                      className={`flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-[#08243A]/75 shadow-lg shadow-black/25 backdrop-blur-md sm:h-11 sm:w-11 ${
+                        prefersReducedMotion || !ready
+                          ? ""
+                          : "hero-icon-drift"
+                      }`}
+                      style={
                         prefersReducedMotion || !ready
                           ? undefined
-                          : { y: [0, item.offset, 0] }
+                          : ({
+                              "--drift": `${item.offset}px`,
+                              "--duration": `${item.duration}s`,
+                              "--delay": `${item.delay * 0.5}s`,
+                            } as CSSProperties)
                       }
-                      transition={{
-                        duration: item.duration,
-                        repeat: Number.POSITIVE_INFINITY,
-                        ease: "easeInOut",
-                        delay: item.delay * 0.5,
-                      }}
                     >
                       <Icon
                         className="h-[18px] w-[18px] text-[#C79D6D] sm:h-5 sm:w-5"
                         stroke={1.5}
                       />
-                    </motion.div>
+                    </div>
                   </motion.div>
                 );
               })}
 
-              <motion.div style={{ y: imageY }} className="relative">
+              <div className="relative">
                 <Image
                   src="/img/hero-image-7.png"
                   alt="Addis Reality creative and digital marketing"
@@ -627,21 +621,13 @@ const HeroSection = () => {
                   sizes="(max-width: 1024px) 90vw, 50vw"
                   priority
                 />
-              </motion.div>
+              </div>
 
               {/* Subtle accent ring */}
-              <motion.div
-                className="pointer-events-none absolute left-1/2 top-1/2 z-0 h-[88%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#C79D6D]/15"
-                animate={
-                  prefersReducedMotion
-                    ? undefined
-                    : { scale: [1, 1.03, 1], opacity: [0.35, 0.55, 0.35] }
-                }
-                transition={{
-                  duration: 5,
-                  repeat: Number.POSITIVE_INFINITY,
-                  ease: "easeInOut",
-                }}
+              <div
+                className={`pointer-events-none absolute left-1/2 top-1/2 z-0 h-[88%] w-[88%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#C79D6D]/15 ${
+                  prefersReducedMotion ? "" : "hero-ring-pulse"
+                }`}
               />
             </div>
           </motion.div>

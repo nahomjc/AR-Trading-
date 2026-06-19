@@ -31,7 +31,6 @@ const Footer = () => {
                 width={150}
                 height={60}
                 className="h-28 w-auto"
-                priority
               />
             </motion.div>
             <p className="text-gray-300 mb-4 max-w-md">

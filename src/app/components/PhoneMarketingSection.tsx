@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   IconAd,
@@ -11,7 +12,18 @@ import {
   IconVideo,
 } from "@tabler/icons-react";
 import { PhoneCallModal } from "./PhoneCallModal";
-import { PhoneModel3D } from "./PhoneModel3D";
+
+const PhoneModel3D = dynamic(
+  () => import("./PhoneModel3D").then((mod) => mod.PhoneModel3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="flex h-full min-h-[320px] w-full items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
+      </div>
+    ),
+  },
+);
 
 const marketingFeatures = [
   {

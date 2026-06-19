@@ -14,8 +14,6 @@ import {
   Bounds,
   Center,
   ContactShadows,
-  Environment,
-  Float,
   Html,
   useProgress,
   useTexture,
@@ -33,6 +31,7 @@ import {
   type Mesh,
   type Texture,
 } from "three";
+import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
 
 const PHONE_MODEL_PATH = "/3D/white_mesh%20(1).obj";
 const PHONE_SCREEN_IMAGE = "/img/advert/images__2_-removebg-preview.png";
@@ -290,11 +289,9 @@ function PhoneModel({
   return (
     <group ref={spinRef}>
       <group rotation={PHONE_UPRIGHT_ROTATION}>
-        <Float speed={1.2} rotationIntensity={0} floatIntensity={0}>
-          <Center>
-            <PhoneAssembly />
-          </Center>
-        </Float>
+        <Center>
+          <PhoneAssembly />
+        </Center>
       </group>
     </group>
   );
@@ -313,6 +310,7 @@ export function PhoneModel3D({
 }: PhoneModel3DProps) {
   const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const { ref: visibilityRef, visible } = useIntersectionVisible("200px 0px");
   const rotationY = useRef(FRONT_FACING_Y);
   const targetRotationY = useRef(FRONT_FACING_Y);
   const isDragging = useRef(false);
@@ -324,6 +322,11 @@ export function PhoneModel3D({
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const setContainerRef = (node: HTMLDivElement | null) => {
+    containerRef.current = node;
+    visibilityRef.current = node;
+  };
 
   const applyRotationDelta = (delta: number) => {
     targetRotationY.current = clampRotation(targetRotationY.current + delta);
@@ -399,7 +402,7 @@ export function PhoneModel3D({
 
   return (
     <div
-      ref={containerRef}
+      ref={setContainerRef}
       className={`relative h-full w-full cursor-pointer touch-pan-y active:cursor-grabbing ${className}`}
       aria-label="Tap to call Addis Reality"
       onPointerDown={handlePointerDown}
@@ -409,57 +412,59 @@ export function PhoneModel3D({
       onPointerLeave={endDrag}
     >
       <div className="absolute inset-x-0 top-0 bottom-[-28px] sm:bottom-[-32px]">
-        <Canvas
-          camera={{ position: [0, 0.12, 3.22], fov: 30 }}
-          gl={{ antialias: true, alpha: true }}
-          dpr={[1, 1.75]}
-          className="h-full w-full"
-          style={{ pointerEvents: "none" }}
-        >
-          <ambientLight intensity={0.45} />
-          <directionalLight
-            position={[3, 8, 6]}
-            intensity={0.95}
-            color="#ffffff"
-          />
-          <directionalLight
-            position={[-4, 2, 3]}
-            intensity={0.25}
-            color="#93c5fd"
-          />
-          <pointLight
-            position={[-2.5, 1, 4]}
-            intensity={0.65}
-            color="#C79D6D"
-          />
-          <pointLight position={[2.5, 0, 3]} intensity={0.3} color="#22d3ee" />
-          <spotLight
-            position={[0, 4, 5]}
-            intensity={0.5}
-            angle={0.35}
-            penumbra={0.9}
-            color="#ffffff"
-          />
-
-          <Suspense fallback={<Loader />}>
-            <Bounds fit margin={1.05}>
-              <PhoneModel
-                rotationY={rotationY}
-                targetRotationY={targetRotationY}
-                isDragging={isDragging}
-              />
-            </Bounds>
-            <ContactShadows
-              position={[0, -1.08, 0]}
-              opacity={0.45}
-              scale={4.5}
-              blur={2.2}
-              far={1.8}
-              color="#0ea5e9"
+        {visible ? (
+          <Canvas
+            camera={{ position: [0, 0.12, 3.22], fov: 30 }}
+            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+            dpr={[1, 1.35]}
+            frameloop="always"
+            className="h-full w-full"
+            style={{ pointerEvents: "none" }}
+          >
+            <ambientLight intensity={0.45} />
+            <hemisphereLight
+              args={["#ffffff", "#1a2a3a", 0.55]}
+              position={[0, 1, 0]}
             />
-            <Environment preset="studio" environmentIntensity={0.4} />
-          </Suspense>
-        </Canvas>
+            <directionalLight
+              position={[3, 8, 6]}
+              intensity={0.95}
+              color="#ffffff"
+            />
+            <directionalLight
+              position={[-4, 2, 3]}
+              intensity={0.25}
+              color="#93c5fd"
+            />
+            <pointLight
+              position={[-2.5, 1, 4]}
+              intensity={0.65}
+              color="#C79D6D"
+            />
+
+            <Suspense fallback={<Loader />}>
+              <Bounds fit margin={1.05}>
+                <PhoneModel
+                  rotationY={rotationY}
+                  targetRotationY={targetRotationY}
+                  isDragging={isDragging}
+                />
+              </Bounds>
+              <ContactShadows
+                position={[0, -1.08, 0]}
+                opacity={0.45}
+                scale={4.5}
+                blur={2.2}
+                far={1.8}
+                color="#0ea5e9"
+              />
+            </Suspense>
+          </Canvas>
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
+          </div>
+        )}
       </div>
     </div>
   );

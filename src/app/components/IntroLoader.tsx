@@ -11,8 +11,8 @@ const RING_R = 138;
 const PROGRESS_R = RING_R + 8;
 const PROGRESS_C = 2 * Math.PI * PROGRESS_R;
 
-const STARS = Array.from({ length: 28 }, (_, i) => {
-  const angle = (i / 28) * Math.PI * 2;
+const STARS = Array.from({ length: 12 }, (_, i) => {
+  const angle = (i / 12) * Math.PI * 2;
   const radius = 38 + (i % 4) * 5;
   return {
     id: `star-${i}`,
@@ -45,8 +45,8 @@ export default function IntroLoader() {
     setShow(true);
 
     const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 100 : prev + 4));
-    }, LOADER_DURATION_MS / 25);
+      setProgress((prev) => (prev >= 100 ? 100 : prev + 5));
+    }, LOADER_DURATION_MS / 20);
 
     const timer = setTimeout(() => {
       setShow(false);

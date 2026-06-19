@@ -27,6 +27,7 @@ import {
   type MeshStandardMaterial as MeshStandardMaterialType,
   type Texture,
 } from "three";
+import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
 
 // highres.glb is geometry-only (no materials/UVs) — textured.glb has embedded colors
 const MODEL_PATH = "/3D/textured.glb";
@@ -135,6 +136,7 @@ function Model({
 
 export default function AboutModel3D() {
   const [mounted, setMounted] = useState(false);
+  const { ref, visible } = useIntersectionVisible("200px 0px");
   const rotationY = useRef(0);
   const isDragging = useRef(false);
   const lastPointerX = useRef(0);
@@ -172,7 +174,10 @@ export default function AboutModel3D() {
 
   if (!mounted) {
     return (
-      <div className="flex aspect-square min-h-[280px] w-full items-center justify-center sm:min-h-[360px] lg:min-h-[400px]">
+      <div
+        ref={ref}
+        className="flex aspect-square min-h-[280px] w-full items-center justify-center sm:min-h-[360px] lg:min-h-[400px]"
+      >
         <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D] border-t-transparent" />
       </div>
     );
@@ -180,6 +185,7 @@ export default function AboutModel3D() {
 
   return (
     <div
+      ref={ref}
       className="relative aspect-square min-h-[280px] w-full cursor-grab touch-pan-y active:cursor-grabbing sm:min-h-[360px] lg:min-h-[400px]"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -187,33 +193,40 @@ export default function AboutModel3D() {
       onPointerCancel={endDrag}
       onPointerLeave={endDrag}
     >
-      <Canvas
-        camera={{ position: [0, 0.35, 4.2], fov: 42 }}
-        gl={{ antialias: true, alpha: true }}
-        dpr={[1, 1.75]}
-        style={{ pointerEvents: "none" }}
-      >
-        <ambientLight intensity={1.05} />
-        <hemisphereLight
-          args={["#ffffff", "#2a3540", 0.9]}
-          position={[0, 1, 0]}
-        />
-        <directionalLight position={[6, 10, 6]} intensity={0.5} />
-        <directionalLight position={[-4, 2, -3]} intensity={0.25} />
-
-        <Suspense fallback={<Loader />}>
-          <Bounds fit clip margin={1.2}>
-            <Model rotationY={rotationY} isDragging={isDragging} />
-          </Bounds>
-          <ContactShadows
-            position={[0, -0.85, 0]}
-            opacity={0.35}
-            scale={9}
-            blur={2.8}
-            far={2}
+      {visible ? (
+        <Canvas
+          camera={{ position: [0, 0.35, 4.2], fov: 42 }}
+          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+          dpr={[1, 1.35]}
+          frameloop="always"
+          style={{ pointerEvents: "none" }}
+        >
+          <ambientLight intensity={1.05} />
+          <hemisphereLight
+            args={["#ffffff", "#2a3540", 0.9]}
+            position={[0, 1, 0]}
           />
-        </Suspense>
-      </Canvas>
+          <directionalLight position={[6, 10, 6]} intensity={0.5} />
+          <directionalLight position={[-4, 2, -3]} intensity={0.25} />
+
+          <Suspense fallback={<Loader />}>
+            <Bounds fit clip margin={1.2}>
+              <Model rotationY={rotationY} isDragging={isDragging} />
+            </Bounds>
+            <ContactShadows
+              position={[0, -0.85, 0]}
+              opacity={0.35}
+              scale={9}
+              blur={2.8}
+              far={2}
+            />
+          </Suspense>
+        </Canvas>
+      ) : (
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D] border-t-transparent" />
+        </div>
+      )}
     </div>
   );
 }
