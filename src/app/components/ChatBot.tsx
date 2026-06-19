@@ -286,12 +286,7 @@ function ChatBotWindow({
             className={
               fullScreen
                 ? "mac-chat-window fixed inset-4 z-[70] flex flex-col sm:inset-8"
-                : "mac-chat-window fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] left-1/2 z-[70] flex w-[min(420px,calc(100vw-1.5rem))] -translate-x-1/2 flex-col sm:bottom-[6.25rem]"
-            }
-            style={
-              fullScreen
-                ? undefined
-                : { height: "min(520px, calc(100vh - 8rem))" }
+                : "mac-chat-window fixed bottom-[calc(5.75rem+env(safe-area-inset-bottom))] left-1/2 z-[70] flex h-[min(520px,calc(100vh-8rem))] w-[min(420px,calc(100vw-1.5rem))] -translate-x-1/2 flex-col sm:bottom-[6.25rem] lg:h-[min(720px,calc(100vh-11rem))] lg:w-[min(600px,calc(100vw-2rem))]"
             }
           >
             <div className="mac-titlebar flex shrink-0 items-center gap-3 border-b border-black/10 px-4 py-3">
