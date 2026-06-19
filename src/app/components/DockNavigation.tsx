@@ -183,6 +183,7 @@ const SCROLL_OFFSET = 32;
 const SCROLL_RETRY_MS = 50;
 const SCROLL_MAX_RETRIES = 40;
 const DOCK_REVEAL_SCROLL_Y = 50;
+const DOCK_STAR_BASE_DELAY = 0.32;
 
 type StarPath = {
   x: number;
@@ -193,15 +194,23 @@ type StarPath = {
   duration: number;
   delay: number;
   rotate: number;
+  fromRight: boolean;
 };
 
 function shootingStarPath(index: number): StarPath {
   const lane = index % 7;
   const band = Math.floor(index / 7);
-  const x = -(175 + lane * 78 + (index % 4) * 34);
-  const y = -(360 + band * 56 + lane * 26 + (index % 3) * 32);
-  const midX = x * 0.42 + (index % 2 === 0 ? 36 : -22);
+  const fromRight = index % 2 === 1;
+  const spreadX = 175 + lane * 78 + (index % 4) * 34;
+  const spreadY = 360 + band * 56 + lane * 26 + (index % 3) * 32;
+  const x = fromRight ? spreadX : -spreadX;
+  const y = -spreadY;
+  const midX =
+    x * 0.42 + (fromRight ? -(index % 2 === 0 ? 28 : 18) : index % 2 === 0 ? 36 : -22);
   const midY = y * 0.48 - 32 - (index % 3) * 12;
+  const rotate = fromRight
+    ? 34 + lane * 5 + (index % 2) * 11
+    : -36 - lane * 5 - (index % 2) * 12;
 
   return {
     x,
@@ -210,8 +219,9 @@ function shootingStarPath(index: number): StarPath {
     midY,
     trailAngle: Math.atan2(y, x) * (180 / Math.PI),
     duration: 0.58 + (index % 4) * 0.11,
-    delay: 0.08 + index * 0.072,
-    rotate: -36 - lane * 5 - (index % 2) * 12,
+    delay: DOCK_STAR_BASE_DELAY + index * 0.085,
+    rotate,
+    fromRight,
   };
 }
 
@@ -272,7 +282,9 @@ function DockStarWrap({
       {!reducedMotion && (
         <>
           <motion.span
-            className="dm-dock-star-trail dm-dock-star-trail--long"
+            className={`dm-dock-star-trail dm-dock-star-trail--long${
+              path.fromRight ? " dm-dock-star-trail--from-right" : ""
+            }`}
             style={{ rotate: path.trailAngle }}
             aria-hidden
             initial={{ opacity: 0, scaleX: 0.1 }}
@@ -289,7 +301,9 @@ function DockStarWrap({
             }}
           />
           <motion.span
-            className="dm-dock-star-trail dm-dock-star-trail--core"
+            className={`dm-dock-star-trail dm-dock-star-trail--core${
+              path.fromRight ? " dm-dock-star-trail--from-right" : ""
+            }`}
             style={{ rotate: path.trailAngle }}
             aria-hidden
             initial={{ opacity: 0, scaleX: 0.2 }}
@@ -316,7 +330,11 @@ function DockStarWrap({
                   ? {
                       opacity: [0, 1, 0.6, 0],
                       scale: [0, 1.8, 1.2, 0],
-                      x: [0, -18 - spark * 14, -32 - spark * 20],
+                      x: [
+                        0,
+                        path.fromRight ? 18 + spark * 14 : -(18 + spark * 14),
+                        path.fromRight ? 32 + spark * 20 : -(32 + spark * 20),
+                      ],
                       y: [0, 10 + spark * 6, 18 + spark * 10],
                     }
                   : { opacity: 0, scale: 0 }
@@ -630,7 +648,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
             : {
                 duration: 0.65,
                 ease: [0.22, 1, 0.36, 1],
-                delay: 0.05,
+                delay: 0.18,
               }
         }
         aria-label="Page navigation"
@@ -648,7 +666,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
               ? { opacity: [0, 0.45, 0.12, 0] }
               : { opacity: 0 }
           }
-          transition={{ duration: 1.1, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 1.1, delay: 0.35, ease: "easeOut" }}
         />
         <motion.div
           className="dm-dock-glass"
@@ -664,7 +682,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
               ? { duration: 0.3 }
               : {
                   duration: 0.7,
-                  delay: 0.35,
+                  delay: 0.5,
                   ease: [0.22, 1, 0.36, 1],
                 }
           }

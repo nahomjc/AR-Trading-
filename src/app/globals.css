@@ -1250,12 +1250,19 @@ section {
 
 .dm-dock-sky-flash {
 	z-index: 1;
-	background: radial-gradient(
-		ellipse 90% 120% at 18% 0%,
-		rgba(255, 230, 180, 0.35) 0%,
-		rgba(199, 157, 109, 0.12) 40%,
-		transparent 72%
-	);
+	background:
+		radial-gradient(
+			ellipse 90% 120% at 18% 0%,
+			rgba(255, 230, 180, 0.35) 0%,
+			rgba(199, 157, 109, 0.12) 40%,
+			transparent 72%
+		),
+		radial-gradient(
+			ellipse 90% 120% at 82% 0%,
+			rgba(255, 230, 180, 0.3) 0%,
+			rgba(199, 157, 109, 0.1) 40%,
+			transparent 72%
+		);
 }
 
 .dm-dock-star-trail {
@@ -1284,6 +1291,12 @@ section {
 		0 0 16px rgba(199, 157, 109, 0.4),
 		0 0 32px rgba(255, 200, 120, 0.2);
 	filter: blur(0.6px);
+}
+
+.dm-dock-star-trail--from-right {
+	right: auto;
+	left: calc(100% - 2px);
+	transform-origin: left center;
 }
 
 .dm-dock-star-trail--core {
