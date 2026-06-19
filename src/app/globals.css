@@ -1245,52 +1245,111 @@ section {
 .dm-dock-star-wrap {
 	position: relative;
 	overflow: visible;
+	will-change: transform, filter;
+}
+
+.dm-dock-sky-flash {
+	z-index: 1;
+	background: radial-gradient(
+		ellipse 90% 120% at 18% 0%,
+		rgba(255, 230, 180, 0.35) 0%,
+		rgba(199, 157, 109, 0.12) 40%,
+		transparent 72%
+	);
 }
 
 .dm-dock-star-trail {
 	position: absolute;
-	top: 42%;
-	right: calc(100% - 4px);
-	width: 72px;
-	height: 3px;
-	border-radius: 999px;
+	top: 50%;
+	right: calc(100% - 2px);
 	pointer-events: none;
 	z-index: 0;
-	transform: rotate(-38deg);
 	transform-origin: right center;
+	border-radius: 999px;
+}
+
+.dm-dock-star-trail--long {
+	width: 130px;
+	height: 4px;
+	margin-top: -2px;
 	background: linear-gradient(
 		90deg,
 		transparent 0%,
-		rgba(199, 157, 109, 0.15) 18%,
-		rgba(255, 230, 180, 0.85) 55%,
-		rgba(255, 255, 255, 0.95) 100%
+		rgba(199, 157, 109, 0.08) 12%,
+		rgba(255, 210, 140, 0.45) 45%,
+		rgba(255, 245, 220, 0.75) 78%,
+		rgba(255, 255, 255, 0.5) 100%
 	);
 	box-shadow:
-		0 0 12px rgba(199, 157, 109, 0.55),
-		0 0 24px rgba(255, 220, 160, 0.35);
-	filter: blur(0.4px);
+		0 0 16px rgba(199, 157, 109, 0.4),
+		0 0 32px rgba(255, 200, 120, 0.2);
+	filter: blur(0.6px);
+}
+
+.dm-dock-star-trail--core {
+	width: 52px;
+	height: 2px;
+	margin-top: -1px;
+	background: linear-gradient(
+		90deg,
+		transparent 0%,
+		rgba(255, 255, 255, 0.85) 70%,
+		#fff 100%
+	);
+	box-shadow: 0 0 10px rgba(255, 255, 255, 0.9);
+	filter: blur(0.2px);
+}
+
+.dm-dock-star-spark {
+	position: absolute;
+	top: 48%;
+	left: 8%;
+	width: 3px;
+	height: 3px;
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 2;
+	background: #fff;
+	box-shadow:
+		0 0 6px #fff,
+		0 0 12px rgba(255, 220, 160, 0.9);
 }
 
 .dm-dock-star-head {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	width: 8px;
-	height: 8px;
-	margin: -4px 0 0 -4px;
+	width: 10px;
+	height: 10px;
+	margin: -5px 0 0 -5px;
 	border-radius: 50%;
 	pointer-events: none;
 	z-index: 30;
 	background: radial-gradient(
 		circle,
 		#fff 0%,
-		rgba(255, 236, 200, 0.95) 35%,
-		rgba(199, 157, 109, 0.4) 70%,
+		rgba(255, 244, 220, 0.98) 30%,
+		rgba(255, 200, 120, 0.6) 55%,
 		transparent 100%
 	);
 	box-shadow:
-		0 0 10px rgba(255, 255, 255, 0.95),
-		0 0 18px rgba(199, 157, 109, 0.75);
+		0 0 14px rgba(255, 255, 255, 1),
+		0 0 28px rgba(199, 157, 109, 0.85),
+		0 0 42px rgba(255, 180, 80, 0.45);
+}
+
+.dm-dock-star-ripple {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 100%;
+	height: 100%;
+	margin: -50% 0 0 -50%;
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 5;
+	border: 2px solid rgba(255, 230, 180, 0.65);
+	box-shadow: 0 0 20px rgba(199, 157, 109, 0.5);
 }
 
 .dm-dock-reflection {
@@ -1391,6 +1450,14 @@ section {
 
 	.dm-dock {
 		transition: none;
+	}
+
+	.dm-dock-star-trail,
+	.dm-dock-star-spark,
+	.dm-dock-star-head,
+	.dm-dock-star-ripple,
+	.dm-dock-sky-flash {
+		display: none;
 	}
 }
 

@@ -184,29 +184,34 @@ const SCROLL_RETRY_MS = 50;
 const SCROLL_MAX_RETRIES = 40;
 const DOCK_REVEAL_SCROLL_Y = 50;
 
-/** Each icon streaks in from a unique spot in the top-left sky */
-function shootingStarOrigin(index: number) {
-  const lane = index % 6;
-  const band = Math.floor(index / 6);
+type StarPath = {
+  x: number;
+  y: number;
+  midX: number;
+  midY: number;
+  trailAngle: number;
+  duration: number;
+  delay: number;
+  rotate: number;
+};
+
+function shootingStarPath(index: number): StarPath {
+  const lane = index % 7;
+  const band = Math.floor(index / 7);
+  const x = -(175 + lane * 78 + (index % 4) * 34);
+  const y = -(360 + band * 56 + lane * 26 + (index % 3) * 32);
+  const midX = x * 0.42 + (index % 2 === 0 ? 36 : -22);
+  const midY = y * 0.48 - 32 - (index % 3) * 12;
 
   return {
-    x: -(130 + lane * 64 + (index % 3) * 28),
-    y: -(300 + band * 62 + lane * 18 + (index % 4) * 24),
-    rotate: -32 - lane * 6 - (index % 2) * 10,
-    scale: 0.1,
-    opacity: 0,
-  };
-}
-
-function dockStarTransition(index: number, reducedMotion: boolean | null) {
-  if (reducedMotion) {
-    return { duration: 0.28, delay: 0.1 + index * 0.04, ease: "easeOut" as const };
-  }
-
-  return {
-    duration: 0.62 + (index % 3) * 0.08,
-    delay: 0.06 + index * 0.09,
-    ease: [0.32, 0.02, 0.55, 1] as const,
+    x,
+    y,
+    midX,
+    midY,
+    trailAngle: Math.atan2(y, x) * (180 / Math.PI),
+    duration: 0.58 + (index % 4) * 0.11,
+    delay: 0.08 + index * 0.072,
+    rotate: -36 - lane * 5 - (index % 2) * 12,
   };
 }
 
@@ -227,55 +232,134 @@ function DockStarWrap({
   style,
   children,
 }: DockStarWrapProps) {
-  const origin = shootingStarOrigin(index);
+  const path = shootingStarPath(index);
+  const flight = {
+    x: [path.x, path.midX, path.midX * 0.1, 0],
+    y: [path.y, path.midY, path.midY * 0.06, 0],
+    rotate: [path.rotate, path.rotate * 0.4, path.rotate * 0.08, 0],
+    scale: [0.04, 0.9, 1.16, 1],
+    opacity: [0, 0.6, 1, 1],
+    filter: ["blur(8px)", "blur(2px)", "blur(0px)", "blur(0px)"],
+  };
+  const hidden = reducedMotion
+    ? { opacity: 0, y: 10 }
+    : {
+        x: path.x,
+        y: path.y,
+        rotate: path.rotate,
+        scale: 0.04,
+        opacity: 0,
+        filter: "blur(8px)",
+      };
 
   return (
     <motion.div
       className={`dm-dock-star-wrap${className ? ` ${className}` : ""}`}
       style={style}
-      initial={reducedMotion ? { opacity: 0, y: 10 } : origin}
-      animate={
-        show
-          ? { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1 }
-          : reducedMotion
-            ? { opacity: 0, y: 10 }
-            : origin
+      initial={hidden}
+      animate={show ? (reducedMotion ? { opacity: 1, y: 0 } : flight) : hidden}
+      transition={
+        reducedMotion
+          ? { duration: 0.28, delay: 0.1 + index * 0.04, ease: "easeOut" }
+          : {
+              duration: path.duration,
+              delay: path.delay,
+              times: [0, 0.45, 0.78, 1],
+              ease: [0.12, 0.82, 0.22, 1],
+            }
       }
-      transition={dockStarTransition(index, reducedMotion)}
     >
       {!reducedMotion && (
-        <motion.span
-          className="dm-dock-star-trail"
-          aria-hidden
-          initial={{ opacity: 0, scaleX: 0.15 }}
-          animate={
-            show
-              ? { opacity: [0, 0.95, 0.45, 0], scaleX: [0.15, 1.35, 0.7, 0] }
-              : { opacity: 0, scaleX: 0.15 }
-          }
-          transition={{
-            duration: 0.55,
-            delay: 0.06 + index * 0.09,
-            ease: [0.22, 0.61, 0.36, 1],
-          }}
-        />
-      )}
-      {!reducedMotion && (
-        <motion.span
-          className="dm-dock-star-head"
-          aria-hidden
-          initial={{ opacity: 0, scale: 0 }}
-          animate={
-            show
-              ? { opacity: [0, 1, 1, 0], scale: [0, 1.4, 1, 0] }
-              : { opacity: 0, scale: 0 }
-          }
-          transition={{
-            duration: 0.5,
-            delay: 0.06 + index * 0.09,
-            ease: "easeOut",
-          }}
-        />
+        <>
+          <motion.span
+            className="dm-dock-star-trail dm-dock-star-trail--long"
+            style={{ rotate: path.trailAngle }}
+            aria-hidden
+            initial={{ opacity: 0, scaleX: 0.1 }}
+            animate={
+              show
+                ? { opacity: [0, 0.7, 1, 0.35, 0], scaleX: [0.1, 1.6, 1.2, 0.5, 0] }
+                : { opacity: 0, scaleX: 0.1 }
+            }
+            transition={{
+              duration: path.duration,
+              delay: path.delay,
+              times: [0, 0.35, 0.6, 0.85, 1],
+              ease: [0.1, 0.75, 0.25, 1],
+            }}
+          />
+          <motion.span
+            className="dm-dock-star-trail dm-dock-star-trail--core"
+            style={{ rotate: path.trailAngle }}
+            aria-hidden
+            initial={{ opacity: 0, scaleX: 0.2 }}
+            animate={
+              show
+                ? { opacity: [0, 1, 0.9, 0], scaleX: [0.2, 1.4, 0.8, 0] }
+                : { opacity: 0, scaleX: 0.2 }
+            }
+            transition={{
+              duration: path.duration * 0.85,
+              delay: path.delay,
+              ease: [0.15, 0.9, 0.3, 1],
+            }}
+          />
+          {[0, 1, 2].map((spark) => (
+            <motion.span
+              key={`spark-${index}-${spark}`}
+              className="dm-dock-star-spark"
+              style={{ rotate: path.trailAngle }}
+              aria-hidden
+              initial={{ opacity: 0, scale: 0 }}
+              animate={
+                show
+                  ? {
+                      opacity: [0, 1, 0.6, 0],
+                      scale: [0, 1.8, 1.2, 0],
+                      x: [0, -18 - spark * 14, -32 - spark * 20],
+                      y: [0, 10 + spark * 6, 18 + spark * 10],
+                    }
+                  : { opacity: 0, scale: 0 }
+              }
+              transition={{
+                duration: path.duration * 0.7,
+                delay: path.delay + spark * 0.04,
+                ease: "easeOut",
+              }}
+            />
+          ))}
+          <motion.span
+            className="dm-dock-star-head"
+            aria-hidden
+            initial={{ opacity: 0, scale: 0 }}
+            animate={
+              show
+                ? { opacity: [0, 1, 1, 0.4, 0], scale: [0, 1.8, 1.2, 0.6, 0] }
+                : { opacity: 0, scale: 0 }
+            }
+            transition={{
+              duration: path.duration,
+              delay: path.delay,
+              times: [0, 0.25, 0.55, 0.8, 1],
+              ease: "easeOut",
+            }}
+          />
+          <motion.span
+            className="dm-dock-star-ripple"
+            aria-hidden
+            initial={{ opacity: 0, scale: 0.4 }}
+            animate={
+              show
+                ? { opacity: [0, 0.55, 0], scale: [0.4, 2.4, 2.8] }
+                : { opacity: 0, scale: 0.4 }
+            }
+            transition={{
+              duration: 0.5,
+              delay: path.delay + path.duration * 0.82,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          />
+        </>
       )}
       {children}
     </motion.div>
@@ -534,12 +618,20 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
       style={{ paddingTop: maxScale > 1 ? overflowTop : undefined }}
     >
       <motion.nav
-        initial={{ y: 80, opacity: 0 }}
-        animate={showDock ? { y: 0, opacity: 1 } : { y: 80, opacity: 0 }}
+        initial={{ y: 40, opacity: 0, scale: 0.96 }}
+        animate={
+          showDock
+            ? { y: 0, opacity: 1, scale: 1 }
+            : { y: 40, opacity: 0, scale: 0.96 }
+        }
         transition={
           reducedMotion
             ? { duration: 0.3 }
-            : { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 }
+            : {
+                duration: 0.65,
+                ease: [0.22, 1, 0.36, 1],
+                delay: 0.05,
+              }
         }
         aria-label="Page navigation"
         className="dm-dock pointer-events-auto"
@@ -547,9 +639,38 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
         onMouseLeave={handleMouseLeave}
         style={{ "--dock-icon-size": `${baseSize}px` } as CSSProperties}
       >
-        <div className="dm-dock-glass" aria-hidden>
+        <motion.div
+          className="dm-dock-sky-flash pointer-events-none absolute inset-0 rounded-[22px]"
+          aria-hidden
+          initial={{ opacity: 0 }}
+          animate={
+            showDock && !reducedMotion
+              ? { opacity: [0, 0.45, 0.12, 0] }
+              : { opacity: 0 }
+          }
+          transition={{ duration: 1.1, delay: 0.2, ease: "easeOut" }}
+        />
+        <motion.div
+          className="dm-dock-glass"
+          aria-hidden
+          initial={{ opacity: 0, scaleX: 0.88, scaleY: 0.6 }}
+          animate={
+            showDock
+              ? { opacity: 1, scaleX: 1, scaleY: 1 }
+              : { opacity: 0, scaleX: 0.88, scaleY: 0.6 }
+          }
+          transition={
+            reducedMotion
+              ? { duration: 0.3 }
+              : {
+                  duration: 0.7,
+                  delay: 0.35,
+                  ease: [0.22, 1, 0.36, 1],
+                }
+          }
+        >
           <div className="dm-dock-shimmer absolute inset-0 rounded-[22px]" />
-        </div>
+        </motion.div>
 
         <div className="dm-dock-track">
           {showLogo && (
@@ -592,7 +713,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
                     ? { opacity: 1, scaleY: 1 }
                     : { opacity: 0, scaleY: 0 }
                 }
-                transition={{ delay: 0.35, duration: 0.35 }}
+                transition={{ delay: 0.55, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               />
             </>
           )}
@@ -717,7 +838,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
             animate={
               showDock ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0 }
             }
-            transition={{ delay: 0.55 + chatRefIndex * 0.06, duration: 0.35 }}
+            transition={{ delay: 0.7, duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           />
 
           <motion.button
@@ -738,7 +859,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
               type: "spring",
               stiffness: 360,
               damping: 26,
-              delay: 0.65 + chatRefIndex * 0.05,
+              delay: 0.85,
             }}
           >
             <span className="flex items-center gap-1.5 rounded-full border border-[#C79D6D]/40 bg-[#C79D6D]/15 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-[#e8c9a8] backdrop-blur-sm transition-all group-hover:border-[#C79D6D]/60 group-hover:bg-[#C79D6D]/25 sm:px-4 sm:text-xs">
