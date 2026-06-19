@@ -25,7 +25,7 @@ export function LocalSeoSection() {
             {name} (AR Solutions PLC) is Addis Ababa&apos;s leading full-service
             agency for{" "}
             <Link
-              href="/services/digital-marketing"
+              href="/digital-marketing"
               className="text-[#C79D6D] hover:underline"
             >
               digital marketing

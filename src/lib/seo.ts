@@ -600,6 +600,63 @@ export function getHomePageMetadata(): Metadata {
   };
 }
 
+export function getDigitalMarketingPageMetadata(): Metadata {
+  const title =
+    "Digital Marketing Ethiopia | #1 Agency in Addis Ababa | Addis Reality";
+  const description =
+    "Addis Reality (AR Solutions PLC) is Addis Ababa's leading full-service agency for digital marketing, branding, web development, advertising & printing, and media production. Serving Addis Ababa, Bahir Dar, Hawassa, Mekelle, and nationwide.";
+  const url = `${siteConfig.url}/digital-marketing`;
+
+  return {
+    ...getBaseMetadata(),
+    title: { absolute: title },
+    description,
+    keywords: [
+      "digital marketing Ethiopia",
+      "digital marketing agency Addis Ababa",
+      "best digital marketing company Ethiopia",
+      ...seoKeywords.slice(0, 15),
+    ],
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "website",
+      locale: siteConfig.locale,
+    },
+    alternates: { canonical: url },
+  };
+}
+
+export function getDigitalMarketingPageSchemas() {
+  const digitalMarketing = services.find((s) => s.slug === "digital-marketing");
+
+  return [
+    getWebPageSchema("/digital-marketing"),
+    getBreadcrumbSchema([
+      { name: "Home", path: "" },
+      { name: "Digital Marketing", path: "/digital-marketing" },
+    ]),
+    ...(digitalMarketing
+      ? [
+          {
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: digitalMarketing.title,
+            description: digitalMarketing.description,
+            url: `${siteConfig.url}/digital-marketing`,
+            provider: { "@id": `${siteConfig.url}/#organization` },
+            areaServed: siteConfig.serviceAreas.map((city) => ({
+              "@type": "City",
+              name: city,
+            })),
+            serviceType: digitalMarketing.title,
+          },
+        ]
+      : []),
+  ];
+}
+
 export function getServicePageMetadata(slug: string): Metadata | null {
   const service = services.find((s) => s.slug === slug);
   if (!service) return null;
