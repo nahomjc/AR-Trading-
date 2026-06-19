@@ -2,6 +2,7 @@
 
 import {
   Suspense,
+  useCallback,
   useEffect,
   useLayoutEffect,
   useMemo,
@@ -323,10 +324,10 @@ export function PhoneModel3D({
     setMounted(true);
   }, []);
 
-  const setContainerRef = (node: HTMLDivElement | null) => {
+  const setContainerRef = useCallback((node: HTMLDivElement | null) => {
     containerRef.current = node;
-    visibilityRef.current = node;
-  };
+    visibilityRef(node);
+  }, [visibilityRef]);
 
   const applyRotationDelta = (delta: number) => {
     targetRotationY.current = clampRotation(targetRotationY.current + delta);
@@ -393,6 +394,7 @@ export function PhoneModel3D({
   if (!mounted) {
     return (
       <div
+        ref={visibilityRef}
         className={`flex h-full min-h-[320px] w-full items-center justify-center ${className}`}
       >
         <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
