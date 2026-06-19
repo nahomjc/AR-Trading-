@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence, useAnimation } from "framer-motion";
+import { motion, AnimatePresence, useAnimation, type Variants } from "framer-motion";
 import {
   IconAd,
   IconBrandInstagram,
@@ -156,7 +156,9 @@ function NotificationStack({ activeIndex }: { activeIndex: number }) {
   );
 }
 
-const phoneEntrance = {
+const smoothEase = [0.22, 1, 0.36, 1] as const;
+
+const phoneEntrance: Variants = {
   hidden: { opacity: 0, y: 56, scale: 0.9, rotateX: 14 },
   visible: {
     opacity: 1,
@@ -165,7 +167,7 @@ const phoneEntrance = {
     rotateX: 0,
     transition: {
       duration: 0.95,
-      ease: [0.22, 1, 0.36, 1],
+      ease: smoothEase,
       delay: 0.15,
     },
   },
@@ -187,7 +189,7 @@ function PhoneStage() {
       initial={{ opacity: 0, scale: 0.85 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+      transition={{ duration: 1.1, ease: smoothEase, delay: 0.35 }}
     >
       <motion.div
         className="h-[88%] w-[62%] rounded-[2.5rem] border border-[#C79D6D]/20"
