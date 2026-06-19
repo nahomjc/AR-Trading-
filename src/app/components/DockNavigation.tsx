@@ -9,6 +9,7 @@ import {
   type ComponentType,
   type MouseEvent as ReactMouseEvent,
   type CSSProperties,
+  type ReactNode,
 } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -181,6 +182,105 @@ const INFLUENCE_RADIUS = 150;
 const SCROLL_OFFSET = 32;
 const SCROLL_RETRY_MS = 50;
 const SCROLL_MAX_RETRIES = 40;
+const DOCK_REVEAL_SCROLL_Y = 50;
+
+/** Each icon streaks in from a unique spot in the top-left sky */
+function shootingStarOrigin(index: number) {
+  const lane = index % 6;
+  const band = Math.floor(index / 6);
+
+  return {
+    x: -(130 + lane * 64 + (index % 3) * 28),
+    y: -(300 + band * 62 + lane * 18 + (index % 4) * 24),
+    rotate: -32 - lane * 6 - (index % 2) * 10,
+    scale: 0.1,
+    opacity: 0,
+  };
+}
+
+function dockStarTransition(index: number, reducedMotion: boolean | null) {
+  if (reducedMotion) {
+    return { duration: 0.28, delay: 0.1 + index * 0.04, ease: "easeOut" as const };
+  }
+
+  return {
+    duration: 0.62 + (index % 3) * 0.08,
+    delay: 0.06 + index * 0.09,
+    ease: [0.32, 0.02, 0.55, 1] as const,
+  };
+}
+
+type DockStarWrapProps = {
+  index: number;
+  show: boolean;
+  reducedMotion: boolean | null;
+  className?: string;
+  style?: CSSProperties;
+  children: ReactNode;
+};
+
+function DockStarWrap({
+  index,
+  show,
+  reducedMotion,
+  className,
+  style,
+  children,
+}: DockStarWrapProps) {
+  const origin = shootingStarOrigin(index);
+
+  return (
+    <motion.div
+      className={`dm-dock-star-wrap${className ? ` ${className}` : ""}`}
+      style={style}
+      initial={reducedMotion ? { opacity: 0, y: 10 } : origin}
+      animate={
+        show
+          ? { x: 0, y: 0, rotate: 0, scale: 1, opacity: 1 }
+          : reducedMotion
+            ? { opacity: 0, y: 10 }
+            : origin
+      }
+      transition={dockStarTransition(index, reducedMotion)}
+    >
+      {!reducedMotion && (
+        <motion.span
+          className="dm-dock-star-trail"
+          aria-hidden
+          initial={{ opacity: 0, scaleX: 0.15 }}
+          animate={
+            show
+              ? { opacity: [0, 0.95, 0.45, 0], scaleX: [0.15, 1.35, 0.7, 0] }
+              : { opacity: 0, scaleX: 0.15 }
+          }
+          transition={{
+            duration: 0.55,
+            delay: 0.06 + index * 0.09,
+            ease: [0.22, 0.61, 0.36, 1],
+          }}
+        />
+      )}
+      {!reducedMotion && (
+        <motion.span
+          className="dm-dock-star-head"
+          aria-hidden
+          initial={{ opacity: 0, scale: 0 }}
+          animate={
+            show
+              ? { opacity: [0, 1, 1, 0], scale: [0, 1.4, 1, 0] }
+              : { opacity: 0, scale: 0 }
+          }
+          transition={{
+            duration: 0.5,
+            delay: 0.06 + index * 0.09,
+            ease: "easeOut",
+          }}
+        />
+      )}
+      {children}
+    </motion.div>
+  );
+}
 
 type DockMetrics = {
   baseSize: number;
@@ -295,6 +395,27 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
   const [activeId, setActiveId] = useState(
     variant === "home" ? "home" : "work",
   );
+  const [showDock, setShowDock] = useState(false);
+
+  useEffect(() => {
+    const reveal = () => setShowDock(true);
+
+    const onScroll = () => {
+      if (window.scrollY > DOCK_REVEAL_SCROLL_Y) reveal();
+    };
+
+    window.addEventListener("introComplete", reveal);
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    const fallback = window.setTimeout(reveal, 3200);
+    onScroll();
+
+    return () => {
+      window.removeEventListener("introComplete", reveal);
+      window.removeEventListener("scroll", onScroll);
+      window.clearTimeout(fallback);
+    };
+  }, []);
 
   useEffect(() => {
     setScales(Array.from({ length: magnifyCount }, () => 1));
@@ -413,9 +534,13 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
       style={{ paddingTop: maxScale > 1 ? overflowTop : undefined }}
     >
       <motion.nav
-        initial={{ y: 120, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.35 }}
+        initial={{ y: 80, opacity: 0 }}
+        animate={showDock ? { y: 0, opacity: 1 } : { y: 80, opacity: 0 }}
+        transition={
+          reducedMotion
+            ? { duration: 0.3 }
+            : { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 }
+        }
         aria-label="Page navigation"
         className="dm-dock pointer-events-auto"
         onMouseMove={handleMouseMove}
@@ -429,30 +554,46 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
         <div className="dm-dock-track">
           {showLogo && (
             <>
-              <Link
-                ref={(el) => {
-                  magnifyRefs.current[0] = el;
-                }}
-                href="/"
-                onClick={handleLogoClick}
-                className="dm-dock-logo group relative z-20 flex shrink-0 flex-col items-center overflow-visible"
-                aria-label="Addis Reality home"
-                style={itemStyle(logoScale, baseSize)}
+              <DockStarWrap
+                index={0}
+                show={showDock}
+                reducedMotion={reducedMotion}
               >
-                <span className="dm-dock-icon relative flex h-full w-full items-center justify-center overflow-hidden rounded-[14px] border border-white/30 bg-[#08243A] shadow-lg">
-                  <Image
-                    src="/img/White-with-background-removebg-preview.png"
-                    alt=""
-                    width={32}
-                    height={32}
-                    className="h-[70%] w-auto object-contain"
-                  />
-                  <span className="dm-dock-reflection" aria-hidden />
-                </span>
-                <span className="dm-dock-tooltip">Addis Reality</span>
-              </Link>
+                <Link
+                  ref={(el) => {
+                    magnifyRefs.current[0] = el;
+                  }}
+                  href="/"
+                  onClick={handleLogoClick}
+                  className="dm-dock-logo group relative z-20 flex shrink-0 flex-col items-center overflow-visible"
+                  aria-label="Addis Reality home"
+                  style={itemStyle(logoScale, baseSize)}
+                >
+                  <span className="dm-dock-icon relative flex h-full w-full items-center justify-center overflow-hidden rounded-[14px] border border-white/30 bg-[#08243A] shadow-lg">
+                    <Image
+                      src="/img/White-with-background-removebg-preview.png"
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="h-[70%] w-auto object-contain"
+                    />
+                    <span className="dm-dock-reflection" aria-hidden />
+                  </span>
+                  <span className="dm-dock-tooltip">Addis Reality</span>
+                </Link>
+              </DockStarWrap>
 
-              <div className="dm-dock-divider z-10 shrink-0" aria-hidden />
+              <motion.div
+                className="dm-dock-divider z-10 shrink-0"
+                aria-hidden
+                initial={{ opacity: 0, scaleY: 0 }}
+                animate={
+                  showDock
+                    ? { opacity: 1, scaleY: 1 }
+                    : { opacity: 0, scaleY: 0 }
+                }
+                transition={{ delay: 0.35, duration: 0.35 }}
+              />
             </>
           )}
 
@@ -467,18 +608,23 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
 
                 return (
                   <li key={item.id} className="list-none shrink-0 overflow-visible">
-                    <Link
-                      ref={(el) => {
-                        magnifyRefs.current[refIndex] = el;
-                      }}
-                      href={item.href}
-                      onClick={(e) => handleItemClick(e, item.href, item.id)}
-                      aria-label={item.label}
-                      aria-current={isActive ? "page" : undefined}
-                      className="dm-dock-item group relative z-20 flex flex-col items-center overflow-visible"
-                      style={{ width: style.width, transform: style.transform }}
-                      title={item.label}
+                    <DockStarWrap
+                      index={refIndex}
+                      show={showDock}
+                      reducedMotion={reducedMotion}
                     >
+                      <Link
+                        ref={(el) => {
+                          magnifyRefs.current[refIndex] = el;
+                        }}
+                        href={item.href}
+                        onClick={(e) => handleItemClick(e, item.href, item.id)}
+                        aria-label={item.label}
+                        aria-current={isActive ? "page" : undefined}
+                        className="dm-dock-item group relative z-20 flex flex-col items-center overflow-visible"
+                        style={{ width: style.width, transform: style.transform }}
+                        title={item.label}
+                      >
                     <span
                       className={`dm-dock-icon relative flex items-center justify-center overflow-hidden rounded-[14px] border bg-gradient-to-br shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-shadow duration-200 group-hover:shadow-[0_12px_32px_rgba(0,0,0,0.45)] ${item.gradient} ${
                         isActive
@@ -509,27 +655,33 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
                     />
 
                     <span className="dm-dock-tooltip">{item.label}</span>
-                  </Link>
+                      </Link>
+                    </DockStarWrap>
                 </li>
               );
             })}
             </ul>
           </div>
 
-          <button
-            type="button"
-            ref={(el) => {
-              magnifyRefs.current[chatRefIndex] = el;
-            }}
-            onClick={openChat}
-            aria-label="Open chat assistant"
-            aria-pressed={chatActive}
-            className="dm-dock-chat group relative z-20 flex shrink-0 flex-col items-center overflow-visible"
-            style={{
-              width: chatStyle.width,
-              transform: chatStyle.transform,
-            }}
+          <DockStarWrap
+            index={chatRefIndex}
+            show={showDock}
+            reducedMotion={reducedMotion}
           >
+            <button
+              type="button"
+              ref={(el) => {
+                magnifyRefs.current[chatRefIndex] = el;
+              }}
+              onClick={openChat}
+              aria-label="Open chat assistant"
+              aria-pressed={chatActive}
+              className="dm-dock-chat group relative z-20 flex shrink-0 flex-col items-center overflow-visible"
+              style={{
+                width: chatStyle.width,
+                transform: chatStyle.transform,
+              }}
+            >
             <span
               className="dm-dock-icon relative flex items-center justify-center overflow-hidden rounded-[14px] border border-white/25 bg-[#08243A] shadow-[0_8px_24px_rgba(0,0,0,0.35)] ring-1 ring-fuchsia-400/30"
               style={{
@@ -555,11 +707,20 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
               }`}
             />
             <span className="dm-dock-tooltip">Chat</span>
-          </button>
+            </button>
+          </DockStarWrap>
 
-          <div className="dm-dock-divider z-10 hidden lg:block" aria-hidden />
+          <motion.div
+            className="dm-dock-divider z-10 hidden lg:block"
+            aria-hidden
+            initial={{ opacity: 0, scaleY: 0 }}
+            animate={
+              showDock ? { opacity: 1, scaleY: 1 } : { opacity: 0, scaleY: 0 }
+            }
+            transition={{ delay: 0.55 + chatRefIndex * 0.06, duration: 0.35 }}
+          />
 
-          <button
+          <motion.button
             type="button"
             onClick={() => {
               setActiveId("home");
@@ -567,12 +728,24 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
             }}
             className="dm-dock-cta group relative z-10 hidden shrink-0 lg:flex"
             aria-label="Back to top"
+            initial={{ opacity: 0, x: 24, scale: 0.9 }}
+            animate={
+              showDock
+                ? { opacity: 1, x: 0, scale: 1 }
+                : { opacity: 0, x: 24, scale: 0.9 }
+            }
+            transition={{
+              type: "spring",
+              stiffness: 360,
+              damping: 26,
+              delay: 0.65 + chatRefIndex * 0.05,
+            }}
           >
             <span className="flex items-center gap-1.5 rounded-full border border-[#C79D6D]/40 bg-[#C79D6D]/15 px-3 py-2 text-[11px] font-semibold uppercase tracking-wider text-[#e8c9a8] backdrop-blur-sm transition-all group-hover:border-[#C79D6D]/60 group-hover:bg-[#C79D6D]/25 sm:px-4 sm:text-xs">
               <IconSparkles className="h-3.5 w-3.5" />
               Top
             </span>
-          </button>
+          </motion.button>
         </div>
       </motion.nav>
     </div>

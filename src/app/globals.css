@@ -1242,6 +1242,57 @@ section {
 	flex-shrink: 0;
 }
 
+.dm-dock-star-wrap {
+	position: relative;
+	overflow: visible;
+}
+
+.dm-dock-star-trail {
+	position: absolute;
+	top: 42%;
+	right: calc(100% - 4px);
+	width: 72px;
+	height: 3px;
+	border-radius: 999px;
+	pointer-events: none;
+	z-index: 0;
+	transform: rotate(-38deg);
+	transform-origin: right center;
+	background: linear-gradient(
+		90deg,
+		transparent 0%,
+		rgba(199, 157, 109, 0.15) 18%,
+		rgba(255, 230, 180, 0.85) 55%,
+		rgba(255, 255, 255, 0.95) 100%
+	);
+	box-shadow:
+		0 0 12px rgba(199, 157, 109, 0.55),
+		0 0 24px rgba(255, 220, 160, 0.35);
+	filter: blur(0.4px);
+}
+
+.dm-dock-star-head {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 8px;
+	height: 8px;
+	margin: -4px 0 0 -4px;
+	border-radius: 50%;
+	pointer-events: none;
+	z-index: 30;
+	background: radial-gradient(
+		circle,
+		#fff 0%,
+		rgba(255, 236, 200, 0.95) 35%,
+		rgba(199, 157, 109, 0.4) 70%,
+		transparent 100%
+	);
+	box-shadow:
+		0 0 10px rgba(255, 255, 255, 0.95),
+		0 0 18px rgba(199, 157, 109, 0.75);
+}
+
 .dm-dock-reflection {
 	position: absolute;
 	inset: auto 10% -35% 10%;
