@@ -32,19 +32,17 @@ import {
   type Mesh,
   type Texture,
 } from "three";
+import { motion, AnimatePresence } from "framer-motion";
 import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
 
 const PHONE_MODEL_PATH = "/3D/white_mesh%20(1).obj";
 const PHONE_SCREEN_IMAGE = "/img/advert/images__2_-removebg-preview.png";
-const DRAG_SENSITIVITY = 0.018;
-const WHEEL_SENSITIVITY = 0.0065;
+const DRAG_SENSITIVITY = 0.028;
+const WHEEL_SENSITIVITY = 0.009;
 const ROTATION_LERP_DRAG = 22;
-const ROTATION_LERP_IDLE = 12;
-const SWAY_SPEED = 1.55;
-const SWAY_AMPLITUDE = 0.85;
+/** One full 360° turn every ~14s while idle */
+const AUTO_SPIN_SPEED = (2 * Math.PI) / 14;
 const FRONT_FACING_Y = Math.PI;
-const MIN_ROTATION_Y = FRONT_FACING_Y - 1.2;
-const MAX_ROTATION_Y = FRONT_FACING_Y + 1.2;
 const PHONE_UPRIGHT_ROTATION: [number, number, number] = [
   Math.PI / 2,
   0,
@@ -66,10 +64,6 @@ type ScreenPlacement = {
   width: number;
   height: number;
 };
-
-function clampRotation(angle: number) {
-  return Math.max(MIN_ROTATION_Y, Math.min(MAX_ROTATION_Y, angle));
-}
 
 function prepareScreenTexture(texture: Texture) {
   texture.colorSpace = SRGBColorSpace;
@@ -266,24 +260,19 @@ function PhoneModel({
   isDragging: MutableRefObject<boolean>;
 }) {
   const spinRef = useRef<Group>(null);
-  const swayPhase = useRef(0);
 
   useFrame((_, delta) => {
     if (!spinRef.current) return;
 
-    let goal = targetRotationY.current;
-
-    if (!isDragging.current) {
-      swayPhase.current += delta * SWAY_SPEED;
-      const sway = Math.sin(swayPhase.current) * SWAY_AMPLITUDE;
-      goal = clampRotation(targetRotationY.current + sway);
+    if (isDragging.current) {
+      const t = Math.min(1, delta * ROTATION_LERP_DRAG);
+      rotationY.current +=
+        (targetRotationY.current - rotationY.current) * t;
+    } else {
+      rotationY.current += delta * AUTO_SPIN_SPEED;
+      targetRotationY.current = rotationY.current;
     }
 
-    const lerpSpeed = isDragging.current
-      ? ROTATION_LERP_DRAG
-      : ROTATION_LERP_IDLE;
-    const t = Math.min(1, delta * lerpSpeed);
-    rotationY.current += (goal - rotationY.current) * t;
     spinRef.current.rotation.y = rotationY.current;
   });
 
@@ -330,7 +319,7 @@ export function PhoneModel3D({
   }, [visibilityRef]);
 
   const applyRotationDelta = (delta: number) => {
-    targetRotationY.current = clampRotation(targetRotationY.current + delta);
+    targetRotationY.current += delta;
   };
 
   useEffect(() => {
@@ -341,9 +330,7 @@ export function PhoneModel3D({
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
-      targetRotationY.current = clampRotation(
-        targetRotationY.current + event.deltaY * WHEEL_SENSITIVITY,
-      );
+      targetRotationY.current += event.deltaY * WHEEL_SENSITIVITY;
     };
 
     el.addEventListener("wheel", onWheel, { passive: false });
@@ -391,13 +378,26 @@ export function PhoneModel3D({
     }
   };
 
+  const spinner = (
+    <motion.div
+      key="phone-spinner"
+      className="flex h-full w-full items-center justify-center"
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.96 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
+    </motion.div>
+  );
+
   if (!mounted) {
     return (
       <div
         ref={visibilityRef}
         className={`flex h-full min-h-[320px] w-full items-center justify-center ${className}`}
       >
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
+        {spinner}
       </div>
     );
   }
@@ -414,59 +414,68 @@ export function PhoneModel3D({
       onPointerLeave={endDrag}
     >
       <div className="absolute inset-x-0 top-0 bottom-[-28px] sm:bottom-[-32px]">
-        {visible ? (
-          <Canvas
-            camera={{ position: [0, 0.12, 3.22], fov: 30 }}
-            gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-            dpr={[1, 1.35]}
-            frameloop="always"
-            className="h-full w-full"
-            style={{ pointerEvents: "none" }}
-          >
-            <ambientLight intensity={0.45} />
-            <hemisphereLight
-              args={["#ffffff", "#1a2a3a", 0.55]}
-              position={[0, 1, 0]}
-            />
-            <directionalLight
-              position={[3, 8, 6]}
-              intensity={0.95}
-              color="#ffffff"
-            />
-            <directionalLight
-              position={[-4, 2, 3]}
-              intensity={0.25}
-              color="#93c5fd"
-            />
-            <pointLight
-              position={[-2.5, 1, 4]}
-              intensity={0.65}
-              color="#C79D6D"
-            />
-
-            <Suspense fallback={<Loader />}>
-              <Bounds fit margin={1.05}>
-                <PhoneModel
-                  rotationY={rotationY}
-                  targetRotationY={targetRotationY}
-                  isDragging={isDragging}
+        <AnimatePresence mode="wait">
+          {visible ? (
+            <motion.div
+              key="phone-canvas"
+              className="h-full w-full"
+              initial={{ opacity: 0, scale: 0.94, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.97, y: 8 }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <Canvas
+                camera={{ position: [0, 0.12, 3.22], fov: 30 }}
+                gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+                dpr={[1, 1.35]}
+                frameloop="always"
+                className="h-full w-full"
+                style={{ pointerEvents: "none" }}
+              >
+                <ambientLight intensity={0.45} />
+                <hemisphereLight
+                  args={["#ffffff", "#1a2a3a", 0.55]}
+                  position={[0, 1, 0]}
                 />
-              </Bounds>
-              <ContactShadows
-                position={[0, -1.08, 0]}
-                opacity={0.45}
-                scale={4.5}
-                blur={2.2}
-                far={1.8}
-                color="#0ea5e9"
-              />
-            </Suspense>
-          </Canvas>
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
-          </div>
-        )}
+                <directionalLight
+                  position={[3, 8, 6]}
+                  intensity={0.95}
+                  color="#ffffff"
+                />
+                <directionalLight
+                  position={[-4, 2, 3]}
+                  intensity={0.25}
+                  color="#93c5fd"
+                />
+                <pointLight
+                  position={[-2.5, 1, 4]}
+                  intensity={0.65}
+                  color="#C79D6D"
+                />
+
+                <Suspense fallback={<Loader />}>
+                  <Bounds fit margin={1.05}>
+                    <PhoneModel
+                      rotationY={rotationY}
+                      targetRotationY={targetRotationY}
+                      isDragging={isDragging}
+                    />
+                  </Bounds>
+                  <ContactShadows
+                    position={[0, -1.08, 0]}
+                    opacity={0.45}
+                    scale={4.5}
+                    blur={2.2}
+                    far={1.8}
+                    color="#0ea5e9"
+                  />
+                </Suspense>
+              </Canvas>
+            </motion.div>
+          ) : (
+            spinner
+          )}
+        </AnimatePresence>
       </div>
     </div>
   );

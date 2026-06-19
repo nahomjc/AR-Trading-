@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useAnimation } from "framer-motion";
 import {
   IconAd,
   IconBrandInstagram,
@@ -156,13 +156,55 @@ function NotificationStack({ activeIndex }: { activeIndex: number }) {
   );
 }
 
+const phoneEntrance = {
+  hidden: { opacity: 0, y: 56, scale: 0.9, rotateX: 14 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    rotateX: 0,
+    transition: {
+      duration: 0.95,
+      ease: [0.22, 1, 0.36, 1],
+      delay: 0.15,
+    },
+  },
+};
+
+const phoneFloat = {
+  y: [0, -10, 0],
+  transition: {
+    duration: 5,
+    repeat: Number.POSITIVE_INFINITY,
+    ease: "easeInOut",
+  },
+};
+
 function PhoneStage() {
   return (
-    <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-      <div className="phone-orbit-ring h-[88%] w-[62%] rounded-[2.5rem] border border-[#C79D6D]/20" />
-      <div className="phone-orbit-ring phone-orbit-ring--reverse absolute h-[96%] w-[70%] rounded-[2.75rem] border border-white/10" />
-      <div className="absolute bottom-[6%] h-8 w-[45%] rounded-full bg-cyan-500/25 blur-xl" />
-    </div>
+    <motion.div
+      className="pointer-events-none absolute inset-0 flex items-center justify-center"
+      initial={{ opacity: 0, scale: 0.85 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: 0.35 }}
+    >
+      <motion.div
+        className="h-[88%] w-[62%] rounded-[2.5rem] border border-[#C79D6D]/20"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 24, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+      />
+      <motion.div
+        className="absolute h-[96%] w-[70%] rounded-[2.75rem] border border-white/10"
+        animate={{ rotate: -360 }}
+        transition={{ duration: 18, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+      />
+      <motion.div
+        className="absolute bottom-[6%] h-8 w-[45%] rounded-full bg-cyan-500/25 blur-xl"
+        animate={{ opacity: [0.4, 0.75, 0.4], scaleX: [0.9, 1.05, 0.9] }}
+        transition={{ duration: 3.5, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" }}
+      />
+    </motion.div>
   );
 }
 
@@ -170,16 +212,25 @@ export default function PhoneMarketingSection() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isCallModalOpen, setIsCallModalOpen] = useState(false);
+  const phonePulse = useAnimation();
+
+  const triggerPhonePulse = useCallback(() => {
+    phonePulse.start({
+      scale: [1, 1.04, 1],
+      transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    });
+  }, [phonePulse]);
 
   useEffect(() => {
     if (isPaused) return;
 
     const timer = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % marketingFeatures.length);
+      triggerPhonePulse();
     }, NOTIFICATION_INTERVAL_MS);
 
     return () => window.clearInterval(timer);
-  }, [isPaused]);
+  }, [isPaused, triggerPhonePulse]);
 
   return (
     <section
@@ -219,8 +270,9 @@ export default function PhoneMarketingSection() {
         </motion.div>
 
         {/* Phone + iOS notifications */}
-        <div
+        <motion.div
           className="relative mx-auto w-full max-w-[380px] overflow-visible sm:max-w-[420px] lg:max-w-[480px]"
+          style={{ perspective: 1200 }}
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
@@ -229,17 +281,42 @@ export default function PhoneMarketingSection() {
             <NotificationStack activeIndex={activeIndex} />
           </div>
 
-          <div className="relative mx-auto h-[500px] w-full overflow-visible pt-4 pb-14 sm:h-[560px] sm:pt-5 sm:pb-16 lg:h-[620px] xl:h-[660px]">
+          <motion.div
+            className="relative mx-auto h-[500px] w-full overflow-visible pt-4 pb-14 sm:h-[560px] sm:pt-5 sm:pb-16 lg:h-[620px] xl:h-[660px]"
+            variants={phoneEntrance}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.35 }}
+          >
             <PhoneStage />
-            <PhoneModel3D
+            <motion.div
               className="relative z-10 h-full w-full"
-              onPhoneClick={() => setIsCallModalOpen(true)}
-            />
-          </div>
-          <p className="mt-2 text-center text-xs text-gray-500">
+              style={{ transformStyle: "preserve-3d" }}
+              animate={phoneFloat}
+              initial={false}
+            >
+              <motion.div
+                className="h-full w-full"
+                animate={phonePulse}
+                style={{ transformStyle: "preserve-3d" }}
+              >
+                <PhoneModel3D
+                  className="h-full w-full"
+                  onPhoneClick={() => setIsCallModalOpen(true)}
+                />
+              </motion.div>
+            </motion.div>
+          </motion.div>
+          <motion.p
+            className="mt-2 text-center text-xs text-gray-500"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.6, duration: 0.5 }}
+          >
             Tap the phone to call us
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <PhoneCallModal
           isOpen={isCallModalOpen}
@@ -252,7 +329,10 @@ export default function PhoneMarketingSection() {
             <button
               key={feature.id}
               type="button"
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {
+                setActiveIndex(index);
+                triggerPhonePulse();
+              }}
               aria-label={`Show ${feature.label}`}
               className={`h-1.5 rounded-full transition-all duration-300 ${
                 activeIndex === index
