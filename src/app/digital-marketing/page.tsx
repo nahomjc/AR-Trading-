@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { LocalSeoSection } from "@/components/seo/LocalSeoSection";
 import {
   getDigitalMarketingPageMetadata,
   getDigitalMarketingPageSchemas,
@@ -13,9 +12,7 @@ export default function DigitalMarketingPage() {
   return (
     <>
       <JsonLd data={getDigitalMarketingPageSchemas()} />
-      <DigitalMarketingPageClient>
-        <LocalSeoSection />
-      </DigitalMarketingPageClient>
+      <DigitalMarketingPageClient />
     </>
   );
 }

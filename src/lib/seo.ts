@@ -23,11 +23,11 @@ export const siteConfig = {
   siteIcon: "/img/White-with-background-removebg-preview.png",
   twitterHandle: "@addis_reality",
   contact: {
-    email: "artradingplc@gmail.com",
-    phone: "+251981668976",
-    phoneDisplay: "+251 981 668 976",
+    email: "arsolution83@gmail.com",
+    phone: "+251983606745",
+    phoneDisplay: "+251 983 606 745",
     address: {
-      street: "9th floor, Kazadis Bldg, Kazanchis",
+      street: "8th floor, Kazadis Building, Kazanchis",
       city: "Addis Ababa",
       region: "Addis Ababa",
       country: "Ethiopia",
@@ -35,7 +35,7 @@ export const siteConfig = {
       postalCode: "1000",
     },
     fullAddress:
-      "9th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia",
+      "8th floor, Kazadis Building, Kazanchis, Addis Ababa, Ethiopia",
   },
   social: {
     facebook:
@@ -185,12 +185,12 @@ export const faqs = [
   {
     question: "Where is Addis Reality located?",
     answer:
-      "Addis Reality is located at 9th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia. We serve clients across Ethiopia and internationally.",
+      "Addis Reality is located at 8th floor, Kazadis Building, Kazanchis, Addis Ababa, Ethiopia. We serve clients across Ethiopia and internationally.",
   },
   {
     question: "How can I contact Addis Reality?",
     answer:
-      "You can contact Addis Reality by email at artradingplc@gmail.com or by phone at +251 981 668 976. Visit our website at ar-solutions-plc.com to explore services or send a message through the contact form.",
+      "You can contact Addis Reality by email at arsolution83@gmail.com or by phone at +251 983 606 745. Visit our website at ar-solutions-plc.com to explore services or send a message through the contact form.",
   },
   {
     question: "Does Addis Reality provide SEO services in Ethiopia?",
@@ -235,12 +235,12 @@ export const faqs = [
   {
     question: "Where can I get advertising and printing services in Ethiopia?",
     answer:
-      "Addis Reality provides banner design, vehicle branding, office signage, merchandise printing, and outdoor advertising for businesses in Addis Ababa and throughout Ethiopia. Contact us at +251 981 668 976 for a quote.",
+      "Addis Reality provides banner design, vehicle branding, office signage, merchandise printing, and outdoor advertising for businesses in Addis Ababa and throughout Ethiopia. Contact us at +251 983 606 745 for a quote.",
   },
   {
     question: "How do I hire a branding agency in Ethiopia?",
     answer:
-      "Contact Addis Reality at artradingplc@gmail.com or visit ar-solutions-plc.com. We offer logo design, brand identity, visual strategy, and creative content tailored to the Ethiopian market.",
+      "Contact Addis Reality at arsolution83@gmail.com or visit ar-solutions-plc.com. We offer logo design, brand identity, visual strategy, and creative content tailored to the Ethiopian market.",
   },
 ] as const;
 

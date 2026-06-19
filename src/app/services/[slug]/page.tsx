@@ -20,8 +20,7 @@ import {
   IconBrandWhatsapp,
   IconMail,
 } from "@tabler/icons-react";
-
-// Mock data for each service
+import { siteConfig } from "@/lib/seo";
 const serviceData = {
   "advertising-printing": {
     title: "Advertising & Printing",
@@ -712,8 +711,8 @@ export default function ServiceDetailPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const companyPhone = "0988175550";
-  const companyEmail = "artradingplc@gmail.com";
+  const companyPhone = siteConfig.contact.phoneDisplay;
+  const companyEmail = siteConfig.contact.email;
 
   const handleCopyPhone = async () => {
     try {
@@ -727,7 +726,7 @@ export default function ServiceDetailPage() {
 
   const handleWhatsAppClick = () => {
     const message = `Hello! I'm interested in your ${service?.title} services. Could you please provide more information?`;
-    const whatsappUrl = `https://wa.me/251988175550?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/${siteConfig.contact.phone.replace(/\D/g, "")}?text=${encodeURIComponent(
       message
     )}`;
     window.open(whatsappUrl, "_blank");
@@ -1115,7 +1114,7 @@ export default function ServiceDetailPage() {
 
                   {/* Call Now Button */}
                   <motion.a
-                    href={`tel:${companyPhone}`}
+                    href={`tel:${siteConfig.contact.phone}`}
                     className="w-full bg-gradient-to-r from-[#C79D6D] to-[#d4a574] hover:from-[#d4a574] hover:to-[#C79D6D] text-white font-semibold py-3 px-4 rounded-xl transition-all duration-300 flex items-center justify-center space-x-3"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}

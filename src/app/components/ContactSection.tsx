@@ -10,8 +10,7 @@ import {
   IconBrandInstagram,
   IconBrandTiktok,
 } from "@tabler/icons-react";
-
-// Contact Section with Google Map
+import { siteConfig } from "@/lib/seo";
 const ContactSection = () => {
   const [highlightedContact, setHighlightedContact] = useState<string | null>(
     null
@@ -223,13 +222,13 @@ const ContactSection = () => {
                 {
                   icon: IconMail,
                   title: "Email",
-                  info: "artradingplc@gmail.com",
+                  info: siteConfig.contact.email,
                 },
-                { icon: IconPhone, title: "Phone", info: "+251 981668976" },
+                { icon: IconPhone, title: "Phone", info: siteConfig.contact.phoneDisplay },
                 {
                   icon: IconMapPin,
                   title: "Address",
-                  info: "9th floor, Kazadis Bldg, Kazanchis\nAddis Ababa, Ethiopia",
+                  info: `${siteConfig.contact.address.street}\n${siteConfig.contact.address.city}, ${siteConfig.contact.address.country}`,
                 },
               ].map((contact, index) => (
                 <motion.div
@@ -324,7 +323,7 @@ const ContactSection = () => {
                 Our Location
               </h4>
               <p className="text-cyan-100 text-base font-medium mb-3 drop-shadow">
-                9th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia
+                {siteConfig.contact.fullAddress}
               </p>
               <motion.a
                 href="https://www.google.com/maps/place/AR+Solutions+Trading+PLC/@9.0122241,38.7725403,215m/data=!3m1!1e3!4m14!1m7!3m6!1s0x164b851aa37d610d:0x53b55e8e74640bdf!2sBetopia+site!8m2!3d9.0121304!4d38.7731487!16s%2Fg%2F11sckb3__w!3m5!1s0x164b852ce1410c23:0xe500072b801f3134!8m2!3d9.0118544!4d38.7729559!16s%2Fg%2F11yhgl3d2l?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"

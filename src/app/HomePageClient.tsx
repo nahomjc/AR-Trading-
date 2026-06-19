@@ -3,12 +3,12 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import IntroLoader from "./components/IntroLoader";
-import Navigation from "./components/Navigation";
+import DockNavigation from "./components/DockNavigation";
 import HeroSection from "./components/HeroSection";
 import Footer from "./components/Footer";
 import LazyMount from "./components/LazyMount";
+import { ChatBotProvider } from "./components/ChatBot";
 
-const ChatBot = dynamic(() => import("./components/ChatBot"), { ssr: false });
 const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
   ssr: false,
 });
@@ -34,9 +34,6 @@ const PhoneMarketingSection = dynamic(
   { ssr: false },
 );
 const CustomCursor = dynamic(() => import("./components/CustomCursor"), {
-  ssr: false,
-});
-const ScrollToTop = dynamic(() => import("./components/ScrollToTop"), {
   ssr: false,
 });
 const SocialMediaModal = dynamic(
@@ -87,39 +84,39 @@ export default function HomePageClient({ children }: HomePageClientProps) {
   }, []);
 
   return (
-    <div
-      className="relative min-h-screen overflow-x-hidden"
-      style={{ cursor: isDesktop ? "none" : undefined }}
-    >
-      <IntroLoader />
-      <GalaxyBackground />
-      <Navigation />
-      <main className="relative z-10">
-        <HeroSection />
-        <WhoWeAreSection />
-        <LazyMount minHeight="500px">
-          <ServicesSection />
-        </LazyMount>
-        <PhoneMarketingSection />
-        <LazyMount minHeight="300px">
-          <TrustedBySection />
-        </LazyMount>
-        <LazyMount minHeight="500px">
-          <LatestWorksSection />
-        </LazyMount>
-        <LazyMount minHeight="400px">
-          <TestimonialsSection />
-        </LazyMount>
-        {children}
-        <LazyMount minHeight="400px">
-          <ContactSection />
-        </LazyMount>
-      </main>
-      <Footer />
-      <ChatBot />
-      <ScrollToTop />
-      <SocialMediaModal />
-      {isDesktop && <CustomCursor />}
-    </div>
+    <ChatBotProvider>
+      <div
+        className="relative min-h-screen overflow-x-hidden pb-28 sm:pb-32"
+        style={{ cursor: isDesktop ? "none" : undefined }}
+      >
+        <IntroLoader />
+        <GalaxyBackground />
+        <main className="relative z-10">
+          <HeroSection />
+          <WhoWeAreSection />
+          <LazyMount minHeight="500px">
+            <ServicesSection />
+          </LazyMount>
+          <PhoneMarketingSection />
+          <LazyMount minHeight="300px">
+            <TrustedBySection />
+          </LazyMount>
+          <LazyMount minHeight="500px">
+            <LatestWorksSection />
+          </LazyMount>
+          <LazyMount minHeight="400px">
+            <TestimonialsSection />
+          </LazyMount>
+          {children}
+          <LazyMount minHeight="400px">
+            <ContactSection />
+          </LazyMount>
+        </main>
+        <Footer />
+        <SocialMediaModal />
+        {isDesktop && <CustomCursor />}
+      </div>
+      <DockNavigation variant="home" />
+    </ChatBotProvider>
   );
 }

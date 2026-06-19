@@ -13,8 +13,7 @@ import {
   IconPhone,
   IconUser,
 } from "@tabler/icons-react";
-
-// Search Component
+import { siteConfig } from "@/lib/seo";
 interface SearchItem {
   type: string;
   title: string;
@@ -154,12 +153,12 @@ const SearchComponent = () => {
     },
 
     // Contact Info
-    { type: "contact", title: "Phone", description: "0988175550" },
-    { type: "contact", title: "Email", description: "artradingplc@gmail.com" },
+    { type: "contact", title: "Phone", description: siteConfig.contact.phoneDisplay },
+    { type: "contact", title: "Email", description: siteConfig.contact.email },
     {
       type: "contact",
       title: "Address",
-      description: "8th floor, Kazadis Bldg, Kazanchis, Addis Ababa, Ethiopia",
+      description: siteConfig.contact.fullAddress,
     },
 
     // Team Members

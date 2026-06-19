@@ -18,6 +18,7 @@ import {
   IconX,
   IconArrowRight,
 } from "@tabler/icons-react";
+import { siteConfig } from "@/lib/seo";
 
 const ROTATE_MS = 5000;
 
@@ -124,8 +125,8 @@ const ServicesSection = () => {
   const [copied, setCopied] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
 
-  const companyPhone = "+251 981668976";
-  const companyEmail = "artradingplc@gmail.com";
+  const companyPhone = siteConfig.contact.phoneDisplay;
+  const companyEmail = siteConfig.contact.email;
   const active = services[activeIndex];
 
   const goTo = useCallback((index: number) => {
@@ -179,7 +180,7 @@ const ServicesSection = () => {
     const message =
       "Hello! I'm interested in your services. Could you please provide more information?";
     window.open(
-      `https://wa.me/251981668976?text=${encodeURIComponent(message)}`,
+      `https://wa.me/${siteConfig.contact.phone.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`,
       "_blank"
     );
   };
@@ -255,7 +256,7 @@ const ServicesSection = () => {
                 </div>
 
                 <a
-                  href={`tel:${companyPhone.replace(/\s/g, "")}`}
+                  href={`tel:${siteConfig.contact.phone}`}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#C79D6D] to-[#d4a574] py-3 font-semibold text-white transition-opacity hover:opacity-90"
                 >
                   <IconPhone className="h-5 w-5" />

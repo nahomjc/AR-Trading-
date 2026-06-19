@@ -1,20 +1,24 @@
 "use client";
 
-import Navigation from "../components/Navigation";
 import Footer from "../components/Footer";
+import DigitalMarketingPageContent from "./DigitalMarketingPageContent";
+import DigitalMarketingDock from "./DigitalMarketingDock";
+import { ChatBotProvider } from "../components/ChatBot";
 
-type DigitalMarketingPageClientProps = {
-  children: React.ReactNode;
-};
-
-export default function DigitalMarketingPageClient({
-  children,
-}: DigitalMarketingPageClientProps) {
+export default function DigitalMarketingPageClient() {
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
-      <Navigation />
-      <main className="relative z-10 pt-24">{children}</main>
-      <Footer />
-    </div>
+    <ChatBotProvider>
+      <div className="relative min-h-screen overflow-x-hidden bg-[#08243A] pb-28 sm:pb-32">
+        <div
+          className="pointer-events-none absolute inset-0 galaxy-bg opacity-50"
+          aria-hidden
+        />
+        <main className="relative z-10">
+          <DigitalMarketingPageContent />
+        </main>
+        <Footer />
+      </div>
+      <DigitalMarketingDock />
+    </ChatBotProvider>
   );
 }

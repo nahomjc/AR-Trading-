@@ -49,6 +49,26 @@ const clients: Client[] = [
     logo: "/img/trusted-company/yewenet%20logo.png",
     width: 130,
   },
+  {
+    id: "happiness",
+    name: "Happiness",
+    logo: "/img/client/happiness_logo.png",
+    width: 140,
+  },
+  {
+    id: "mochapia",
+    name: "Mochapia Coffee",
+    logo: "/img/client/image-removebg-preview.png",
+    width: 150,
+    lightLogo: true,
+  },
+  {
+    id: "olfine",
+    name: "OLfine",
+    logo: "/img/client/Olfine-Logo-White.png",
+    width: 130,
+    lightLogo: true,
+  },
 ];
 
 type PartnerCardProps = {
