@@ -270,6 +270,10 @@ function TypewriterHeadline({
   if (reducedMotion) {
     return (
       <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
+        <span className="sr-only">
+          Addis Reality — Ethiopia&apos;s #1 digital marketing, advertising,
+          branding, and web development agency in Addis Ababa
+        </span>
         {staticHeadlineLines.map((line) => (
           <span key={line.text} className="block">
             <span className={lineClass(line.variant)}>{line.text}</span>
@@ -352,6 +356,10 @@ function TypewriterHeadline({
 
   return (
     <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
+      <span className="sr-only">
+        Addis Reality — Ethiopia&apos;s #1 digital marketing, advertising,
+        branding, and web development agency in Addis Ababa
+      </span>
       {staticHeadlineLines.map((line, li) => renderStaticLine(line, li))}
 
       <span className="relative block">
@@ -487,7 +495,7 @@ const HeroSection = () => {
               className="mb-7 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-gray-300 backdrop-blur-sm"
             >
               <IconSparkles className="h-4 w-4 text-[#C79D6D]" />
-              <span>Creative agency based in Ethiopia</span>
+              <span>Ethiopia&apos;s #1 creative &amp; digital agency</span>
             </motion.div>
 
             <TypewriterHeadline
@@ -506,8 +514,9 @@ const HeroSection = () => {
               transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
               className="hero-subtitle mt-6 max-w-lg text-base leading-relaxed text-gray-400 sm:text-lg"
             >
-              Full-service advertising, branding, digital marketing, and media
-              production ,built to help your business stand out and grow.
+              Full-service digital marketing, advertising, branding, and media
+              production in Addis Ababa — built to help Ethiopian businesses
+              rank on Google, grow online, and stand out.
             </motion.p>
 
             <motion.div

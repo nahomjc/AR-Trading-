@@ -58,7 +58,7 @@ type PartnerCardProps = {
 
 function PartnerCard({ client, onSelect }: PartnerCardProps) {
   return (
-    <div className="carousel-focus-card w-[200px] sm:w-[220px]">
+    <div className="carousel-card w-[200px] sm:w-[220px]">
       <p
         className="mb-3 truncate px-1 text-center text-xs font-medium text-gray-400"
         title={client.name}
@@ -71,7 +71,7 @@ function PartnerCard({ client, onSelect }: PartnerCardProps) {
         className="group relative w-full text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C79D6D] rounded-2xl"
       >
         <div
-          className={`flex h-32 items-center justify-center rounded-2xl border p-5 sm:h-36 ${
+          className={`flex h-32 items-center justify-center rounded-2xl border p-5 transition-colors duration-300 sm:h-36 ${
             client.lightLogo
               ? "border-white/15 bg-white/[0.92] group-hover:border-[#C79D6D]/50"
               : "border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.04] group-hover:border-[#C79D6D]/40 group-hover:bg-white/[0.1]"
@@ -177,7 +177,7 @@ const TrustedBySection = () => {
           </motion.div>
         )}
       </AnimatePresence>,
-      document.body
+      document.body,
     );
 
   return (
@@ -229,8 +229,8 @@ const TrustedBySection = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
           >
-            Leading brands and organizations that trust us to deliver exceptional
-            results.
+            Leading brands and organizations that trust us to deliver
+            exceptional results.
           </motion.p>
         </motion.div>
       </div>

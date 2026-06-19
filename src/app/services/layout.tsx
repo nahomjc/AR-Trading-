@@ -1,15 +1,20 @@
 ﻿import type { Metadata } from "next";
-import { siteConfig } from "@/lib/seo";
+import { seoKeywords, siteConfig } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "Services - Digital Marketing, Advertising & Business Solutions",
-  description: `Explore ${siteConfig.name}'s services: Digital Marketing, Advertising & Printing, Branding & Design, Media Production, Web Development, Event Planning, and Training across Ethiopia.`,
+  title: "#1 Digital Marketing, Advertising & Business Services in Ethiopia",
+  description: `Explore ${siteConfig.name}'s services in Addis Ababa and across Ethiopia: Digital Marketing, SEO, Advertising & Printing, Branding, Media Production, Web Development, Events, and Training.`,
+  keywords: [
+    "services Ethiopia",
+    "digital marketing services Addis Ababa",
+    ...seoKeywords.slice(0, 15),
+  ],
   alternates: {
     canonical: `${siteConfig.url}/services`,
   },
   openGraph: {
-    title: `Services | ${siteConfig.name}`,
-    description: siteConfig.shortDescription,
+    title: `Services in Ethiopia | ${siteConfig.name}`,
+    description: siteConfig.description,
     url: `${siteConfig.url}/services`,
   },
 };

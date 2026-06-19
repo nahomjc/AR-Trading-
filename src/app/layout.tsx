@@ -30,7 +30,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en-ET" className="scroll-smooth">
       <head>
         <link rel="author" href="/llms.txt" />
         <JsonLd

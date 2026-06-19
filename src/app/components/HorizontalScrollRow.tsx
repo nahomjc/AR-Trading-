@@ -65,8 +65,7 @@ export default function HorizontalScrollRow({
   );
 
   const halfCount = loopItems.length / 2;
-  const duration =
-    marqueeDuration ?? Math.max(28, Math.ceil(halfCount) * 3.5);
+  const duration = marqueeDuration ?? Math.max(28, Math.ceil(halfCount) * 3.5);
 
   useEffect(() => {
     setFinePointer(
@@ -129,7 +128,7 @@ export default function HorizontalScrollRow({
       <div className="overflow-x-hidden overflow-y-visible px-12 sm:px-16">
         <div
           ref={trackRef}
-          className={`carousel-focus-row infinite-marquee-track flex w-max items-center gap-6 py-8 sm:gap-8 sm:py-10 lg:gap-10 ${isPaused ? "paused" : ""} ${reverse ? "reverse" : ""} ${trackClassName}`}
+          className={`infinite-marquee-track flex w-max items-center gap-6 py-6 sm:gap-8 sm:py-8 lg:gap-10 ${isPaused ? "paused" : ""} ${reverse ? "reverse" : ""} ${trackClassName}`}
           style={trackStyle}
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}

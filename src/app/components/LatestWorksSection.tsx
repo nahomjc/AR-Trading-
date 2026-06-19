@@ -166,7 +166,7 @@ function WorkScreenCard({
   const isLocalVideo = Boolean(work.video && !isYouTubeUrl(work.video));
 
   return (
-    <div className="carousel-focus-card w-[200px] sm:w-[240px] lg:w-[260px]">
+    <div className="carousel-card w-[200px] sm:w-[240px] lg:w-[260px]">
       <p
         className="text-center text-sm font-medium text-gray-300 mb-4 px-1 truncate"
         title={work.title}
@@ -176,16 +176,14 @@ function WorkScreenCard({
 
       <div
         className={`group relative ${isPdf ? "" : "cursor-pointer"}`}
-        onClick={
-          isPdf ? undefined : () => onOpen(work.image, work.video)
-        }
+        onClick={isPdf ? undefined : () => onOpen(work.image, work.video)}
         onMouseEnter={() => {
           if (!work.video && !work.pdf && !preloadedImages.has(work.image)) {
             onPreload(work.image);
           }
         }}
       >
-        <div className="relative aspect-[9/16] rounded-[1.75rem] overflow-hidden border border-white/15 bg-gradient-to-b from-white/[0.1] to-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.35)] group-hover:border-[#C79D6D]/55">
+        <div className="relative aspect-[9/16] overflow-hidden rounded-[1.75rem] border border-white/15 bg-gradient-to-b from-white/[0.1] to-white/[0.04] shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition-colors duration-300 group-hover:border-[#C79D6D]/40">
           {isPdf ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6">
               <div className="relative w-24 h-24">
@@ -224,7 +222,7 @@ function WorkScreenCard({
               src={work.image}
               alt={work.title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               loading={
                 activeTab === "Advertising & Printing" || idx < 4
                   ? "eager"
@@ -294,7 +292,7 @@ const LatestWorksSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isHighlighted, setIsHighlighted] = useState(false);
   const [preloadedImages, setPreloadedImages] = useState<Set<string>>(
-    new Set()
+    new Set(),
   );
   const [portalReady, setPortalReady] = useState(false);
 
@@ -325,7 +323,7 @@ const LatestWorksSection = () => {
     return () => {
       window.removeEventListener(
         "highlightLatestWorks",
-        handleHighlightLatestWorks
+        handleHighlightLatestWorks,
       );
     };
   }, []);
@@ -390,7 +388,7 @@ const LatestWorksSection = () => {
 
   const handleDownloadPDF = (
     pdfPath: string | undefined,
-    e: React.MouseEvent
+    e: React.MouseEvent,
   ) => {
     if (!pdfPath) return;
     e.stopPropagation();
@@ -531,7 +529,7 @@ const LatestWorksSection = () => {
           </motion.div>
         )}
       </AnimatePresence>,
-      document.body
+      document.body,
     );
 
   // Close modal on Escape key
@@ -555,153 +553,152 @@ const LatestWorksSection = () => {
 
   return (
     <>
-    <section
-      id="latest-works"
-      className="relative py-20 sm:py-32 overflow-x-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
-    >
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=1920&q=80"
-          alt="Latest Works background"
-          fill
-          className="object-cover opacity-20"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#08243A]/95 via-[#0a2a42]/90 to-[#08243A]/95"></div>
-      </div>
-
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-        {/* Decorative overlay */}
+      <section
+        id="latest-works"
+        className="relative py-20 sm:py-32 overflow-x-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
+      >
+        {/* Background Image */}
         <div className="absolute inset-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#C79D6D]/10 to-transparent"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+          <Image
+            src="https://images.unsplash.com/photo-1558655146-364adaf1fcc9?w=1920&q=80"
+            alt="Latest Works background"
+            fill
+            className="object-cover opacity-20"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#08243A]/95 via-[#0a2a42]/90 to-[#08243A]/95"></div>
         </div>
-      </div>
 
-      <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
-        {/* Header Section */}
-        <motion.div
-          className={`text-center mb-16 p-8 rounded-3xl transition-all duration-500 ${
-            isHighlighted
-              ? "bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 border border-[#C79D6D]/50 shadow-lg shadow-[#C79D6D]/20"
-              : ""
-          }`}
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <motion.span
-            className="inline-block px-6 py-3 bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C79D6D]/30 rounded-full text-[#C79D6D] text-sm font-semibold mb-6 uppercase tracking-wider"
-            initial={{ opacity: 0, scale: 0.8 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            Our Portfolio
-          </motion.span>
-
-          <motion.h2
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
-              Our Latest{" "}
-            </span>
-            <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
-              Works
-            </span>
-          </motion.h2>
-
-          <motion.p
-            className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            Showcasing our creative excellence in digital marketing, web
-            development, and branding solutions. From social media campaigns to
-            enterprise applications, we deliver results that exceed
-            expectations.
-          </motion.p>
-        </motion.div>
-
-        {/* Category Filter Pills */}
-        <div className="flex justify-center mb-10 sm:mb-14">
-          <div
-            className="inline-flex items-center gap-1 p-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/15 max-w-full overflow-x-auto scrollbar-hide"
-            style={{ WebkitOverflowScrolling: "touch" }}
-            role="tablist"
-          >
-            {tabNames.map((tab) => {
-              const isActive = activeTab === tab;
-              return (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveTab(tab)}
-                  className={`flex-shrink-0 px-4 sm:px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C79D6D] ${
-                    isActive
-                      ? "bg-white/15 text-white shadow-sm border border-white/20"
-                      : "text-gray-400 hover:text-gray-200 border border-transparent"
-                  }`}
-                  role="tab"
-                  aria-selected={isActive}
-                >
-                  {tab}
-                </button>
-              );
-            })}
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#C79D6D]/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+          {/* Decorative overlay */}
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-[#C79D6D]/10 to-transparent"></div>
+            <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
           </div>
         </div>
-      </div>
 
-      {/* Horizontal scroll — arrows on desktop & mobile */}
-      <div className="relative z-10 mt-2 w-full">
-        <AnimatePresence mode="wait">
+        <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
+          {/* Header Section */}
           <motion.div
-            key={activeTab}
-            id={`tab-panel-${activeTab}`}
-            role="tabpanel"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            className={`text-center mb-16 p-8 rounded-3xl transition-all duration-500 ${
+              isHighlighted
+                ? "bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 border border-[#C79D6D]/50 shadow-lg shadow-[#C79D6D]/20"
+                : ""
+            }`}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            <HorizontalScrollRow
-              ariaLabel={`${activeTab} portfolio works`}
-              minLoopItems={12}
+            <motion.span
+              className="inline-block px-6 py-3 bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 backdrop-blur-sm border border-[#C79D6D]/30 rounded-full text-[#C79D6D] text-sm font-semibold mb-6 uppercase tracking-wider"
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
             >
-              {activeWorks.map((work, idx) => (
-                <WorkScreenCard
-                  key={`${work.title}-${idx}`}
-                  work={work}
-                  idx={idx}
-                  activeTab={activeTab}
-                  preloadedImages={preloadedImages}
-                  onOpen={openImagePreview}
-                  onPreload={handlePreloadImage}
-                  onDownloadPDF={handleDownloadPDF}
-                  onViewPDF={handleViewPDF}
-                  isYouTubeUrl={isYouTubeUrl}
-                />
-              ))}
-            </HorizontalScrollRow>
-          </motion.div>
-        </AnimatePresence>
-      </div>
+              Our Portfolio
+            </motion.span>
 
-    </section>
-    {previewModal}
+            <motion.h2
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+                Our Latest{" "}
+              </span>
+              <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+                Works
+              </span>
+            </motion.h2>
+
+            <motion.p
+              className="text-lg sm:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              viewport={{ once: true }}
+            >
+              Showcasing our creative excellence in digital marketing, web
+              development, and branding solutions. From social media campaigns
+              to enterprise applications, we deliver results that exceed
+              expectations.
+            </motion.p>
+          </motion.div>
+
+          {/* Category Filter Pills */}
+          <div className="flex justify-center mb-10 sm:mb-14">
+            <div
+              className="inline-flex items-center gap-1 p-1.5 rounded-full bg-white/5 backdrop-blur-sm border border-white/15 max-w-full overflow-x-auto scrollbar-hide"
+              style={{ WebkitOverflowScrolling: "touch" }}
+              role="tablist"
+            >
+              {tabNames.map((tab) => {
+                const isActive = activeTab === tab;
+                return (
+                  <button
+                    key={tab}
+                    type="button"
+                    onClick={() => setActiveTab(tab)}
+                    className={`flex-shrink-0 px-4 sm:px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C79D6D] ${
+                      isActive
+                        ? "bg-white/15 text-white shadow-sm border border-white/20"
+                        : "text-gray-400 hover:text-gray-200 border border-transparent"
+                    }`}
+                    role="tab"
+                    aria-selected={isActive}
+                  >
+                    {tab}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Horizontal scroll — arrows on desktop & mobile */}
+        <div className="relative z-10 mt-2 w-full">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              id={`tab-panel-${activeTab}`}
+              role="tabpanel"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <HorizontalScrollRow
+                ariaLabel={`${activeTab} portfolio works`}
+                minLoopItems={12}
+              >
+                {activeWorks.map((work, idx) => (
+                  <WorkScreenCard
+                    key={`${work.title}-${idx}`}
+                    work={work}
+                    idx={idx}
+                    activeTab={activeTab}
+                    preloadedImages={preloadedImages}
+                    onOpen={openImagePreview}
+                    onPreload={handlePreloadImage}
+                    onDownloadPDF={handleDownloadPDF}
+                    onViewPDF={handleViewPDF}
+                    isYouTubeUrl={isYouTubeUrl}
+                  />
+                ))}
+              </HorizontalScrollRow>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </section>
+      {previewModal}
     </>
   );
 };

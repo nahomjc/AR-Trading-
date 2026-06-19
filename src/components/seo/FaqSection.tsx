@@ -16,7 +16,7 @@ export function FaqSection() {
             id="faq-heading"
             className="text-3xl sm:text-5xl font-bold font-outfit text-[#C79D6D] mb-4"
           >
-            Frequently Asked Questions
+            Digital Marketing FAQ — Ethiopia
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Everything you need to know about {siteConfig.name} — Ethiopia&apos;s

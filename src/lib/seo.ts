@@ -5,18 +5,20 @@ export const siteConfig = {
   legalName: "Addis Reality PLC",
   alternateNames: [
     "AR Solutions",
+    "AR Solutions PLC",
+    "AR solution trading PLC",
     "Addis Reality Trading",
     "AR Trading PLC",
   ],
-  tagline: "Digital Marketing, Advertising & Trading Solutions in Ethiopia",
+  tagline: "Ethiopia's #1 Digital Marketing, Advertising & Trading Solutions",
   url: "https://www.ar-solutions-plc.com",
-  locale: "en_US",
-  languages: ["en-US", "am-ET"] as const,
+  locale: "en_ET",
+  languages: ["en-ET", "en-US", "am-ET"] as const,
   foundingDate: "2020",
   description:
-    "Addis Reality is Ethiopia's leading digital marketing, advertising, branding, web development, media production, event planning, training, and trading solutions company based in Addis Ababa.",
+    "Addis Reality (AR Solutions PLC) is Ethiopia's top-rated digital marketing agency in Addis Ababa — offering SEO, social media marketing, Google Ads, branding, web development, media production, printing, event planning, and trading solutions nationwide.",
   shortDescription:
-    "Ethiopia's premier digital marketing agency and trading solutions provider in Addis Ababa.",
+    "Ethiopia's #1 digital marketing agency & trading solutions provider in Addis Ababa. SEO, branding, web design & advertising.",
   ogImage: "/img/White-with-background-removebg-preview.png",
   siteIcon: "/img/White-with-background-removebg-preview.png",
   twitterHandle: "@addis_reality",
@@ -47,25 +49,80 @@ export const siteConfig = {
     latitude: 9.0192,
     longitude: 38.7525,
   },
+  serviceAreas: [
+    "Addis Ababa",
+    "Bahir Dar",
+    "Hawassa",
+    "Mekelle",
+    "Dire Dawa",
+    "Adama",
+    "Gondar",
+    "Jimma",
+  ],
+  googleMapsUrl:
+    "https://maps.google.com/?q=Kazadis+Building+Kazanchis+Addis+Ababa+Ethiopia",
 } as const;
+
+export const testimonials = [
+  {
+    author: "Mr. Melkamu Mekonnen",
+    role: "Group CEO at Haile Hospitality Group",
+    reviewBody:
+      "Addis Reality consistently delivers exceptional results. Their professional approach and attention to detail exceed expectations.",
+    rating: 5,
+    datePublished: "2024-03-01",
+  },
+  {
+    author: "Mr. Bikila Hurisa",
+    role: "Public & International Relations Director at Prosperity Party",
+    reviewBody:
+      "Exemplary quality services in rebranding solutions. Outstanding reputation for excellence and reliability in the industry.",
+    rating: 5,
+    datePublished: "2024-01-01",
+  },
+  {
+    author: "Mr. Fisseha Asress",
+    role: "Senior Consultant & Advisor at Ethiopian Airlines",
+    reviewBody:
+      "Confidently recommend Addis Reality for brand strategy, website development, digital marketing, and tech services.",
+    rating: 5,
+    datePublished: "2023-11-01",
+  },
+] as const;
 
 export const seoKeywords = [
   "Addis Reality",
+  "AR Solutions PLC",
+  "AR solution trading PLC",
   "digital marketing Ethiopia",
   "digital marketing agency Addis Ababa",
+  "best digital marketing company Ethiopia",
+  "top marketing agency Ethiopia",
+  "#1 digital marketing agency Ethiopia",
   "advertising company Ethiopia",
+  "advertising agency Addis Ababa",
   "branding agency Ethiopia",
+  "logo design Addis Ababa",
   "web development Ethiopia",
+  "website design Ethiopia",
   "SEO services Ethiopia",
+  "SEO company Addis Ababa",
   "social media marketing Ethiopia",
+  "social media agency Addis Ababa",
+  "Google Ads Ethiopia",
+  "Meta ads Ethiopia",
   "media production Ethiopia",
+  "video production Addis Ababa",
   "event planning Addis Ababa",
   "corporate training Ethiopia",
   "trading solutions Ethiopia",
-  "best marketing agency Ethiopia",
   "creative agency Addis Ababa",
   "graphic design Ethiopia",
-  "video production Ethiopia",
+  "printing services Addis Ababa",
+  "banner printing Ethiopia",
+  "Kazanchis marketing agency",
+  "Bole digital marketing",
+  "Ethiopian marketing company",
 ] as const;
 
 export const services = [
@@ -155,6 +212,36 @@ export const faqs = [
     answer:
       "Addis Reality serves clients across technology, government, sports, energy, retail, hospitality, education, and trading sectors in Ethiopia. Our portfolio includes branding, digital campaigns, web platforms, and media production for diverse industries.",
   },
+  {
+    question: "What is the best digital marketing company in Addis Ababa?",
+    answer:
+      "Addis Reality (AR Solutions PLC) is widely regarded as one of the best digital marketing companies in Addis Ababa, Ethiopia. Based in Kazanchis, we deliver SEO, social media marketing, Google Ads, branding, and web development for businesses across the country.",
+  },
+  {
+    question: "Does Addis Reality offer website design and SEO in Ethiopia?",
+    answer:
+      "Yes. Addis Reality builds fast, mobile-friendly websites with technical SEO, schema markup, and Google Search optimization — helping Ethiopian businesses rank higher on Google and attract more customers online.",
+  },
+  {
+    question: "Which company provides social media marketing in Ethiopia?",
+    answer:
+      "Addis Reality manages social media for brands on Facebook, Instagram, TikTok, and LinkedIn. We create content, run paid campaigns, and grow audiences for companies in Addis Ababa and across Ethiopia.",
+  },
+  {
+    question: "Does Addis Reality serve clients outside Addis Ababa?",
+    answer:
+      "Yes. While headquartered in Kazanchis, Addis Ababa, Addis Reality serves clients nationwide — including Bahir Dar, Hawassa, Mekelle, Dire Dawa, Adama, Gondar, and Jimma — with remote and on-site project delivery.",
+  },
+  {
+    question: "Where can I get advertising and printing services in Ethiopia?",
+    answer:
+      "Addis Reality provides banner design, vehicle branding, office signage, merchandise printing, and outdoor advertising for businesses in Addis Ababa and throughout Ethiopia. Contact us at +251 981 668 976 for a quote.",
+  },
+  {
+    question: "How do I hire a branding agency in Ethiopia?",
+    answer:
+      "Contact Addis Reality at artradingplc@gmail.com or visit ar-solutions-plc.com. We offer logo design, brand identity, visual strategy, and creative content tailored to the Ethiopian market.",
+  },
 ] as const;
 
 export function getBaseMetadata(): Metadata {
@@ -163,7 +250,7 @@ export function getBaseMetadata(): Metadata {
   return {
     metadataBase: new URL(url),
     title: {
-      default: `${name} - Leading Digital Marketing & Trading Solutions | Ethiopia`,
+      default: `${name} | #1 Digital Marketing Agency in Ethiopia`,
       template: `%s | ${name}`,
     },
     description,
@@ -190,7 +277,7 @@ export function getBaseMetadata(): Metadata {
       alternateLocale: [...siteConfig.languages],
       url,
       siteName: name,
-      title: `${name} - Leading Digital Marketing & Trading Solutions | Ethiopia`,
+      title: `${name} | #1 Digital Marketing Agency in Ethiopia`,
       description: siteConfig.shortDescription,
       images: [
         {
@@ -204,7 +291,7 @@ export function getBaseMetadata(): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: `${name} - Digital Marketing & Trading Solutions | Ethiopia`,
+      title: `${name} | #1 Digital Marketing Agency in Ethiopia`,
       description: siteConfig.shortDescription,
       images: [ogImage],
       creator: twitterHandle,
@@ -213,6 +300,7 @@ export function getBaseMetadata(): Metadata {
     alternates: {
       canonical: url,
       languages: {
+        "en-ET": url,
         "en-US": url,
         "am-ET": url,
       },
@@ -284,7 +372,10 @@ export function getOrganizationSchema() {
     },
     areaServed: [
       { "@type": "Country", name: "Ethiopia" },
-      { "@type": "City", name: "Addis Ababa" },
+      ...siteConfig.serviceAreas.map((city) => ({
+        "@type": "City" as const,
+        name: city,
+      })),
     ],
     contactPoint: [
       {
@@ -295,8 +386,28 @@ export function getOrganizationSchema() {
         availableLanguage: ["English", "Amharic"],
         areaServed: "ET",
       },
+      {
+        "@type": "ContactPoint",
+        telephone: contact.phone,
+        contactType: "sales",
+        email: contact.email,
+        availableLanguage: ["English", "Amharic"],
+        areaServed: "ET",
+      },
     ],
     sameAs: [social.facebook, social.instagram, social.tiktok],
+    slogan: siteConfig.tagline,
+    review: testimonials.map((t) => ({
+      "@type": "Review",
+      author: { "@type": "Person", name: t.author, jobTitle: t.role },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: t.rating,
+        bestRating: 5,
+      },
+      reviewBody: t.reviewBody,
+      datePublished: t.datePublished,
+    })),
     knowsAbout: [
       "Digital Marketing",
       "Search Engine Optimization",
@@ -319,6 +430,10 @@ export function getLocalBusinessSchema() {
     "@type": ["LocalBusiness", "MarketingAgency", "ProfessionalService"],
     "@id": `${siteConfig.url}/#localbusiness`,
     priceRange: "$$",
+    hasMap: siteConfig.googleMapsUrl,
+    isAccessibleForFree: false,
+    currenciesAccepted: "ETB, USD",
+    paymentAccepted: "Cash, Bank Transfer",
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -443,15 +558,54 @@ export function getHomePageSchemas() {
     getBreadcrumbSchema([{ name: "Home", path: "" }]),
     getServiceCatalogSchema(),
     getFaqPageSchema(),
+    getItemListSchema(),
   ];
+}
+
+export function getItemListSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${siteConfig.url}/#service-list`,
+    name: "Addis Reality Services in Ethiopia",
+    description:
+      "Full-service digital marketing, advertising, and business solutions offered across Ethiopia",
+    numberOfItems: services.length,
+    itemListElement: services.map((service, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: `${service.title} in Ethiopia`,
+      url: `${siteConfig.url}/services/${service.slug}`,
+    })),
+  };
+}
+
+export function getHomePageMetadata(): Metadata {
+  return {
+    ...getBaseMetadata(),
+    title: {
+      absolute: `${siteConfig.name} | #1 Digital Marketing Agency in Ethiopia | Addis Ababa`,
+    },
+    description: siteConfig.description,
+    keywords: [...seoKeywords],
+    alternates: {
+      canonical: siteConfig.url,
+    },
+    openGraph: {
+      title: `${siteConfig.name} | #1 Digital Marketing Agency in Ethiopia`,
+      description: siteConfig.description,
+      url: siteConfig.url,
+      type: "website",
+    },
+  };
 }
 
 export function getServicePageMetadata(slug: string): Metadata | null {
   const service = services.find((s) => s.slug === slug);
   if (!service) return null;
 
-  const title = `${service.title} Services in Ethiopia`;
-  const description = `${service.description} Hire ${siteConfig.name} for professional ${service.title.toLowerCase()} in Addis Ababa and across Ethiopia.`;
+  const title = `#1 ${service.title} in Ethiopia | Addis Ababa`;
+  const description = `${service.description} Hire ${siteConfig.name} — Ethiopia's trusted ${service.title.toLowerCase()} provider in Addis Ababa and nationwide. Call ${siteConfig.contact.phoneDisplay}.`;
   const url = `${siteConfig.url}/services/${slug}`;
 
   return {
@@ -461,14 +615,16 @@ export function getServicePageMetadata(slug: string): Metadata | null {
       service.title,
       `${service.title} Ethiopia`,
       `${service.title} Addis Ababa`,
+      `best ${service.title.toLowerCase()} Ethiopia`,
       siteConfig.name,
-      ...seoKeywords.slice(0, 8),
+      ...seoKeywords.slice(0, 12),
     ],
     openGraph: {
       title: `${title} | ${siteConfig.name}`,
       description,
       url,
       type: "website",
+      locale: siteConfig.locale,
     },
     alternates: { canonical: url },
   };

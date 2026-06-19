@@ -3,11 +3,13 @@
 import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
 import {
   IconBrandFacebook,
   IconBrandInstagram,
   IconBrandTiktok,
 } from "@tabler/icons-react";
+import { services, siteConfig } from "@/lib/seo";
 
 // Footer Component
 const Footer = () => {
@@ -25,7 +27,7 @@ const Footer = () => {
             <motion.div className="mb-4" whileHover={{ scale: 1.05 }}>
               <Image
                 src="/img/White-with-background-removebg-preview.png"
-                alt="ADDIS REALITY Logo"
+                alt={`${siteConfig.name} — #1 digital marketing agency in Ethiopia, Addis Ababa`}
                 width={150}
                 height={60}
                 className="h-28 w-auto"
@@ -33,44 +35,54 @@ const Footer = () => {
               />
             </motion.div>
             <p className="text-gray-300 mb-4 max-w-md">
-              Transforming businesses through innovative digital marketing
-              solutions. Your success is our mission.
+              {siteConfig.name} (AR Solutions PLC) — Ethiopia&apos;s leading
+              digital marketing, branding, and advertising agency in Addis Ababa.
             </p>
+            <address className="not-italic text-gray-400 text-sm space-y-1 mb-4">
+              <p>{siteConfig.contact.fullAddress}</p>
+              <p>
+                <a
+                  href={`tel:${siteConfig.contact.phone}`}
+                  className="hover:text-[#C79D6D] transition-colors"
+                >
+                  {siteConfig.contact.phoneDisplay}
+                </a>
+              </p>
+            </address>
           </div>
           <div>
             <h4 className="font-semibold text-white mb-4">Quick Links</h4>
             <ul className="space-y-2">
-              {["Home", "Services", "About", "FAQ", "Testimonials", "Contact"].map(
-                (link, index) => (
-                  <motion.li key={link} whileHover={{ x: 5 }}>
-                    <a
-                      href={
-                        link === "FAQ"
-                          ? "#faq"
-                          : `#${link.toLowerCase()}`
-                      }
-                      className="text-gray-300 hover:text-white transition-colors"
-                    >
-                      {link}
-                    </a>
-                  </motion.li>
-                )
-              )}
+              {[
+                { label: "Home", href: "#home" },
+                { label: "Services", href: "/services" },
+                { label: "About", href: "#about" },
+                { label: "FAQ", href: "#faq" },
+                { label: "Testimonials", href: "#testimonials" },
+                { label: "Contact", href: "#contact" },
+              ].map((link) => (
+                <motion.li key={link.label} whileHover={{ x: 5 }}>
+                  <Link
+                    href={link.href}
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.li>
+              ))}
             </ul>
           </div>
           <div>
             <h4 className="font-semibold text-white mb-4">Services</h4>
             <ul className="space-y-2">
-              {[
-                "Digital Strategy",
-                "Brand Development",
-                "SEO & Analytics",
-                "Social Media",
-                "Content Marketing",
-                "Web Development",
-              ].map((service, index) => (
-                <motion.li key={service} whileHover={{ x: 5 }}>
-                  <span className="text-gray-300">{service}</span>
+              {services.map((service) => (
+                <motion.li key={service.slug} whileHover={{ x: 5 }}>
+                  <Link
+                    href={`/services/${service.slug}`}
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    {service.title}
+                  </Link>
                 </motion.li>
               ))}
             </ul>
