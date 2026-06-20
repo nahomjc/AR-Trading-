@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -24,13 +24,8 @@ const STARS = Array.from({ length: 12 }, (_, i) => {
 
 export default function IntroLoader() {
   const [show, setShow] = useState(false);
-  const [progress, setProgress] = useState(0);
   const wasVisibleRef = useRef(false);
-
-  const strokeOffset = useMemo(
-    () => PROGRESS_C - (progress / 100) * PROGRESS_C,
-    [progress]
-  );
+  const progressTextRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const skipIntro = window.matchMedia(
@@ -44,18 +39,31 @@ export default function IntroLoader() {
 
     setShow(true);
 
-    const progressInterval = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 100 : prev + 5));
-    }, LOADER_DURATION_MS / 20);
+    const start = performance.now();
+    let frameId = 0;
 
-    const timer = setTimeout(() => {
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const percent = Math.min(100, Math.round((elapsed / LOADER_DURATION_MS) * 100));
+
+      if (progressTextRef.current) {
+        progressTextRef.current.textContent = `${percent}%`;
+      }
+
+      if (elapsed < LOADER_DURATION_MS) {
+        frameId = requestAnimationFrame(tick);
+      }
+    };
+
+    frameId = requestAnimationFrame(tick);
+
+    const timer = window.setTimeout(() => {
       setShow(false);
-      clearInterval(progressInterval);
     }, LOADER_DURATION_MS);
 
     return () => {
-      clearTimeout(timer);
-      clearInterval(progressInterval);
+      window.clearTimeout(timer);
+      cancelAnimationFrame(frameId);
     };
   }, []);
 
@@ -98,13 +106,19 @@ export default function IntroLoader() {
             scale: 1.04,
           }}
           transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
+          className="intro-loader fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]"
         >
-          {/* Aurora atmosphere — matches site hero / section glows */}
+          {/* Aurora atmosphere — blur on inner layer, motion on outer (GPU-friendly) */}
           <div className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="intro-aurora-blob-1 absolute -left-[10%] top-[10%] h-[55vh] w-[55vh] rounded-full bg-[#C79D6D]/10 blur-[100px]" />
-            <div className="intro-aurora-blob-2 absolute -right-[5%] bottom-[5%] h-[50vh] w-[50vh] rounded-full bg-blue-500/10 blur-[90px]" />
-            <div className="intro-aurora-blob-3 absolute left-[30%] top-[40%] h-[40vh] w-[40vh] rounded-full bg-[#d4a574]/10 blur-[80px]" />
+            <div className="intro-aurora-blob-1 absolute -left-[10%] top-[10%] h-[55vh] w-[55vh]">
+              <div className="h-full w-full rounded-full bg-[#C79D6D]/10 blur-[100px]" />
+            </div>
+            <div className="intro-aurora-blob-2 absolute -right-[5%] bottom-[5%] h-[50vh] w-[50vh]">
+              <div className="h-full w-full rounded-full bg-blue-500/10 blur-[90px]" />
+            </div>
+            <div className="intro-aurora-blob-3 absolute left-[30%] top-[40%] h-[40vh] w-[40vh]">
+              <div className="h-full w-full rounded-full bg-[#d4a574]/10 blur-[80px]" />
+            </div>
             <div
               className="absolute inset-0"
               style={{
@@ -179,13 +193,14 @@ export default function IntroLoader() {
             </svg>
           </div>
 
-          {/* Progress arc */}
+          {/* Progress arc — CSS-driven, no React re-renders */}
           <svg
-            className="pointer-events-none absolute"
+            className="intro-progress-svg pointer-events-none absolute"
             width={RING_SIZE + 24}
             height={RING_SIZE + 24}
             viewBox="0 0 300 300"
             aria-hidden="true"
+            style={{ "--intro-progress-c": PROGRESS_C } as React.CSSProperties}
           >
             <circle
               cx="150"
@@ -195,7 +210,8 @@ export default function IntroLoader() {
               stroke="rgba(255,255,255,0.08)"
               strokeWidth="2"
             />
-            <motion.circle
+            <circle
+              className="intro-progress-arc"
               cx="150"
               cy="150"
               r={PROGRESS_R}
@@ -203,20 +219,15 @@ export default function IntroLoader() {
               stroke="url(#introRingGold)"
               strokeWidth="2"
               strokeLinecap="round"
-              strokeDasharray={PROGRESS_C}
-              animate={{ strokeDashoffset: strokeOffset }}
               transform="rotate(-90 150 150)"
-              style={{
-                filter: "drop-shadow(0 0 8px rgba(199,157,109,0.6))",
-              }}
             />
           </svg>
 
           {/* Center reveal */}
           <div className="relative z-10 flex flex-col items-center px-6 text-center">
             <motion.div
-              initial={{ opacity: 0, scale: 0.4, filter: "blur(20px)" }}
-              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              initial={{ opacity: 0, scale: 0.4 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{
                 duration: 1.2,
                 delay: 0.35,
@@ -225,26 +236,17 @@ export default function IntroLoader() {
               className="relative mb-8 sm:mb-10"
             >
               <motion.div
-                className="pointer-events-none absolute -inset-10 rounded-full"
+                className="intro-logo-glow pointer-events-none absolute -inset-10 rounded-full"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: [0, 0.8, 0.5], scale: [0.5, 1.2, 1] }}
                 transition={{ duration: 1.6, delay: 0.5 }}
-                style={{
-                  background:
-                    "radial-gradient(circle, rgba(199,157,109,0.35) 0%, transparent 70%)",
-                  filter: "blur(16px)",
-                }}
               />
               <Image
                 src="/img/White-with-background-removebg-preview.png"
                 alt="Addis Reality"
                 width={260}
                 height={104}
-                className="relative h-auto w-[190px] sm:w-[240px]"
-                style={{
-                  filter:
-                    "drop-shadow(0 0 30px rgba(199,157,109,0.45)) drop-shadow(0 0 60px rgba(255,250,240,0.15))",
-                }}
+                className="intro-logo-image relative h-auto w-[190px] sm:w-[240px]"
                 priority
               />
             </motion.div>
@@ -262,11 +264,10 @@ export default function IntroLoader() {
                 <motion.span
                   key={word}
                   variants={{
-                    hidden: { opacity: 0, y: 28, filter: "blur(8px)" },
+                    hidden: { opacity: 0, y: 28 },
                     visible: {
                       opacity: 1,
                       y: 0,
-                      filter: "blur(0px)",
                       transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
                     },
                   }}
@@ -302,8 +303,11 @@ export default function IntroLoader() {
           >
             <p className="text-[10px] uppercase tracking-[0.28em] text-gray-500">
               Loading experience
-              <span className="ml-3 tabular-nums text-[#C79D6D]">
-                {progress}%
+              <span
+                ref={progressTextRef}
+                className="ml-3 tabular-nums text-[#C79D6D]"
+              >
+                0%
               </span>
             </p>
           </motion.div>
@@ -314,13 +318,7 @@ export default function IntroLoader() {
             style={{ width: RING_SIZE + 24, height: RING_SIZE + 24 }}
           >
             <div className="relative h-full w-full">
-              <div
-                className="absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#d4a574]"
-                style={{
-                  boxShadow:
-                    "0 0 12px #C79D6D, 0 0 24px rgba(212,165,116,0.45)",
-                }}
-              />
+              <div className="intro-orbit-bead absolute left-1/2 top-0 h-2 w-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#d4a574]" />
             </div>
           </div>
 

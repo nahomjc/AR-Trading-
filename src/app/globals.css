@@ -997,6 +997,73 @@ section {
 }
 
 /* Intro loader — aurora reveal */
+.intro-loader {
+	isolation: isolate;
+	contain: layout style paint;
+	transform: translateZ(0);
+}
+
+.intro-aurora-blob-1,
+.intro-aurora-blob-2,
+.intro-aurora-blob-3 {
+	will-change: transform;
+	contain: layout style;
+}
+
+.intro-aurora-blob-1 > div,
+.intro-aurora-blob-2 > div,
+.intro-aurora-blob-3 > div {
+	transform: translateZ(0);
+}
+
+.intro-orbit-ring,
+.intro-orbit-ring-reverse {
+	will-change: transform;
+	contain: layout style;
+}
+
+.intro-star {
+	will-change: opacity, transform;
+	contain: layout style;
+}
+
+.intro-progress-svg {
+	contain: layout style;
+}
+
+.intro-progress-arc {
+	stroke-dasharray: var(--intro-progress-c);
+	stroke-dashoffset: var(--intro-progress-c);
+	animation: intro-progress-fill 2.4s linear forwards;
+	will-change: stroke-dashoffset;
+	filter: drop-shadow(0 0 8px rgba(199, 157, 109, 0.6));
+}
+
+.intro-logo-glow {
+	background: radial-gradient(
+		circle,
+		rgba(199, 157, 109, 0.35) 0%,
+		transparent 70%
+	);
+	filter: blur(16px);
+	will-change: opacity, transform;
+}
+
+.intro-logo-image {
+	filter: drop-shadow(0 0 30px rgba(199, 157, 109, 0.45))
+		drop-shadow(0 0 60px rgba(255, 250, 240, 0.15));
+}
+
+.intro-orbit-bead {
+	box-shadow: 0 0 12px #c79d6d, 0 0 24px rgba(212, 165, 116, 0.45);
+}
+
+@keyframes intro-progress-fill {
+	to {
+		stroke-dashoffset: 0;
+	}
+}
+
 @keyframes intro-aurora-1 {
 	0%,
 	100% {
@@ -1097,6 +1164,24 @@ section {
 
 .intro-light-sweep {
 	animation: intro-scan-sweep 1.4s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
+	will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.intro-aurora-blob-1,
+	.intro-aurora-blob-2,
+	.intro-aurora-blob-3,
+	.intro-orbit-ring,
+	.intro-orbit-ring-reverse,
+	.intro-star,
+	.intro-light-sweep,
+	.intro-progress-arc {
+		animation: none !important;
+	}
+
+	.intro-progress-arc {
+		stroke-dashoffset: 0;
+	}
 }
 
 /* Professional Scrollbar */
