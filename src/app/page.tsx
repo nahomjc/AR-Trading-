@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { FaqSection } from "@/components/seo/FaqSection";
+import { TeamPhotoSection } from "@/components/seo/TeamPhotoSection";
 import { getHomePageMetadata, getHomePageSchemas } from "@/lib/seo";
 import HomePageClient from "./HomePageClient";
 
@@ -12,6 +13,7 @@ export default function Home() {
       <JsonLd data={getHomePageSchemas()} />
       <HomePageClient>
         <FaqSection />
+        <TeamPhotoSection />
       </HomePageClient>
     </>
   );
