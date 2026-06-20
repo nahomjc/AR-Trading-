@@ -55,14 +55,7 @@ const ContactSection = () => {
   return (
     <section
       id="contact"
-      className="relative scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
-      style={{
-        backgroundImage:
-          "url(/img/ar-image/photo_2026-06-20_16-40-07.jpg)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
+      className="contact-section-bg relative scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
     >
       <div className="absolute inset-0 bg-gradient-to-br from-[#08243A]/90 via-[#08243A]/85 to-[#08243A]/90"></div>
       <div className="max-w-7xl mx-auto relative z-10">

@@ -11,7 +11,7 @@ import {
   type MutableRefObject,
 } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import { Bounds, Center, Html, useProgress, useTexture } from "@react-three/drei";
+import { Bounds, Center, useTexture } from "@react-three/drei";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import {
   ClampToEdgeWrapping,
@@ -29,6 +29,10 @@ import {
   PHONE_MODEL_PATH,
   PHONE_SCREEN_IMAGE,
 } from "../lib/phoneModelAssets";
+import { use3DProfile } from "../hooks/use3DProfile";
+import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
+import { Model3DErrorBoundary } from "./Model3DErrorBoundary";
+import { Model3DFallback, Model3DSpinner } from "./Model3DFallback";
 
 const DRAG_SENSITIVITY = 0.028;
 const WHEEL_SENSITIVITY = 0.009;
@@ -47,6 +51,7 @@ const SCREEN_BOTTOM_INSET_RATIO = 0.062;
 const SCREEN_FILL_SCALE = 0.94;
 const SCREEN_SURFACE_OFFSET = 0.003;
 const TAP_MOVE_THRESHOLD_PX = 10;
+const LOAD_TIMEOUT_MS = 22000;
 
 const PHONE_BODY_MATERIAL = new MeshStandardMaterial({
   color: "#0a0c10",
@@ -133,21 +138,6 @@ function computeScreenPlacement(
   };
 }
 
-function Loader() {
-  const { progress } = useProgress();
-
-  return (
-    <Html center>
-      <div className="text-center">
-        <div className="mx-auto mb-2 h-9 w-9 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
-        <p className="text-xs font-medium text-[#C79D6D]">
-          Loading device… {Math.round(progress)}%
-        </p>
-      </div>
-    </Html>
-  );
-}
-
 function PhoneScreen({
   placement,
   screenTexture,
@@ -182,7 +172,7 @@ function PhoneScreen({
   );
 }
 
-function PhoneAssembly() {
+function PhoneAssembly({ onReady }: { onReady: () => void }) {
   const object = useLoader(OBJLoader, PHONE_MODEL_PATH);
   const screenTexture = useTexture(PHONE_SCREEN_IMAGE);
   const phoneGeometry = useMemo(() => getPhoneGeometry(object), [object]);
@@ -192,6 +182,7 @@ function PhoneAssembly() {
     if (!img?.width || !img?.height) return null;
     return computeScreenPlacement(phoneGeometry, img.width, img.height);
   }, [phoneGeometry, screenTexture]);
+  const readyRef = useRef(false);
 
   useLayoutEffect(() => {
     object.traverse((child) => {
@@ -202,7 +193,12 @@ function PhoneAssembly() {
       mesh.material = PHONE_BODY_MATERIAL;
     });
     object.updateMatrixWorld(true);
-  }, [object]);
+
+    if (!readyRef.current) {
+      readyRef.current = true;
+      onReady();
+    }
+  }, [object, onReady]);
 
   return (
     <group scale={PHONE_SCALE}>
@@ -221,10 +217,12 @@ function PhoneModel({
   rotationY,
   targetRotationY,
   isDragging,
+  onReady,
 }: {
   rotationY: MutableRefObject<number>;
   targetRotationY: MutableRefObject<number>;
   isDragging: MutableRefObject<boolean>;
+  onReady: () => void;
 }) {
   const spinRef = useRef<Group>(null);
 
@@ -247,7 +245,7 @@ function PhoneModel({
     <group ref={spinRef}>
       <group rotation={PHONE_UPRIGHT_ROTATION}>
         <Center>
-          <PhoneAssembly />
+          <PhoneAssembly onReady={onReady} />
         </Center>
       </group>
     </group>
@@ -273,8 +271,12 @@ export function PhoneModel3D({
   className = "",
   onPhoneClick,
 }: PhoneModel3DProps) {
+  const profile = use3DProfile();
+  const { ref: visibilityRef, visible } = useIntersectionVisible("120px 0px");
+  const [contextLost, setContextLost] = useState(false);
+  const [loadTimedOut, setLoadTimedOut] = useState(false);
+  const [modelReady, setModelReady] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const [canvasReady, setCanvasReady] = useState(false);
   const rotationY = useRef(FRONT_FACING_Y);
   const targetRotationY = useRef(FRONT_FACING_Y);
   const isDragging = useRef(false);
@@ -283,23 +285,41 @@ export function PhoneModel3D({
   const pointerStartY = useRef(0);
   const didDrag = useRef(false);
 
-  const setContainerRef = useCallback((node: HTMLDivElement | null) => {
-    containerRef.current = node;
-    if (node) setCanvasReady(true);
+  const setContainerRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      containerRef.current = node;
+      visibilityRef(node);
+    },
+    [visibilityRef],
+  );
+
+  const handleModelReady = useCallback(() => {
+    setModelReady(true);
+    setLoadTimedOut(false);
   }, []);
 
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el) return;
+    if (!visible || modelReady) return;
+
+    const timer = window.setTimeout(() => {
+      setLoadTimedOut(true);
+    }, LOAD_TIMEOUT_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [visible, modelReady]);
+
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node || !visible) return;
 
     const onWheel = (event: WheelEvent) => {
       event.preventDefault();
       targetRotationY.current += event.deltaY * WHEEL_SENSITIVITY;
     };
 
-    el.addEventListener("wheel", onWheel, { passive: false });
-    return () => el.removeEventListener("wheel", onWheel);
-  }, [canvasReady]);
+    node.addEventListener("wheel", onWheel, { passive: false });
+    return () => node.removeEventListener("wheel", onWheel);
+  }, [visible]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     isDragging.current = true;
@@ -342,12 +362,24 @@ export function PhoneModel3D({
     }
   };
 
-  const showCanvas = canvasReady;
+  const showFallback =
+    !profile ||
+    !profile.supported ||
+    contextLost ||
+    loadTimedOut;
+
+  const fallback = (
+    <Model3DFallback
+      src={PHONE_SCREEN_IMAGE}
+      alt="Addis Reality digital marketing phone preview"
+      label="Phone marketing preview"
+    />
+  );
 
   return (
     <div
       ref={setContainerRef}
-      className={`relative h-full w-full cursor-pointer touch-pan-y active:cursor-grabbing ${className}`}
+      className={`relative min-h-[320px] w-full cursor-pointer touch-pan-y active:cursor-grabbing ${className}`}
       aria-label="Tap to call Addis Reality"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -355,35 +387,63 @@ export function PhoneModel3D({
       onPointerCancel={endDrag}
       onPointerLeave={endDrag}
     >
-      <div className="absolute inset-x-0 top-0 bottom-[-28px] sm:bottom-[-32px]">
-        {!showCanvas ? (
-          <div className="flex h-full w-full items-center justify-center">
-            <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
-          </div>
+      <div className="absolute inset-x-0 top-0 bottom-[-28px] min-h-[320px] sm:bottom-[-32px] sm:min-h-[360px]">
+        {!profile ? (
+          <Model3DSpinner label="Preparing 3D viewer…" />
+        ) : showFallback ? (
+          fallback
         ) : (
-          <Canvas
-            camera={{ position: [0, 0.12, 3.22], fov: 30 }}
-            gl={{
-              antialias: true,
-              alpha: true,
-              powerPreference: "high-performance",
-            }}
-            dpr={[1, 1.25]}
-            frameloop="always"
-            className="h-full w-full"
-            style={{ pointerEvents: "none" }}
+          <Model3DErrorBoundary
+            fallback={fallback}
+            onError={() => setContextLost(true)}
           >
-            <SceneLights />
-            <Suspense fallback={<Loader />}>
-              <Bounds fit margin={1.05}>
-                <PhoneModel
-                  rotationY={rotationY}
-                  targetRotationY={targetRotationY}
-                  isDragging={isDragging}
-                />
-              </Bounds>
-            </Suspense>
-          </Canvas>
+            <div className="relative h-full w-full min-h-[320px] sm:min-h-[360px]">
+              {!modelReady && (
+                <div className="absolute inset-0 z-10">
+                  <Model3DSpinner label="Loading device…" />
+                </div>
+              )}
+
+              {visible && (
+                <Canvas
+                  camera={{ position: [0, 0.12, 3.22], fov: 30 }}
+                  gl={{
+                    antialias: profile.antialias,
+                    alpha: true,
+                    powerPreference: profile.isMobile
+                      ? "default"
+                      : "high-performance",
+                    failIfMajorPerformanceCaveat: false,
+                    preserveDrawingBuffer: false,
+                  }}
+                  dpr={profile.dpr}
+                  frameloop={visible ? "always" : "never"}
+                  className="!absolute inset-0 h-full w-full"
+                  style={{ touchAction: "pan-y", pointerEvents: "none" }}
+                  onCreated={({ gl }) => {
+                    const canvas = gl.domElement;
+                    const onLost = (event: Event) => {
+                      event.preventDefault();
+                      setContextLost(true);
+                    };
+                    canvas.addEventListener("webglcontextlost", onLost, false);
+                  }}
+                >
+                  <SceneLights />
+                  <Suspense fallback={null}>
+                    <Bounds fit margin={1.05}>
+                      <PhoneModel
+                        rotationY={rotationY}
+                        targetRotationY={targetRotationY}
+                        isDragging={isDragging}
+                        onReady={handleModelReady}
+                      />
+                    </Bounds>
+                  </Suspense>
+                </Canvas>
+              )}
+            </div>
+          </Model3DErrorBoundary>
         )}
       </div>
     </div>

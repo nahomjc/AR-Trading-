@@ -101,7 +101,6 @@ export default function HomePageClient({ children }: HomePageClientProps) {
   }, []);
 
   useEffect(() => {
-    // About section is right below hero — start the 15MB GLB download early
     const earlyAbout = window.setTimeout(preloadAboutModelAssets, 400);
 
     const warmupPhone = () => {

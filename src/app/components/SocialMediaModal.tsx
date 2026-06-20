@@ -53,7 +53,7 @@ const SocialMediaModal = () => {
   useEffect(() => {
     const hasSeenModal = localStorage.getItem("ar-social-modal-shown");
     if (!hasSeenModal) {
-      const timer = setTimeout(() => setIsOpen(true), 7000);
+      const timer = setTimeout(() => setIsOpen(true), 60_000);
       return () => clearTimeout(timer);
     }
   }, []);

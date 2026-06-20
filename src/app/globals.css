@@ -911,6 +911,20 @@ section {
 	animation-direction: reverse;
 }
 
+/* Contact section — scroll bg on mobile for better performance */
+.contact-section-bg {
+	background-image: url(/img/ar-image/photo_2026-06-20_16-40-07.jpg);
+	background-size: cover;
+	background-position: center;
+	background-attachment: scroll;
+}
+
+@media (min-width: 1024px) {
+	.contact-section-bg {
+		background-attachment: fixed;
+	}
+}
+
 /* Native horizontal scroll rows — Latest Works, Trusted By, etc. */
 .horizontal-scroll-row {
 	overflow-x: auto;
