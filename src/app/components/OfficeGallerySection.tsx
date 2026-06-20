@@ -159,6 +159,7 @@ function ShearSlide({
             className="shear-gallery-img object-cover"
             sizes="(max-width: 640px) 78vw, (max-width: 1024px) 42vw, 400px"
             priority={priority}
+            quality={80}
           />
         </div>
         <div className="shear-gallery-reflection" aria-hidden>
@@ -168,6 +169,9 @@ function ShearSlide({
             width={520}
             height={680}
             className="shear-gallery-img shear-gallery-img--reflection object-cover"
+            loading="lazy"
+            quality={50}
+            sizes="(max-width: 640px) 78vw, (max-width: 1024px) 42vw, 400px"
           />
         </div>
       </div>

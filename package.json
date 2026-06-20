@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "optimize:3d": "node scripts/optimize-glb.mjs",
+    "optimize:videos": "node scripts/optimize-videos.mjs",
+    "optimize:assets": "node scripts/optimize-assets.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -19,6 +23,7 @@
     "three": "^0.184.0"
   },
   "devDependencies": {
+    "@gltf-transform/cli": "^4.2.1",
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -27,6 +32,7 @@
     "@types/three": "^0.184.1",
     "eslint": "^9",
     "eslint-config-next": "^16.2.9",
+    "sharp": "^0.34.3",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

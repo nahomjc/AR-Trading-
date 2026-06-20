@@ -21,7 +21,7 @@ import {
   type MeshStandardMaterial as MeshStandardMaterialType,
   type Texture,
 } from "three";
-import { ABOUT_MODEL_PATH } from "../lib/aboutModelAssets";
+import { ABOUT_MODEL_PATH, preloadAboutModelAssets } from "../lib/aboutModelAssets";
 import { use3DProfile } from "../hooks/use3DProfile";
 import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
 import { Model3DErrorBoundary } from "./Model3DErrorBoundary";
@@ -160,6 +160,8 @@ export default function AboutModel3D() {
 
   useEffect(() => {
     if (!visible || modelReady) return;
+
+    preloadAboutModelAssets();
 
     const timer = window.setTimeout(() => {
       setLoadTimedOut(true);

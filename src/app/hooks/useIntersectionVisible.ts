@@ -7,7 +7,7 @@ export function useIntersectionVisible(rootMargin = "150px 0px") {
   const observerRef = useRef<IntersectionObserver | null>(null);
 
   const ref = useCallback(
-    (node: HTMLDivElement | null) => {
+    (node: Element | null) => {
       observerRef.current?.disconnect();
       observerRef.current = null;
 

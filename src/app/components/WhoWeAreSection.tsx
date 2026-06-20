@@ -12,7 +12,6 @@ import {
   IconTrendingUp,
 } from "@tabler/icons-react";
 import AboutModel3D from "./AboutModel3D";
-import { preloadAboutModelAssets } from "../lib/aboutModelAssets";
 
 const ROTATE_MS = 6000;
 
@@ -71,10 +70,6 @@ const values = [
 ];
 
 const WhoWeAreSection = () => {
-  useEffect(() => {
-    preloadAboutModelAssets();
-  }, []);
-
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);

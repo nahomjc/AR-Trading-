@@ -619,6 +619,7 @@ const HeroSection = () => {
                   height={1200}
                   className="relative z-10 w-full object-contain drop-shadow-[0_24px_80px_rgba(0,0,0,0.45)]"
                   sizes="(max-width: 1024px) 90vw, 50vw"
+                  quality={75}
                   priority
                 />
               </div>

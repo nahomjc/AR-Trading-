@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -13,6 +13,11 @@ import {
   IconDownload,
 } from "@tabler/icons-react";
 import HorizontalScrollRow from "./HorizontalScrollRow";
+import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
+
+const VISIBLE_CARD_PRELOAD_COUNT = 4;
+const IMAGE_QUALITY = 75;
+const PREVIEW_IMAGE_QUALITY = 80;
 
 // Latest Works Section with Tabs
 type WorkItem = {
@@ -247,6 +252,36 @@ type WorkScreenCardProps = {
   isYouTubeUrl: (url: string) => boolean;
 };
 
+function LazyWorkVideo({ src, className }: { src: string; className?: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const { ref: visibilityRef, visible } = useIntersectionVisible("300px 0px");
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !visible) return;
+
+    video.load();
+    void video.play().catch(() => {});
+  }, [visible]);
+
+  return (
+    <div ref={visibilityRef} className="absolute inset-0">
+      <video
+        ref={videoRef}
+        src={src}
+        className={className}
+        muted
+        loop
+        playsInline
+        preload="none"
+        onLoadedData={(e) => {
+          e.currentTarget.currentTime = 0;
+        }}
+      />
+    </div>
+  );
+}
+
 function WorkScreenCard({
   work,
   idx,
@@ -299,17 +334,9 @@ function WorkScreenCard({
             </div>
           ) : isLocalVideo ? (
             <>
-              <video
-                src={work.video}
+              <LazyWorkVideo
+                src={work.video ?? ""}
                 className="w-full h-full object-cover"
-                muted
-                loop
-                playsInline
-                preload="auto"
-                poster={work.image}
-                onLoadedData={(e) => {
-                  e.currentTarget.currentTime = 0;
-                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#08243A]/50 to-transparent opacity-60" />
             </>
@@ -319,14 +346,10 @@ function WorkScreenCard({
               alt={work.title}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-              loading={
-                activeTab === "Advertising & Printing" || idx < 4
-                  ? "eager"
-                  : "lazy"
-              }
-              priority={activeTab === "Advertising & Printing" || idx < 4}
+              loading={idx < VISIBLE_CARD_PRELOAD_COUNT ? "eager" : "lazy"}
+              priority={idx < VISIBLE_CARD_PRELOAD_COUNT}
               sizes="260px"
-              quality={90}
+              quality={IMAGE_QUALITY}
             />
           )}
 
@@ -508,28 +531,22 @@ const LatestWorksSection = () => {
     setSelectedVideo(null);
   };
 
-  // Preload images when tab changes (especially for Advertising & Printing)
+  // Preload only the first visible row — avoids downloading every tab at once
   useEffect(() => {
     const currentWorks = latestWorks[activeTab];
     const imagesToPreload = currentWorks
       .filter((work) => !work.video && !work.pdf)
+      .slice(0, VISIBLE_CARD_PRELOAD_COUNT)
       .map((work) => work.image);
 
     for (const imageSrc of imagesToPreload) {
-      if (!preloadedImages.has(imageSrc)) {
-        const link = document.createElement("link");
-        link.rel = "preload";
-        link.as = "image";
-        link.href = imageSrc;
-        document.head.appendChild(link);
+      if (preloadedImages.has(imageSrc)) continue;
 
-        // Also preload using Image object for better browser support
-        const img = document.createElement("img");
-        img.src = imageSrc;
-        img.onload = () => {
-          setPreloadedImages((prev) => new Set(prev).add(imageSrc));
-        };
-      }
+      const img = document.createElement("img");
+      img.src = imageSrc;
+      img.onload = () => {
+        setPreloadedImages((prev) => new Set(prev).add(imageSrc));
+      };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
@@ -600,7 +617,7 @@ const LatestWorksSection = () => {
                       autoPlay
                       className="h-full w-full max-h-[100dvh] max-w-[100dvw] object-contain"
                       playsInline
-                      preload="auto"
+                      preload="metadata"
                     />
                   )}
                 </div>
@@ -616,8 +633,7 @@ const LatestWorksSection = () => {
                     width={2400}
                     height={2400}
                     className="h-auto w-auto max-h-[100dvh] max-w-[100dvw] object-contain"
-                    priority
-                    quality={95}
+                    quality={PREVIEW_IMAGE_QUALITY}
                   />
                 </div>
               ) : null}

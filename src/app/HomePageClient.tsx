@@ -8,7 +8,6 @@ import HeroSection from "./components/HeroSection";
 import Footer from "./components/Footer";
 import LazyMount from "./components/LazyMount";
 import { preloadPhoneModelAssets } from "./lib/phoneModelAssets";
-import { preloadAboutModelAssets } from "./lib/aboutModelAssets";
 import { ChatBotProvider } from "./components/ChatBot";
 
 const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
@@ -101,8 +100,6 @@ export default function HomePageClient({ children }: HomePageClientProps) {
   }, []);
 
   useEffect(() => {
-    const earlyAbout = window.setTimeout(preloadAboutModelAssets, 400);
-
     const warmupPhone = () => {
       preloadPhoneModelAssets();
       void import("./components/PhoneMarketingSection");
@@ -111,7 +108,6 @@ export default function HomePageClient({ children }: HomePageClientProps) {
     window.addEventListener("introComplete", warmupPhone);
     const fallback = window.setTimeout(warmupPhone, 2800);
     return () => {
-      window.clearTimeout(earlyAbout);
       window.removeEventListener("introComplete", warmupPhone);
       window.clearTimeout(fallback);
     };
@@ -127,7 +123,9 @@ export default function HomePageClient({ children }: HomePageClientProps) {
         <GalaxyBackground />
         <main className="relative z-10">
           <HeroSection />
-          <WhoWeAreSection />
+          <LazyMount minHeight="720px" anchorId="about">
+            <WhoWeAreSection />
+          </LazyMount>
           <LazyMount minHeight="820px" anchorId="office-gallery">
             <OfficeGallerySection />
           </LazyMount>
