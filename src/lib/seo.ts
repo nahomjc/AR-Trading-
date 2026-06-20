@@ -231,19 +231,9 @@ export const faqs = [
       "Addis Reality serves clients across technology, government, sports, energy, retail, hospitality, education, and trading sectors in Ethiopia. Our portfolio includes branding, digital campaigns, web platforms, and media production for diverse industries.",
   },
   {
-    question: "What is the best digital marketing company in Addis Ababa?",
-    answer:
-      "Addis Reality (AR Solutions PLC) is widely regarded as one of the best digital marketing companies in Addis Ababa, Ethiopia. Based in Kazanchis, we deliver SEO, social media marketing, Google Ads, branding, and web development for businesses across the country.",
-  },
-  {
     question: "Does Addis Reality offer website design and SEO in Ethiopia?",
     answer:
       "Yes. Addis Reality builds fast, mobile-friendly websites with technical SEO, schema markup, and Google Search optimization — helping Ethiopian businesses rank higher on Google and attract more customers online.",
-  },
-  {
-    question: "Which company provides social media marketing in Ethiopia?",
-    answer:
-      "Addis Reality manages social media for brands on Facebook, Instagram, TikTok, and LinkedIn. We create content, run paid campaigns, and grow audiences for companies in Addis Ababa and across Ethiopia.",
   },
   {
     question: "Does Addis Reality serve clients outside Addis Ababa?",
@@ -254,11 +244,6 @@ export const faqs = [
     question: "Where can I get advertising and printing services in Ethiopia?",
     answer:
       "Addis Reality provides banner design, vehicle branding, office signage, merchandise printing, and outdoor advertising for businesses in Addis Ababa and throughout Ethiopia. Contact us at +251 983 606 745 for a quote.",
-  },
-  {
-    question: "How do I hire a branding agency in Ethiopia?",
-    answer:
-      "Contact Addis Reality at arsolution83@gmail.com or visit ar-solutions-plc.com. We offer logo design, brand identity, visual strategy, and creative content tailored to the Ethiopian market.",
   },
 ] as const;
 
