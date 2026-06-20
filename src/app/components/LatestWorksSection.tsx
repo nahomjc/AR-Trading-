@@ -774,6 +774,7 @@ const LatestWorksSection = () => {
               <HorizontalScrollRow
                 ariaLabel={`${activeTab} portfolio works`}
                 minLoopItems={12}
+                marqueeDuration={42}
               >
                 {activeWorks.map((work, idx) => (
                   <WorkScreenCard

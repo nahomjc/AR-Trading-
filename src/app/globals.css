@@ -901,7 +901,6 @@ section {
 .infinite-marquee-track {
 	animation: infinite-marquee var(--marquee-duration, 40s) linear infinite;
 	will-change: transform;
-	touch-action: pan-y;
 }
 
 .infinite-marquee-track.paused {
@@ -910,6 +909,36 @@ section {
 
 .infinite-marquee-track.reverse {
 	animation-direction: reverse;
+}
+
+/* Native horizontal scroll rows — Latest Works, Trusted By, etc. */
+.horizontal-scroll-row {
+	overflow-x: auto;
+	overflow-y: visible;
+	width: 100%;
+	max-width: 100%;
+	scroll-behavior: smooth;
+	-webkit-overflow-scrolling: touch;
+	touch-action: pan-x pan-y;
+	overscroll-behavior-x: contain;
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.horizontal-scroll-row::-webkit-scrollbar {
+	display: none;
+}
+
+.horizontal-scroll-row [data-scroll-card] {
+	flex-shrink: 0;
+}
+
+.horizontal-scroll-row--paused {
+	scroll-snap-type: x proximity;
+}
+
+.horizontal-scroll-row--paused [data-scroll-card] {
+	scroll-snap-align: start;
 }
 
 /* Phone marketing — futuristic grid & orbit */
@@ -1573,6 +1602,39 @@ section {
 		--shear-slide-w: 400px;
 		--shear-slide-h: 520px;
 	}
+}
+
+.shear-gallery-nav-arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 999px;
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	background: rgba(8, 36, 58, 0.92);
+	color: #fff;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(8px);
+	pointer-events: auto;
+	z-index: 80;
+	transition:
+		border-color 0.2s ease,
+		color 0.2s ease,
+		background 0.2s ease;
+}
+
+@media (min-width: 640px) {
+	.shear-gallery-nav-arrow {
+		width: 2.75rem;
+		height: 2.75rem;
+	}
+}
+
+.shear-gallery-nav-arrow:hover {
+	border-color: rgba(199, 157, 109, 0.55);
+	color: #c79d6d;
+	background: rgba(10, 42, 66, 0.96);
 }
 
 .shear-gallery-stage {

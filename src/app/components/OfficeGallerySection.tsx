@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { IconMaximize, IconX } from "@tabler/icons-react";
+import { IconMaximize, IconX, IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 type GalleryPhoto = {
   src: string;
@@ -83,7 +83,7 @@ function getOffset(index: number, active: number, total: number) {
   return diff;
 }
 
-function getShearStyle(offset: number) {
+function getShearStyle(offset: number, layoutScale = 1) {
   const abs = Math.abs(offset);
   const slot = SHEAR_SLOTS[abs] ?? {
     x: 820,
@@ -94,8 +94,10 @@ function getShearStyle(offset: number) {
     zIndex: 0,
   };
 
+  const scaledX = slot.x * layoutScale;
+
   return {
-    x: offset < 0 ? -slot.x : slot.x,
+    x: offset < 0 ? -scaledX : scaledX,
     rotateY: offset < 0 ? -slot.rotateY : slot.rotateY,
     scale: slot.scale,
     z: slot.z,
@@ -109,6 +111,7 @@ type SlideProps = {
   offset: number;
   isCenter: boolean;
   reducedMotion: boolean | null;
+  layoutScale: number;
   onSelect: () => void;
   priority?: boolean;
 };
@@ -118,14 +121,17 @@ function ShearSlide({
   offset,
   isCenter,
   reducedMotion,
+  layoutScale,
   onSelect,
   priority,
 }: SlideProps) {
-  const style = getShearStyle(offset);
+  const style = getShearStyle(offset, layoutScale);
 
   return (
     <motion.figure
-      className={`shear-gallery-slide absolute left-1/2 top-0 ${!isCenter ? "cursor-pointer" : ""}`}
+      className={`shear-gallery-slide absolute left-1/2 top-0 ${
+        isCenter ? "pointer-events-none" : "pointer-events-auto cursor-pointer"
+      }`}
       style={{ zIndex: style.zIndex, transformStyle: "preserve-3d" }}
       initial={false}
       animate={{
@@ -171,9 +177,14 @@ function ShearSlide({
 
 export default function OfficeGallerySection() {
   const reducedMotion = useReducedMotion();
+  const stageRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef(0);
+  const touchStartY = useRef(0);
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const [activeIndex, setActiveIndex] = useState(INITIAL_SLIDE_INDEX);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [userPaused, setUserPaused] = useState(false);
+  const [layoutScale, setLayoutScale] = useState(1);
 
   const filteredPhotos = useMemo(() => {
     if (activeFilter === "all") return GALLERY_PHOTOS;
@@ -183,22 +194,66 @@ export default function OfficeGallerySection() {
   const activePhoto = filteredPhotos[activeIndex];
 
   useEffect(() => {
-    setActiveIndex(activeFilter === "all" ? INITIAL_SLIDE_INDEX : 0);
-  }, [activeFilter]);
+    const el = stageRef.current;
+    if (!el) return;
 
-  const goTo = useCallback((index: number) => {
-    setActiveIndex(index);
+    const updateScale = () => {
+      const width = el.clientWidth;
+      setLayoutScale(Math.min(1, Math.max(0.48, width / 760)));
+    };
+
+    updateScale();
+    const observer = new ResizeObserver(updateScale);
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    if (reducedMotion || filteredPhotos.length <= 1) return;
+    setActiveIndex(activeFilter === "all" ? INITIAL_SLIDE_INDEX : 0);
+    setUserPaused(false);
+  }, [activeFilter]);
+
+  const goTo = useCallback((index: number) => {
+    setUserPaused(true);
+    setActiveIndex(index);
+  }, []);
+
+  const goPrev = useCallback(() => {
+    setUserPaused(true);
+    setActiveIndex((prev) =>
+      prev === 0 ? filteredPhotos.length - 1 : prev - 1,
+    );
+  }, [filteredPhotos.length]);
+
+  const goNext = useCallback(() => {
+    setUserPaused(true);
+    setActiveIndex((prev) =>
+      prev === filteredPhotos.length - 1 ? 0 : prev + 1,
+    );
+  }, [filteredPhotos.length]);
+
+  useEffect(() => {
+    if (reducedMotion || filteredPhotos.length <= 1 || userPaused) return;
     const timer = window.setInterval(() => {
       setActiveIndex((prev) =>
         prev === filteredPhotos.length - 1 ? 0 : prev + 1,
       );
     }, 5500);
     return () => window.clearInterval(timer);
-  }, [reducedMotion, filteredPhotos.length, activeFilter]);
+  }, [reducedMotion, filteredPhotos.length, activeFilter, userPaused]);
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0].clientX;
+    touchStartY.current = event.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const dx = event.changedTouches[0].clientX - touchStartX.current;
+    const dy = event.changedTouches[0].clientY - touchStartY.current;
+    if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) goNext();
+    else goPrev();
+  };
 
   useEffect(() => {
     if (!isFullscreen) return;
@@ -274,7 +329,33 @@ export default function OfficeGallerySection() {
         </nav>
 
         {/* 3D stage */}
-        <div className="shear-gallery-stage relative mx-auto mt-10 w-full sm:mt-12">
+        <div
+          ref={stageRef}
+          className="shear-gallery-stage relative mx-auto mt-10 w-full touch-pan-y sm:mt-12"
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          {filteredPhotos.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={goPrev}
+                aria-label="Previous photo"
+                className="shear-gallery-nav-arrow absolute left-1 top-1/2 z-[70] -translate-y-1/2 sm:left-3"
+              >
+                <IconChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" stroke={2} />
+              </button>
+              <button
+                type="button"
+                onClick={goNext}
+                aria-label="Next photo"
+                className="shear-gallery-nav-arrow absolute right-1 top-1/2 z-[70] -translate-y-1/2 sm:right-3"
+              >
+                <IconChevronRight className="h-5 w-5 sm:h-6 sm:w-6" stroke={2} />
+              </button>
+            </>
+          )}
+
           <button
             type="button"
             onClick={() => activePhoto && setIsFullscreen(true)}
@@ -305,6 +386,7 @@ export default function OfficeGallerySection() {
                   offset={offset}
                   isCenter={offset === 0}
                   reducedMotion={reducedMotion}
+                  layoutScale={layoutScale}
                   onSelect={() => goTo(index)}
                   priority={offset === 0 && index === activeIndex}
                 />
