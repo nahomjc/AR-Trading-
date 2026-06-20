@@ -267,8 +267,8 @@ function TypewriterHeadline({
     return (
       <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
         <span className="sr-only">
-          Addis Reality — Ethiopia&apos;s #1 digital marketing, advertising,
-          branding, and web development agency in Addis Ababa
+          Addis Reality — digital marketing in Ethiopia, Addis Ababa&apos;s #1
+          agency for advertising, branding, and web development
         </span>
         {staticHeadlineLines.map((line) => (
           <span key={line.text} className="block">
@@ -353,8 +353,8 @@ function TypewriterHeadline({
   return (
     <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
       <span className="sr-only">
-        Addis Reality — Ethiopia&apos;s #1 digital marketing, advertising,
-        branding, and web development agency in Addis Ababa
+        Addis Reality — digital marketing in Ethiopia, Addis Ababa&apos;s #1
+        agency for advertising, branding, and web development
       </span>
       {staticHeadlineLines.map((line, li) => renderStaticLine(line, li))}
 
