@@ -1554,3 +1554,115 @@ section {
 		animation: none;
 	}
 }
+
+/* ── Office gallery — 3D shear-angle scroll (reference layout) ── */
+.shear-gallery-section {
+	--shear-slide-w: min(78vw, 340px);
+	--shear-slide-h: min(104vw, 455px);
+}
+
+@media (min-width: 640px) {
+	.shear-gallery-section {
+		--shear-slide-w: min(42vw, 380px);
+		--shear-slide-h: min(56vw, 495px);
+	}
+}
+
+@media (min-width: 1024px) {
+	.shear-gallery-section {
+		--shear-slide-w: 400px;
+		--shear-slide-h: 520px;
+	}
+}
+
+.shear-gallery-stage {
+	height: calc(var(--shear-slide-h) + var(--shear-slide-h) * 0.46 + 1.5rem);
+	perspective: 1400px;
+	perspective-origin: 50% 28%;
+	overflow: hidden;
+}
+
+.shear-gallery-slide {
+	transform-style: preserve-3d;
+	transform-origin: center top;
+	will-change: transform, opacity;
+}
+
+.shear-gallery-slide-inner {
+	transform-style: preserve-3d;
+}
+
+.shear-gallery-image-wrap {
+	width: var(--shear-slide-w);
+	height: var(--shear-slide-h);
+	overflow: hidden;
+	border-radius: 8px;
+	box-shadow:
+		0 24px 60px rgba(0, 0, 0, 0.45),
+		0 0 0 1px rgba(199, 157, 109, 0.12);
+}
+
+.shear-gallery-img {
+	display: block;
+	width: var(--shear-slide-w);
+	height: var(--shear-slide-h);
+}
+
+.shear-gallery-reflection {
+	width: var(--shear-slide-w);
+	height: calc(var(--shear-slide-h) * 0.46);
+	margin-top: -1px;
+	overflow: hidden;
+}
+
+.shear-gallery-img--reflection {
+	transform: scaleY(-1);
+	opacity: 0.46;
+	filter: brightness(0.94);
+	mask-image: linear-gradient(
+		to bottom,
+		rgba(8, 36, 58, 0.75) 0%,
+		rgba(8, 36, 58, 0.35) 40%,
+		rgba(8, 36, 58, 0.1) 70%,
+		transparent 100%
+	);
+	-webkit-mask-image: linear-gradient(
+		to bottom,
+		rgba(8, 36, 58, 0.75) 0%,
+		rgba(8, 36, 58, 0.35) 40%,
+		rgba(8, 36, 58, 0.1) 70%,
+		transparent 100%
+	);
+}
+
+.shear-gallery-nav-pill {
+	border-radius: 999px;
+}
+
+.shear-gallery-dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.25);
+}
+
+.shear-gallery-dot--active {
+	background: #c79d6d;
+	box-shadow: 0 0 10px rgba(199, 157, 109, 0.55);
+	width: 24px;
+	border-radius: 999px;
+}
+
+.shear-gallery-dot:hover {
+	background: rgba(199, 157, 109, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.shear-gallery-reflection {
+		display: none;
+	}
+
+	.shear-gallery-stage {
+		height: calc(var(--shear-slide-h) + 2rem);
+	}
+}

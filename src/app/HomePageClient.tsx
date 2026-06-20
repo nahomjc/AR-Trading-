@@ -15,6 +15,10 @@ const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
 const WhoWeAreSection = dynamic(() => import("./components/WhoWeAreSection"), {
   ssr: false,
 });
+const OfficeGallerySection = dynamic(
+  () => import("./components/OfficeGallerySection"),
+  { ssr: false },
+);
 const LatestWorksSection = dynamic(
   () => import("./components/LatestWorksSection"),
   { ssr: false },
@@ -105,6 +109,9 @@ export default function HomePageClient({ children }: HomePageClientProps) {
         <main className="relative z-10">
           <HeroSection />
           <WhoWeAreSection />
+          <LazyMount minHeight="820px" anchorId="office-gallery">
+            <OfficeGallerySection />
+          </LazyMount>
           <LazyMount minHeight="500px" anchorId="services">
             <ServicesSection />
           </LazyMount>
