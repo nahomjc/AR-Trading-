@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { siteConfig } from "@/lib/seo";
 
 const TEAM_IMAGE = "/img/ar-image/DSC03209.jpg";
 const CARTOON_IMAGE =
   "/img/ar-image/c5030357-8d99-4e91-bfa0-b9c31fbc0aac.jpg";
+
+const AMBIENT_INTERVAL_MS = 2400;
 
 type Circle = {
   r: number;
@@ -53,14 +55,50 @@ function findHotspotAtPoint(px: number, py: number): number | null {
   return bestId;
 }
 
+function pickRandomHotspotId(excludeId?: number | null): number {
+  const pool =
+    excludeId != null
+      ? TEAM_HOTSPOTS.filter((s) => s.id !== excludeId)
+      : TEAM_HOTSPOTS;
+  const spot = pool[Math.floor(Math.random() * pool.length)] ?? TEAM_HOTSPOTS[0];
+  return spot.id;
+}
+
 export function TeamPhotoSection() {
   const containerRef = useRef<HTMLButtonElement>(null);
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [userHoverId, setUserHoverId] = useState<number | null>(null);
+  const [ambientId, setAmbientId] = useState<number | null>(null);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
-  const activeHotspot =
-    hoveredId !== null
-      ? TEAM_HOTSPOTS.find((spot) => spot.id === hoveredId)
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReducedMotion(mq.matches);
+    const onChange = () => setReducedMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setAmbientId(null);
+      return;
+    }
+
+    setAmbientId(pickRandomHotspotId());
+
+    const interval = window.setInterval(() => {
+      setAmbientId((current) => pickRandomHotspotId(current));
+    }, AMBIENT_INTERVAL_MS);
+
+    return () => window.clearInterval(interval);
+  }, [reducedMotion]);
+
+  const activeHotspot = useMemo(() => {
+    const id = userHoverId ?? ambientId;
+    return id != null
+      ? (TEAM_HOTSPOTS.find((spot) => spot.id === id) ?? null)
       : null;
+  }, [userHoverId, ambientId]);
 
   const updateHoverFromEvent = useCallback(
     (clientX: number, clientY: number) => {
@@ -69,7 +107,7 @@ export function TeamPhotoSection() {
       const rect = el.getBoundingClientRect();
       const px = ((clientX - rect.left) / rect.width) * 100;
       const py = ((clientY - rect.top) / rect.height) * 100;
-      setHoveredId(findHotspotAtPoint(px, py));
+      setUserHoverId(findHotspotAtPoint(px, py));
     },
     []
   );
@@ -91,7 +129,7 @@ export function TeamPhotoSection() {
   );
 
   const handlePhotoLeave = useCallback(() => {
-    setHoveredId(null);
+    setUserHoverId(null);
   }, []);
 
   const handleClick = useCallback(
@@ -102,7 +140,7 @@ export function TeamPhotoSection() {
       const px = ((e.clientX - rect.left) / rect.width) * 100;
       const py = ((e.clientY - rect.top) / rect.height) * 100;
       const id = findHotspotAtPoint(px, py);
-      setHoveredId((current) => (current === id ? null : id));
+      setUserHoverId((current) => (current === id ? null : id));
     },
     []
   );
@@ -126,8 +164,8 @@ export function TeamPhotoSection() {
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-gray-400">
             The people behind your campaigns — working together from our Addis
-            Ababa office. Hover over a team member to reveal their illustrated
-            portrait.
+            Ababa office. Watch illustrated portraits appear, or hover a team
+            member to focus on them.
           </p>
         </div>
 
@@ -137,7 +175,7 @@ export function TeamPhotoSection() {
               ref={containerRef}
               type="button"
               className="relative block w-full cursor-pointer touch-manipulation border-0 bg-transparent p-0 focus-visible:outline-none"
-              aria-label="Interactive team photo — hover a person to see their illustrated portrait"
+              aria-label="Interactive team photo — illustrated portraits appear randomly; hover a person to focus on them"
               onMouseMove={handleMouseMove}
               onMouseLeave={handlePhotoLeave}
               onTouchStart={handleTouchStart}
@@ -168,8 +206,9 @@ export function TeamPhotoSection() {
 
               {activeHotspot && (
                 <div
+                  key={activeHotspot.id}
                   aria-hidden
-                  className="pointer-events-none absolute inset-0 z-[50]"
+                  className="pointer-events-none absolute inset-0 z-[50] transition-opacity duration-500 ease-in-out motion-reduce:transition-none"
                   style={{ clipPath: circleClipPath(activeHotspot.circle) }}
                 >
                   <Image
