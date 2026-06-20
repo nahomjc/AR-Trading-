@@ -58,7 +58,7 @@ const ContactSection = () => {
       className="relative scroll-mt-24 px-4 py-20 sm:px-6 lg:px-8"
       style={{
         backgroundImage:
-          "url(https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1920&q=80)",
+          "url(/img/ar-image/photo_2026-06-20_16-40-07.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundAttachment: "fixed",
