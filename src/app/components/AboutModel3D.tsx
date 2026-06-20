@@ -2,21 +2,14 @@
 
 import {
   Suspense,
-  useEffect,
+  useCallback,
   useLayoutEffect,
   useRef,
   useState,
   type MutableRefObject,
 } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import {
-  Bounds,
-  Center,
-  ContactShadows,
-  Html,
-  useGLTF,
-  useProgress,
-} from "@react-three/drei";
+import { Bounds, Center, Html, useGLTF, useProgress } from "@react-three/drei";
 import {
   DoubleSide,
   MeshStandardMaterial,
@@ -27,13 +20,10 @@ import {
   type MeshStandardMaterial as MeshStandardMaterialType,
   type Texture,
 } from "three";
-import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
+import { ABOUT_MODEL_PATH } from "../lib/aboutModelAssets";
 
-// highres.glb is geometry-only (no materials/UVs) — textured.glb has embedded colors
-const MODEL_PATH = "/3D/textured.glb";
 const SWAY_SPEED = 0.22;
 const DRAG_SENSITIVITY = 0.006;
-// Front-only arc — no full 360° (back of model stays hidden)
 const MIN_ROTATION_Y = -0.55;
 const MAX_ROTATION_Y = 0.55;
 
@@ -58,7 +48,7 @@ function Loader() {
 
 function configureTexture(texture: Texture) {
   texture.colorSpace = SRGBColorSpace;
-  texture.anisotropy = 8;
+  texture.anisotropy = 4;
 }
 
 function fixMaterial(material: Material) {
@@ -84,7 +74,7 @@ function Model({
   rotationY: MutableRefObject<number>;
   isDragging: MutableRefObject<boolean>;
 }) {
-  const { scene } = useGLTF(MODEL_PATH);
+  const { scene } = useGLTF(ABOUT_MODEL_PATH);
   const groupRef = useRef<Group>(null);
   const swayDirection = useRef(1);
 
@@ -93,8 +83,8 @@ function Model({
       const mesh = child as Mesh;
       if (!mesh.isMesh) return;
 
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
+      mesh.castShadow = false;
+      mesh.receiveShadow = false;
 
       if (Array.isArray(mesh.material)) {
         mesh.material = mesh.material.map((material) => {
@@ -134,15 +124,24 @@ function Model({
   );
 }
 
+function SceneLights() {
+  return (
+    <>
+      <ambientLight intensity={0.85} />
+      <hemisphereLight args={["#ffffff", "#2a3540", 0.75]} position={[0, 1, 0]} />
+      <directionalLight position={[6, 10, 6]} intensity={0.55} />
+    </>
+  );
+}
+
 export default function AboutModel3D() {
-  const [mounted, setMounted] = useState(false);
-  const { ref, visible } = useIntersectionVisible("200px 0px");
+  const [canvasReady, setCanvasReady] = useState(false);
   const rotationY = useRef(0);
   const isDragging = useRef(false);
   const lastPointerX = useRef(0);
 
-  useEffect(() => {
-    setMounted(true);
+  const setContainerRef = useCallback((node: HTMLDivElement | null) => {
+    if (node) setCanvasReady(true);
   }, []);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -172,20 +171,9 @@ export default function AboutModel3D() {
     }
   };
 
-  if (!mounted) {
-    return (
-      <div
-        ref={ref}
-        className="flex aspect-square min-h-[280px] w-full items-center justify-center sm:min-h-[360px] lg:min-h-[400px]"
-      >
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D] border-t-transparent" />
-      </div>
-    );
-  }
-
   return (
     <div
-      ref={ref}
+      ref={setContainerRef}
       className="relative aspect-square min-h-[280px] w-full cursor-grab touch-pan-y active:cursor-grabbing sm:min-h-[360px] lg:min-h-[400px]"
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
@@ -193,42 +181,33 @@ export default function AboutModel3D() {
       onPointerCancel={endDrag}
       onPointerLeave={endDrag}
     >
-      {visible ? (
+      {!canvasReady ? (
+        <div className="flex h-full w-full items-center justify-center">
+          <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D] border-t-transparent" />
+        </div>
+      ) : (
         <Canvas
           camera={{ position: [0, 0.35, 4.2], fov: 42 }}
-          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-          dpr={[1, 1.35]}
+          gl={{
+            antialias: true,
+            alpha: true,
+            powerPreference: "high-performance",
+          }}
+          dpr={[1, 1.25]}
           frameloop="always"
+          className="h-full w-full"
           style={{ pointerEvents: "none" }}
         >
-          <ambientLight intensity={1.05} />
-          <hemisphereLight
-            args={["#ffffff", "#2a3540", 0.9]}
-            position={[0, 1, 0]}
-          />
-          <directionalLight position={[6, 10, 6]} intensity={0.5} />
-          <directionalLight position={[-4, 2, -3]} intensity={0.25} />
-
+          <SceneLights />
           <Suspense fallback={<Loader />}>
             <Bounds fit clip margin={1.2}>
               <Model rotationY={rotationY} isDragging={isDragging} />
             </Bounds>
-            <ContactShadows
-              position={[0, -0.85, 0]}
-              opacity={0.35}
-              scale={9}
-              blur={2.8}
-              far={2}
-            />
           </Suspense>
         </Canvas>
-      ) : (
-        <div className="flex h-full w-full items-center justify-center">
-          <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D] border-t-transparent" />
-        </div>
       )}
     </div>
   );
 }
 
-useGLTF.preload(MODEL_PATH);
+useGLTF.preload(ABOUT_MODEL_PATH);

@@ -11,14 +11,7 @@ import {
   type MutableRefObject,
 } from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
-import {
-  Bounds,
-  Center,
-  ContactShadows,
-  Html,
-  useProgress,
-  useTexture,
-} from "@react-three/drei";
+import { Bounds, Center, Html, useProgress, useTexture } from "@react-three/drei";
 import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import {
   ClampToEdgeWrapping,
@@ -32,15 +25,14 @@ import {
   type Mesh,
   type Texture,
 } from "three";
-import { motion, AnimatePresence } from "framer-motion";
-import { useIntersectionVisible } from "../hooks/useIntersectionVisible";
+import {
+  PHONE_MODEL_PATH,
+  PHONE_SCREEN_IMAGE,
+} from "../lib/phoneModelAssets";
 
-const PHONE_MODEL_PATH = "/3D/white_mesh%20(1).obj";
-const PHONE_SCREEN_IMAGE = "/img/advert/images__2_-removebg-preview.png";
 const DRAG_SENSITIVITY = 0.028;
 const WHEEL_SENSITIVITY = 0.009;
 const ROTATION_LERP_DRAG = 22;
-/** One full 360° turn every ~14s while idle */
 const AUTO_SPIN_SPEED = (2 * Math.PI) / 14;
 const FRONT_FACING_Y = Math.PI;
 const PHONE_UPRIGHT_ROTATION: [number, number, number] = [
@@ -49,14 +41,21 @@ const PHONE_UPRIGHT_ROTATION: [number, number, number] = [
   Math.PI,
 ];
 const PHONE_SCALE = 1.88;
-/** Horizontal inset — keeps side bezels visible */
 const SCREEN_INSET_X = 0.975;
-/** Vertical insets — top/bottom bezel clearance on the mesh */
 const SCREEN_TOP_INSET_RATIO = 0.034;
 const SCREEN_BOTTOM_INSET_RATIO = 0.062;
-/** Shrink cover-fit plane so edges stay inside the glass */
 const SCREEN_FILL_SCALE = 0.94;
 const SCREEN_SURFACE_OFFSET = 0.003;
+const TAP_MOVE_THRESHOLD_PX = 10;
+
+const PHONE_BODY_MATERIAL = new MeshStandardMaterial({
+  color: "#0a0c10",
+  metalness: 0.72,
+  roughness: 0.32,
+  emissive: "#030405",
+  emissiveIntensity: 0.06,
+  side: DoubleSide,
+});
 
 type ScreenPlacement = {
   position: [number, number, number];
@@ -113,7 +112,6 @@ function computeScreenPlacement(
   const maxH = size.z - topInset - bottomInset;
   const imageAspect = imageWidth / imageHeight;
 
-  // Cover fit — fill the display opening (slight edge crop vs letterboxing)
   let planeW = maxW;
   let planeH = maxW / imageAspect;
 
@@ -188,54 +186,23 @@ function PhoneAssembly() {
   const object = useLoader(OBJLoader, PHONE_MODEL_PATH);
   const screenTexture = useTexture(PHONE_SCREEN_IMAGE);
   const phoneGeometry = useMemo(() => getPhoneGeometry(object), [object]);
-  const [screenPlacement, setScreenPlacement] =
-    useState<ScreenPlacement | null>(null);
+  const screenPlacement = useMemo(() => {
+    if (!phoneGeometry) return null;
+    const img = screenTexture.image as HTMLImageElement | undefined;
+    if (!img?.width || !img?.height) return null;
+    return computeScreenPlacement(phoneGeometry, img.width, img.height);
+  }, [phoneGeometry, screenTexture]);
 
   useLayoutEffect(() => {
     object.traverse((child) => {
       const mesh = child as Mesh;
       if (!mesh.isMesh) return;
-
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      mesh.material = new MeshStandardMaterial({
-        color: "#0a0c10",
-        metalness: 0.72,
-        roughness: 0.32,
-        emissive: "#030405",
-        emissiveIntensity: 0.06,
-        side: DoubleSide,
-      });
+      mesh.castShadow = false;
+      mesh.receiveShadow = false;
+      mesh.material = PHONE_BODY_MATERIAL;
     });
-
     object.updateMatrixWorld(true);
   }, [object]);
-
-  const placeScreen = () => {
-    if (!phoneGeometry) return;
-
-    const img = screenTexture.image as HTMLImageElement | undefined;
-    if (!img?.width || !img?.height) return;
-
-    setScreenPlacement(
-      computeScreenPlacement(phoneGeometry, img.width, img.height),
-    );
-  };
-
-  useEffect(() => {
-    placeScreen();
-
-    const img = screenTexture.image as HTMLImageElement | undefined;
-    if (img && !img.complete) {
-      img.addEventListener("load", placeScreen);
-      return () => img.removeEventListener("load", placeScreen);
-    }
-  }, [phoneGeometry, screenTexture]);
-
-  useFrame(() => {
-    if (screenPlacement) return;
-    placeScreen();
-  });
 
   return (
     <group scale={PHONE_SCALE}>
@@ -287,7 +254,15 @@ function PhoneModel({
   );
 }
 
-const TAP_MOVE_THRESHOLD_PX = 10;
+function SceneLights() {
+  return (
+    <>
+      <ambientLight intensity={0.55} />
+      <directionalLight position={[3, 8, 6]} intensity={0.9} color="#ffffff" />
+      <pointLight position={[-2.5, 1, 4]} intensity={0.5} color="#C79D6D" />
+    </>
+  );
+}
 
 type PhoneModel3DProps = {
   className?: string;
@@ -298,9 +273,8 @@ export function PhoneModel3D({
   className = "",
   onPhoneClick,
 }: PhoneModel3DProps) {
-  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const { ref: visibilityRef, visible } = useIntersectionVisible("200px 0px");
+  const [canvasReady, setCanvasReady] = useState(false);
   const rotationY = useRef(FRONT_FACING_Y);
   const targetRotationY = useRef(FRONT_FACING_Y);
   const isDragging = useRef(false);
@@ -309,22 +283,12 @@ export function PhoneModel3D({
   const pointerStartY = useRef(0);
   const didDrag = useRef(false);
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const setContainerRef = useCallback((node: HTMLDivElement | null) => {
     containerRef.current = node;
-    visibilityRef(node);
-  }, [visibilityRef]);
-
-  const applyRotationDelta = (delta: number) => {
-    targetRotationY.current += delta;
-  };
+    if (node) setCanvasReady(true);
+  }, []);
 
   useEffect(() => {
-    if (!mounted) return;
-
     const el = containerRef.current;
     if (!el) return;
 
@@ -335,7 +299,7 @@ export function PhoneModel3D({
 
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
-  }, [mounted]);
+  }, [canvasReady]);
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     isDragging.current = true;
@@ -357,7 +321,7 @@ export function PhoneModel3D({
 
     const deltaX = event.clientX - lastPointerX.current;
     lastPointerX.current = event.clientX;
-    applyRotationDelta(deltaX * DRAG_SENSITIVITY);
+    targetRotationY.current += deltaX * DRAG_SENSITIVITY;
   };
 
   const endDrag = (event: React.PointerEvent<HTMLDivElement>) => {
@@ -378,29 +342,7 @@ export function PhoneModel3D({
     }
   };
 
-  const spinner = (
-    <motion.div
-      key="phone-spinner"
-      className="flex h-full w-full items-center justify-center"
-      initial={{ opacity: 0, scale: 0.92 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.96 }}
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
-    </motion.div>
-  );
-
-  if (!mounted) {
-    return (
-      <div
-        ref={visibilityRef}
-        className={`flex h-full min-h-[320px] w-full items-center justify-center ${className}`}
-      >
-        {spinner}
-      </div>
-    );
-  }
+  const showCanvas = canvasReady;
 
   return (
     <div
@@ -414,68 +356,35 @@ export function PhoneModel3D({
       onPointerLeave={endDrag}
     >
       <div className="absolute inset-x-0 top-0 bottom-[-28px] sm:bottom-[-32px]">
-        <AnimatePresence mode="wait">
-          {visible ? (
-            <motion.div
-              key="phone-canvas"
-              className="h-full w-full"
-              initial={{ opacity: 0, scale: 0.94, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.97, y: 8 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <Canvas
-                camera={{ position: [0, 0.12, 3.22], fov: 30 }}
-                gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
-                dpr={[1, 1.35]}
-                frameloop="always"
-                className="h-full w-full"
-                style={{ pointerEvents: "none" }}
-              >
-                <ambientLight intensity={0.45} />
-                <hemisphereLight
-                  args={["#ffffff", "#1a2a3a", 0.55]}
-                  position={[0, 1, 0]}
+        {!showCanvas ? (
+          <div className="flex h-full w-full items-center justify-center">
+            <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D]/80 border-t-transparent" />
+          </div>
+        ) : (
+          <Canvas
+            camera={{ position: [0, 0.12, 3.22], fov: 30 }}
+            gl={{
+              antialias: true,
+              alpha: true,
+              powerPreference: "high-performance",
+            }}
+            dpr={[1, 1.25]}
+            frameloop="always"
+            className="h-full w-full"
+            style={{ pointerEvents: "none" }}
+          >
+            <SceneLights />
+            <Suspense fallback={<Loader />}>
+              <Bounds fit margin={1.05}>
+                <PhoneModel
+                  rotationY={rotationY}
+                  targetRotationY={targetRotationY}
+                  isDragging={isDragging}
                 />
-                <directionalLight
-                  position={[3, 8, 6]}
-                  intensity={0.95}
-                  color="#ffffff"
-                />
-                <directionalLight
-                  position={[-4, 2, 3]}
-                  intensity={0.25}
-                  color="#93c5fd"
-                />
-                <pointLight
-                  position={[-2.5, 1, 4]}
-                  intensity={0.65}
-                  color="#C79D6D"
-                />
-
-                <Suspense fallback={<Loader />}>
-                  <Bounds fit margin={1.05}>
-                    <PhoneModel
-                      rotationY={rotationY}
-                      targetRotationY={targetRotationY}
-                      isDragging={isDragging}
-                    />
-                  </Bounds>
-                  <ContactShadows
-                    position={[0, -1.08, 0]}
-                    opacity={0.45}
-                    scale={4.5}
-                    blur={2.2}
-                    far={1.8}
-                    color="#0ea5e9"
-                  />
-                </Suspense>
-              </Canvas>
-            </motion.div>
-          ) : (
-            spinner
-          )}
-        </AnimatePresence>
+              </Bounds>
+            </Suspense>
+          </Canvas>
+        )}
       </div>
     </div>
   );

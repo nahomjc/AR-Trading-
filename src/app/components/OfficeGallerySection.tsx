@@ -238,15 +238,15 @@ export default function OfficeGallerySection() {
           </p>
           <h2 className="shear-gallery-title text-2xl font-bold sm:text-3xl lg:text-4xl">
             <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
-              Office Photo{" "}
+              Our Visual{" "}
             </span>
             <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
-              Scroll
+              Diary
             </span>
           </h2>
-          <p className="mt-4 text-sm text-gray-400 sm:text-base">
-            Explore our workspace in 3D — shear-angle perspective with floor
-            reflections.
+          <p className="mt-4 text-sm leading-relaxed text-gray-400 sm:text-base">
+            Step inside Addis Reality — the workspace, studio, and creative
+            energy behind every campaign we deliver.
           </p>
         </div>
 

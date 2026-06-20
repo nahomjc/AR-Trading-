@@ -1,7 +1,6 @@
 ﻿"use client";
 
 import { useState, useEffect, useCallback } from "react";
-import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   IconTarget,
@@ -12,15 +11,8 @@ import {
   IconHeartHandshake,
   IconTrendingUp,
 } from "@tabler/icons-react";
-
-const AboutModel3D = dynamic(() => import("./AboutModel3D"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex aspect-square min-h-[280px] w-full items-center justify-center sm:min-h-[360px] lg:min-h-[400px]">
-      <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#C79D6D] border-t-transparent" />
-    </div>
-  ),
-});
+import AboutModel3D from "./AboutModel3D";
+import { preloadAboutModelAssets } from "../lib/aboutModelAssets";
 
 const ROTATE_MS = 6000;
 
@@ -79,6 +71,10 @@ const values = [
 ];
 
 const WhoWeAreSection = () => {
+  useEffect(() => {
+    preloadAboutModelAssets();
+  }, []);
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [isMobile, setIsMobile] = useState(false);

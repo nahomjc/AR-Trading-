@@ -7,6 +7,8 @@ import DockNavigation from "./components/DockNavigation";
 import HeroSection from "./components/HeroSection";
 import Footer from "./components/Footer";
 import LazyMount from "./components/LazyMount";
+import { preloadPhoneModelAssets } from "./lib/phoneModelAssets";
+import { preloadAboutModelAssets } from "./lib/aboutModelAssets";
 import { ChatBotProvider } from "./components/ChatBot";
 
 const ServicesSection = dynamic(() => import("./components/ServicesSection"), {
@@ -98,6 +100,24 @@ export default function HomePageClient({ children }: HomePageClientProps) {
     };
   }, []);
 
+  useEffect(() => {
+    // About section is right below hero — start the 15MB GLB download early
+    const earlyAbout = window.setTimeout(preloadAboutModelAssets, 400);
+
+    const warmupPhone = () => {
+      preloadPhoneModelAssets();
+      void import("./components/PhoneMarketingSection");
+    };
+
+    window.addEventListener("introComplete", warmupPhone);
+    const fallback = window.setTimeout(warmupPhone, 2800);
+    return () => {
+      window.clearTimeout(earlyAbout);
+      window.removeEventListener("introComplete", warmupPhone);
+      window.clearTimeout(fallback);
+    };
+  }, []);
+
   return (
     <ChatBotProvider>
       <div
@@ -115,7 +135,7 @@ export default function HomePageClient({ children }: HomePageClientProps) {
           <LazyMount minHeight="500px" anchorId="services">
             <ServicesSection />
           </LazyMount>
-          <LazyMount minHeight="620px">
+          <LazyMount minHeight="620px" rootMargin="550px 0px">
             <PhoneMarketingSection />
           </LazyMount>
           <LazyMount minHeight="300px">
