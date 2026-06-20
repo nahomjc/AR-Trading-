@@ -142,6 +142,8 @@ export default function AboutModel3D() {
   const [contextLost, setContextLost] = useState(false);
   const [loadTimedOut, setLoadTimedOut] = useState(false);
   const [modelReady, setModelReady] = useState(false);
+  const [canvasKey, setCanvasKey] = useState(0);
+  const hasEverLoadedRef = useRef(false);
   const rotationY = useRef(0);
   const isDragging = useRef(false);
   const lastPointerX = useRef(0);
@@ -154,17 +156,21 @@ export default function AboutModel3D() {
   );
 
   const handleModelReady = useCallback(() => {
+    hasEverLoadedRef.current = true;
     setModelReady(true);
     setLoadTimedOut(false);
+    setContextLost(false);
   }, []);
 
   useEffect(() => {
-    if (!visible || modelReady) return;
+    if (!visible || modelReady || hasEverLoadedRef.current) return;
 
     preloadAboutModelAssets();
 
     const timer = window.setTimeout(() => {
-      setLoadTimedOut(true);
+      if (!hasEverLoadedRef.current) {
+        setLoadTimedOut(true);
+      }
     }, LOAD_TIMEOUT_MS);
 
     return () => window.clearTimeout(timer);
@@ -200,8 +206,7 @@ export default function AboutModel3D() {
   const showFallback =
     !profile ||
     !profile.supported ||
-    contextLost ||
-    loadTimedOut;
+    ((contextLost || loadTimedOut) && !hasEverLoadedRef.current);
 
   const fallback = (
     <Model3DFallback
@@ -237,8 +242,8 @@ export default function AboutModel3D() {
               </div>
             )}
 
-            {visible && (
-              <Canvas
+            <Canvas
+                key={canvasKey}
                 camera={{ position: [0, 0.35, 4.2], fov: 42 }}
                 gl={{
                   antialias: profile.antialias,
@@ -255,9 +260,20 @@ export default function AboutModel3D() {
                   const canvas = gl.domElement;
                   const onLost = (event: Event) => {
                     event.preventDefault();
-                    setContextLost(true);
+                    if (hasEverLoadedRef.current) {
+                      setModelReady(false);
+                      window.setTimeout(() => {
+                        setCanvasKey((key) => key + 1);
+                      }, 100);
+                    } else {
+                      setContextLost(true);
+                    }
+                  };
+                  const onRestored = () => {
+                    setContextLost(false);
                   };
                   canvas.addEventListener("webglcontextlost", onLost, false);
+                  canvas.addEventListener("webglcontextrestored", onRestored, false);
                 }}
               >
                 <SceneLights />
@@ -272,7 +288,6 @@ export default function AboutModel3D() {
                   </Bounds>
                 </Suspense>
               </Canvas>
-            )}
           </div>
         </Model3DErrorBoundary>
       )}

@@ -60,7 +60,17 @@ function buildLoopTrack(
     }),
   ).flat();
 
-  return [...half, ...half];
+  const withSegment = (segment: "a" | "b") =>
+    half.map((item, index) => {
+      if (isValidElement(item)) {
+        return cloneElement(item as ReactElement<{ key?: string }>, {
+          key: `${String(item.key ?? index)}-${segment}`,
+        });
+      }
+      return item;
+    });
+
+  return [...withSegment("a"), ...withSegment("b")];
 }
 
 export default function HorizontalScrollRow({

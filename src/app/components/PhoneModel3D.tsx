@@ -276,6 +276,8 @@ export function PhoneModel3D({
   const [contextLost, setContextLost] = useState(false);
   const [loadTimedOut, setLoadTimedOut] = useState(false);
   const [modelReady, setModelReady] = useState(false);
+  const [canvasKey, setCanvasKey] = useState(0);
+  const hasEverLoadedRef = useRef(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const rotationY = useRef(FRONT_FACING_Y);
   const targetRotationY = useRef(FRONT_FACING_Y);
@@ -294,15 +296,19 @@ export function PhoneModel3D({
   );
 
   const handleModelReady = useCallback(() => {
+    hasEverLoadedRef.current = true;
     setModelReady(true);
     setLoadTimedOut(false);
+    setContextLost(false);
   }, []);
 
   useEffect(() => {
-    if (!visible || modelReady) return;
+    if (!visible || modelReady || hasEverLoadedRef.current) return;
 
     const timer = window.setTimeout(() => {
-      setLoadTimedOut(true);
+      if (!hasEverLoadedRef.current) {
+        setLoadTimedOut(true);
+      }
     }, LOAD_TIMEOUT_MS);
 
     return () => window.clearTimeout(timer);
@@ -365,8 +371,7 @@ export function PhoneModel3D({
   const showFallback =
     !profile ||
     !profile.supported ||
-    contextLost ||
-    loadTimedOut;
+    ((contextLost || loadTimedOut) && !hasEverLoadedRef.current);
 
   const fallback = (
     <Model3DFallback
@@ -404,8 +409,8 @@ export function PhoneModel3D({
                 </div>
               )}
 
-              {visible && (
-                <Canvas
+              <Canvas
+                  key={canvasKey}
                   camera={{ position: [0, 0.12, 3.22], fov: 30 }}
                   gl={{
                     antialias: profile.antialias,
@@ -424,9 +429,24 @@ export function PhoneModel3D({
                     const canvas = gl.domElement;
                     const onLost = (event: Event) => {
                       event.preventDefault();
-                      setContextLost(true);
+                      if (hasEverLoadedRef.current) {
+                        setModelReady(false);
+                        window.setTimeout(() => {
+                          setCanvasKey((key) => key + 1);
+                        }, 100);
+                      } else {
+                        setContextLost(true);
+                      }
+                    };
+                    const onRestored = () => {
+                      setContextLost(false);
                     };
                     canvas.addEventListener("webglcontextlost", onLost, false);
+                    canvas.addEventListener(
+                      "webglcontextrestored",
+                      onRestored,
+                      false,
+                    );
                   }}
                 >
                   <SceneLights />
@@ -441,7 +461,6 @@ export function PhoneModel3D({
                     </Bounds>
                   </Suspense>
                 </Canvas>
-              )}
             </div>
           </Model3DErrorBoundary>
         )}
