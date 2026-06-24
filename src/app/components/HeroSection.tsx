@@ -18,8 +18,12 @@ import {
   IconWorld,
   IconSpeakerphone,
   IconTrendingUp,
+  IconBrandFacebook,
+  IconBrandInstagram,
+  IconBrandTiktok,
 } from "@tabler/icons-react";
 import { scrollToSectionId } from "./LazyMount";
+import { siteConfig } from "@/lib/seo";
 
 const NAV_OFFSET = 80;
 
@@ -30,6 +34,24 @@ const trustItems = [
 ];
 
 const spring = { type: "spring", stiffness: 90, damping: 22 } as const;
+
+const heroSocialLinks = [
+  {
+    icon: IconBrandFacebook,
+    href: siteConfig.social.facebook,
+    label: "Facebook",
+  },
+  {
+    icon: IconBrandInstagram,
+    href: siteConfig.social.instagram,
+    label: "Instagram",
+  },
+  {
+    icon: IconBrandTiktok,
+    href: siteConfig.social.tiktok,
+    label: "TikTok",
+  },
+] as const;
 
 const floatingIcons = [
   {
@@ -462,6 +484,54 @@ const HeroSection = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#08243A]/40 to-[#08243A]" />
       </div>
+
+      {/* Vertical social rail — far right */}
+      <motion.aside
+        className="absolute right-3 top-1/2 z-30 hidden -translate-y-1/2 flex-col items-center gap-3 sm:flex md:right-5 lg:right-8"
+        initial={{ opacity: 0, x: prefersReducedMotion ? 0 : 16 }}
+        animate={
+          ready
+            ? { opacity: 1, x: 0 }
+            : { opacity: 0, x: prefersReducedMotion ? 0 : 16 }
+        }
+        transition={{ ...spring, delay: prefersReducedMotion ? 0 : 0.5 }}
+        aria-label="Social media links"
+      >
+        <span
+          className="mb-1 text-[10px] font-medium uppercase tracking-[0.2em] text-gray-500 [writing-mode:vertical-rl] rotate-180"
+          aria-hidden
+        >
+          Follow
+        </span>
+        <div className="h-8 w-px bg-gradient-to-b from-transparent via-[#C79D6D]/50 to-transparent" />
+        {heroSocialLinks.map((social, index) => {
+          const Icon = social.icon;
+          return (
+            <motion.a
+              key={social.label}
+              href={social.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-[#C79D6D]/35 bg-[#08243A]/70 text-[#C79D6D] shadow-lg shadow-black/20 backdrop-blur-md transition-colors hover:border-[#C79D6D]/60 hover:bg-[#C79D6D]/15 hover:text-[#e8c9a8]"
+              initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
+              animate={
+                ready
+                  ? { opacity: 1, y: 0 }
+                  : { opacity: 0, y: prefersReducedMotion ? 0 : 12 }
+              }
+              transition={{
+                ...spring,
+                delay: prefersReducedMotion ? 0 : 0.55 + index * 0.08,
+              }}
+              whileHover={prefersReducedMotion ? undefined : { scale: 1.08 }}
+              whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+            >
+              <Icon className="h-[18px] w-[18px]" stroke={1.5} />
+            </motion.a>
+          );
+        })}
+      </motion.aside>
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14 xl:gap-20">
