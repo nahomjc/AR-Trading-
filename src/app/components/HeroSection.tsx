@@ -19,6 +19,8 @@ import {
   IconSpeakerphone,
   IconTrendingUp,
 } from "@tabler/icons-react";
+import { scrollToSectionId } from "./LazyMount";
+
 const NAV_OFFSET = 80;
 
 const trustItems = [
@@ -266,7 +268,7 @@ function TypewriterHeadline({
     return (
       <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
         <span className="sr-only">
-          Addis Reality — digital marketing in Ethiopia, Addis Ababa&apos;s #1
+          Addis Reality, digital marketing in Ethiopia, Addis Ababa&apos;s #1
           agency for advertising, branding, and web development
         </span>
         {staticHeadlineLines.map((line) => (
@@ -352,7 +354,7 @@ function TypewriterHeadline({
   return (
     <h1 className="hero-headline font-outfit text-[clamp(2.4rem,6vw,4.5rem)] font-bold leading-[1.05] tracking-tight">
       <span className="sr-only">
-        Addis Reality — digital marketing in Ethiopia, Addis Ababa&apos;s #1
+        Addis Reality, digital marketing in Ethiopia, Addis Ababa&apos;s #1
         agency for advertising, branding, and web development
       </span>
       {staticHeadlineLines.map((line, li) => renderStaticLine(line, li))}
@@ -419,12 +421,7 @@ const HeroSection = () => {
   }, []);
 
   const scrollTo = useCallback((id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    window.scrollTo({
-      top: Math.max(0, el.offsetTop - NAV_OFFSET),
-      behavior: "smooth",
-    });
+    scrollToSectionId(id, "smooth", NAV_OFFSET);
   }, []);
 
   const fadeUp: Variants = {
@@ -500,7 +497,7 @@ const HeroSection = () => {
               className="hero-subtitle mt-6 max-w-lg text-base leading-relaxed text-gray-400 sm:text-lg"
             >
               Full-service digital marketing, advertising, branding, and media
-              production in Addis Ababa — built to help Ethiopian businesses
+              production in Addis Ababa, built to help Ethiopian businesses
               rank on Google, grow online, and stand out.
             </motion.p>
 

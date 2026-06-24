@@ -304,7 +304,7 @@ export default function OfficeGallerySection() {
             </span>
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-gray-400 sm:text-base">
-            Step inside Addis Reality — the workspace, studio, and creative
+            Step inside Addis Reality, the workspace, studio, and creative
             energy behind every campaign we deliver.
           </p>
         </div>

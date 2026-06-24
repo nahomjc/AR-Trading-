@@ -61,7 +61,7 @@ const capabilities = [
   {
     icon: IconBrandInstagram,
     title: "Social Media",
-    desc: "Instagram, TikTok, Facebook & LinkedIn — content that stops the scroll.",
+    desc: "Instagram, TikTok, Facebook & LinkedIn: content that stops the scroll.",
   },
   {
     icon: IconAd,
@@ -196,7 +196,7 @@ function IOSNotification({
       </div>
       <p className={`text-[14px] leading-snug sm:text-[15px] ${muted ? "text-gray-600" : "text-gray-900"}`}>
         <span className="font-semibold">{feature.label}</span>
-        <span className="font-normal"> — {feature.desc}</span>
+        <span className="font-normal">: {feature.desc}</span>
       </p>
     </div>
   );
@@ -487,7 +487,7 @@ export default function DigitalMarketingPageContent() {
               </span>
             </h2>
             <p className="mt-4 text-gray-400">
-              Every channel your brand needs — strategy, content, ads, and analytics
+              Every channel your brand needs: strategy, content, ads, and analytics
               in one integrated engine.
             </p>
           </div>
@@ -593,7 +593,7 @@ export default function DigitalMarketingPageContent() {
             >
               <h3 className="mb-2 text-xl font-semibold text-white">Cities We Serve</h3>
               <p className="mb-6 text-sm text-gray-400">
-                Local expertise with national reach — from Addis Ababa to every major
+                Local expertise with national reach, from Addis Ababa to every major
                 market in Ethiopia.
               </p>
               <ul className="flex flex-wrap gap-2">
@@ -756,7 +756,7 @@ export default function DigitalMarketingPageContent() {
               Ready to grow in Ethiopia?
             </h2>
             <p className="mx-auto mt-4 max-w-md text-gray-400">
-              Let {name} build your SEO, social, and paid media engine — starting
+              Let {name} build your SEO, social, and paid media engine, starting
               with a free strategy call.
             </p>
             <a

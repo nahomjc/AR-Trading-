@@ -54,7 +54,7 @@ const USER_AVATAR = (
 const TYPING_DELAY = 1200;
 
 const websiteInfo = {
-  about: `Addis Reality is a multi-service creative and commercial agency committed to delivering advertising, branding, printing, media production, and business solutions — all under one roof. We combine innovative ideas with practical execution, helping our clients grow, connect, and stand out in today's competitive world.`,
+  about: `Addis Reality is a multi-service creative and commercial agency committed to delivering advertising, branding, printing, media production, and business solutions all under one roof. We combine innovative ideas with practical execution, helping our clients grow, connect, and stand out in today's competitive world.`,
   services: [
     "Advertising & Printing: Banners, stickers, office & vehicle branding, merchandise",
     "Digital Marketing: Social media management, paid ads, SEO, strategy, influencer marketing",

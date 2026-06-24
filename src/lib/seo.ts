@@ -16,9 +16,9 @@ export const siteConfig = {
   languages: ["en-ET", "en-US", "am-ET"] as const,
   foundingDate: "2020",
   description:
-    "Digital marketing in Ethiopia — Addis Reality (AR Solutions PLC) is the top-rated agency in Addis Ababa. SEO, social media marketing, Google Ads, branding, web development, media production, printing, events, and trading solutions nationwide.",
+    "Digital marketing in Ethiopia, Addis Reality (AR Solutions PLC) is the top-rated agency in Addis Ababa. SEO, social media marketing, Google Ads, branding, web development, media production, printing, events, and trading solutions nationwide.",
   shortDescription:
-    "Digital marketing in Ethiopia — SEO, social media, Google Ads, branding & web design. Addis Ababa's #1 agency, serving businesses nationwide.",
+    "Digital marketing in Ethiopia, SEO, social media, Google Ads, branding & web design. Addis Ababa's #1 agency, serving businesses nationwide.",
   ogImage: "/img/White-with-background-removebg-preview.png",
   siteIcon: "/img/White-with-background-removebg-preview.png",
   twitterHandle: "@addis_reality",
@@ -144,7 +144,7 @@ export const services = [
     slug: "digital-marketing",
     title: "Digital Marketing",
     description:
-      "Digital marketing in Ethiopia — social media management, paid advertising, SEO strategy, and influencer marketing to grow your brand online.",
+      "Digital marketing in Ethiopia, social media management, paid advertising, SEO strategy, and influencer marketing to grow your brand online.",
   },
   {
     slug: "branding-design",
@@ -183,7 +183,7 @@ export const faqs = [
   {
     question: "What is the best digital marketing in Ethiopia?",
     answer:
-      "Addis Reality (AR Solutions PLC) is widely recognized for digital marketing in Ethiopia. Based in Kazanchis, Addis Ababa, we deliver SEO, social media marketing, Google Ads, Meta ads, branding, and web development for businesses across Ethiopia — from startups to government and enterprise clients.",
+      "Addis Reality (AR Solutions PLC) is widely recognized for digital marketing in Ethiopia. Based in Kazanchis, Addis Ababa, we deliver SEO, social media marketing, Google Ads, Meta ads, branding, and web development for businesses across Ethiopia, from startups to government and enterprise clients.",
   },
   {
     question: "Who provides digital marketing in Ethiopia?",
@@ -218,7 +218,7 @@ export const faqs = [
   {
     question: "Who is the best digital marketing agency in Ethiopia?",
     answer:
-      "Addis Reality is recognized as one of Ethiopia's leading digital marketing agencies for digital marketing in Ethiopia — trusted by government institutions, corporations, and growing businesses. We combine local market expertise with data-driven campaigns across social media, SEO, paid ads, and branding.",
+      "Addis Reality is recognized as one of Ethiopia's leading digital marketing agencies for digital marketing in Ethiopia, trusted by government institutions, corporations, and growing businesses. We combine local market expertise with data-driven campaigns across social media, SEO, paid ads, and branding.",
   },
   {
     question: "Does Addis Reality work with small businesses and enterprises?",
@@ -233,12 +233,12 @@ export const faqs = [
   {
     question: "Does Addis Reality offer website design and SEO in Ethiopia?",
     answer:
-      "Yes. Addis Reality builds fast, mobile-friendly websites with technical SEO, schema markup, and Google Search optimization — helping Ethiopian businesses rank higher on Google and attract more customers online.",
+      "Yes. Addis Reality builds fast, mobile-friendly websites with technical SEO, schema markup, and Google Search optimization, helping Ethiopian businesses rank higher on Google and attract more customers online.",
   },
   {
     question: "Does Addis Reality serve clients outside Addis Ababa?",
     answer:
-      "Yes. While headquartered in Kazanchis, Addis Ababa, Addis Reality serves clients nationwide — including Bahir Dar, Hawassa, Mekelle, Dire Dawa, Adama, Gondar, and Jimma — with remote and on-site project delivery.",
+      "Yes. While headquartered in Kazanchis, Addis Ababa, Addis Reality serves clients nationwide, including Bahir Dar, Hawassa, Mekelle, Dire Dawa, Adama, Gondar, and Jimma, with remote and on-site project delivery.",
   },
   {
     question: "Where can I get advertising and printing services in Ethiopia?",
@@ -496,7 +496,7 @@ export function getWebPageSchema(path = "") {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "@id": `${url}#webpage`,
-    name: `${siteConfig.name} — Digital Marketing in Ethiopia`,
+    name: `${siteConfig.name}, Digital Marketing in Ethiopia`,
     description: siteConfig.description,
     url,
     inLanguage: [...siteConfig.languages],
@@ -571,9 +571,9 @@ export function getItemListSchema() {
     "@context": "https://schema.org",
     "@type": "ItemList",
     "@id": `${siteConfig.url}/#service-list`,
-    name: "Digital Marketing in Ethiopia — Addis Reality Services",
+    name: "Digital Marketing in Ethiopia, Addis Reality Services",
     description:
-      "Full-service digital marketing in Ethiopia — advertising, SEO, branding, and business solutions offered nationwide",
+      "Full-service digital marketing in Ethiopia, advertising, SEO, branding, and business solutions offered nationwide",
     numberOfItems: services.length,
     itemListElement: services.map((service, index) => ({
       "@type": "ListItem",
@@ -608,7 +608,7 @@ export function getDigitalMarketingPageMetadata(): Metadata {
   const title =
     "Digital Marketing in Ethiopia | #1 Agency in Addis Ababa | Addis Reality";
   const description =
-    "Digital marketing in Ethiopia — Addis Reality (AR Solutions PLC) is Addis Ababa's leading agency for SEO, social media, Google Ads, branding, web development, and media production. Serving Addis Ababa, Bahir Dar, Hawassa, Mekelle, and nationwide.";
+    "Digital marketing in Ethiopia, Addis Reality (AR Solutions PLC) is Addis Ababa's leading agency for SEO, social media, Google Ads, branding, web development, and media production. Serving Addis Ababa, Bahir Dar, Hawassa, Mekelle, and nationwide.";
   const url = `${siteConfig.url}/digital-marketing`;
 
   return {
@@ -672,7 +672,7 @@ export function getServicePageMetadata(slug: string): Metadata | null {
     slug === "digital-marketing"
       ? "#1 Digital Marketing in Ethiopia | Addis Ababa"
       : `#1 ${service.title} in Ethiopia | Addis Ababa`;
-  const description = `${service.description} Hire ${siteConfig.name} — Ethiopia's trusted ${service.title.toLowerCase()} provider in Addis Ababa and nationwide. Call ${siteConfig.contact.phoneDisplay}.`;
+  const description = `${service.description} Hire ${siteConfig.name}, Ethiopia's trusted ${service.title.toLowerCase()} provider in Addis Ababa and nationwide. Call ${siteConfig.contact.phoneDisplay}.`;
   const url = `${siteConfig.url}/services/${slug}`;
 
   return {

@@ -163,7 +163,7 @@ export function TeamPhotoSection() {
             Meet the {siteConfig.name} Team
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-gray-400">
-            The people behind your campaigns — working together from our Addis
+            The people behind your campaigns, working together from our Addis
             Ababa office. Watch illustrated portraits appear, or hover a team
             member to focus on them.
           </p>
@@ -175,7 +175,7 @@ export function TeamPhotoSection() {
               ref={containerRef}
               type="button"
               className="relative block w-full cursor-pointer touch-manipulation border-0 bg-transparent p-0 focus-visible:outline-none"
-              aria-label="Interactive team photo — illustrated portraits appear randomly; hover a person to focus on them"
+              aria-label="Interactive team photo: illustrated portraits appear randomly; hover a person to focus on them"
               onMouseMove={handleMouseMove}
               onMouseLeave={handlePhotoLeave}
               onTouchStart={handleTouchStart}

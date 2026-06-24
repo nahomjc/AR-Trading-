@@ -27,14 +27,14 @@ const Footer = () => {
             <motion.div className="mb-4" whileHover={{ scale: 1.05 }}>
               <Image
                 src="/img/White-with-background-removebg-preview.png"
-                alt={`${siteConfig.name} — #1 digital marketing agency in Ethiopia, Addis Ababa`}
+                alt={`${siteConfig.name}, #1 digital marketing agency in Ethiopia, Addis Ababa`}
                 width={150}
                 height={60}
                 className="h-28 w-auto"
               />
             </motion.div>
             <p className="text-gray-300 mb-4 max-w-md">
-              {siteConfig.name} (AR Solutions PLC) — Ethiopia&apos;s leading
+              {siteConfig.name} (AR Solutions PLC), Ethiopia&apos;s leading
               digital marketing, branding, and advertising agency in Addis Ababa.
             </p>
             <address className="not-italic text-gray-400 text-sm space-y-1 mb-4">

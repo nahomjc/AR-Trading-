@@ -16,11 +16,11 @@ export function FaqSection() {
             id="faq-heading"
             className="text-3xl sm:text-5xl font-bold font-outfit text-[#C79D6D] mb-4"
           >
-            Digital Marketing in Ethiopia — FAQ
+            Digital Marketing in Ethiopia FAQ
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
             Everything you need to know about digital marketing in Ethiopia with{" "}
-            {siteConfig.name} — Addis Ababa&apos;s trusted partner for branding
+            {siteConfig.name}, Addis Ababa&apos;s trusted partner for branding
             and business growth.
           </p>
         </div>

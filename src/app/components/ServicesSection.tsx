@@ -105,7 +105,7 @@ const services: Service[] = [
     id: "events",
     title: "Event Planning",
     description:
-      "Memorable brand experiences — from corporate gatherings to product launches and exhibitions.",
+      "Memorable brand experiences, from corporate gatherings to product launches and exhibitions.",
     icon: IconCalendarEvent,
     features: [
       "Corporate Events",
@@ -343,7 +343,7 @@ const ServicesSection = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             viewport={{ once: true }}
           >
-            Explore our full range of creative and digital solutions — designed
+            Explore our full range of creative and digital solutions, designed
             to grow your business and help your brand stand out.
           </motion.p>
         </motion.div>

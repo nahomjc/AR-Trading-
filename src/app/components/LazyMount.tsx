@@ -14,6 +14,47 @@ type LazyMountProps = {
 
 export const DOCK_NAVIGATE_EVENT = "dock:navigate";
 
+const SCROLL_RETRY_MS = 50;
+const SCROLL_MAX_RETRIES = 40;
+
+export function scrollToSectionId(
+  id: string,
+  behavior: ScrollBehavior = "smooth",
+  offset = 80,
+) {
+  window.dispatchEvent(
+    new CustomEvent(DOCK_NAVIGATE_EVENT, { detail: { id } }),
+  );
+
+  const scrollToElement = (el: HTMLElement) => {
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top: Math.max(0, top), behavior });
+  };
+
+  const attempt = (tries: number) => {
+    const target = document.getElementById(id);
+    if (target) {
+      scrollToElement(target);
+      return;
+    }
+
+    if (tries === 0) {
+      const placeholder = document.querySelector<HTMLElement>(
+        `[data-dock-anchor="${id}"]`,
+      );
+      if (placeholder) {
+        scrollToElement(placeholder);
+      }
+    }
+
+    if (tries < SCROLL_MAX_RETRIES) {
+      window.setTimeout(() => attempt(tries + 1), SCROLL_RETRY_MS);
+    }
+  };
+
+  attempt(0);
+}
+
 export default function LazyMount({
   children,
   className = "",

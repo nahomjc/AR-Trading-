@@ -89,7 +89,7 @@ function IOSNotification({
         }`}
       >
         <span className="font-semibold">{feature.label}</span>
-        <span className="font-normal"> — {feature.desc}</span>
+        <span className="font-normal">: {feature.desc}</span>
       </p>
     </div>
   );
@@ -258,7 +258,7 @@ export default function PhoneMarketingSection() {
             </span>
           </h2>
           <p className="mx-auto max-w-2xl text-base text-gray-400 sm:text-lg">
-            Everything your brand needs to grow — strategy, content, ads, and
+            Everything your brand needs to grow: strategy, content, ads, and
             analytics in one powerful experience.
           </p>
         </motion.div>

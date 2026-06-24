@@ -22,21 +22,21 @@ const pillars = [
     label: "Mission",
     title: "Our Mission",
     icon: IconTarget,
-    text: "To lead Ethiopia's digital transformation by delivering creative, practical, and measurable marketing solutions for every business size — from startups to established brands.",
+    text: "To lead Ethiopia's digital transformation by delivering creative, practical, and measurable marketing solutions for every business size, from startups to established brands.",
   },
   {
     id: "vision",
     label: "Vision",
     title: "Our Vision",
     icon: IconEye,
-    text: "To be the most trusted creative and commercial partner in East Africa — setting the standard for innovation, quality, and results-driven brand experiences.",
+    text: "To be the most trusted creative and commercial partner in East Africa, setting the standard for innovation, quality, and results-driven brand experiences.",
   },
   {
     id: "purpose",
     label: "Purpose",
     title: "Our Purpose",
     icon: IconBulb,
-    text: "We exist to elevate Ethiopian brands with strategy, creativity, and heart. Whether you're launching a new brand or refreshing your digital presence, we design solutions that align with your goals — and exceed expectations.",
+    text: "We exist to elevate Ethiopian brands with strategy, creativity, and heart. Whether you're launching a new brand or refreshing your digital presence, we design solutions that align with your goals and exceed expectations.",
   },
 ];
 
@@ -52,7 +52,7 @@ const values = [
     icon: IconAward,
     title: "Excellence",
     abbr: "EXC",
-    text: "Every deliverable meets the highest standard of craft, detail, and care — from concept to final delivery.",
+    text: "Every deliverable meets the highest standard of craft, detail, and care, from concept to final delivery.",
     href: "#services",
     gradient: "from-[#C79D6D] via-[#b8894f] to-[#8b6914]",
     accent: "#C79D6D",
@@ -61,7 +61,7 @@ const values = [
     icon: IconRocket,
     title: "Innovation",
     abbr: "INN",
-    text: "We don't follow trends — we create bold experiences, fresh ideas, and digital solutions that stand out.",
+    text: "We don't follow trends. We create bold experiences, fresh ideas, and digital solutions that stand out.",
     href: "#latest-works",
     gradient: "from-[#38bdf8] via-[#0ea5e9] to-[#0369a1]",
     accent: "#0ea5e9",
@@ -79,7 +79,7 @@ const values = [
     icon: IconHeartHandshake,
     title: "Partnership",
     abbr: "PTR",
-    text: "We grow alongside our clients as a true extension of their team — committed for the long haul.",
+    text: "We grow alongside our clients as a true extension of their team, committed for the long haul.",
     href: "#contact",
     gradient: "from-[#a78bfa] via-[#8b5cf6] to-[#6d28d9]",
     accent: "#8b5cf6",
@@ -261,7 +261,7 @@ function WhatDrivesUsSection() {
           </span>
         </h3>
         <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">
-          Hover a card to bring it forward — excellence, innovation, results, and
+          Hover a card to bring it forward: excellence, innovation, results, and
           partnership at the core of everything we build.
         </p>
       </div>
@@ -414,7 +414,7 @@ const WhoWeAreSection = () => {
           >
             Founded in 2016, Addis Reality is a premier creative and commercial
             agency transforming Ethiopian businesses through strategic innovation
-            and exceptional execution — online and offline.
+            and exceptional execution, online and offline.
           </motion.p>
         </motion.div>
 

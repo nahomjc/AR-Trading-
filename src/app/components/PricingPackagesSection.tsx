@@ -113,7 +113,7 @@ export default function PricingPackagesSection({
   packages,
   onGetStarted,
   title = "Choose Your Path To Success",
-  subtitle = "Select the package that fits your goals. Transparent pricing in Ethiopian Birr — no hidden fees.",
+  subtitle = "Select the package that fits your goals. Transparent pricing in Ethiopian Birr with no hidden fees.",
   showBillingToggle = true,
 }: PricingPackagesSectionProps) {
   const [billing, setBilling] = useState<"monthly" | "yearly">("yearly");
