@@ -566,6 +566,38 @@ section {
 	scroll-margin-top: 8rem !important;
 }
 
+.footer-brand-stage {
+	position: relative;
+	width: 100%;
+	height: clamp(160px, 22vw, 300px);
+	overflow: hidden;
+}
+
+.footer-brand-watermark {
+	position: absolute;
+	left: 50%;
+	bottom: -0.06em;
+	transform: translateX(-50%);
+	font-size: clamp(6rem, 26vw, 22rem);
+	font-weight: 800;
+	line-height: 0.8;
+	letter-spacing: -0.04em;
+	white-space: nowrap;
+	text-transform: lowercase;
+	background: linear-gradient(
+		180deg,
+		#3d8fd4 0%,
+		#6b7fd7 18%,
+		#a78bfa 36%,
+		#c79d6d 58%,
+		#e8d5b5 80%,
+		#faf3e8 100%
+	);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	background-clip: text;
+}
+
 @layer utilities {
 	/* Custom Scrollbar */
 	::-webkit-scrollbar {
