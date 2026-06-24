@@ -1805,3 +1805,41 @@ section {
 		height: calc(var(--shear-slide-h) + 2rem);
 	}
 }
+
+/* Pricing package cards — aligned with site navy + gold theme */
+.pricing-package-card {
+	background: linear-gradient(
+		135deg,
+		rgba(8, 36, 58, 0.45) 0%,
+		rgba(255, 255, 255, 0.06) 50%,
+		rgba(8, 36, 58, 0.35) 100%
+	);
+}
+
+.pricing-package-card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background-image:
+		linear-gradient(rgba(199, 157, 109, 0.04) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(199, 157, 109, 0.04) 1px, transparent 1px);
+	background-size: 24px 24px;
+	pointer-events: none;
+	opacity: 0.5;
+	z-index: 0;
+}
+
+.pricing-package-card--featured {
+	box-shadow:
+		0 0 0 1px rgba(199, 157, 109, 0.2),
+		0 12px 40px rgba(199, 157, 109, 0.12),
+		inset 0 1px 0 rgba(199, 157, 109, 0.15);
+}
+
+.pricing-package-card--featured::before {
+	opacity: 0.7;
+	background-image:
+		linear-gradient(rgba(199, 157, 109, 0.07) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(199, 157, 109, 0.07) 1px, transparent 1px);
+}

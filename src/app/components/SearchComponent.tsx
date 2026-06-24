@@ -1,287 +1,70 @@
 ﻿"use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 import {
   IconSearch,
   IconX,
-  IconArrowUp,
   IconCheck,
   IconBuilding,
   IconWorld,
   IconPhone,
   IconUser,
 } from "@tabler/icons-react";
-import { siteConfig } from "@/lib/seo";
-interface SearchItem {
-  type: string;
-  title: string;
-  description: string;
-  url?: string;
+import {
+  navigateToSearchResult,
+  runSiteSearch,
+  type SearchItem,
+} from "@/app/lib/siteSearch";
+
+type SearchComponentProps = {
+  /** When false, only registers the global opener + modal (no nav buttons). */
+  showNavTrigger?: boolean;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+};
+
+export const SITE_SEARCH_OPEN_EVENT = "site-search-open";
+
+export function openSiteSearch() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent(SITE_SEARCH_OPEN_EVENT));
+  }
 }
 
-const SearchComponent = () => {
+const SearchComponent = ({
+  showNavTrigger = true,
+  open: openProp,
+  onOpenChange,
+}: SearchComponentProps) => {
   const router = useRouter();
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isControlled = openProp !== undefined;
+  const isSearchOpen = isControlled ? openProp : internalOpen;
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<SearchItem[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
+  const [mounted, setMounted] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Search data - all content from the website
-  const searchData = [
-    // Services
-    {
-      type: "service",
-      title: "Advertising & Printing",
-      description: "Banners, stickers, office & vehicle branding, merchandise",
-      url: "/services/advertising-printing",
+  const setSearchOpen = useCallback(
+    (open: boolean) => {
+      if (isControlled) {
+        onOpenChange?.(open);
+      } else {
+        setInternalOpen(open);
+      }
     },
-    {
-      type: "service",
-      title: "Digital Marketing",
-      description:
-        "Social media management, paid ads, SEO, strategy, influencer marketing",
-      url: "/services/digital-marketing",
-    },
-    {
-      type: "service",
-      title: "Branding & Design",
-      description: "Logo, brand identity, strategy, visual content",
-      url: "/services/branding-design",
-    },
-    {
-      type: "service",
-      title: "Media Production",
-      description: "Videography, photography, promotional content",
-      url: "/services/media-production",
-    },
-    {
-      type: "service",
-      title: "Web Development",
-      description: "Website design, development, maintenance, SEO optimization",
-      url: "/services/web-development",
-    },
-    {
-      type: "service",
-      title: "Event Planning",
-      description: "Corporate events, launches, conferences, exhibitions",
-      url: "/services/event-planning",
-    },
-    {
-      type: "service",
-      title: "Training",
-      description: "Corporate, personal development, and media trainings",
-      url: "/services/training",
-    },
-
-    // Features
-    {
-      type: "feature",
-      title: "Banner Design",
-      description:
-        "Custom banners for events, promotions, and outdoor advertising",
-    },
-    {
-      type: "feature",
-      title: "Vehicle Branding",
-      description: "Complete vehicle wrap and decal solutions",
-    },
-    {
-      type: "feature",
-      title: "Social Media Management",
-      description: "Complete social media strategy and content management",
-    },
-    {
-      type: "feature",
-      title: "SEO Strategy",
-      description: "Search engine optimization for better visibility",
-    },
-    {
-      type: "feature",
-      title: "Logo Design",
-      description: "Professional logo design with multiple concepts",
-    },
-    {
-      type: "feature",
-      title: "Videography",
-      description: "Professional video production for various purposes",
-    },
-    {
-      type: "feature",
-      title: "Website Design",
-      description: "Custom website design tailored to your brand",
-    },
-    {
-      type: "feature",
-      title: "Corporate Events",
-      description: "Professional corporate event planning and management",
-    },
-
-    // Company Info
-    {
-      type: "company",
-      title: "Addis Reality",
-      description: "Premier digital marketing and creative agency",
-    },
-    {
-      type: "company",
-      title: "Contact",
-      description: "Get in touch with our team of experts",
-    },
-    {
-      type: "company",
-      title: "About Us",
-      description: "Excellence. Innovation. Results.",
-    },
-    {
-      type: "company",
-      title: "Team",
-      description: "Meet our professional team",
-    },
-    {
-      type: "company",
-      title: "Testimonials",
-      description: "What our clients say about us",
-    },
-    {
-      type: "company",
-      title: "Latest Works",
-      description: "Our portfolio and recent projects",
-    },
-
-    // Contact Info
-    { type: "contact", title: "Phone", description: siteConfig.contact.phoneDisplay },
-    { type: "contact", title: "Email", description: siteConfig.contact.email },
-    {
-      type: "contact",
-      title: "Address",
-      description: siteConfig.contact.fullAddress,
-    },
-
-    // Team Members
-    {
-      type: "employee",
-      title: "Robson Habtamu",
-      description:
-        "General Manager and Co-founder - Strategic leader managing operations and business direction",
-    },
-    {
-      type: "employee",
-      title: "Abenezer Samuel",
-      description:
-        "CEO and co-founder - Strategic leader managing operations and business direction",
-    },
-    {
-      type: "employee",
-      title: "Keneni Melkamu",
-      description:
-        "Digital Marketer - Digital marketing expert specializing in campaigns and SEO",
-    },
-    {
-      type: "employee",
-      title: "Nahom Tesfaye",
-      description:
-        "Senior Software Engineer - Full-stack developer with modern web technology expertise",
-    },
-  ];
-
-  // Search suggestions based on common queries
-  const commonQueries = [
-    "advertising",
-    "printing",
-    "banners",
-    "vehicle branding",
-    "digital marketing",
-    "social media",
-    "SEO",
-    "paid ads",
-    "branding",
-    "logo design",
-    "brand identity",
-    "video production",
-    "photography",
-    "media production",
-    "website design",
-    "web development",
-    "e-commerce",
-    "event planning",
-    "corporate events",
-    "conferences",
-    "training",
-    "corporate training",
-    "media training",
-    "contact",
-    "phone",
-    "email",
-    "address",
-    "about",
-    "team",
-    "testimonials",
-    "testimony",
-    "portfolio",
-    "latest works",
-    "works",
-    "projects",
-    "team",
-    "employees",
-    "staff",
-    "robson",
-    "abenezer",
-    "keneni",
-    "nahom",
-    "ceo",
-    "manager",
-    "engineer",
-    "marketer",
-    "founder",
-  ];
+    [isControlled, onOpenChange],
+  );
 
   const performSearch = (query: string) => {
-    if (!query.trim()) {
-      setSearchResults([]);
-      setSuggestions([]);
-      return;
-    }
-
-    const lowercaseQuery = query.toLowerCase();
-
-    // Find exact matches first
-    const exactMatches = searchData.filter(
-      (item) =>
-        item.title.toLowerCase().includes(lowercaseQuery) ||
-        item.description.toLowerCase().includes(lowercaseQuery) ||
-        // Special case for "testimony" to match "testimonials"
-        (lowercaseQuery === "testimony" &&
-          item.title.toLowerCase().includes("testimonial"))
-    );
-
-    // Find partial matches
-    const partialMatches = searchData.filter(
-      (item) =>
-        item.title
-          .toLowerCase()
-          .split(" ")
-          .some((word) => word.startsWith(lowercaseQuery)) ||
-        item.description
-          .toLowerCase()
-          .split(" ")
-          .some((word) => word.startsWith(lowercaseQuery))
-    );
-
-    // Combine and deduplicate
-    const allMatches = [...new Set([...exactMatches, ...partialMatches])];
-    setSearchResults(allMatches.slice(0, 8));
-
-    // Generate suggestions based on common queries
-    const querySuggestions = commonQueries.filter(
-      (suggestion) =>
-        suggestion.toLowerCase().includes(lowercaseQuery) &&
-        suggestion.toLowerCase() !== lowercaseQuery
-    );
-    setSuggestions(querySuggestions.slice(0, 5));
+    const { results, suggestions: nextSuggestions } = runSiteSearch(query);
+    setSearchResults(results);
+    setSuggestions(nextSuggestions);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -303,27 +86,14 @@ const SearchComponent = () => {
     } else if (e.key === "Enter") {
       e.preventDefault();
       if (selectedIndex >= 0 && selectedIndex < searchResults.length) {
-        const result = searchResults[selectedIndex];
-        if (result.url) {
-          // Close search modal first
-          setIsSearchOpen(false);
-          setSearchQuery("");
-          setSearchResults([]);
-          setSuggestions([]);
-
-          // Navigate using Next.js router
-          router.push(result.url);
-        }
+        handleResultClick(searchResults[selectedIndex]);
       } else if (selectedIndex >= searchResults.length) {
         const suggestion = suggestions[selectedIndex - searchResults.length];
         setSearchQuery(suggestion);
         performSearch(suggestion);
       }
     } else if (e.key === "Escape") {
-      setIsSearchOpen(false);
-      setSearchQuery("");
-      setSearchResults([]);
-      setSuggestions([]);
+      closeSearch();
     }
   };
 
@@ -332,139 +102,41 @@ const SearchComponent = () => {
     performSearch(suggestion);
   };
 
-  const handleResultClick = (result: SearchItem) => {
-    if (result.url) {
-      // Close search modal first
-      setIsSearchOpen(false);
-      setSearchQuery("");
-      setSearchResults([]);
-      setSuggestions([]);
-
-      // Navigate using Next.js router
-      router.push(result.url);
-    } else {
-      // Scroll to section based on result type and title
-      const sectionMap: { [key: string]: string } = {
-        Contact: "contact",
-        "About Us": "about",
-        Team: "team",
-        Testimonials: "testimonials",
-        "Latest Works": "latest-works",
-        "Addis Reality": "home",
-        Phone: "contact",
-        Email: "contact",
-        Address: "contact",
-        // Employee names map to team section
-        "Robson Habtamu": "team",
-        "Abenezer Samuel": "team",
-        "Keneni Melkamu": "team",
-        "Nahom Tesfaye": "team",
-      };
-
-      const sectionId = sectionMap[result.title] || result.type;
-
-      // Close search modal first
-      setIsSearchOpen(false);
-      setSearchQuery("");
-      setSearchResults([]);
-      setSuggestions([]);
-
-      // Scroll to section after a short delay
-      setTimeout(() => {
-        const element = document.getElementById(sectionId);
-        if (element) {
-          const headerHeight = 64; // Account for fixed header
-          const elementPosition = element.offsetTop - headerHeight;
-          window.scrollTo({
-            top: elementPosition,
-            behavior: "smooth",
-          });
-
-          // If it's an employee search, highlight the specific employee
-          if (result.type === "employee") {
-            // Store the employee name in sessionStorage for highlighting
-            sessionStorage.setItem("highlightEmployee", result.title);
-            // Trigger a custom event to notify the team section
-            window.dispatchEvent(
-              new CustomEvent("highlightEmployee", {
-                detail: { employeeName: result.title },
-              })
-            );
-          }
-
-          // If it's a contact search, highlight the specific contact
-          if (result.type === "contact") {
-            // Store the contact type in sessionStorage for highlighting
-            sessionStorage.setItem(
-              "highlightContact",
-              result.title.toLowerCase()
-            );
-            // Trigger a custom event to notify the contact section
-            window.dispatchEvent(
-              new CustomEvent("highlightContact", {
-                detail: { contactType: result.title.toLowerCase() },
-              })
-            );
-          }
-
-          // If it's an about search, highlight the about section
-          if (result.title === "About Us") {
-            // Store the about highlight in sessionStorage
-            sessionStorage.setItem("highlightAbout", "true");
-            // Trigger a custom event to notify the about section
-            window.dispatchEvent(new CustomEvent("highlightAbout"));
-          }
-
-          // If it's a testimonials search, highlight the testimonials section
-          if (result.title === "Testimonials") {
-            // Store the testimonials highlight in sessionStorage
-            sessionStorage.setItem("highlightTestimonials", "true");
-            // Trigger a custom event to notify the testimonials section
-            window.dispatchEvent(new CustomEvent("highlightTestimonials"));
-          }
-
-          // If it's a latest works search, highlight the latest works section
-          if (result.title === "Latest Works") {
-            // Store the latest works highlight in sessionStorage
-            sessionStorage.setItem("highlightLatestWorks", "true");
-            // Trigger a custom event to notify the latest works section
-            window.dispatchEvent(new CustomEvent("highlightLatestWorks"));
-          }
-        }
-      }, 100);
-    }
+  const closeSearch = () => {
+    setSearchOpen(false);
+    setSearchQuery("");
+    setSearchResults([]);
+    setSuggestions([]);
+    setSelectedIndex(-1);
   };
 
-  // Keyboard shortcut for search
+  const handleResultClick = (result: SearchItem) => {
+    closeSearch();
+    navigateToSearchResult(result, router);
+  };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const open = () => setSearchOpen(true);
+    window.addEventListener(SITE_SEARCH_OPEN_EVENT, open);
+    return () => window.removeEventListener(SITE_SEARCH_OPEN_EVENT, open);
+  }, [setSearchOpen]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Debug: log all keydown events to see what's happening
-      console.log(
-        "Key pressed:",
-        e.key,
-        "Ctrl:",
-        e.ctrlKey,
-        "Meta:",
-        e.metaKey
-      );
-
-      // Check for Ctrl+K (Windows/Linux) or Cmd+K (Mac)
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         e.stopPropagation();
-        console.log("Search shortcut triggered!"); // Debug log
-        setIsSearchOpen(true);
-        return false;
+        setSearchOpen(true);
       }
     };
 
-    // Add event listener to window for better reliability
     window.addEventListener("keydown", handleKeyDown, true);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown, true);
-    };
-  }, []);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
+  }, [setSearchOpen]);
 
   // Focus input when search opens
   useEffect(() => {
@@ -478,70 +150,106 @@ const SearchComponent = () => {
 
   return (
     <>
-      {/* Desktop Search Button */}
-      <motion.button
-        onClick={() => setIsSearchOpen(true)}
-        className="hidden md:flex items-center space-x-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-300"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <IconSearch className="w-4 h-4" />
-        <span className="text-sm">Search</span>
-        <kbd className="hidden lg:inline-block px-2 py-1 bg-white/20 rounded text-xs">
-          ⌘K
-        </kbd>
-      </motion.button>
-
-      {/* Mobile Search Button */}
-      <motion.button
-        onClick={() => setIsSearchOpen(true)}
-        className="md:hidden flex items-center justify-center w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-300"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        aria-label="Search"
-      >
-        <IconSearch className="w-5 h-5" />
-      </motion.button>
-
-      {/* Search Modal */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[300] flex items-start justify-center pt-16 sm:pt-20 bg-black/80 backdrop-blur-sm"
-            onClick={() => setIsSearchOpen(false)}
+      {showNavTrigger && (
+        <>
+          {/* Desktop Search Button */}
+          <motion.button
+            onClick={() => setSearchOpen(true)}
+            className="hidden md:flex items-center space-x-2 px-4 py-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
+            <IconSearch className="w-4 h-4" />
+            <span className="text-sm">Search</span>
+            <kbd className="hidden lg:inline-block px-2 py-1 bg-white/20 rounded text-xs">
+              ⌘K
+            </kbd>
+          </motion.button>
+
+          {/* Mobile Search Button */}
+          <motion.button
+            onClick={() => setSearchOpen(true)}
+            className="md:hidden flex items-center justify-center w-10 h-10 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full text-white hover:bg-white/20 transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Search"
+          >
+            <IconSearch className="w-5 h-5" />
+          </motion.button>
+        </>
+      )}
+
+      {/* Search Modal — portaled to body so it isn't clipped by the dock */}
+      {mounted &&
+        createPortal(
+          <AnimatePresence>
+            {isSearchOpen && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="pointer-events-auto fixed inset-0 z-[100000] flex items-center justify-center bg-[#041018]/75 px-4 backdrop-blur-md"
+                onClick={closeSearch}
+              >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: -20 }}
+              initial={{ scale: 0.92, opacity: 0, y: 12 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: -20 }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              className="relative w-full max-w-4xl mx-3 sm:mx-4 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] border border-[#C79D6D]/30 rounded-xl sm:rounded-2xl shadow-2xl overflow-hidden"
+              exit={{ scale: 0.92, opacity: 0, y: 12 }}
+              transition={{ type: "spring", stiffness: 380, damping: 32 }}
+              className="relative w-full max-w-2xl overflow-hidden rounded-2xl border border-white/10 bg-[#08243A]/95 shadow-[0_24px_80px_rgba(0,0,0,0.55),0_0_0_1px_rgba(199,157,109,0.12)] backdrop-blur-2xl"
               onClick={(e) => e.stopPropagation()}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Site search"
             >
-              {/* Search Input */}
-              <div className="relative p-4 sm:p-6 border-b border-white/10">
-                <div className="relative">
-                  <IconSearch className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/60 to-transparent"
+                aria-hidden
+              />
+              <button
+                type="button"
+                onClick={closeSearch}
+                className="absolute right-4 top-4 z-10 rounded-lg p-1.5 text-gray-400 transition-colors hover:bg-white/10 hover:text-white sm:right-5 sm:top-5"
+                aria-label="Close search"
+              >
+                <IconX className="h-4 w-4" />
+              </button>
+              <div className="relative border-b border-white/10 p-5 sm:p-6">
+                <p className="mb-3 text-center text-xs font-semibold uppercase tracking-[0.2em] text-[#C79D6D]/90">
+                  Search Addis Reality
+                </p>
+                <div className="flex items-center gap-3 rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 shadow-inner transition-all focus-within:border-[#C79D6D]/35 focus-within:bg-white/[0.06] sm:px-5 sm:py-3.5">
+                  <IconSearch className="h-5 w-5 shrink-0 text-[#C79D6D]" stroke={1.75} />
                   <input
                     ref={inputRef}
-                    type="text"
+                    type="search"
                     value={searchQuery}
                     onChange={handleSearchChange}
                     onKeyDown={handleKeyDown}
-                    placeholder="Search services, features, or anything..."
-                    className="w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-white/5 border border-white/20 rounded-lg sm:rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C79D6D] focus:border-transparent text-sm sm:text-base"
-                    autoFocus
+                    placeholder="Services, team, contact, and more…"
+                    className="min-w-0 flex-1 border-0 bg-transparent text-sm text-white placeholder-gray-500 outline-none sm:text-base"
+                    autoComplete="off"
+                    aria-label="Search the site"
                   />
-                  <button
-                    onClick={() => setIsSearchOpen(false)}
-                    className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 p-1 text-gray-400 hover:text-white transition-colors"
-                    aria-label="Close search"
-                  >
-                    <IconX className="w-4 h-4 sm:w-5 sm:h-5" />
-                  </button>
+                  {searchQuery ? (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSearchQuery("");
+                        setSearchResults([]);
+                        setSuggestions([]);
+                        setSelectedIndex(-1);
+                      }}
+                      className="shrink-0 text-gray-400 transition-colors hover:text-white"
+                      aria-label="Clear search"
+                    >
+                      <IconX className="h-4 w-4" />
+                    </button>
+                  ) : (
+                    <kbd className="hidden shrink-0 rounded-md border border-white/15 bg-white/10 px-2 py-1 font-sans text-xs text-gray-400 sm:inline-block">
+                      Esc
+                    </kbd>
+                  )}
                 </div>
               </div>
 
@@ -660,18 +368,11 @@ const SearchComponent = () => {
 
                 {/* Default State */}
                 {!searchQuery && (
-                  <div className="p-6 sm:p-8 text-center">
-                    <IconSearch className="w-8 h-8 sm:w-12 sm:h-12 text-[#C79D6D] mx-auto mb-3 sm:mb-4" />
-                    <p className="text-white font-semibold mb-2 text-sm sm:text-base">
-                      Search Addis Reality
+                  <div className="px-5 py-5 sm:px-6 sm:py-6">
+                    <p className="mb-4 text-center text-sm text-gray-400">
+                      Try a service, team member, or contact topic
                     </p>
-                    <p className="text-gray-400 text-xs sm:text-sm">
-                      Find services, features, and information
-                    </p>
-                    <p className="text-gray-500 text-xs mt-2 hidden sm:block">
-                      Press ⌘K or Ctrl+K to search
-                    </p>
-                    <div className="mt-4 sm:mt-6 flex flex-wrap justify-center gap-1 sm:gap-2">
+                    <div className="flex flex-wrap justify-center gap-2">
                       {[
                         "Digital Marketing",
                         "Web Development",
@@ -680,22 +381,31 @@ const SearchComponent = () => {
                       ].map((term) => (
                         <button
                           key={term}
+                          type="button"
                           onClick={() =>
                             handleSuggestionClick(term.toLowerCase())
                           }
-                          className="px-2 sm:px-3 py-1 bg-white/10 text-gray-300 rounded-full text-xs sm:text-sm hover:bg-white/20 transition-colors"
+                          className="rounded-full border border-white/10 bg-white/[0.06] px-3 py-1.5 text-xs text-gray-300 transition-colors hover:border-[#C79D6D]/30 hover:bg-[#C79D6D]/10 sm:text-sm"
                         >
                           {term}
                         </button>
                       ))}
                     </div>
+                    <p className="mt-4 text-center text-xs text-gray-500">
+                      <kbd className="rounded border border-white/15 bg-white/10 px-1.5 py-0.5 font-sans">
+                        ⌘K
+                      </kbd>{" "}
+                      anytime
+                    </p>
                   </div>
                 )}
               </div>
             </motion.div>
           </motion.div>
+            )}
+          </AnimatePresence>,
+          document.body,
         )}
-      </AnimatePresence>
     </>
   );
 };

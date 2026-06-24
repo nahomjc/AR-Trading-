@@ -10,6 +10,7 @@ import {
   IconRocket,
   IconHeartHandshake,
   IconTrendingUp,
+  IconArrowRight,
 } from "@tabler/icons-react";
 import AboutModel3D from "./AboutModel3D";
 
@@ -50,24 +51,253 @@ const values = [
   {
     icon: IconAward,
     title: "Excellence",
-    text: "Every deliverable meets the highest standard of craft and care.",
+    abbr: "EXC",
+    text: "Every deliverable meets the highest standard of craft, detail, and care — from concept to final delivery.",
+    href: "#services",
+    gradient: "from-[#C79D6D] via-[#b8894f] to-[#8b6914]",
+    accent: "#C79D6D",
   },
   {
     icon: IconRocket,
     title: "Innovation",
-    text: "We don't follow trends — we create experiences that stand out.",
+    abbr: "INN",
+    text: "We don't follow trends — we create bold experiences, fresh ideas, and digital solutions that stand out.",
+    href: "#latest-works",
+    gradient: "from-[#38bdf8] via-[#0ea5e9] to-[#0369a1]",
+    accent: "#0ea5e9",
   },
   {
     icon: IconTrendingUp,
     title: "Results",
-    text: "Strategy backed by data, creativity driven by measurable outcomes.",
+    abbr: "RES",
+    text: "Strategy backed by data and creativity driven by measurable outcomes that grow your brand and revenue.",
+    href: "#testimonials",
+    gradient: "from-[#34d399] via-[#10b981] to-[#047857]",
+    accent: "#10b981",
   },
   {
     icon: IconHeartHandshake,
     title: "Partnership",
-    text: "We grow alongside our clients as a true extension of their team.",
+    abbr: "PTR",
+    text: "We grow alongside our clients as a true extension of their team — committed for the long haul.",
+    href: "#contact",
+    gradient: "from-[#a78bfa] via-[#8b5cf6] to-[#6d28d9]",
+    accent: "#8b5cf6",
   },
-];
+] as const;
+
+function ValueFanCard({
+  value,
+  index,
+  total,
+  focusedIndex,
+  onFocus,
+  onBlur,
+}: {
+  value: (typeof values)[number];
+  index: number;
+  total: number;
+  focusedIndex: number | null;
+  onFocus: (index: number) => void;
+  onBlur: () => void;
+}) {
+  const Icon = value.icon;
+  const isFocused = focusedIndex === index;
+  const isAnyFocused = focusedIndex !== null;
+  const center = (total - 1) / 2;
+  const offset = index - center;
+  const baseRotate = offset * 5.5;
+  const baseX = offset * 52;
+  const stackZ = 10 + index;
+
+  return (
+    <motion.a
+      href={value.href}
+      className="group relative block w-[11.5rem] shrink-0 cursor-pointer sm:w-[12.5rem] lg:w-[13.5rem]"
+      style={{
+        zIndex: isFocused ? 40 : stackZ,
+        marginLeft: index === 0 ? 0 : "-3.25rem",
+      }}
+      initial={{ opacity: 0, y: 40, rotate: baseRotate }}
+      whileInView={{ opacity: 1, y: 0, rotate: baseRotate }}
+      viewport={{ once: true, margin: "-40px" }}
+      animate={{
+        opacity: 1,
+        x: isFocused ? baseX : baseX * 0.85,
+        y: isFocused ? -44 : isAnyFocused ? 8 : 0,
+        rotate: isFocused ? 0 : baseRotate,
+        scale: isFocused ? 1.2 : isAnyFocused ? 0.92 : 1,
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 380,
+        damping: 26,
+        delay: index * 0.08,
+      }}
+      onMouseEnter={() => onFocus(index)}
+      onMouseLeave={onBlur}
+      onFocus={() => onFocus(index)}
+      onBlur={onBlur}
+    >
+      <div
+        className={`overflow-hidden rounded-2xl border border-white/15 shadow-[0_18px_45px_rgba(0,0,0,0.35)] transition-shadow duration-300 ${
+          isFocused
+            ? "border-[#C79D6D]/40 shadow-[0_36px_80px_rgba(0,0,0,0.55)] ring-1 ring-[#C79D6D]/25"
+            : ""
+        }`}
+      >
+        {/* Colored top — fan card header */}
+        <div
+          className={`relative h-36 bg-gradient-to-br ${value.gradient} px-4 pb-4 pt-3 sm:h-40`}
+        >
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-white/85">
+            Addis Reality
+          </p>
+          <p className="mt-0.5 text-xs font-bold text-white">{value.title}</p>
+          <Icon
+            className="pointer-events-none absolute bottom-2 right-2 h-20 w-20 text-white/20 sm:h-24 sm:w-24"
+            stroke={1.25}
+          />
+        </div>
+
+        {/* Dark glass bottom — consistent with site UI */}
+        <div className="flex min-h-[9.5rem] flex-col justify-between border-t border-white/10 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] px-4 py-4 backdrop-blur-md">
+          <p className="line-clamp-4 text-[11px] leading-relaxed text-gray-400 sm:text-xs">
+            {value.text}
+          </p>
+          <div className="mt-3 flex items-end justify-between">
+            <span
+              className="bg-gradient-to-r bg-clip-text text-2xl font-black tracking-tight text-transparent sm:text-3xl"
+              style={{
+                backgroundImage: `linear-gradient(to right, ${value.accent}, #e8c9a8)`,
+              }}
+            >
+              {value.abbr}
+            </span>
+            <IconArrowRight
+              className={`h-4 w-4 text-[#C79D6D] transition-all duration-300 ${
+                isFocused ? "translate-x-0.5 opacity-100" : "opacity-50"
+              }`}
+            />
+          </div>
+        </div>
+      </div>
+    </motion.a>
+  );
+}
+
+function ValueMobileCard({
+  value,
+  index,
+}: {
+  value: (typeof values)[number];
+  index: number;
+}) {
+  const Icon = value.icon;
+
+  return (
+    <motion.a
+      href={value.href}
+      className="group flex overflow-hidden rounded-2xl border border-white/15 shadow-lg shadow-black/20"
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.08, duration: 0.5 }}
+      whileHover={{ y: -6, scale: 1.03 }}
+    >
+      <div
+        className={`flex w-24 shrink-0 flex-col items-center justify-center bg-gradient-to-br ${value.gradient} px-3 py-5 sm:w-28`}
+      >
+        <Icon className="mb-2 h-8 w-8 text-white/90" stroke={1.5} />
+        <span className="text-center text-lg font-black text-white/95">
+          {value.abbr}
+        </span>
+      </div>
+      <div className="flex flex-1 flex-col justify-between border-l border-white/10 bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A] p-4 backdrop-blur-md">
+        <div>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-[#C79D6D]/70">
+            Addis Reality
+          </p>
+          <h4 className="mt-1 font-bold text-white">{value.title}</h4>
+          <p className="mt-2 text-xs leading-relaxed text-gray-400">
+            {value.text}
+          </p>
+        </div>
+        <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-[#C79D6D]">
+          Learn more
+          <IconArrowRight className="h-3.5 w-3.5" />
+        </span>
+      </div>
+    </motion.a>
+  );
+}
+
+function WhatDrivesUsSection() {
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+    >
+      <div className="mb-10 text-center sm:mb-12">
+        <motion.span
+          className="mb-5 inline-block rounded-full border border-[#C79D6D]/30 bg-gradient-to-r from-[#C79D6D]/20 to-[#d4a574]/20 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-[#C79D6D] backdrop-blur-sm sm:px-6 sm:py-3 sm:text-sm"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+        >
+          What drives us
+        </motion.span>
+        <h3 className="text-2xl font-bold sm:text-3xl lg:text-4xl">
+          <span className="bg-gradient-to-r from-white via-gray-100 to-white bg-clip-text text-transparent">
+            The principles behind{" "}
+          </span>
+          <span className="bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
+            every project
+          </span>
+        </h3>
+        <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-gray-300 sm:text-base">
+          Hover a card to bring it forward — excellence, innovation, results, and
+          partnership at the core of everything we build.
+        </p>
+      </div>
+
+      {/* Desktop — overlapping 3D fan stack */}
+      <div
+        className="relative mx-auto hidden min-h-[22rem] max-w-5xl items-center justify-center py-6 lg:flex"
+        style={{ perspective: "1400px" }}
+      >
+        <div
+          className="flex items-end justify-center"
+          style={{ transform: "rotateX(10deg) rotateZ(-1deg)" }}
+        >
+          {values.map((value, i) => (
+            <ValueFanCard
+              key={value.title}
+              value={value}
+              index={i}
+              total={values.length}
+              focusedIndex={focusedIndex}
+              onFocus={setFocusedIndex}
+              onBlur={() => setFocusedIndex(null)}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile / tablet — stacked cards */}
+      <div className="flex flex-col gap-4 lg:hidden">
+        {values.map((value, i) => (
+          <ValueMobileCard key={value.title} value={value} index={i} />
+        ))}
+      </div>
+    </motion.div>
+  );
+}
 
 const WhoWeAreSection = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -376,42 +606,7 @@ const WhoWeAreSection = () => {
           ))}
         </div>
 
-        {/* Core values */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <p className="mb-6 text-center text-xs font-semibold uppercase tracking-[0.25em] text-[#C79D6D]">
-            What drives us
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {values.map((value, i) => {
-              const Icon = value.icon;
-              return (
-                <motion.div
-                  key={value.title}
-                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-5 backdrop-blur-sm transition-colors hover:border-[#C79D6D]/25 sm:p-6"
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  whileHover={{ y: -4 }}
-                >
-                  <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-[#C79D6D]/40 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-[#C79D6D]/15 text-[#C79D6D] transition-colors group-hover:bg-[#C79D6D]/25">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h4 className="mb-2 font-bold text-white">{value.title}</h4>
-                  <p className="text-sm leading-relaxed text-gray-400">
-                    {value.text}
-                  </p>
-                </motion.div>
-              );
-            })}
-          </div>
-        </motion.div>
+        <WhatDrivesUsSection />
       </div>
     </section>
   );

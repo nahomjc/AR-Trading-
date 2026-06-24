@@ -19,7 +19,6 @@ import {
   IconSpeakerphone,
   IconTrendingUp,
 } from "@tabler/icons-react";
-
 const NAV_OFFSET = 80;
 
 const trustItems = [

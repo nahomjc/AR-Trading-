@@ -21,6 +21,11 @@ import {
   IconMail,
 } from "@tabler/icons-react";
 import { siteConfig } from "@/lib/seo";
+import PricingPackagesSection, {
+  offeringsToPackages,
+  tierPricingToPackages,
+  type PricingPackage,
+} from "../../components/PricingPackagesSection";
 const serviceData = {
   "advertising-printing": {
     title: "Advertising & Printing",
@@ -43,7 +48,7 @@ const serviceData = {
         name: "Banner Design & Printing",
         description:
           "Custom banners for events, promotions, and outdoor advertising",
-        price: "Starting from $50",
+        price: "Starting from 2,500 Birr",
         features: [
           "High-quality materials",
           "Weather-resistant",
@@ -54,7 +59,7 @@ const serviceData = {
       {
         name: "Vehicle Branding",
         description: "Complete vehicle wrap and decal solutions",
-        price: "Starting from $200",
+        price: "Starting from 45,000 Birr",
         features: [
           "Professional design",
           "Durable materials",
@@ -65,7 +70,7 @@ const serviceData = {
       {
         name: "Office Branding",
         description: "Interior and exterior office signage solutions",
-        price: "Starting from $100",
+        price: "Starting from 12,000 Birr",
         features: [
           "Custom design",
           "Professional installation",
@@ -76,7 +81,7 @@ const serviceData = {
       {
         name: "Merchandise Printing",
         description: "Custom printed merchandise for promotional purposes",
-        price: "Starting from $25",
+        price: "Starting from 800 Birr",
         features: [
           "Various products",
           "Bulk discounts",
@@ -122,7 +127,7 @@ const serviceData = {
       {
         name: "Social Media Management",
         description: "Complete social media strategy and content management",
-        price: "Starting from $500/month",
+        price: "Starting from 25,000 Birr/month",
         features: [
           "Content creation",
           "Community management",
@@ -133,7 +138,7 @@ const serviceData = {
       {
         name: "Paid Advertising",
         description: "Google Ads, Facebook Ads, and other paid campaigns",
-        price: "Starting from $300/month",
+        price: "Starting from 15,000 Birr/month",
         features: [
           "Campaign setup",
           "A/B testing",
@@ -144,7 +149,7 @@ const serviceData = {
       {
         name: "SEO Strategy",
         description: "Search engine optimization for better visibility",
-        price: "Starting from $400/month",
+        price: "Starting from 20,000 Birr/month",
         features: [
           "Keyword research",
           "On-page optimization",
@@ -155,7 +160,7 @@ const serviceData = {
       {
         name: "Influencer Marketing",
         description: "Connect with influencers to expand your reach",
-        price: "Starting from $200/campaign",
+        price: "Starting from 10,000 Birr/campaign",
         features: [
           "Influencer identification",
           "Campaign management",
@@ -200,7 +205,7 @@ const serviceData = {
       {
         name: "Logo Design",
         description: "Professional logo design with multiple concepts",
-        price: "Starting from $200",
+        price: "Starting from 15,000 Birr",
         features: [
           "Multiple concepts",
           "Unlimited revisions",
@@ -211,7 +216,7 @@ const serviceData = {
       {
         name: "Brand Identity",
         description: "Complete brand identity package including guidelines",
-        price: "Starting from $500",
+        price: "Starting from 35,000 Birr",
         features: [
           "Color palette",
           "Typography",
@@ -222,7 +227,7 @@ const serviceData = {
       {
         name: "Visual Strategy",
         description: "Comprehensive visual strategy for brand consistency",
-        price: "Starting from $300",
+        price: "Starting from 25,000 Birr",
         features: [
           "Style guide",
           "Templates",
@@ -233,7 +238,7 @@ const serviceData = {
       {
         name: "Creative Content",
         description: "Custom creative content for marketing materials",
-        price: "Starting from $150",
+        price: "Starting from 10,000 Birr",
         features: [
           "Custom graphics",
           "Social media assets",
@@ -278,7 +283,7 @@ const serviceData = {
       {
         name: "Videography",
         description: "Professional video production for various purposes",
-        price: "Starting from $800/day",
+        price: "Starting from 35,000 Birr/day",
         features: [
           "4K quality",
           "Professional equipment",
@@ -289,7 +294,7 @@ const serviceData = {
       {
         name: "Photography",
         description: "High-quality photography for products and events",
-        price: "Starting from $300/session",
+        price: "Starting from 12,000 Birr/session",
         features: [
           "Professional lighting",
           "Multiple shots",
@@ -300,7 +305,7 @@ const serviceData = {
       {
         name: "Promotional Content",
         description: "Engaging promotional videos and content",
-        price: "Starting from $500",
+        price: "Starting from 25,000 Birr",
         features: [
           "Script writing",
           "Storyboarding",
@@ -311,7 +316,7 @@ const serviceData = {
       {
         name: "Video Editing",
         description: "Professional video editing and post-production",
-        price: "Starting from $200/hour",
+        price: "Starting from 8,000 Birr/hour",
         features: [
           "Color correction",
           "Audio enhancement",
@@ -355,7 +360,7 @@ const serviceData = {
         name: "Website Design & Development",
         description:
           "Custom website design and development tailored to your brand",
-        price: "Starting from $1,500",
+        price: "Starting from 85,000 Birr",
         features: [
           "Responsive design",
           "User experience",
@@ -366,7 +371,7 @@ const serviceData = {
       {
         name: "Advanced Development",
         description: "Custom web applications with advanced functionality",
-        price: "Starting from $2,500",
+        price: "Starting from 150,000 Birr",
         features: [
           "Custom functionality",
           "Database integration",
@@ -377,7 +382,7 @@ const serviceData = {
       {
         name: "Maintenance",
         description: "Ongoing website maintenance and updates",
-        price: "Starting from $200/month",
+        price: "Starting from 8,000 Birr/month",
         features: [
           "Security updates",
           "Content updates",
@@ -388,7 +393,7 @@ const serviceData = {
       {
         name: "SEO Optimization",
         description: "Technical SEO optimization for better rankings",
-        price: "Starting from $400",
+        price: "Starting from 18,000 Birr",
         features: [
           "Site speed optimization",
           "Meta optimization",
@@ -433,7 +438,7 @@ const serviceData = {
       {
         name: "Corporate Events",
         description: "Professional corporate event planning and management",
-        price: "Starting from $1,000",
+        price: "Starting from 80,000 Birr",
         features: [
           "Venue selection",
           "Catering coordination",
@@ -444,7 +449,7 @@ const serviceData = {
       {
         name: "Conferences",
         description: "Large-scale conference planning and execution",
-        price: "Starting from $2,500",
+        price: "Starting from 200,000 Birr",
         features: [
           "Speaker coordination",
           "Registration management",
@@ -455,7 +460,7 @@ const serviceData = {
       {
         name: "Product Launches",
         description: "Exciting product launch events and campaigns",
-        price: "Starting from $1,500",
+        price: "Starting from 120,000 Birr",
         features: [
           "Event design",
           "Media coordination",
@@ -466,7 +471,7 @@ const serviceData = {
       {
         name: "Team Building",
         description: "Engaging team building activities and events",
-        price: "Starting from $800",
+        price: "Starting from 45,000 Birr",
         features: [
           "Activity planning",
           "Facilitation",
@@ -513,7 +518,7 @@ const serviceData = {
         name: "Corporate Training",
         description:
           "Tailored training programs for businesses and organizations",
-        price: "Starting from $500/day",
+        price: "Starting from 35,000 Birr/day",
         features: [
           "Customized curriculum",
           "Experienced trainers",
@@ -524,7 +529,7 @@ const serviceData = {
       {
         name: "Personal Development",
         description: "Individual coaching and skill development programs",
-        price: "Starting from $100/session",
+        price: "Starting from 3,500 Birr/session",
         features: [
           "One-on-one coaching",
           "Goal setting",
@@ -535,7 +540,7 @@ const serviceData = {
       {
         name: "Media Training",
         description: "Professional media and communication training",
-        price: "Starting from $300/session",
+        price: "Starting from 12,000 Birr/session",
         features: [
           "Interview preparation",
           "Public speaking",
@@ -547,7 +552,7 @@ const serviceData = {
     pricing: {
       basic: {
         name: "Basic Training",
-        price: "$500",
+        price: "28,000 Birr",
         features: [
           "Half-day session",
           "Up to 10 participants",
@@ -557,7 +562,7 @@ const serviceData = {
       },
       professional: {
         name: "Professional Training",
-        price: "$800",
+        price: "45,000 Birr",
         features: [
           "Full-day session",
           "Up to 20 participants",
@@ -568,7 +573,7 @@ const serviceData = {
       },
       enterprise: {
         name: "Enterprise Training",
-        price: "$1,200",
+        price: "65,000 Birr",
         features: [
           "Multi-day program",
           "Unlimited participants",
@@ -618,7 +623,7 @@ const serviceData = {
         name: "Corporate Training",
         description:
           "Tailored training programs for businesses and organizations",
-        price: "Starting from $500/day",
+        price: "Starting from 35,000 Birr/day",
         features: [
           "Customized curriculum",
           "Experienced trainers",
@@ -629,7 +634,7 @@ const serviceData = {
       {
         name: "Personal Development",
         description: "Individual coaching and skill development programs",
-        price: "Starting from $100/session",
+        price: "Starting from 3,500 Birr/session",
         features: [
           "One-on-one coaching",
           "Goal setting",
@@ -640,7 +645,7 @@ const serviceData = {
       {
         name: "Media Training",
         description: "Professional media and communication training",
-        price: "Starting from $300/session",
+        price: "Starting from 12,000 Birr/session",
         features: [
           "Interview preparation",
           "Public speaking",
@@ -652,7 +657,7 @@ const serviceData = {
     pricing: {
       basic: {
         name: "Basic Training",
-        price: "$500",
+        price: "28,000 Birr",
         features: [
           "Half-day session",
           "Up to 10 participants",
@@ -662,7 +667,7 @@ const serviceData = {
       },
       professional: {
         name: "Professional Training",
-        price: "$800",
+        price: "45,000 Birr",
         features: [
           "Full-day session",
           "Up to 20 participants",
@@ -673,7 +678,7 @@ const serviceData = {
       },
       enterprise: {
         name: "Enterprise Training",
-        price: "$1,200",
+        price: "65,000 Birr",
         features: [
           "Multi-day program",
           "Unlimited participants",
@@ -751,6 +756,18 @@ export default function ServiceDetailPage() {
   }
 
   const IconComponent = service.icon;
+
+  const pricingPackages: PricingPackage[] =
+    "pricing" in service && service.pricing
+      ? tierPricingToPackages(
+          service.pricing as Record<
+            string,
+            { name: string; price: string; features: string[] }
+          >,
+        )
+      : offeringsToPackages(service.services);
+
+  const hasMonthlyPackages = pricingPackages.some((p) => p.monthlyAmount != null);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#08243A] via-[#0a2a42] to-[#08243A]">
@@ -830,95 +847,44 @@ export default function ServiceDetailPage() {
       {/* Content Section */}
       <div className="relative py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* Services Grid */}
+          <PricingPackagesSection
+            packages={pricingPackages}
+            onGetStarted={() => setIsModalOpen(true)}
+            title="Choose Your Path To Success"
+            subtitle={`Pick the right ${service.title.toLowerCase()} package for your business. All prices in Ethiopian Birr.`}
+            showBillingToggle={hasMonthlyPackages}
+          />
+
+          {/* Individual service details */}
           <div className="mb-20">
             <motion.h2
-              className="text-3xl sm:text-4xl font-bold text-white text-center mb-12"
+              className="mb-10 text-center text-2xl font-bold text-white sm:text-3xl"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              Service <span className="text-[#C79D6D]">Offerings</span>
+              What&apos;s <span className="text-[#C79D6D]">Included</span>
             </motion.h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-5">
               {service.services.map((item, index) => (
                 <motion.div
                   key={index}
-                  className="group relative mirror-card rounded-2xl p-8 lg:p-10 border border-[#C69c6c]/20 hover:border-[#C69c6c]/40 transition-all duration-500 overflow-hidden"
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  whileHover={{ y: -5 }}
+                  className="rounded-xl border border-white/10 bg-white/[0.03] p-5 sm:p-6"
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.08 }}
                 >
-                  {/* Professional Header Section */}
-                  <div className="relative z-10 mb-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-2xl lg:text-3xl font-bold font-outfit text-white mb-2 group-hover:text-[#C79D6D] transition-colors duration-300">
-                          {item.name}
-                        </h3>
-                        <div className="h-1 w-16 bg-gradient-to-r from-[#C79D6D] to-[#d4a574] rounded-full mb-4"></div>
-                      </div>
-                    </div>
-                    <p className="text-gray-300 text-base leading-relaxed font-growth">
-                      {item.description}
-                    </p>
-                  </div>
-
-                  {/* Price Section */}
-                  <div className="relative z-10 mb-6 pb-6 border-b border-white/10">
-                    <div className="inline-flex items-baseline">
-                      <span className="text-3xl lg:text-4xl font-bold font-outfit bg-gradient-to-r from-[#C79D6D] to-[#d4a574] bg-clip-text text-transparent">
-                        {item.price}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Features List */}
-                  <div className="relative z-10 mb-8">
-                    <ul className="space-y-3">
-                      {item.features.map((feature, featureIndex) => (
-                        <motion.li
-                          key={featureIndex}
-                          className="flex items-start text-gray-300 group-hover:text-gray-200 transition-colors duration-300"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{
-                            duration: 0.4,
-                            delay: index * 0.1 + featureIndex * 0.05,
-                          }}
-                        >
-                          <div className="mt-1 mr-3 flex-shrink-0">
-                            <div className="w-5 h-5 rounded-full bg-gradient-to-br from-[#C69c6c]/20 to-[#d4a574]/20 border border-[#C69c6c]/30 flex items-center justify-center group-hover:border-[#C69c6c]/50 transition-colors duration-300">
-                              <IconCheck className="w-3 h-3 text-[#C79D6D]" />
-                            </div>
-                          </div>
-                          <span className="font-growth text-sm lg:text-base leading-relaxed">
-                            {feature}
-                          </span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* CTA Button */}
-                  <div className="relative z-10">
-                    <motion.button
-                      className="w-full btn-professional-primary py-4 px-6 rounded-xl font-growth text-base font-semibold"
-                      whileHover={{
-                        scale: 1.02,
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setIsModalOpen(true)}
-                    >
-                      Get Started
-                    </motion.button>
-                  </div>
-
-                  {/* Subtle Background Accent */}
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#C79D6D]/5 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-[#d4a574]/5 to-transparent rounded-tr-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <h3 className="mb-2 text-lg font-bold text-white">
+                    {item.name}
+                  </h3>
+                  <p className="mb-3 text-sm leading-relaxed text-gray-400">
+                    {item.description}
+                  </p>
+                  <p className="text-sm font-semibold text-[#C79D6D]">
+                    {item.price}
+                  </p>
                 </motion.div>
               ))}
             </div>

@@ -433,10 +433,10 @@ export function getLocalBusinessSchema() {
     ...org,
     "@type": ["LocalBusiness", "MarketingAgency", "ProfessionalService"],
     "@id": `${siteConfig.url}/#localbusiness`,
-    priceRange: "$$",
+    priceRange: "Moderate",
     hasMap: siteConfig.googleMapsUrl,
     isAccessibleForFree: false,
-    currenciesAccepted: "ETB, USD",
+    currenciesAccepted: "ETB",
     paymentAccepted: "Cash, Bank Transfer",
     openingHoursSpecification: [
       {

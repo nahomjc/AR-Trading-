@@ -23,6 +23,7 @@ import {
   IconMessageCircle,
   IconPhone,
   IconRocket,
+  IconSearch,
   IconSparkles,
   IconStar,
   IconUsers,
@@ -30,6 +31,7 @@ import {
 import { siteConfig } from "@/lib/seo";
 import { useChatBot } from "./ChatBot";
 import { DOCK_NAVIGATE_EVENT } from "./LazyMount";
+import SearchComponent from "./SearchComponent";
 
 type DockItem = {
   id: string;
@@ -489,7 +491,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
   }, [allItems, isMobile, mobileItemIds]);
 
   const showLogo = !isMobile;
-  const magnifyCount = visibleItems.length + (showLogo ? 1 : 0) + 1;
+  const magnifyCount = visibleItems.length + (showLogo ? 1 : 0) + 2;
 
   const [scales, setScales] = useState<number[]>(() =>
     Array.from({ length: magnifyCount }, () => 1),
@@ -498,6 +500,7 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
     variant === "home" ? "home" : "work",
   );
   const [showDock, setShowDock] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     const reveal = () => setShowDock(true);
@@ -527,7 +530,8 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
     (itemIndex: number) => (showLogo ? 1 : 0) + itemIndex,
     [showLogo],
   );
-  const chatRefIndex = visibleItems.length + (showLogo ? 1 : 0);
+  const searchRefIndex = visibleItems.length + (showLogo ? 1 : 0);
+  const chatRefIndex = searchRefIndex + 1;
 
   const applyScales = useCallback(() => {
     const mouseX = mouseXRef.current;
@@ -626,8 +630,10 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
   };
 
   const logoScale = scales[0] ?? 1;
+  const searchScale = scales[searchRefIndex] ?? 1;
   const chatScale = scales[chatRefIndex] ?? 1;
   const chatActive = open && !minimized;
+  const searchStyle = itemStyle(searchScale, baseSize);
   const chatStyle = itemStyle(chatScale, baseSize);
 
   return (
@@ -803,6 +809,42 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
           </div>
 
           <DockStarWrap
+            index={searchRefIndex}
+            show={showDock}
+            reducedMotion={reducedMotion}
+          >
+            <button
+              type="button"
+              ref={(el) => {
+                magnifyRefs.current[searchRefIndex] = el;
+              }}
+              onClick={() => setSearchOpen(true)}
+              aria-label="Search site"
+              className="dm-dock-item group relative z-20 flex shrink-0 flex-col items-center overflow-visible"
+              style={{
+                width: searchStyle.width,
+                transform: searchStyle.transform,
+              }}
+            >
+              <span
+                className="dm-dock-icon relative flex items-center justify-center overflow-hidden rounded-[14px] border border-white/25 bg-gradient-to-br from-[#C79D6D]/95 to-[#a67c52]/95 shadow-[0_8px_24px_rgba(0,0,0,0.35)] transition-shadow duration-200 group-hover:shadow-[0_12px_32px_rgba(199,157,109,0.35)]"
+                style={{
+                  width: searchStyle.width,
+                  height: searchStyle.height,
+                  boxShadow: "0 0 24px rgba(199,157,109,0.35), 0 8px 24px rgba(0,0,0,0.35)",
+                }}
+              >
+                <IconSearch
+                  className="h-[52%] w-[52%] text-white drop-shadow-sm"
+                  stroke={1.75}
+                />
+                <span className="dm-dock-reflection" aria-hidden />
+              </span>
+              <span className="dm-dock-tooltip">Search</span>
+            </button>
+          </DockStarWrap>
+
+          <DockStarWrap
             index={chatRefIndex}
             show={showDock}
             reducedMotion={reducedMotion}
@@ -887,6 +929,11 @@ export default function DockNavigation({ variant }: DockNavigationProps) {
           </motion.button>
         </div>
       </motion.nav>
+      <SearchComponent
+        showNavTrigger={false}
+        open={searchOpen}
+        onOpenChange={setSearchOpen}
+      />
     </div>
   );
 }
